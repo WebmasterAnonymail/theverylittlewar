@@ -1,14 +1,24 @@
 {
-  "name": "theverylittlewar V3",
-  "version": "1.0.0",
+  "name": "theverylittlewar",
+  "version": "3.0.0",
+  "description": "La nouvelle version de tvlw",
   "main": "server.js",
-  "dependencies": {
-    "ws": "^7.2.5",
-    "npm": "^6.13.4"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {},
-  "author": "",
+  "keywords": [
+    "the",
+    "very",
+    "little",
+    "war",
+    "tvlw"
+  ],
+  "author": "Anonymail Atomex Basdk Enigma AquilaCaesar Somebody Raphdel49 and More",
   "license": "ISC",
-  "keywords": [],
-  "description": ""
+  "dependencies": {
+    "bufferutil": "^4.0.3",
+    "nano": "^9.0.3",
+    "utf-8-validate": "^5.0.4",
+    "ws": "^7.4.5"
+  }
 }
