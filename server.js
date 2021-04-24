@@ -3,7 +3,7 @@ const ws=require('ws');
 const handler=require('./mainHandler.js'); 
 const config=require("./config.json");
 const httpServer=http.createServer(handler.http);
-const wsServer=new ws.Server(config.ws);
+const wsServer=new ws.Server(config.ws,config.host);
 console.log("Démarage");
 httpServer.listen(config.http.port);
 wsServer.on("connection",handler.ws)
