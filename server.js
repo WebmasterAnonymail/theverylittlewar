@@ -5,7 +5,7 @@ const nano=require('nano');
 const handler=require('./mainHandler.js'); 
 const config=require("./config.json");
 const httpServer=http.createServer(handler.http);
-const wsServer=new ws.Server(config.ws);
+const wsServer=new ws.Server({server:httpServer,path:"/api"});
 var bddServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
 console.log("Démarage");
 bddServer.insert({ happy: true }, 'rabbit')
