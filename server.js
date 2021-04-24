@@ -5,5 +5,5 @@ const config=require("./config.json");
 const httpServer=http.createServer(handler.http);
 const wsServer=new ws.Server(config.ws);
 console.log("Démarage");
-httpServer.listen(config.http.port,config.http.host);
+httpServer.listen(config.http.port);
 wsServer.on("connection",handler.ws)
