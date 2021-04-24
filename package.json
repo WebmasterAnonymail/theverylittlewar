@@ -1,0 +1,14 @@
+{
+  "name": "theverylittlewar V3",
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "ws": "^7.2.5",
+    "npm": "^6.13.4"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": ""
+}
