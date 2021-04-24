@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>the very little war</title>
+        <link rel="stylesheet" href="../css/forum.css">
+        <link rel="stylesheet" href="../css/main.css">
+        <script src="../js/forum.js"></script>
+        <script src="../js/main.js"></script>
+    </head>
+    <body>
+        <div class="forum_list" id="forums_list" style="display: flex;">
+            <div class="forum" onclick="position=1;forum_id=1;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status1" class="status">
+                <span class="forum_name">G&eacute;n&eacute;ral</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=2;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status2" class="status">
+                <span class="forum_name">Jeu</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=3;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status3" class="status">
+                <span class="forum_name">Bugs</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=4;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status4" class="status">
+                <span class="forum_name">Suggestion</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=5;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status5" class="status">
+                <span class="forum_name">&Eacute;quipes</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=6;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status6" class="status">
+                <span class="forum_name">Aide</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=7;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status7" class="status">
+                <span class="forum_name">Joueurs</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=8;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status8" class="status">
+                <span class="forum_name">R&egrave;gles</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=9;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status9" class="status">
+                <span class="forum_name">Tests</span>
+            </div>
+            <div class="forum" onclick="position=1;forum_id=10;act_forum();">
+                <img src="../image/forum/vide.png" id="forum_status10" class="status">
+                <span class="forum_name">Annonces</span>
+            </div>
+        </div>
+        <div class="forum_list" id="subjects_list" style="display: none;">
+            <div class="forum" onclick="position=0;act_forum();">
+                <img src="../image/forum/retour.png" class="status">
+                <span class="forum_name">retour</span>
+            </div>
+        </div>
+        <div class="message_list" id="messages_list" style="display: none;">
+            <div class="forum" onclick="position=1;is_edit=false;act_forum();">
+                <img src="../image/forum/retour.png" class="status">
+                <span class="forum_name">retour</span>
+            </div>
+        </div>
+        <div class="send_message" id="new_forum" style="display: flex;"></div>
+        <div class="send_message" id="new_subject" style="display: none;">
+            <textarea id="new_suject_text" class="send_message_text"></textarea>
+            <img src="../image/forum/sujets.png" class="send_message_image">
+        </div>
+        <div class="send_message" id="new_message" style="display: none;">
+            <textarea id="new_message_text" class="send_message_text"></textarea>
+            <img src="../image/forum/message.png" class="send_message_image">
+        </div>
+        <div class="send_message" id="edit_message" style="display: none;">
+            <textarea id="edit_message_text" class="send_message_text"></textarea>
+            <img src="../image/forum/editer.png" class="send_message_image">
+        </div>
+        <div id="forum_legend">
+            <div class="forum_legend_element">
+                <img src="../image/forum/vide.png" class="forum_legend_image">
+                Aucun nouveau message
+            </div>
+            <div class="forum_legend_element">
+                <img src="../image/forum/question.png" class="forum_legend_image">
+                Nouveaux messages
+            </div>
+            <div class="forum_legend_element">
+                <img src="../image/forum/exclamation.png" class="forum_legend_image">
+                Nouveaux messages sur un sujet &agrave; vous
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+.mol{
+    padding: 10px;
+}
+.formule{
+    display: inline-block;
+    background-color: #c0c0c0;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2.5px outset #808080;
+}
+.formule:hover{
+    border: 2.5px inset #808080;
+}
+input:invalid{
+    border-color: #ff0000;
+}
+.new_mol_number{
+    width: 95%;
+}
+table{
+    width: 100%;
+}
+.align_left{
+    text-align: left;
+}
+.align_center{
+    text-align: center;
+}
+.align_right{
+    text-align: right;
+}
+.cell_left{
+    width: 75%;
+}
+.cell_right{
+    width: 25%;
+}
