@@ -1,6 +1,5 @@
 const usercheck = require("../functions/usercheck");
 
-usercheck=require("../functions/usercheck");
 module.exports = {
     name:'users',
     GET:function(req,res,body){

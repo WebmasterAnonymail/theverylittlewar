@@ -8,5 +8,6 @@ const httpServer=http.createServer(handler.http);
 const wsServer=new ws.Server(config.ws);
 var bddServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
 console.log("Démarage");
+bddServer.insert({ happy: true }, 'rabbit')
 httpServer.listen(config.http.port);
 wsServer.on("connection",handler.ws)
