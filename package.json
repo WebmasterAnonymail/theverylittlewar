@@ -1,7 +1,7 @@
 {
   "name": "theverylittlewar V3",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "server.js",
   "dependencies": {
     "ws": "^7.2.5",
     "npm": "^6.13.4"
