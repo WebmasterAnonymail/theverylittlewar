@@ -19,8 +19,9 @@ module.exports = {
 			}else{
 				if(body_data.username&&body_data.password){
 					if(data[body_data.username]){
-						res.writeHead(409);
-						res.end()
+						res.writeHead(409,{'Content-Type':'application/json'});
+						res.write("{error:\"Already used\"}");
+						res.end();
 					}else{
 						data[body_data.username]={
 							"password":body_data.password,
