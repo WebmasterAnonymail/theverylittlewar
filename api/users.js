@@ -10,10 +10,17 @@ module.exports = {
         res.end();
     },
     PUT:function(req,res,body){
-        bddServer.get("users",{revs_info:true},(err,data,head)=>{
-			res.writeHead(200,{'Content-Type':'application/json'});
-			res.write(JSON.stringify([err,data,head]));
-			res.end()
+        bddServer.get("users",(err,data,head)=>{
+			if(err){
+				res.writeHead(500);
+				res.end();
+			}else{
+				if(req.url||true){
+					res.writeHead(200,{'Content-Type':'application/json'});
+					res.write(JSON.stringify([req,req.url,new URL(req.url)]));
+					res.end()
+				}
+			}
 		})
     },
     WS:(ws,req)=>{
