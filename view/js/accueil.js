@@ -33,6 +33,8 @@ window.onload=function(ev){
                     console.log(api_xhr.response);
                 }else if(api_xhr.status==409){
                     alert("Ce pseudo est deja utilise, choisissez en un autre");
+                }else if(api_xhr.status==401){
+                    alert("Veuillez entrer un nom d'utuilateur et un mot de passe");
                 }else{
                     alert("ERROR : code "+api_xhr.status)
                 }

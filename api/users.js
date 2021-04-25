@@ -63,8 +63,9 @@ module.exports = {
 						res.end()
 					}
 				}else{
-					res.writeHead(409);
-					res.end()
+					res.writeHead(401,{'Content-Type':'application/json'});
+					res.write(JSON.stringify({"error":"aucun nom d'utilisateur ou aucun mot de passe","body_data":body_data}));
+					res.end();
 				}
 			}
 		})
