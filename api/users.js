@@ -13,6 +13,7 @@ module.exports = {
         bddServer.get("users",{revs_info:true},(err,data,head)=>{
 			res.writeHead(200,{'Content-Type':'application/json'});
 			res.write("{"+err+","+data+","+head+"}");
+			res.end()
 		})
     },
     WS:(ws,req)=>{
