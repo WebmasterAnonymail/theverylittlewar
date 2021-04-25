@@ -18,7 +18,7 @@ module.exports = {
 			}else{
 				if(req.url||true){
 					res.writeHead(200,{'Content-Type':'application/json'});
-					res.write(JSON.stringify([req,req.url,new URL(req.url)]));
+					res.write(JSON.stringify([req,req.url]));
 					res.end()
 				}
 			}
