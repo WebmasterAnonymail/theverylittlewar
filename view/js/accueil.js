@@ -24,11 +24,11 @@ window.onload=function(ev){
         let at_send={}
         at_send.username=document.forms.inscription.username.value;
         at_send.password=document.forms.inscription.password.value;
+		api_xhr.responseType="json";
         api_xhr.send(JSON.stringify(at_send));
         api_xhr.addEventListener("readystatechange",function(ev){
             if(api_xhr.readyState==api_xhr.DONE){
                 if(api_xhr.status==200){
-					api_xhr.responseType="json";
                     console.log(api_xhr.response);
                 }else if(api_xhr.status==409){
                     alert("Ce pseudo est deja utilise, choisissez en un autre");
