@@ -11,14 +11,58 @@ module.exports = {
     },
     PUT:function(req,res,body){
         bddServer.get("users",(err,data,head)=>{
-			if(err&&false){
+			body_data=JSON.stringify(body);
+			if(err){
 				res.writeHead(500,{'Content-Type':'application/json'});
 				res.write(JSON.stringify(err));
 				res.end();
 			}else{
-				if(req.url||true){
-					res.writeHead(200,{'Content-Type':'application/json'});
-					res.write(JSON.stringify([req,req.url]));
+				if(body_data.username&&body_data.password){
+					if(data[body_data.username]){
+						res.writeHead(409);
+						res.end()
+					}else{
+						data[body_data.username]={
+							"password":body_data.password,
+							"ressources":{
+								"energie":500,
+								"carbone":50,
+								"oxygene":50,
+								"azote":50,
+								"iode":50,
+								"brome":50,
+								"hydrogene":50,
+								"soufre":50,
+								"chlore":50,
+								"points":0,
+							},
+							"batiments":{
+								"generateur":1,
+								"producteur":1,
+								"stockage":1,
+								"forteresse":0,
+								"ionisateur":0,
+								"lieur":0,
+								"stabilisateur":0,
+								"champDeForce":0,
+								"usineDExplosif":0,
+								"condenseur":0,
+								"booster":0,
+							},
+							"molecules":[null,null,null,null,null],
+							"medailles":undefined, //reste a définir
+							"raports":[],
+							"positionX":undefined,
+							"positionY":undefined,
+							"messagesPerso":[],
+							"aliance":null,
+						}
+						res.writeHead(200,{'Content-Type':'application/json'});
+						res.write(JSON.stringify());
+						res.end()
+					}
+				}else{
+					res.writeHead(409);
 					res.end()
 				}
 			}

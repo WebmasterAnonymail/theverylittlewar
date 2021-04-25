@@ -1,9 +1,16 @@
+function generate_token(length=50){
+	let temp_token=""
+	for(a=0;a<length;a++){
+		temp_token+=Number(Math.floor(Math.random()*36)).toString(36)
+	}
+	return temp_token
+}
 module.exports = {
     name:'connect',
     POST:(req,res,body)=>{
-        //new URL("http://"+req.headers.host+req.url)
-        res.writeHead(200);
-        res.write("DONE")
-        res.end()
+		connect_token=generate_token()
+        res.writeHead(200,{'Content-Type':'application/json'});
+        res.write(connect_token);
+        res.end();
     }
 }

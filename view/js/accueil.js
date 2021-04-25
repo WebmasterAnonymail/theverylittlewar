@@ -5,11 +5,12 @@ window.onload=function(ev){
         let at_send={}
         at_send.username=document.forms.connexion.username.value;
         at_send.password=document.forms.connexion.password.value;
+		api_xhr.responseType="json";
         api_xhr.send(JSON.stringify(at_send));
         api_xhr.addEventListener("readystatechange",function(ev){
             if(api_xhr.readyState==api_xhr.DONE){
                 if(api_xhr.status==200){
-                    //connecté
+                    localStorage.setItem("token",response.token)
                 }else if(api_xhr.status==401){
                     alert("Mauvais pseudo/mot de passe");
                 }else{
