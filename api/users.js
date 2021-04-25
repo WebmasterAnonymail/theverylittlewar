@@ -63,6 +63,7 @@ module.exports = {
 						res.end()
 					}
 				}else{
+					console.log(body_data)
 					res.writeHead(401,{'Content-Type':'application/json'});
 					res.write(JSON.stringify({"error":"aucun nom d'utilisateur ou aucun mot de passe","body_data":body_data}));
 					res.end();
