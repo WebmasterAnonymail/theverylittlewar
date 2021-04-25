@@ -11,9 +11,9 @@ module.exports = {
     },
     PUT:function(req,res,body){
         bddServer.get("users",(err,data,head)=>{
-			if(err){
+			if(err&&false){
 				res.writeHead(500,{'Content-Type':'application/json'});
-				res.write(JSON.stringify(err))
+				res.write(JSON.stringify(err));
 				res.end();
 			}else{
 				if(req.url||true){
