@@ -53,19 +53,18 @@ module.exports = {
 							"molecules":[null,null,null,null,null],
 							"medailles":undefined, //reste a définir
 							"raports":[],
-							"positionX":undefined,
-							"positionY":undefined,
+							"positionX":undefined, //idem
+							"positionY":undefined, //idem
 							"messagesPerso":[],
 							"aliance":null,
 						}
 						res.writeHead(200,{'Content-Type':'application/json'});
 						res.write(JSON.stringify());
-						res.end()
+						res.end();
 					}
 				}else{
-					console.log(body_data)
 					res.writeHead(401,{'Content-Type':'application/json'});
-					res.write(JSON.stringify({"error":"aucun nom d'utilisateur ou aucun mot de passe","body_data":body_data}));
+					res.write(JSON.stringify({"error":"aucun nom d'utilisateur ou aucun mot de passe"}));
 					res.end();
 				}
 			}

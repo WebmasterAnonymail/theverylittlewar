@@ -1,9 +1,3 @@
-summary::-webkit-details-marker{
-    display: none
-}
-summary::marker{
-    display: none
-}
 #batiment_list{
     width: 100%;
     height: 100%;
@@ -31,4 +25,7 @@ summary::marker{
 .batiment_right_of_icon{
     display: inline-block;
     vertical-align: text-bottom;
+}
+summary{
+	display:block;
 }
