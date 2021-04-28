@@ -8,6 +8,17 @@ function generate_token(length=50){
 }
 module.exports = {
     name:'connect',
+	GET:(req,res,body)=>{
+		connections=require("../storage/connections.json");
+		body_data=JSON.parse(body);
+		res.writeHead(200,{'Content-Type':'application/json'});
+		if(connections[body_data.token]){
+			res.write(JSON.stringify({connected:true,username:connections[body_data.token]}));
+		}else{
+			res.write(JSON.stringify({connected:false}));
+		}
+		res.end();
+	}
     PUT:(req,res,body)=>{
 		usersdata=require("../storage/users.json");
 		connections=require("../storage/connections.json");
@@ -24,7 +35,7 @@ module.exports = {
 			res.end();
 		}
 	},
-	PUT:(req,res,body)=>{
+	DELETE:(req,res,body)=>{
 		body_data=JSON.parse(body);
 		connections=require("../storage/connections.json");
 		delete connections[body_data.token];

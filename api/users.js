@@ -55,7 +55,6 @@ module.exports = {
 					"aliance":null,
 				}
 				res.writeHead(200,{'Content-Type':'application/json'});
-				res.write(JSON.stringify());
 				res.end();
 			}
 		}else{
