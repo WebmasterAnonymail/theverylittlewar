@@ -34,6 +34,7 @@ window.onload=function(ev){
 				localStorage.removeItem("token")
 				document.getElementById("connected").style.display="none";
 				document.getElementById("unconnected").style.display="block";
+			}
         });
     });
     document.forms.inscription.submit.addEventListener("click",function(ev){
