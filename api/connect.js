@@ -18,7 +18,7 @@ module.exports = {
 			res.write(JSON.stringify({connected:false}));
 		}
 		res.end();
-	}
+	},
     PUT:(req,res,body)=>{
 		usersdata=require("../storage/users.json");
 		connections=require("../storage/connections.json");
