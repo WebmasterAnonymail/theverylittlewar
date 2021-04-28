@@ -1,3 +1,4 @@
+const fs=require("fs");
 function generate_token(length=50){
 	let temp_token=""
 	for(a=0;a<length;a++){
@@ -7,10 +8,26 @@ function generate_token(length=50){
 }
 module.exports = {
     name:'connect',
-    POST:(req,res,body)=>{
-		connect_token=generate_token()
-        res.writeHead(200,{'Content-Type':'application/json'});
-        res.write(connect_token);
-        res.end();
-    }
+    PUT:(req,res,body)=>{
+		usersdata=require("../storage/users.json");
+		connections=require("../storage/connections.json");
+		body_data=JSON.parse(body);
+		if((usersdata[body_data["username"]]["password"]==body_data["password"])&&usersdata[body_data["username"]]){
+			connect_token=generate_token();
+			connections[connect_token]=body_data["username"];
+			res.writeHead(200,{'Content-Type':'application/json'});
+			res.write(JSON.stringify({token:connect_token}));
+			res.end();
+			fs.writeFileSync("../storage/connections.json",JSON.stringify(connections));
+		}else{
+			res.writeHead(401,{'Content-Type':'application/json'});
+			res.end();
+		}
+	},
+	PUT:(req,res,body)=>{
+		body_data=JSON.parse(body);
+		connections=require("../storage/connections.json");
+		delete connections[body_data.token];
+		fs.writeFileSync("../storage/connections.json",JSON.stringify(connections));
+	}
 }

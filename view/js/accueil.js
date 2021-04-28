@@ -1,7 +1,7 @@
 window.onload=function(ev){
     document.forms.connexion.submit.addEventListener("click",function(ev){
         let api_xhr=new XMLHttpRequest();
-        api_xhr.open("POST","/api/v1/connect");
+        api_xhr.open("PUT","/api/v1/connect");
         let at_send={}
         at_send.username=document.forms.connexion.username.value;
         at_send.password=document.forms.connexion.password.value;
