@@ -10,7 +10,9 @@ module.exports = {
 				let connections=require("/mnt/connections.json");
 				if(body_data.token in connections){
 					if(connections[body_data.token]==body_data.username){
-						
+						res.writeHead(200,{'Content-Type':'application/json'});
+						res.write(JSON.stringify(data[body_data.username]));
+						res.end();
 					}else{
 						res.writeHead(403,{'Content-Type':'application/json'});
 						res.write("{error:\"Not authorized\"}");
