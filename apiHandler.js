@@ -10,7 +10,8 @@ for(let i in files){
 	api[prop.name]=prop;
 }
 module.exports=function(req,res,body){
-	let name=req.url.slice(toSlice.length);
+	let url=new URL("http://"+req.headers.host+req.url);
+	let name=url.pathname.slice(toSlice.length);
 	if(!api[name]) {
 		res.writeHead(400);
 		res.write('400');
@@ -18,7 +19,6 @@ module.exports=function(req,res,body){
 	}else{
 		if(api[name][req.method]){
 			if(body==""){
-				let url=new URL("http://"+req.headers.host+req.url);
 				let searchDatas={};
 				for(const [key,value] of url.searchParams.keys()) {
 					searchDatas[key]=value;
