@@ -18,7 +18,7 @@ module.exports=function(req,res,body){
 	}else{
 		if(api[name][req.method]){
 			if(body==""){
-				console.log(req.headers,req.url,req.path,,req.host)
+				console.log(req.headers,req.url,req.path,req.host)
 			}
 			api[name][req.method](req,res,body);
 		}else{
