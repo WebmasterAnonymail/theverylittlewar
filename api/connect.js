@@ -38,6 +38,7 @@ module.exports = {
 	DELETE:(req,res,body)=>{
 		body_data=JSON.parse(body);
 		connections=require("/mnt/connections.json");
+		console.log(body_data)
 		delete connections[body_data.token];
 		fs.writeFileSync("/mnt/connections.json",JSON.stringify(connections));
 	}
