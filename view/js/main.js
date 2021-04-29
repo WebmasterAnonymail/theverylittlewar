@@ -14,7 +14,23 @@ window.onload=function(ev){
 	api_xhr.send();
 	api_xhr.addEventListener("readystatechange",function(ev){
 		if(api_xhr.readyState==api_xhr.DONE){
-			if(!api_xhr.response.connected){
+			if(api_xhr.response.connected){
+				let api_xhr2=new XMLHttpRequest();
+				let at_send2=new URLSearchParams();
+				at_send2.append("token",localStorage.getItem("token"))
+				api_xhr2.open("GET","/api/v1/users?"+at_send.toString());
+				api_xhr2.responseType="json";
+				api_xhr2.send();
+				api_xhr2.addEventListener("readystatechange",function(ev){
+				if(api_xhr2.readyState==api_xhr2.DONE){
+					
+				}
+			}else{
+				document.location.replace("html/accueil.html");
+			}
+		}
+	});
+			}else{
 				document.location.replace("html/accueil.html");
 			}
 		}
