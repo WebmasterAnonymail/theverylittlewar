@@ -20,7 +20,7 @@ module.exports=function(req,res,body){
 		if(api[name][req.method]){
 			if(body==""){
 				let searchDatas={};
-				for(const [key,value] of url.searchParams.keys()) {
+				for(const [key,value] of url.searchParams) {
 					searchDatas[key]=value;
 				}
 				console.log(searchDatas,url.searchParams.keys());
