@@ -2,14 +2,14 @@
 const fs=require("fs");
 const usercheck=require("../functions/usercheck")
 module.exports = {
-    name:'users',
-    GET:function(req,res,body){
-        usercheck();
-        res.writeHead(200,{'Content-Type':'application/json'});
-        res.write(JSON.stringify({username: "Anonymail", password: "ABCD"}));
-        res.end();
-    },
-    PUT:function(req,res,body){
+	name:'users',
+	GET:function(req,res,body){
+		usercheck();
+		res.writeHead(200,{'Content-Type':'application/json'});
+		res.write(JSON.stringify({username: "Anonymail", password: "ABCD"}));
+		res.end();
+	},
+	PUT:function(req,res,body){
 		data=require("/mnt/users.json");
 		body_data=JSON.parse(body);
 		if(body_data.username&&body_data.password){
@@ -63,8 +63,8 @@ module.exports = {
 			res.end();
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
-    },
-    WS:(ws,req)=>{
-        console.log(ws)
-    }
+	},
+	WS:(ws,req)=>{
+		console.log(ws)
+	}
 }

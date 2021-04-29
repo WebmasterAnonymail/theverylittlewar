@@ -7,7 +7,7 @@ function generate_token(length=50){
 	return temp_token
 }
 module.exports = {
-    name:'connect',
+	name:'connect',
 	GET:(req,res,body)=>{
 		connections=require("/mnt/connections.json");
 		body_data=JSON.parse(body);
@@ -19,7 +19,7 @@ module.exports = {
 		}
 		res.end();
 	},
-    PUT:(req,res,body)=>{
+	PUT:(req,res,body)=>{
 		usersdata=require("/mnt/users.json");
 		connections=require("/mnt/connections.json");
 		body_data=JSON.parse(body);

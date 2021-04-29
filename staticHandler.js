@@ -10,7 +10,7 @@ const ext_types={
 	"gif":"image/gif"
 };
 module.exports=function(req,res){
-    let url=req.url;
+	let url=req.url;
 	if(url=="/"){
 		url="/main.html";
 	}
