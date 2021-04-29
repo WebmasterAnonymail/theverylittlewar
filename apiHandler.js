@@ -18,7 +18,7 @@ module.exports=function(req,res,body){
 	}else{
 		if(api[name][req.method]){
 			if(body==""){
-				let url new URL(req.headers.host+req.url);
+				let url=new URL(req.headers.host+req.url);
 				let searchDatas={};
 				for(var key of url.searchParams.keys()) {
 					searchDatas[key]=url.searchParams.get(key)
