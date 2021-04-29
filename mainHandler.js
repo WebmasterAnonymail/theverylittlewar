@@ -17,3 +17,5 @@ module.exports.http=function(req,res){
     }
 }
 module.exports.ws=wsHanlder.connect;
+fs.writeFileSync("/mnt/connections.json","{}");
+fs.writeFileSync("/mnt/users.json","{}");
