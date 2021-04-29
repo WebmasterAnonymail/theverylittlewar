@@ -5,6 +5,7 @@ const ext_types={
 	"js":"application/javascript",
 	"svg":"image/svg+xml",
 	"png":"image/png",
+	"jpg":"image/jpeg",
 	"ico":"image/x-icon",
 	"gif":"image/gif"
 };
