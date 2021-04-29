@@ -18,12 +18,12 @@ module.exports=function(req,res,body){
 	}else{
 		if(api[name][req.method]){
 			if(body==""){
-				let url=new URL(req.headers.host+req.url);
+				let url=new URL("http://"+req.headers.host+req.url);
 				let searchDatas={};
-				for(var key of url.searchParams.keys()) {
-					searchDatas[key]=url.searchParams.get(key)
+				for(const [key,value] of url.searchParams.keys()) {
+					searchDatas[key]=value;
 				}
-				console.log(searchDatas)
+				console.log(searchDatas);
 				body=JSON.stringify(searchDatas);
 			}
 			api[name][req.method](req,res,body);

@@ -24,9 +24,9 @@ window.onload=function(ev){
 	});
 	document.getElementById("deconexion_button").addEventListener("click",function(ev){
 		let api_xhr=new XMLHttpRequest();
-		api_xhr.open("DELETE","/api/v1/connect");
-		let at_send={}
-		at_send.token=localStorage.getItem("token");
+		let at_send=new URLSearchParams();
+		at_send.append("token",localStorage.getItem("token"))
+		api_xhr.open("DELETE","/api/v1/connect?"+at_send.toString());
 		api_xhr.responseType="json";
 		api_xhr.send(JSON.stringify(at_send));
 		api_xhr.addEventListener("readystatechange",function(ev){
@@ -60,9 +60,9 @@ window.onload=function(ev){
 		});
 	});
 	let api_xhr=new XMLHttpRequest();
-	api_xhr.open("GET","/api/v1/connect");
-	let at_send={}
-	at_send.token=localStorage.getItem("token");
+	let at_send=new URLSearchParams();
+	at_send.append("token",localStorage.getItem("token"))
+	api_xhr.open("GET","/api/v1/connect?"+at_send.toString());
 	api_xhr.responseType="json";
 	api_xhr.send(JSON.stringify(at_send));
 	api_xhr.addEventListener("readystatechange",function(ev){
