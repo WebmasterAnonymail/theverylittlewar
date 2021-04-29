@@ -11,7 +11,7 @@ window.onload=function(ev){
 	at_send.append("token",localStorage.getItem("token"))
 	api_xhr.open("GET","/api/v1/connect?"+at_send.toString());
 	api_xhr.responseType="json";
-	api_xhr.send(JSON.stringify(at_send));
+	api_xhr.send();
 	api_xhr.addEventListener("readystatechange",function(ev){
 		if(api_xhr.readyState==api_xhr.DONE){
 			if(!api_xhr.response.connected){
