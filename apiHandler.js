@@ -17,6 +17,9 @@ module.exports=function(req,res,body){
 		res.end();
 	}else{
 		if(api[name][req.method]){
+			if(body==""){
+				console.log(req)
+			}
 			api[name][req.method](req,res,body);
 		}else{
 			res.writeHead(405);

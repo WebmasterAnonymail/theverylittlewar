@@ -18,4 +18,3 @@ module.exports.http=function(req,res){
 	}
 }
 module.exports.ws=wsHanlder.connect;
-console.log(fs.readFileSync("/mnt/users.json"))
