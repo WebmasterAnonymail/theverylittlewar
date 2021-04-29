@@ -8,4 +8,5 @@ const httpServer=http.createServer(handler.http);
 const wsServer=new ws.Server({server:httpServer});
 console.log("Démarage");
 httpServer.listen(config.http.port);
-wsServer.on("connection",handler.ws)
+wsServer.on("connection",handler.ws);
+console.log(process.env);
