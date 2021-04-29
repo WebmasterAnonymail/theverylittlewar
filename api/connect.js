@@ -40,6 +40,8 @@ module.exports = {
 		connections=require("/mnt/connections.json");
 		console.log(body_data)
 		delete connections[body_data.token];
+		res.writeHead(204,{'Content-Type':'application/json'});
+		res.end();
 		fs.writeFileSync("/mnt/connections.json",JSON.stringify(connections));
 	}
 }

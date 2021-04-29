@@ -47,7 +47,7 @@ window.onload=function(ev){
 		api_xhr.send(JSON.stringify(at_send));
 		api_xhr.addEventListener("readystatechange",function(ev){
 			if(api_xhr.readyState==api_xhr.DONE){
-				if(api_xhr.status==200){
+				if(api_xhr.status==204){
 					alert("Compte créé. Vous pouvez vous y connecter.");
 				}else if(api_xhr.status==409){
 					alert("Ce pseudo est deja utilise, choisissez en un autre");
