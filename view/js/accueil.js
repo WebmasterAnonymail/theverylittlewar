@@ -60,7 +60,7 @@ window.onload=function(ev){
         });
     });
 	let api_xhr=new XMLHttpRequest();
-	api_xhr.open("GET","/api/v1/users");
+	api_xhr.open("GET","/api/v1/connect");
 	let at_send={}
 	at_send.token=localStorage.getItem("token");
 	api_xhr.responseType="json";
