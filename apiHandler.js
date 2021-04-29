@@ -23,7 +23,7 @@ module.exports=function(req,res,body){
 				for(const [key,value] of url.searchParams.keys()) {
 					searchDatas[key]=value;
 				}
-				console.log(searchDatas);
+				console.log(searchDatas,url);
 				body=JSON.stringify(searchDatas);
 			}
 			api[name][req.method](req,res,body);
