@@ -8,7 +8,7 @@ function generate_token(length=50){
 }
 module.exports = {
     name:'connect',
-	HEAD:(req,res,body)=>{
+	GET:(req,res,body)=>{
 		connections=require("/mnt/connections.json");
 		body_data=JSON.parse(body);
 		res.writeHead(200,{'Content-Type':'application/json'});
