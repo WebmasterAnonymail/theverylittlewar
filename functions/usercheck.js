@@ -1,4 +1,4 @@
 module.exports=function(userid,token){
-	connections=require("../storage/connections.json");
+	connections=require("/mnt/connections.json");
 	return (connections[token]==userid)&&(connections[token]!=undefined)
 }

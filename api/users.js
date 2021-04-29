@@ -11,7 +11,7 @@ module.exports = {
         res.end();
     },
     PUT:function(req,res,body){
-		data=require("../storage/users.json");
+		data=require("/mnt/users.json");
 		body_data=JSON.parse(body);
 		if(body_data.username&&body_data.password){
 			if(data[body_data.username]){
@@ -63,7 +63,7 @@ module.exports = {
 			res.write(JSON.stringify({"error":"aucun nom d'utilisateur ou aucun mot de passe"}));
 			res.end();
 		}
-		fs.writeFileSync("../storage/users.json",JSON.stringify(data));
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
     },
     WS:(ws,req)=>{
         console.log(ws)
