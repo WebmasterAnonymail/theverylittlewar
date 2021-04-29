@@ -1,4 +1,5 @@
 let apiVersion='v1';
+const fs=require('fs');
 const apiHandler=require('./apiHandler.js');
 const staticHanlder=require("./staticHandler");
 const wsHanlder=require("./wsHanlder");
