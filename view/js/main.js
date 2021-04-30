@@ -1,5 +1,5 @@
 var opened_iframe_id="";
-username=""; //pas de var : global a tout les scripts
+var username=null;
 window.onload=function(ev){
 	let check_connect_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
