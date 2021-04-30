@@ -62,6 +62,8 @@ module.exports = {
 				res.write("{error:\"Already used\"}");
 				res.end();
 			}else{
+				let px=undefined;
+				let py=undefined;
 				data[body_data.username]={
 					"password":body_data.password,
 					"ressources":{
@@ -89,7 +91,7 @@ module.exports = {
 						"condenseur":0,
 						"booster":0,
 					},
-					"points"{
+					"points":{
 						"batmients":0,
 						"defense":0,
 						"attaque":0,
@@ -103,8 +105,8 @@ module.exports = {
 					"molecules":[null,null,null,null,null],
 					"medailles":undefined, //reste a définir
 					"raports":[],
-					"positionX":undefined, //idem
-					"positionY":undefined, //idem
+					"positionX":px,
+					"positionY":py,
 					"messagesPerso":[],
 					"aliance":null,
 					"description":null
