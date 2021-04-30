@@ -32,7 +32,7 @@ window.onload=function(ev){
 								alert("ERROR in getting user : code "+api_xhr.status)
 							}
 						}
-					}
+					});
 				}
 			}else{
 				document.location.replace("html/accueil.html");
