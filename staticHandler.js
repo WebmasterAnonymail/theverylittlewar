@@ -28,7 +28,7 @@ module.exports=function(req,res){
 			res.end();
 		}else{
 			res.writeHead(500);
-			res.write("500");
+			res.write("500 : "+err.toString());
 			res.end();
 		}
 	}
