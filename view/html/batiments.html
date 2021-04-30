@@ -1,574 +1,574 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>the very little war</title>
-        <link rel="stylesheet" href="../css/batiments.css">
-        <link rel="stylesheet" href="../css/main.css">
-        <script src="../js/main.js"></script>
-        <script src="../js/batiments.js"></script>
-    </head>
-    <body>
-        <div id="batiment_list">
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/QG.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Quartier g&eacute;n&eacute;ral</span>
-                        <br>
-                        G&eacute;re les d&eacute;tails de la production d'atome,
-                        <br>
-                        des pillages et des degats au batiments
-                        <br>
-                        lors d'une attaque
-                    </span>
-                </summary>
-                <br>
-                Production d'atomes :
-                <br>
-                Points restants : <span id="QG_production_rest">0</span>
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_carbone">
-                <div class="ressource">
-                    <img src="../image/ressources/carbone.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_carbone">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_carbone">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_oxygene">
-                <div class="ressource">
-                    <img src="../image/ressources/oxygene.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_oxygene">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_oxygene">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_azote">
-                <div class="ressource">
-                    <img src="../image/ressources/azote.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_azote">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_azote">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_iode">
-                <div class="ressource">
-                    <img src="../image/ressources/iode.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_iode">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_iode">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_brome">
-                <div class="ressource">
-                    <img src="../image/ressources/brome.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_brome">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_brome">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_hydrogene">
-                <div class="ressource">
-                    <img src="../image/ressources/hydrogene.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_hydrogene">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_hydrogene">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_soufre">
-                <div class="ressource">
-                    <img src="../image/ressources/soufre.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_soufre">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_soufre">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_chlore">
-                <div class="ressource">
-                    <img src="../image/ressources/chlore.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_production_chlore">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_chlore">
-                <br><br>
-                Pillage d'atomes :
-                <br>
-                Points restants : <span id="QG_pillage_rest">0</span>
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_carbone">
-                <div class="ressource">
-                    <img src="../image/ressources/carbone.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_carbone">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_carbone">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_oxygene">
-                <div class="ressource">
-                    <img src="../image/ressources/oxygene.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_oxygene">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_oxygene">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_azote">
-                <div class="ressource">
-                    <img src="../image/ressources/azote.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_azote">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_azote">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_iode">
-                <div class="ressource">
-                    <img src="../image/ressources/iode.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_iode">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_iode">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_brome">
-                <div class="ressource">
-                    <img src="../image/ressources/brome.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_brome">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_brome">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_hydrogene">
-                <div class="ressource">
-                    <img src="../image/ressources/hydrogene.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_hydrogene">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_hydrogene">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_soufre">
-                <div class="ressource">
-                    <img src="../image/ressources/soufre.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_soufre">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_soufre">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_chlore">
-                <div class="ressource">
-                    <img src="../image/ressources/chlore.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_pillage_chlore">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_chlore">
-                <br><br>
-                Destruction de batiments :
-                <br>
-                Points restants : <span id="QG_destruction_rest">0</span>
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_destruction_generateur">
-                <div class="ressource">
-                    <img src="../image/batiments/generateur.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_destruction_generateur">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_destruction_generateur">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_destruction_producteur">
-                <div class="ressource">
-                    <img src="../image/batiments/producteur.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_destruction_producteur">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_destruction_producteur">
-                <br>
-                <img src="../image/boutons/moins.png" class="button" id="QG_button_moins_destruction_stockage">
-                <div class="ressource">
-                    <img src="../image/batiments/depot.png" class="icon_ressource">
-                    <span class="text_ressource neutral" id="QG_destruction_stockage">100%</span>
-                </div>
-                <img src="../image/boutons/plus.png" class="button" id="QG_button_plus_destruction_stockage">
-                
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/generateur.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">G&eacute;n&eacute;rateur</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/ressources/energie.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="generateur_effet">100/h</span>
-                        </div>
-                        <br>
-                        Niveau <span id="generateur_niveau">0</span>
-                    </span>
-                </summary>
-                Produit de l'&eacute;nergie
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/energie.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="generateur_ressources">100</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="generateur_temps">10m</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="generateur_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/energie.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="generateur_amelioration">10/h</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="generateur_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/producteur.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Producteur</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/ressources/tout.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="producteur_effet">10/h</span>
-                        </div>
-                        <br>
-                        Niveau <span id="producteur_niveau">0</span>
-                    </span>
-                </summary>
-                Produit des atomes
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/tout.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="producteur_ressources">10</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="producteur_temps">10m</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="producteur_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/tout.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="producteur_amelioration">1/h</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="producteur_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/depot.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Stockage</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/ressources/stockage.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="stockage_effet">1 000</span>
-                        </div>
-                        <br>
-                        Niveau <span id="stockage_niveau">0</span>
-                    </span>
-                </summary>
-                Stocke les ressources
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/energie.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="stockage_ressource">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/tout.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="stockage_ressources">100</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="stockage_temps">10m</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="stockage_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/stockage.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="stockage_amelioration">100</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="stockage_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/forteresse.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Forteresse</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/def.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="forteresse_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="forteresse_niveau">0</span>
-                    </span>
-                </summary>
-                Entraine les atomes de <ec>carbone</ec> pour un bonus de d&eacute;fense
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/carbone.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="forteresse_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="forteresse_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="forteresse_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/def.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="forteresse_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="forteresse_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/ionisateur.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Ionisateur</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/atk.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="ionisateur_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="ionisateur_niveau">0</span>
-                    </span>
-                </summary>
-                Ionise les atomes d'<eo>oxyg&egrave;ne</eo> pour un bonus d'attaque
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/oxygene.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="ionisateur_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="ionisateur_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="ionisateur_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/atk.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="ionisateur_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="ionisateur_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/lieur.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Lieur</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/TP.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="condenseur_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="lieur_niveau">0</span>
-                    </span>
-                </summary>
-                Lie les atomes d'<en>azote</en> pour un bonus de temps de production
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/azote.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="lieur_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="lieur_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="lieur_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/TP.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="lieur_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="lieur_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/stabilisateur.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Stabilisateur</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/TV.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="stabilisateur_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="stabilisateur_niveau">0</span>
-                    </span>
-                </summary>
-                Stabilise les atomes d'<ei>iode</ei> pour un bonus de temps de vie
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/iode.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="stabilisateur_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="stabilisateur_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="stabilisateur_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/TV.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="stabilisateur_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="stabilisateur_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/champdeforce.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Champ de force</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/vie.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="champdeforce_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="champdeforce_niveau">0</span>
-                    </span>
-                </summary>
-                Protege vos atomes de <eb>brome</eb> par un champ de force pour un bonus de points de vie
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/brome.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="champdeforce_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="champdeforce_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="champdeforce_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/vie.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="champdeforce_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="champdeforce_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/usinedexplosif.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Usine d'explosif</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/deg.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="usinedexplosif_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="usinedexplosif_niveau">0</span>
-                    </span>
-                </summary>
-                Cr&eacute;e des explosifs pour les atomes d'<eh>hydrog&egrave;ne</eh> pour un bonus de d&eacute;gats
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/hydrogene.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="usinedexplosif_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="usinedexplosif_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="usinedexplosif_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/deg.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="usinedexplosif_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="usinedexplosif_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/condenseur.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Condenseur</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/pil.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="condenseur_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="condenseur_niveau">0</span>
-                    </span>
-                </summary>
-                Condense les ressource pour les atomes de <es>soufre</es> pour un bonus de pillage
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/soufre.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="condenseur_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="condenseur_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="condenseur_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/pil.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="condenseur_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="condenseur_bouton">
-            </details>
-            <details class="batiment_card">
-                <summary>
-                    <img src="../image/batiments/booster.png" class="batiment_icon">
-                    <span class="batiment_right_of_icon">
-                        <span class="batiment_name">Booster</span>
-                        <br>
-                        <div class="ressource">
-                            <img src="../image/propriete/vit.png" class="icon_ressource">
-                            <span class="text_ressource neutral" id="booster_effet">0%</span>
-                        </div>
-                        <br>
-                        Niveau <span id="booster_niveau">0</span>
-                    </span>
-                </summary>
-                Booste vos atomes de <ecl>chlore</ecl> pour un bonus de vitesse
-                <br>
-                Am&eacute;liorer :<br>
-                <div class="ressource">
-                    <img src="../image/ressources/chlore.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="booster_ressources">1000</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/temps.png" class="icon_ressource">
-                    <span class="text_ressource negative" id="booster_temps">1h</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/ressources/points.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="booster_points">3</span>
-                </div>
-                <div class="ressource">
-                    <img src="../image/propriete/vit.png" class="icon_ressource">
-                    <span class="text_ressource positive" id="booster_amelioration">1%</span>
-                </div>
-                <br>
-                <input type="button" value="ameliorer" id="booster_bouton">
-            </details>
-        </div>
-    </body>
+	<head>
+		<title>the very little war</title>
+		<link rel="stylesheet" href="../css/batiments.css">
+		<link rel="stylesheet" href="../css/main.css">
+		<script src="../js/main.js"></script>
+		<script src="../js/batiments.js"></script>
+	</head>
+	<body>
+		<div id="batiment_list">
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/QG.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Quartier g&eacute;n&eacute;ral</span>
+						<br>
+						G&eacute;re les d&eacute;tails de la production d'atome,
+						<br>
+						des pillages et des degats au batiments
+						<br>
+						lors d'une attaque
+					</span>
+				</summary>
+				<br>
+				Production d'atomes :
+				<br>
+				Points restants : <span id="QG_production_rest">0</span>
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_carbone">
+				<div class="ressource">
+					<img src="../image/ressources/carbone.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_carbone">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_carbone">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_oxygene">
+				<div class="ressource">
+					<img src="../image/ressources/oxygene.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_oxygene">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_oxygene">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_azote">
+				<div class="ressource">
+					<img src="../image/ressources/azote.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_azote">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_azote">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_iode">
+				<div class="ressource">
+					<img src="../image/ressources/iode.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_iode">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_iode">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_brome">
+				<div class="ressource">
+					<img src="../image/ressources/brome.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_brome">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_brome">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_hydrogene">
+				<div class="ressource">
+					<img src="../image/ressources/hydrogene.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_hydrogene">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_hydrogene">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_soufre">
+				<div class="ressource">
+					<img src="../image/ressources/soufre.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_soufre">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_soufre">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_production_chlore">
+				<div class="ressource">
+					<img src="../image/ressources/chlore.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_production_chlore">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_production_chlore">
+				<br><br>
+				Pillage d'atomes :
+				<br>
+				Points restants : <span id="QG_pillage_rest">0</span>
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_carbone">
+				<div class="ressource">
+					<img src="../image/ressources/carbone.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_carbone">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_carbone">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_oxygene">
+				<div class="ressource">
+					<img src="../image/ressources/oxygene.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_oxygene">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_oxygene">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_azote">
+				<div class="ressource">
+					<img src="../image/ressources/azote.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_azote">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_azote">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_iode">
+				<div class="ressource">
+					<img src="../image/ressources/iode.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_iode">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_iode">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_brome">
+				<div class="ressource">
+					<img src="../image/ressources/brome.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_brome">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_brome">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_hydrogene">
+				<div class="ressource">
+					<img src="../image/ressources/hydrogene.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_hydrogene">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_hydrogene">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_soufre">
+				<div class="ressource">
+					<img src="../image/ressources/soufre.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_soufre">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_soufre">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_pillage_chlore">
+				<div class="ressource">
+					<img src="../image/ressources/chlore.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_pillage_chlore">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_pillage_chlore">
+				<br><br>
+				Destruction de batiments :
+				<br>
+				Points restants : <span id="QG_destruction_rest">0</span>
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_destruction_generateur">
+				<div class="ressource">
+					<img src="../image/batiments/generateur.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_destruction_generateur">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_destruction_generateur">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_destruction_producteur">
+				<div class="ressource">
+					<img src="../image/batiments/producteur.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_destruction_producteur">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_destruction_producteur">
+				<br>
+				<img src="../image/boutons/moins.png" class="button" id="QG_button_moins_destruction_stockage">
+				<div class="ressource">
+					<img src="../image/batiments/depot.png" class="icon_ressource">
+					<span class="text_ressource neutral" id="QG_destruction_stockage">100%</span>
+				</div>
+				<img src="../image/boutons/plus.png" class="button" id="QG_button_plus_destruction_stockage">
+				
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/generateur.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">G&eacute;n&eacute;rateur</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/ressources/energie.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="generateur_effet">100/h</span>
+						</div>
+						<br>
+						Niveau <span id="generateur_niveau">0</span>
+					</span>
+				</summary>
+				Produit de l'&eacute;nergie
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/energie.png" class="icon_ressource">
+					<span class="text_ressource negative" id="generateur_ressources">100</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="generateur_temps">10m</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="generateur_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/energie.png" class="icon_ressource">
+					<span class="text_ressource positive" id="generateur_amelioration">10/h</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="generateur_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/producteur.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Producteur</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/ressources/tout.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="producteur_effet">10/h</span>
+						</div>
+						<br>
+						Niveau <span id="producteur_niveau">0</span>
+					</span>
+				</summary>
+				Produit des atomes
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/tout.png" class="icon_ressource">
+					<span class="text_ressource negative" id="producteur_ressources">10</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="producteur_temps">10m</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="producteur_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/tout.png" class="icon_ressource">
+					<span class="text_ressource positive" id="producteur_amelioration">1/h</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="producteur_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/depot.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Stockage</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/ressources/stockage.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="stockage_effet">1 000</span>
+						</div>
+						<br>
+						Niveau <span id="stockage_niveau">0</span>
+					</span>
+				</summary>
+				Stocke les ressources
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/energie.png" class="icon_ressource">
+					<span class="text_ressource negative" id="stockage_ressource">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/tout.png" class="icon_ressource">
+					<span class="text_ressource negative" id="stockage_ressources">100</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="stockage_temps">10m</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="stockage_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/stockage.png" class="icon_ressource">
+					<span class="text_ressource positive" id="stockage_amelioration">100</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="stockage_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/forteresse.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Forteresse</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/def.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="forteresse_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="forteresse_niveau">0</span>
+					</span>
+				</summary>
+				Entraine les atomes de <ec>carbone</ec> pour un bonus de d&eacute;fense
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/carbone.png" class="icon_ressource">
+					<span class="text_ressource negative" id="forteresse_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="forteresse_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="forteresse_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/def.png" class="icon_ressource">
+					<span class="text_ressource positive" id="forteresse_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="forteresse_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/ionisateur.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Ionisateur</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/atk.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="ionisateur_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="ionisateur_niveau">0</span>
+					</span>
+				</summary>
+				Ionise les atomes d'<eo>oxyg&egrave;ne</eo> pour un bonus d'attaque
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/oxygene.png" class="icon_ressource">
+					<span class="text_ressource negative" id="ionisateur_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="ionisateur_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="ionisateur_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/atk.png" class="icon_ressource">
+					<span class="text_ressource positive" id="ionisateur_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="ionisateur_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/lieur.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Lieur</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/TP.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="condenseur_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="lieur_niveau">0</span>
+					</span>
+				</summary>
+				Lie les atomes d'<en>azote</en> pour un bonus de temps de production
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/azote.png" class="icon_ressource">
+					<span class="text_ressource negative" id="lieur_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="lieur_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="lieur_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/TP.png" class="icon_ressource">
+					<span class="text_ressource positive" id="lieur_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="lieur_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/stabilisateur.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Stabilisateur</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/TV.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="stabilisateur_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="stabilisateur_niveau">0</span>
+					</span>
+				</summary>
+				Stabilise les atomes d'<ei>iode</ei> pour un bonus de temps de vie
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/iode.png" class="icon_ressource">
+					<span class="text_ressource negative" id="stabilisateur_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="stabilisateur_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="stabilisateur_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/TV.png" class="icon_ressource">
+					<span class="text_ressource positive" id="stabilisateur_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="stabilisateur_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/champdeforce.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Champ de force</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/vie.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="champdeforce_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="champdeforce_niveau">0</span>
+					</span>
+				</summary>
+				Protege vos atomes de <eb>brome</eb> par un champ de force pour un bonus de points de vie
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/brome.png" class="icon_ressource">
+					<span class="text_ressource negative" id="champdeforce_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="champdeforce_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="champdeforce_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/vie.png" class="icon_ressource">
+					<span class="text_ressource positive" id="champdeforce_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="champdeforce_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/usinedexplosif.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Usine d'explosif</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/deg.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="usinedexplosif_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="usinedexplosif_niveau">0</span>
+					</span>
+				</summary>
+				Cr&eacute;e des explosifs pour les atomes d'<eh>hydrog&egrave;ne</eh> pour un bonus de d&eacute;gats
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/hydrogene.png" class="icon_ressource">
+					<span class="text_ressource negative" id="usinedexplosif_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="usinedexplosif_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="usinedexplosif_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/deg.png" class="icon_ressource">
+					<span class="text_ressource positive" id="usinedexplosif_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="usinedexplosif_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/condenseur.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Condenseur</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/pil.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="condenseur_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="condenseur_niveau">0</span>
+					</span>
+				</summary>
+				Condense les ressource pour les atomes de <es>soufre</es> pour un bonus de pillage
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/soufre.png" class="icon_ressource">
+					<span class="text_ressource negative" id="condenseur_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="condenseur_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="condenseur_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/pil.png" class="icon_ressource">
+					<span class="text_ressource positive" id="condenseur_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="condenseur_bouton">
+			</details>
+			<details class="batiment_card">
+				<summary>
+					<img src="../image/batiments/booster.png" class="batiment_icon">
+					<span class="batiment_right_of_icon">
+						<span class="batiment_name">Booster</span>
+						<br>
+						<div class="ressource">
+							<img src="../image/propriete/vit.png" class="icon_ressource">
+							<span class="text_ressource neutral" id="booster_effet">0%</span>
+						</div>
+						<br>
+						Niveau <span id="booster_niveau">0</span>
+					</span>
+				</summary>
+				Booste vos atomes de <ecl>chlore</ecl> pour un bonus de vitesse
+				<br>
+				Am&eacute;liorer :<br>
+				<div class="ressource">
+					<img src="../image/ressources/chlore.png" class="icon_ressource">
+					<span class="text_ressource negative" id="booster_ressources">1000</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/temps.png" class="icon_ressource">
+					<span class="text_ressource negative" id="booster_temps">1h</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/ressources/points.png" class="icon_ressource">
+					<span class="text_ressource positive" id="booster_points">3</span>
+				</div>
+				<div class="ressource">
+					<img src="../image/propriete/vit.png" class="icon_ressource">
+					<span class="text_ressource positive" id="booster_amelioration">1%</span>
+				</div>
+				<br>
+				<input type="button" value="ameliorer" id="booster_bouton">
+			</details>
+		</div>
+	</body>
 </html>

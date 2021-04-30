@@ -91,6 +91,9 @@ module.exports = {
 						"condenseur":0,
 						"booster":0,
 					},
+					"QG":{
+						"production"
+					},
 					"points":{
 						"batmients":0,
 						"defense":0,

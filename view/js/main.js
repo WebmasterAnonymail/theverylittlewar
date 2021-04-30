@@ -41,8 +41,8 @@ window.onload=function(ev){
 	});
 }
 function open_iframe(iframeid){
-    let iframe=document.getElementById("iframe"+iframeid);
-    iframe.setAttribute("open","yes");
-    document.getElementById("popup_mask").style.display="block";
-    opened_iframe_id="iframe"+iframeid;
+	let iframe=document.getElementById("iframe"+iframeid);
+	iframe.setAttribute("open","yes");
+	document.getElementById("popup_mask").style.display="block";
+	opened_iframe_id="iframe"+iframeid;
 }

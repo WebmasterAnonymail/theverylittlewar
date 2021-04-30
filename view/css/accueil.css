@@ -1,12 +1,12 @@
 #return_button{
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
 }
 body{
-    text-align: center;
+	text-align: center;
 }
 fieldset{
-    display: inline-block;
-    width: 250px;
+	display: inline-block;
+	width: 250px;
 }
