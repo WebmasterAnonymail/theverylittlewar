@@ -92,7 +92,9 @@ module.exports = {
 						"booster":0,
 					},
 					"QG":{
-						"production"
+						"production":[4,4,4,4,4,4,4,4,4,4,4,4],
+						"pillage":[4,4,4,4,4,4,4,4,4,4,4,4],
+						"destruction":[4,4,4]
 					},
 					"points":{
 						"batmients":0,
