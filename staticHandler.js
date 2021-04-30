@@ -8,7 +8,7 @@ const ext_types={
 	"jpg":"image/jpeg",
 	"ico":"image/x-icon",
 	"gif":"image/gif",
-	"tff":"font/ttf"
+	"ttf":"font/ttf"
 };
 module.exports=function(req,res){
 	let url=req.url;
