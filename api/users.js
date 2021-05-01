@@ -79,9 +79,9 @@ module.exports = {
 						"victoires":0,
 					},
 					"batiments":{
-						"generateur":1,
-						"producteur":1,
-						"stockage":1,
+						"generateur":0,
+						"producteur":0,
+						"stockage":0,
 						"forteresse":0,
 						"ionisateur":0,
 						"lieur":0,
