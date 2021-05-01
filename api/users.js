@@ -26,7 +26,7 @@ module.exports = {
 				break;
 			case "list":
 				let response=[];
-				for(a in data){
+				for(let a in data){
 					response.push(a);
 				}
 				res.writeHead(200,{'Content-Type':'application/json'});
@@ -107,6 +107,11 @@ module.exports = {
 						"pillage":0,
 						"combats":0,
 					},
+					"PV_batiments":{ //reste a définir
+						"generateur":0,
+						"producteur":0,
+						"stockage":0,
+					},
 					"molecules":[null,null,null,null,null],
 					"medailles":undefined, //reste a définir
 					"raports":[],
@@ -126,7 +131,4 @@ module.exports = {
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
 	},
-	WS:(ws,req)=>{
-		console.log(ws)
-	}
 }

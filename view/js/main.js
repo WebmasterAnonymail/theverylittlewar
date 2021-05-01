@@ -39,6 +39,22 @@ window.onload=function(ev){
 			}
 		}
 	});
+	let list_users_xhr=new XMLHttpRequest();
+	let at_send=new URLSearchParams();
+	at_send.append("mode","list");
+	list_users_xhr.open("GET","/api/v1/users?"+at_send.toString());
+	list_users_xhr.responseType="json";
+	list_users_xhr.addEventListener("readystatechange",function(ev){
+		if(list_users_xhr.readyState==list_users_xhr.DONE){
+			let user_autocomplete_list=document.createElement("datalist");
+			user_autocomplete_list.id="user_autocomplete_list";
+			for(let a of response){
+				let user_element=document.createElement("option");
+				user_element.innerHTML=a;
+				user_autocomplete_list.appendChild(user_element);
+			}
+		}
+	}
 }
 function open_iframe(iframeid){
 	let iframe=document.getElementById("iframe"+iframeid);

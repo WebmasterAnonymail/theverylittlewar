@@ -12,7 +12,7 @@ module.exports={
 						}
 						break;
 					case "combat":
-						//le plus dur :-)
+						//le plus dur =]
 						break;
 					case "molecule":
 						if(users[a.username]){
@@ -29,8 +29,11 @@ module.exports={
 				}
 			}
 		}
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
 	},
-	usercheck:function(user){
-		
+	usercheck:function(user,token){
+		connections=require("/mnt/connections.json");
+		return (connections[token]==user)&&(connections[token]!=undefined)
 	}
 }
