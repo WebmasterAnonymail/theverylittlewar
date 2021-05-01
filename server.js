@@ -9,4 +9,3 @@ console.log("Démarage");
 httpServer.listen(process.env.app_port);
 wsServer.on("connection",handler.ws);
 //fs.writeFileSync("/mnt/");
-fs.writeFileSync("/mnt/events.json");
