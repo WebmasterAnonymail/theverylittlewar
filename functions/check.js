@@ -1,8 +1,18 @@
+var atomes=[
+"carbone",
+"oxygene",
+"azote",
+"iode",
+"brome",
+"hydrogene",
+"soufre",
+"chlore"
+]
 module.exports={
 	eventcheck:function(){
 		let events=require("/mnt/events.json");
 		let users=require("/mnt/users.json");
-		for a of events{
+		for(let a of events){
 			if(a.time>(new Date()).getTime();){
 				switch(a.type){
 					case "amelioration":
@@ -40,8 +50,11 @@ module.exports={
 	usercheck:function(user,token){
 		let connections=require("/mnt/connections.json");
 		let users=require("/mnt/users.json");
-		users[user].lastUserCheck=(new Date()).getTime();
-		
+		let now=(new Date()).getTime();
+		for(let a in atomes){
+			users[user].ressources[atomes[a]]+=(/*une formule*/)*(users[user].QG.production[a]/4);
+		}
+		users[user].lastUserCheck=now;
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		return (connections[token]==user)&&(connections[token]!=undefined)
 	}
