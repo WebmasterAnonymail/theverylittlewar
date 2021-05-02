@@ -1,0 +1,115 @@
+const fs=require("fs");
+module.exports = {
+	name:'molecules',
+	POST:(req,res,body)=>{
+		let users=require("/mnt/users.json");
+		let events=require("/mnt/events.json");
+		let body_data=JSON.parse(body);
+		if(checkmodule.usercheck(body_data.username,body_data.token)){
+			if(users[body_data.username].molecules[body_data.mol_id]){
+				let energy_cost=0;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].carbone;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].oxygene;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].azote;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].iode;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].brome;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].hydrogene;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].soufre;
+				energy_cost+=users[body_data.username].molecules[body_data.mol_id].chlore;
+				energy_cost**=1.5;
+				energy_cost/=100;
+				if(
+				(users[body_data.username].molecules[body_data.mol_id].carbone*body_data.mol_number>users[body_data.username].ressources.carbone)||
+				(users[body_data.username].molecules[body_data.mol_id].oxygene*body_data.mol_number>users[body_data.username].ressources.oxygene)||
+				(users[body_data.username].molecules[body_data.mol_id].azote*body_data.mol_number>users[body_data.username].ressources.azote)||
+				(users[body_data.username].molecules[body_data.mol_id].iode*body_data.mol_number>users[body_data.username].ressources.iode)||
+				(users[body_data.username].molecules[body_data.mol_id].brome*body_data.mol_number>users[body_data.username].ressources.brome)||
+				(users[body_data.username].molecules[body_data.mol_id].hydrogene*body_data.mol_number>users[body_data.username].ressources.hydrogene)||
+				(users[body_data.username].molecules[body_data.mol_id].soufre*body_data.mol_number>users[body_data.username].ressources.soufre)||
+				(users[body_data.username].molecules[body_data.mol_id].chlore*body_data.mol_number>users[body_data.username].ressources.chlore)||
+				(energy_cost*body_data.mol_number>users[body_data.username].ressources.energie)
+				){
+					res.writeHead(402,{'Content-Type':'application/json'});
+					res.end();
+				}else{
+					event_mol={
+						"username":body_data.username,
+						"type":"molecule",
+						"molecule":body_data.mol_id,
+						"rest_mols":body_data.mol_numbers-1
+					};
+					events.push(event_mol);
+					users[body_data.username].ressources.energie-=energy_cost*body_data.mol_number;
+					users[body_data.username].ressources.carbone-=users[body_data.username].molecules[body_data.mol_id].carbone*body_data.mol_number;
+					users[body_data.username].ressources.oxygene-=users[body_data.username].molecules[body_data.mol_id].oxygene*body_data.mol_number;
+					users[body_data.username].ressources.azote-=users[body_data.username].molecules[body_data.mol_id].azote*body_data.mol_number;
+					users[body_data.username].ressources.iode-=users[body_data.username].molecules[body_data.mol_id].iode*body_data.mol_number;
+					users[body_data.username].ressources.brome-=users[body_data.username].molecules[body_data.mol_id].brome*body_data.mol_number;
+					users[body_data.username].ressources.hydrogene-=users[body_data.username].molecules[body_data.mol_id].hydrogene*body_data.mol_number;
+					users[body_data.username].ressources.soufre-=users[body_data.username].molecules[body_data.mol_id].soufre*body_data.mol_number;
+					users[body_data.username].ressources.chlore-=users[body_data.username].molecules[body_data.mol_id].chlore*body_data.mol_number;
+					
+				}
+			}else{
+				res.writeHead(400,{'Content-Type':'application/json'});
+				res.end();
+			}
+		}else{
+			res.writeHead(401,{'Content-Type':'application/json'});
+			res.write("{error:\"Not connected\"}");
+			res.end();
+		}
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
+	},
+	PUT:(req,res,body)=>{
+		let users=require("/mnt/users.json");
+		let body_data=JSON.parse(body);
+		if(checkmodule.usercheck(body_data.username,body_data.token)){
+			if(users[body_data.username].molecules[body_data.mol_id]==null){
+				if(10**(body_data.mol_id)>users[body_data.username].ressources.energie){
+					res.writeHead(402,{'Content-Type':'application/json'});
+					res.end();
+				}else{
+					users[body_data.username].molecules[body_data.mol_id]={
+						"carbone":body_data.carbone,
+						"oxygene":body_data.oxygene,
+						"azote":body_data.azote,
+						"iode":body_data.iode,
+						"brome":body_data.brome,
+						"hydrogene":body_data.hydrogene,
+						"soufre":body_data.soufre,
+						"chlore":body_data.chlore,
+					};
+					users[body_data.username].ressources.energie-=10**(body_data.mol_id);
+				}
+			}else{
+				res.writeHead(400,{'Content-Type':'application/json'});
+				res.end();
+			}
+		}else{
+			res.writeHead(401,{'Content-Type':'application/json'});
+			res.write("{error:\"Not connected\"}");
+			res.end();
+		}
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+	}
+	DELETE:(req,res,body)=>{
+		let users=require("/mnt/users.json");
+		let body_data=JSON.parse(body);
+		if(checkmodule.usercheck(body_data.username,body_data.token)){
+			if(users[body_data.username].molecules[body_data.mol_id]){
+				users[body_data.username].molecules[body_data.mol_id]=null;
+				res.writeHead(200,{'Content-Type':'application/json'});
+				res.end();
+			}else{
+				res.writeHead(400,{'Content-Type':'application/json'});
+				res.end();
+			}
+		}else{
+			res.writeHead(401,{'Content-Type':'application/json'});
+			res.write("{error:\"Not connected\"}");
+			res.end();
+		}
+	}
+}
