@@ -15,5 +15,5 @@ window.onload=function(event){
 				}
 			}
 		}
-	}
+	});
 }

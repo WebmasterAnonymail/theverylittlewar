@@ -54,7 +54,7 @@ window.onload=function(ev){
 				user_autocomplete_list.appendChild(user_element);
 			}
 		}
-	}
+	});
 }
 function open_iframe(iframeid){
 	let iframe=document.getElementById("iframe"+iframeid);
