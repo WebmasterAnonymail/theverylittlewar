@@ -17,7 +17,7 @@ module.exports.connect=function(ws,req){
 		if(api[name]["WS"]){
 			api[name]["WS"](ws);
 		}else{
-			ws.send("ERR:This api not suport WebSocket");
+			ws.send("ERR:This api don't suport WebSocket");
 		}
 	}
 }

@@ -52,8 +52,12 @@ module.exports={
 		let users=require("/mnt/users.json");
 		let now=(new Date()).getTime();
 		for(let a in atomes){
-			users[user].ressources[atomes[a]]+=(/*une formule*/)*(users[user].QG.production[a]/4);
+			users[user].ressources[atomes[a]]+=(/*une formule*/1)*(users[user].QG.production[a]/4)*((now-users[user].lastUserCheck)/(1000*60*60));
+			users[user].ressources[atomes[a]]=min(10**(users[user].batiments.stockage/20)*100,users[user].ressources[atomes[a]]);
 		}
+		users[user].ressources["energie"]+=(/*une formule*/1)*((now-users[user].lastUserCheck)/(1000*60*60));
+		users[user].ressources["energie"]=min(10**(users[user].batiments.stockage/20)*1000,users[user].ressources["energie"]);
+		/*destruction molecules*/
 		users[user].lastUserCheck=now;
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		return (connections[token]==user)&&(connections[token]!=undefined)
