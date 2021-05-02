@@ -13,7 +13,7 @@ module.exports={
 		let events=require("/mnt/events.json");
 		let users=require("/mnt/users.json");
 		for(let a of events){
-			if(a.time>(new Date()).getTime();){
+			if(a.time>(new Date()).getTime()){
 				switch(a.type){
 					case "amelioration":
 						if(users[a.username]){
