@@ -11,7 +11,8 @@ window.onload=function(event){
 		if(users_xhr.readyState==users_xhr.DONE){
 			if(users_xhr.status==200){
 				for(let a=0;a<5;a++){
-					let mol=users_xhr.response.molecules[aLinkcolor]
+					let mol=users_xhr.response.molecules[a];
+					
 				}
 			}
 		}
