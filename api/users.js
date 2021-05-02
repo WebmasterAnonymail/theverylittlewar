@@ -120,7 +120,7 @@ module.exports = {
 					"messagesPerso":[],
 					"aliance":null,
 					"description":null
-				}
+				};
 				res.writeHead(204,{'Content-Type':'application/json'});
 				res.end();
 			}
