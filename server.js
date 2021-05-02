@@ -8,4 +8,7 @@ const wsServer=new ws.Server({server:httpServer});
 console.log("Démarage");
 httpServer.listen(process.env.app_port||8080);
 wsServer.on("connection",handler.ws);
-//fs.writeFileSync("/mnt/");
+//fs.writeFileSync("/mnt/","{}");
+fs.writeFileSync("/mnt/events.json","{}");
+fs.writeFileSync("/mnt/users.json","{}");
+fs.writeFileSync("/mnt/connections.json","{}");
