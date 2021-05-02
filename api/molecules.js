@@ -34,9 +34,11 @@ module.exports = {
 				}else{
 					event_mol={
 						"username":body_data.username,
+						"time":(new Date()).getTime()+(1000*60*60)/(25**(users[body_data.username].molecules[body_data.mol_id].azote/200)*40),
 						"type":"molecule",
 						"molecule":body_data.mol_id,
-						"rest_mols":body_data.mol_numbers-1
+						"rest_mols":body_data.mol_numbers-1,
+						"create_time":(1000*60*60)/(25**(users[body_data.username].molecules[body_data.mol_id].azote/200)*40)
 					};
 					events.push(event_mol);
 					users[body_data.username].ressources.energie-=energy_cost*body_data.mol_number;

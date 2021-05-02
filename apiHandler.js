@@ -1,4 +1,5 @@
 const fs=require('fs');
+const checkmodule=require("../functions/check.js");
 const toSlice='/api/v1/';
 var api={};
 var files=fs.readdirSync('./api');
@@ -26,6 +27,7 @@ module.exports=function(req,res,body){
 				body=JSON.stringify(searchDatas);
 			}
 			try{
+				checkmodule.eventcheck();
 				api[name][req.method](req,res,body);
 			}catch (error){
 				res.writeHead(500,{'Content-Type':'application/json'});
