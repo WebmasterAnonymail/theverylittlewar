@@ -95,7 +95,7 @@ module.exports = {
 			res.end();
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
-	}
+	},
 	DELETE:(req,res,body)=>{
 		let users=require("/mnt/users.json");
 		let body_data=JSON.parse(body);
