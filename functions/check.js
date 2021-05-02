@@ -1,10 +1,9 @@
 module.exports={
 	eventcheck:function(){
-		events=require("/mnt/events.json");
-		users=require("/mnt/users.json");
-		now=(new Date()).getTime();
+		let events=require("/mnt/events.json");
+		let users=require("/mnt/users.json");
 		for a of events{
-			if(a.time>now){
+			if(a.time>(new Date()).getTime();){
 				switch(a.type){
 					case "amelioration":
 						if(users[a.username]){
@@ -26,6 +25,12 @@ module.exports={
 					case "espionnage":
 						
 						break;
+					case "return":
+						
+						break;
+					case "send":
+						
+						break;
 				}
 			}
 		}
@@ -33,7 +38,11 @@ module.exports={
 		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
 	},
 	usercheck:function(user,token){
-		connections=require("/mnt/connections.json");
+		let connections=require("/mnt/connections.json");
+		let users=require("/mnt/users.json");
+		users[user].lastUserCheck=(new Date()).getTime();
+		
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		return (connections[token]==user)&&(connections[token]!=undefined)
 	}
 }

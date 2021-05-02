@@ -119,7 +119,8 @@ module.exports = {
 					"positionY":py,
 					"messagesPerso":[],
 					"aliance":null,
-					"description":null
+					"description":null,
+					"lastUserCheck":(new Date()).getTime()
 				};
 				res.writeHead(204,{'Content-Type':'application/json'});
 				res.end();
