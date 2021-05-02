@@ -131,4 +131,8 @@ module.exports = {
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
 	},
+	DELETE:function(req,res,body){
+		let data=require("/mnt/users.json");
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
+	}
 }

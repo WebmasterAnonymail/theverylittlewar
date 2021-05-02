@@ -25,7 +25,13 @@ module.exports=function(req,res,body){
 				}
 				body=JSON.stringify(searchDatas);
 			}
-			api[name][req.method](req,res,body);
+			try{
+				api[name][req.method](req,res,body);
+			}catch (error){
+				res.writeHead(500,{'Content-Type':'application/json'});
+				res.write(JSON.stringify(error));
+				res.end();
+			}
 		}else{
 			res.writeHead(405);
 			res.write('405');
