@@ -60,11 +60,11 @@ module.exports={
 		let now=(new Date()).getTime();
 		let tempEcoule=(now-users[user].lastUserCheck);
 		for(let a in atomes){
-			users[user].ressources[atomes[a]]+=(/*une formule*/1)*(users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
-			users[user].ressources[atomes[a]]=min(10**(users[user].batiments.stockage/20)*100,users[user].ressources[atomes[a]]);
+			users[user].ressources[atomes[a]]+=(10**(users[user].batiments.producteur/20)*10)*(users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
+			users[user].ressources[atomes[a]]=min(10**(users[user].batiments.stockage/15)*100,users[user].ressources[atomes[a]]);
 		}
-		users[user].ressources["energie"]+=(/*une formule*/1)*(tempEcoule/(1000*60*60));
-		users[user].ressources["energie"]=min(10**(users[user].batiments.stockage/20)*1000,users[user].ressources["energie"]);
+		users[user].ressources["energie"]+=(10**(users[user].batiments.generateur/20)*100)*(tempEcoule/(1000*60*60));
+		users[user].ressources["energie"]=min(10**(users[user].batiments.stockage/15)*1000,users[user].ressources["energie"]);
 		for(let a=0;a<5;a++){
 			users[user].molecules[a]/=2**((tempEcoule/(1000*60))/(25**(users[user].molecules[a].iode/200)*40));
 		}

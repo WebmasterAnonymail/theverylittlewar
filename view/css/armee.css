@@ -1,5 +1,8 @@
 .mol{
-	padding: 10px;
+	padding: 5px;
+	border: 1px dotted #000000;
+	margin: 4px;
+	border-radius:5px;
 }
 .formule{
 	display: inline-block;

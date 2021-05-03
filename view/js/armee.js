@@ -1,7 +1,5 @@
 act_creat_mol=null;
-window.onload=function(event){
-	let users_xhr=new XMLHttpRequest();
-	let at_send=new URLSearchParams();
+function act_all(){
 	at_send.append("mode","detailed");
 	at_send.append("token",localStorage.getItem("token"));
 	at_send.append("username",localStorage.getItem("username"));
@@ -17,4 +15,9 @@ window.onload=function(event){
 			}
 		}
 	});
+}
+window.onload=function(event){
+	let users_xhr=new XMLHttpRequest();
+	let at_send=new URLSearchParams();
+	act_all();
 }
