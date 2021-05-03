@@ -12,23 +12,26 @@ module.exports={
 	eventcheck:function(){
 		let events=require("/mnt/events.json");
 		let users=require("/mnt/users.json");
-		for(let a of events){
-			if(a.time>(new Date()).getTime()){
-				switch(a.type){
+		let a_suprimer=[];
+		for(let a in events){
+			if(events[a].time>(new Date()).getTime()){
+				switch(events[a].type){
 					case "amelioration":
-						if(users[a.username]){
-							users[a.username].batiments[a.batiment]++;
+						if(users[events[a].username]){
+							users[events[a].username].batiments[events[a].batiment]++;
 						}
 						break;
 					case "combat":
 						//le plus dur =]
 						break;
 					case "molecule":
-						if(users[a.username]){
-							users[a.username].molecules[a.molecule]++;
-							if(a.rest_mols>0){
-								a.rest_mols--;
-								a.time+=a.create_time;
+						if(users[events[a].username]){
+							users[events[a].username].molecules[events[a].molecule]++;
+							if(events[a].rest_mols>0){
+								events[a].rest_mols--;
+								events[a].time+=events[a].create_time;
+							}else{
+								a_suprimer.push(a);
 							}
 						}
 						break;
@@ -43,6 +46,9 @@ module.exports={
 						break;
 				}
 			}
+		}
+		for(a of a_suprimer){
+			events.splice(a,1);
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
