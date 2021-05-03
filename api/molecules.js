@@ -82,6 +82,7 @@ module.exports = {
 						"hydrogene":body_data.hydrogene,
 						"soufre":body_data.soufre,
 						"chlore":body_data.chlore,
+						"number":0
 					};
 					users[body_data.username].ressources.energie-=10**(body_data.mol_id);
 				}

@@ -27,7 +27,7 @@ module.exports={
 						break;
 					case "molecule":
 						if(users[events[a].username]){
-							users[events[a].username].molecules[events[a].molecule]++;
+							users[events[a].username].molecules[events[a].molecule].number++;
 							if(events[a].rest_mols>0){
 								events[a].rest_mols--;
 								events[a].time+=events[a].create_time;
