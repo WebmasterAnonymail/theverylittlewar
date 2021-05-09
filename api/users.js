@@ -2,7 +2,7 @@
 const fs=require("fs");
 module.exports = {
 	name:'users',
-	GET:function(req,res,body){
+	GET:(req,res,body)=>{
 		let data=require("/mnt/users.json");
 		let body_data=JSON.parse(body);
 		switch(body_data.mode){
@@ -53,7 +53,7 @@ module.exports = {
 				break;
 		}
 	},
-	PUT:function(req,res,body){
+	PUT:(req,res,body)=>{
 		let data=require("/mnt/users.json");
 		let body_data=JSON.parse(body);
 		if(body_data.username&&body_data.password){
@@ -132,7 +132,7 @@ module.exports = {
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
 	},
-	DELETE:function(req,res,body){
+	DELETE:(req,res,body)=>{
 		let data=require("/mnt/users.json");
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
 	}
