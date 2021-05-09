@@ -11,6 +11,8 @@ var atomes=[
 ];
 var initiales=["C","O","N","I","Br","H","S","Cl"];
 function act_all(){
+	let users_xhr=new XMLHttpRequest();
+	let at_send=new URLSearchParams();
 	at_send.append("mode","detailed");
 	at_send.append("token",localStorage.getItem("token"));
 	at_send.append("username",localStorage.getItem("username"));
