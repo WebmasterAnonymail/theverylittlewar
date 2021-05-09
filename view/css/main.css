@@ -106,11 +106,6 @@ a{
 	top: 0px;
 	left: 0px;
 }
-eh{
-	color: #808080;
-	font-weight: bold;
-	font-style: italic;
-}
 ec{
 	color: #000000;
 	font-weight: bold;
@@ -121,6 +116,26 @@ eo{
 	font-weight: bold;
 	font-style: italic;
 }
+en{
+	color: #0000ff;
+	font-weight: bold;
+	font-style: italic;
+}
+ei{
+	color: #BB6668;
+	font-weight: bold;
+	font-style: italic;
+}
+ebr{
+	color: #840000;
+	font-weight: bold;
+	font-style: italic;
+}
+eh{
+	color: #808080;
+	font-weight: bold;
+	font-style: italic;
+}
 es{
 	color: #d07d00;
 	font-weight: bold;
@@ -128,21 +143,6 @@ es{
 }
 ecl{
 	color: #008000;
-	font-weight: bold;
-	font-style: italic;
-}
-en{
-	color: #0000ff;
-	font-weight: bold;
-	font-style: italic;
-}
-eb{
-	color: #840000;
-	font-weight: bold;
-	font-style: italic;
-}
-ei{
-	color: #BB6668;
 	font-weight: bold;
 	font-style: italic;
 }

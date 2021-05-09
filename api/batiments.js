@@ -2,7 +2,7 @@ const fs=require("fs");
 const checkmodule=require("../functions/check.js");
 module.exports = {
 	name:'batiments',
-	POST:(req,res,body=>{
+	POST:(req,res,body)=>{
 		let users=require("/mnt/users.json");
 		let events=require("/mnt/events.json");
 		let body_data=JSON.parse(body);

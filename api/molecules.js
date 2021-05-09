@@ -1,4 +1,14 @@
 const fs=require("fs");
+var atomes=[
+"carbone",
+"oxygene",
+"azote",
+"iode",
+"brome",
+"hydrogene",
+"soufre",
+"chlore"
+];
 module.exports = {
 	name:'molecules',
 	POST:(req,res,body)=>{
@@ -73,18 +83,29 @@ module.exports = {
 					res.writeHead(402,{'Content-Type':'application/json'});
 					res.end();
 				}else{
-					users[body_data.username].molecules[body_data.mol_id]={
-						"carbone":body_data.carbone,
-						"oxygene":body_data.oxygene,
-						"azote":body_data.azote,
-						"iode":body_data.iode,
-						"brome":body_data.brome,
-						"hydrogene":body_data.hydrogene,
-						"soufre":body_data.soufre,
-						"chlore":body_data.chlore,
-						"number":0
-					};
-					users[body_data.username].ressources.energie-=10**(body_data.mol_id);
+					let ok=true;
+					for(let a of atomes){
+						if((body_data[a]<0)||(body_data[a]>200)){
+							ok=false;
+						}
+					}
+					if(ok){
+							users[body_data.username].molecules[body_data.mol_id]={
+							"carbone":body_data.carbone,
+							"oxygene":body_data.oxygene,
+							"azote":body_data.azote,
+							"iode":body_data.iode,
+							"brome":body_data.brome,
+							"hydrogene":body_data.hydrogene,
+							"soufre":body_data.soufre,
+							"chlore":body_data.chlore,
+							"number":0
+						};
+						users[body_data.username].ressources.energie-=10**(body_data.mol_id);
+					}else{
+						res.writeHead(406,{'Content-Type':'application/json'});
+						res.end();
+					}
 				}
 			}else{
 				res.writeHead(400,{'Content-Type':'application/json'});
