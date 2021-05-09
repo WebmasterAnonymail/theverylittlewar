@@ -62,3 +62,38 @@ function open_iframe(iframeid){
 	document.getElementById("popup_mask").style.display="block";
 	opened_iframe_id="iframe"+iframeid;
 }
+function affichageTemps(time){
+	var jours=Math.floor(time/86400000);
+	if(jours==0){
+		jours="";
+	}else if(jours<10){
+		jours="0"+String(jours)+"j ";
+	}else{
+		jours=String(jours)+"j ";
+	}
+	var heures=Math.floor((time%86400000)/3600000);
+	if(heures==0){
+		heures="";
+	}else if(heures<10){
+		heures="0"+String(heures)+"h ";
+	}else{
+		heures=String(heures)+"h ";
+	}
+	var minutes=Math.floor((time%3600000)/60000);
+	if(minutes==0){
+		minutes="";
+	}else if(minutes<10){
+		minutes="0"+String(minutes)+"m ";
+	}else{
+		minutes=String(minutes)+"m ";
+	}
+	secondes=Math.floor((time%60000)/1000);
+	if(secondes==0){
+		secondes="";
+	}else if(secondes<10){
+		secondes="0"+String(secondes)+"s ";
+	}else{
+		secondes=String(secondes)+"s ";
+	}
+	return jours+heures+minutes+secondes;
+}

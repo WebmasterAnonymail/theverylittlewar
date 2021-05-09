@@ -21,6 +21,7 @@ module.exports={
 						if(users[events[a].username]){
 							users[events[a].username].batiments[events[a].batiment]++;
 						}
+						a_suprimer.push(a);
 						break;
 					case "combat":
 						//le plus dur =]
@@ -48,8 +49,17 @@ module.exports={
 				}
 			}
 		}
-		for(a of a_suprimer){
-			events.splice(a,1);
+		for(let a of a_suprimer){
+			events[a]=null;
+		}
+		let b=0;
+		let l=events.length;
+		for(let a=0;a<l;a++){
+			if(events[b]==null){
+				events.splice(b,1);
+				b--;
+			}
+			b++;
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));

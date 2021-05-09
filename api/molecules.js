@@ -17,7 +17,7 @@ module.exports = {
 				energy_cost+=users[body_data.username].molecules[body_data.mol_id].soufre;
 				energy_cost+=users[body_data.username].molecules[body_data.mol_id].chlore;
 				energy_cost**=1.5;
-				energy_cost/=100;
+				energy_cost/=1000;
 				if(
 				(users[body_data.username].molecules[body_data.mol_id].carbone*body_data.mol_number>users[body_data.username].ressources.carbone)||
 				(users[body_data.username].molecules[body_data.mol_id].oxygene*body_data.mol_number>users[body_data.username].ressources.oxygene)||

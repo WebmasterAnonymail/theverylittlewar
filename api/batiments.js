@@ -4,6 +4,7 @@ module.exports = {
 	name:'batiments',
 	POST:function(req,res,body){
 		let users=require("/mnt/users.json");
+		let events=require("/mnt/events.json");
 		let body_data=JSON.parse(body);
 		if(checkmodule.usercheck(body_data.username,body_data.token)){
 			if(users[body_data.username].batiments[body_data.batiment]){
@@ -15,7 +16,28 @@ module.exports = {
 						
 						break;
 					case "stockage":
-						
+						if(
+						users[body_data.username].ressources.energie>=10**(users[body_data.username].batiments.stockage/15)*100
+						||users[body_data.username].ressources.carbone>=10**(users[body_data.username].batiments.stockage/15)*10
+						||users[body_data.username].ressources.oxygene>=10**(users[body_data.username].batiments.stockage/15)*10
+						||users[body_data.username].ressources.azote>=10**(users[body_data.username].batiments.stockage/15)*10
+						||users[body_data.username].ressources.iode>=10**(users[body_data.username].batiments.stockage/15)*10
+						||users[body_data.username].ressources.brome>=10**(users[body_data.username].batiments.stockage/15)*10
+						||users[body_data.username].ressources.hydrogene>=10**(users[body_data.username].batiments.stockage/15)*10
+						||users[body_data.username].ressources.soufre>=10**(users[body_data.username].batiments.stockage/15)*10
+						||users[body_data.username].ressources.chlore>=10**(users[body_data.username].batiments.stockage/15)*10
+						){
+							event_amel={
+								"username":body_data.username,
+								"time":(new Date()).getTime()+(Math.log2(users[body_data.username].batiments.stockage+1)*10*(60*1000)),
+								"type":"amelioration",
+								"batiment":"stockage",
+							};
+							events.push(event_amel);
+						}else{
+							res.writeHead(402,{'Content-Type':'application/json'});
+							res.end();
+						}
 						break;
 					default:
 						
@@ -31,5 +53,6 @@ module.exports = {
 			res.end();
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
 	}
 }
