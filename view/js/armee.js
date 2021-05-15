@@ -59,7 +59,7 @@ function act_all(){
 window.onload=function(event){
 	let users_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
-	document.getElementById("create_mol_valider").addEventListener
+	document.getElementById("create_mol_valider").addEventListener("click");
 	for(let a=0;a<5;a++){
 		document.getElementById("creat_mol"+a).addEventListener("click",function(event){
 			
