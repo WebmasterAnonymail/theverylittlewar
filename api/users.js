@@ -1,4 +1,5 @@
 //var bddServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
+const checkmodule=require("../check.js");
 const fs=require("fs");
 module.exports = {
 	name:'users',
@@ -8,16 +9,11 @@ module.exports = {
 		switch(body_data.mode){
 			case "detailed":
 				let connections=require("/mnt/connections.json");
-				if(body_data.token in connections){
-					if(connections[body_data.token]==body_data.username){
+				if(checkmodule.usercheck(body_data.username,body_data.token)){
 						res.writeHead(200,{'Content-Type':'application/json'});
+						data=require("/mnt/users.json");
 						res.write(JSON.stringify(data[body_data.username]));
 						res.end();
-					}else{
-						res.writeHead(403,{'Content-Type':'application/json'});
-						res.write("{error:\"Not authorized\"}");
-						res.end();
-					}
 				}else{
 					res.writeHead(401,{'Content-Type':'application/json'});
 					res.write("{error:\"Not connected\"}");
