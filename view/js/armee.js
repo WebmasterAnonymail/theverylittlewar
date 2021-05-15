@@ -61,7 +61,7 @@ window.onload=function(event){
 	document.getElementById("create_mol_valider").addEventListener("click",function(event){
 		let create_xhr=new XMLHttpRequest();
 		let at_send={};
-		at_send.mol_id=creat_mol;
+		at_send.mol_id=creat_mol_id;
 		at_send.token=localStorage.getItem("token");
 		at_send.username=localStorage.getItem("username");
 		for(let a of atomes){
