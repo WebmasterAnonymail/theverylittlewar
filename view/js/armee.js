@@ -18,6 +18,7 @@ function act_all(){
 	at_send.append("username",localStorage.getItem("username"));
 	users_xhr.open("GET","/api/v1/users?"+at_send.toString());
 	users_xhr.responseType="json";
+	users_xhr.send();
 	users_xhr.addEventListener("readystatechange",function(ev){
 		if(users_xhr.readyState==users_xhr.DONE){
 			if(users_xhr.status==200){
@@ -49,7 +50,7 @@ function act_all(){
 					}
 				}
 			}else{
-				alert("ERROR in getting user : code "+api_xhr.status)
+				alert("ERROR in getting user : code "+api_xhr.status);
 			}
 		}
 	});
@@ -57,6 +58,31 @@ function act_all(){
 window.onload=function(event){
 	let users_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
-	
+	for(let a=0;a<5;a++){
+		document.getElementById("creat_mol"+a).addEventListener("click",function(event){
+			
+		});
+		document.getElementById("delete_mol"+a).addEventListener("click",function(event){
+			let delete_xhr=new XMLHttpRequest();
+			let at_send={};
+			at_send.mol_id=a;
+			at_send.token=localStorage.getItem("token");
+			at_send.username=localStorage.getItem("username");
+			delete_xhr.open("DELETE","/api/v1/molecules");
+			delete_xhr.responseType="json";
+			delete_xhr.send(JSON.stringify(at_send));
+			delete_xhr.addEventListener("readystatechange",function(ev){
+				if(delete_xhr.readyState==delete_xhr.DONE){
+					if(users_xhr.status==200){
+						act_all();
+					}else if(users_xhr.status==401){
+						alert("Vous n'êtes pas connecté");
+					}else{
+						alert("ERROR in getting user : code "+api_xhr.status);
+					}
+				}
+			});
+		});
+	}
 	act_all();
 }
