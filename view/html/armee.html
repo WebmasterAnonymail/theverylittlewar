@@ -11,15 +11,16 @@
 		<div id="create_mol_popup" style="display:none">
 			<form method="post" action="#">
 				<h2>Créer une nouvelle classe de molécules</h2>
-				<input name="C" placeholder="Carbone"><br>
-				<input name="N" placeholder="Azote"><br>
-				<input name="H" placeholder="Hydrogène"><br>
-				<input name="O" placeholder="Oxygène"><br>
-				<input name="Cl" placeholder="Chlore"><br>
-				<input name="S" placeholder="Soufre"><br>
-				<input name="Br" placeholder="Brome"><br>
-				<input name="I" placeholder="Iode"><br>
-				<input type="submit" value="Créer classe">
+				<input name="carbone" type="number" placeholder="Carbone"><br>
+				<input name="oxygene" type="number" placeholder="Oxygène"><br>
+				<input name="azote" type="number" placeholder="Azote"><br>
+				<input name="iode" type="number" placeholder="Iode"><br>
+				<input name="brome" type="number" placeholder="Brome"><br>
+				<input name="hydrogene" type="number" placeholder="Hydrogène"><br>
+				<input name="soufre" type="number" placeholder="Soufre"><br>
+				<input name="chlore" type="number" placeholder="Chlore"><br>
+				<img id="create_mol_valider" class="button" src="../image/boutons/valider.png">
+				<img id="create_mol_annuler" class="button" src="../image/boutons/annuler.png">
 			</form>
 		</div>
 		<div id="mol0" class="mol">
@@ -76,9 +77,86 @@
 				</tbody>
 			</table>
 		</div>
-		<input type="button" value="Nouvelle classe" id="nouv_classe">
-		<script>
-			document.getElementById("nouv_classe").addEventListener("click",function(event) {document.getElementById("create_mol_popup").style.display="block"});
-		</script>
+		<div id="mol2" class="mol">
+			<table>
+				<tbody>
+					<tr>
+						<td class="align_left cell_left">
+							<span id="formule1" class="formule">Vide</span>
+							<div class="ressource">
+								<img src="../image/armee/molecule.png" class="icon_ressource">
+								<span class="text_ressource" id="number_mol2">0</span>
+							</div>
+						</td>
+						<td class="align_right cell_right">
+							<img class="button" src="../image/boutons/plus.png" id="creat_mol2">
+							<img class="button" src="../image/boutons/moins.png" id="delete_mol2">
+						</td>
+					</tr>
+					<tr>
+						<td class="align_center cell_left">
+							<input id="new_mol2_number" class="new_mol_number" type="number" min="0" step="1" max="0">
+						</td>
+						<td class="align_right cell_right">
+							<input type="button" id="new_mol2" value="Former">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="mol3" class="mol">
+			<table>
+				<tbody>
+					<tr>
+						<td class="align_left cell_left">
+							<span id="formule1" class="formule">Vide</span>
+							<div class="ressource">
+								<img src="../image/armee/molecule.png" class="icon_ressource">
+								<span class="text_ressource" id="number_mol3">0</span>
+							</div>
+						</td>
+						<td class="align_right cell_right">
+							<img class="button" src="../image/boutons/plus.png" id="creat_mol3">
+							<img class="button" src="../image/boutons/moins.png" id="delete_mol3">
+						</td>
+					</tr>
+					<tr>
+						<td class="align_center cell_left">
+							<input id="new_mol3_number" class="new_mol_number" type="number" min="0" step="1" max="0">
+						</td>
+						<td class="align_right cell_right">
+							<input type="button" id="new_mol3" value="Former">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="mol4" class="mol">
+			<table>
+				<tbody>
+					<tr>
+						<td class="align_left cell_left">
+							<span id="formule1" class="formule">Vide</span>
+							<div class="ressource">
+								<img src="../image/armee/molecule.png" class="icon_ressource">
+								<span class="text_ressource" id="number_mol4">0</span>
+							</div>
+						</td>
+						<td class="align_right cell_right">
+							<img class="button" src="../image/boutons/plus.png" id="creat_mol4">
+							<img class="button" src="../image/boutons/moins.png" id="delete_mol4">
+						</td>
+					</tr>
+					<tr>
+						<td class="align_center cell_left">
+							<input id="new_mol4_number" class="new_mol_number" type="number" min="0" step="1" max="0">
+						</td>
+						<td class="align_right cell_right">
+							<input type="button" id="new_mol4" value="Former">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</body>
 </html>

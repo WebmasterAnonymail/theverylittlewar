@@ -9,6 +9,7 @@ var atomes=[
 "soufre",
 "chlore"
 ];
+var create_id=null;
 var initiales=["C","O","N","I","Br","H","S","Cl"];
 function act_all(){
 	let users_xhr=new XMLHttpRequest();
@@ -58,6 +59,7 @@ function act_all(){
 window.onload=function(event){
 	let users_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
+	document.getElementById("create_mol_valider").addEventListener
 	for(let a=0;a<5;a++){
 		document.getElementById("creat_mol"+a).addEventListener("click",function(event){
 			
