@@ -1,4 +1,3 @@
-act_creat_mol=null;
 var atomes=[
 "carbone",
 "oxygene",
@@ -9,7 +8,7 @@ var atomes=[
 "soufre",
 "chlore"
 ];
-var create_id=null;
+var create_mol_id=null;
 var initiales=["C","O","N","I","Br","H","S","Cl"];
 function act_all(){
 	let users_xhr=new XMLHttpRequest();
@@ -59,10 +58,20 @@ function act_all(){
 window.onload=function(event){
 	let users_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
-	document.getElementById("create_mol_valider").addEventListener("click");
+	document.getElementById("create_mol_valider").addEventListener("click",function(event){
+		
+		create_mol_id=null;
+		document.getElementById("create_mol_popup").style.display="none";
+	});
+	document.getElementById("create_mol_annuler").addEventListener("click",function(event){
+		
+		create_mol_id=null;
+		document.getElementById("create_mol_popup").style.display="none";
+	});
 	for(let a=0;a<5;a++){
 		document.getElementById("creat_mol"+a).addEventListener("click",function(event){
-			
+			document.getElementById("create_mol_popup").style.display="block";
+			create_mol_id=a;
 		});
 		document.getElementById("delete_mol"+a).addEventListener("click",function(event){
 			let delete_xhr=new XMLHttpRequest();
