@@ -50,7 +50,7 @@ function act_all(){
 					}
 				}
 			}else{
-				alert("ERROR in getting user : code "+api_xhr.status);
+				alert("ERROR in getting user : code "+users_xhr.status);
 			}
 		}
 	});
@@ -59,12 +59,33 @@ window.onload=function(event){
 	let users_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
 	document.getElementById("create_mol_valider").addEventListener("click",function(event){
-		
+		let create_xhr=new XMLHttpRequest();
+		let at_send={};
+		at_send.mol_id=creat_mol;
+		at_send.token=localStorage.getItem("token");
+		at_send.username=localStorage.getItem("username");
+		for(let a of atomes){
+			at_send[a]=document.forms.create_mol_form[a].valueAsNumber;
+		}
+		create_xhr.open("PUT","/api/v1/molecules");
+		create_xhr.responseType="json";
+		create_xhr.send(JSON.stringify(at_send));
+		create_xhr.addEventListener("readystatechange",function(ev){
+			if(create_xhr.readyState==create_xhr.DONE){
+				if(create_xhr.status==200){
+					act_all();
+				}else if(create_xhr.status==401){
+					alert("Vous n'êtes pas connecté");
+				}else{
+					alert("ERROR in getting user : code "+create_xhr.status);
+				}
+			}
+		});
 		create_mol_id=null;
 		document.getElementById("create_mol_popup").style.display="none";
 	});
 	document.getElementById("create_mol_annuler").addEventListener("click",function(event){
-		
+		document.forms.create_mol_form.reset();
 		create_mol_id=null;
 		document.getElementById("create_mol_popup").style.display="none";
 	});
@@ -75,21 +96,21 @@ window.onload=function(event){
 		});
 		document.getElementById("delete_mol"+a).addEventListener("click",function(event){
 			let delete_xhr=new XMLHttpRequest();
-			let at_send={};
-			at_send.mol_id=a;
-			at_send.token=localStorage.getItem("token");
-			at_send.username=localStorage.getItem("username");
-			delete_xhr.open("DELETE","/api/v1/molecules");
+			let at_send=new URLSearchParams();
+			at_send.append("mol_id",a);
+			at_send.append("token",localStorage.getItem("token"));
+			at_send.append("username",localStorage.getItem("username"));
+			delete_xhr.open("DELETE","/api/v1/molecules?"+at_send.toString());
 			delete_xhr.responseType="json";
 			delete_xhr.send(JSON.stringify(at_send));
 			delete_xhr.addEventListener("readystatechange",function(ev){
 				if(delete_xhr.readyState==delete_xhr.DONE){
-					if(users_xhr.status==200){
+					if(delete_xhr.status==200){
 						act_all();
-					}else if(users_xhr.status==401){
+					}else if(delete_xhr.status==401){
 						alert("Vous n'êtes pas connecté");
 					}else{
-						alert("ERROR in getting user : code "+api_xhr.status);
+						alert("ERROR in getting user : code "+delete_xhr.status);
 					}
 				}
 			});
