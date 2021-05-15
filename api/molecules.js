@@ -85,7 +85,7 @@ module.exports = {
 				}else{
 					let ok=true;
 					for(let a of atomes){
-						if((body_data[a]<0)||(body_data[a]>200)||(body_data[a]!=Math.floor(body_data[a]))||(typeof body_data[a]!="number"){
+						if((body_data[a]<0)||(body_data[a]>200)||(body_data[a]!=Math.floor(body_data[a])||(typeof body_data[a]!="number")){
 							ok=false;
 						}
 					}
