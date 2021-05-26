@@ -10,6 +10,33 @@ var atomes=[
 "soufre",
 "chlore"
 ];
+var medailles=[
+"def",
+"atk",
+"mol",
+"tps",
+"prt",
+"des",
+"pil",
+"cmb"
+];
+var batiment_augmentateurs=[
+"forteresse",
+"ionisateur",
+"lieur",
+"stabilisateur",
+"champDeForce",
+"usineDExplosif",
+"condenseur",
+"booster"
+];
+function power_atome(utilisateur,molecule,atome){
+	let result=(25**(utilisateur.molecules[molecule][atomes[atome]]/200)*40);
+	result*=1+(utilisateur.batiments[batiment_augmentateurs[atome]]/100);
+	result*=1+(utilisateur.medailles[medailles[atome]]/10);
+	//dupli
+	return result;
+}
 module.exports = {
 	name:'molecules',
 	POST:(req,res,body)=>{
@@ -45,11 +72,11 @@ module.exports = {
 				}else{
 					event_mol={
 						"username":body_data.username,
-						"time":(new Date()).getTime()+(1000*60*60)/(25**(users[body_data.username].molecules[body_data.mol_id].azote/200)*40),
+						"time":(new Date()).getTime()+(1000*60*60)/power_atome(users[body_data.username],body_data.mol_id,2),
 						"type":"molecule",
 						"molecule":body_data.mol_id,
 						"rest_mols":body_data.mol_numbers-1,
-						"create_time":(1000*60*60)/(25**(users[body_data.username].molecules[body_data.mol_id].azote/200)*40)
+						"create_time":(1000*60*60)/power_atome(users[body_data.username],body_data.mol_id,2)
 					};
 					events.push(event_mol);
 					users[body_data.username].ressources.energie-=energy_cost*body_data.mol_number;

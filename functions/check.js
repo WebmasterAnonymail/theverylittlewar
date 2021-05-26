@@ -8,7 +8,47 @@ var atomes=[
 "hydrogene",
 "soufre",
 "chlore"
-]
+];
+var medailles=[
+"def",
+"atk",
+"mol",
+"tps",
+"prt",
+"des",
+"pil",
+"cmb"
+];
+var batiment_augmentateurs=[
+"forteresse",
+"ionisateur",
+"lieur",
+"stabilisateur",
+"champDeForce",
+"usineDExplosif",
+"condenseur",
+"booster"
+];
+var seuils_medailes=[1,2,5,10,20,50,100,200,500,1000];
+var multiplacateur_medailles=[1000,1000,100,50,50,1000,1000,1];
+var points_medailles=[
+"defense",
+"attaque",
+"molecules_crees",
+"pertes_temps",
+"pertes_combat",
+"destruction",
+"pillage",
+"combats"
+];
+
+function power_atome(utilisateur,molecule,atome){
+	let result=(25**(utilisateur.molecules[molecule][atomes[atome]]/200)*40);
+	result*=1+(utilisateur.batiments[batiment_augmentateurs[atome]]/100);
+	result*=1+(utilisateur.medailles[medailles[atome]]/10);
+	//dupli
+	return result;
+}
 module.exports={
 	eventcheck:function(){
 		let events=require("/mnt/events.json");
@@ -77,10 +117,19 @@ module.exports={
 			users[user].ressources["energie"]+=(10**(users[user].batiments.generateur/20)*100)*(tempEcoule/(1000*60*60));
 			users[user].ressources["energie"]=min(10**(users[user].batiments.stockage/15)*1000,users[user].ressources["energie"]);
 			for(let a=0;a<5;a++){
+				let old_mol=users[user].molecules[a];
 				users[user].molecules[a]/=2**((tempEcoule/(1000*60))/(25**(users[user].molecules[a].iode/200)*40));
+				users[user].points.pertes_temps+=old_mol-users[user].molecules[a];
 			}
 			users[user].lastUserCheck=now;
 			fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		}
+		for(let a in medailles){
+			for(let b=0;b<10;b++){
+				if(users[user].points[points_medailles[a]]>=multiplacateur_medailles[a]*seuils_medailes[b]){
+					users[user].medailles[medailles[a]]=b;
+				}
+			}
 		}
 		return (connections[token]==user)&&(connections[token]!=undefined)&&(users[user])
 	}

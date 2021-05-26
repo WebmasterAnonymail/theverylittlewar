@@ -85,7 +85,7 @@ module.exports = {
 						"champDeForce":0,
 						"usineDExplosif":0,
 						"condenseur":0,
-						"booster":0,
+						"booster":0
 					},
 					"QG":{
 						"production":[4,4,4,4,4,4,4,4,4,4,4,4],
@@ -101,15 +101,24 @@ module.exports = {
 						"pertes_combat":0,
 						"destruction":0,
 						"pillage":0,
-						"combats":0,
+						"combats":0
 					},
-					"PV_batiments":{ //reste a définir
+					"PV_batiments":{
 						"generateur":0,
 						"producteur":0,
 						"stockage":0,
 					},
 					"molecules":[null,null,null,null,null],
-					"medailles":undefined, //reste a définir
+					"medailles":{
+						"def":-1,
+						"atk":-1,
+						"mol":-1,
+						"tps":-1,
+						"prt":-1,
+						"des":-1,
+						"pil":-1,
+						"cmb":-1
+					},
 					"raports":[],
 					"positionX":px,
 					"positionY":py,
