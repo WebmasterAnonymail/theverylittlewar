@@ -7,7 +7,7 @@ window.onload=function(event){
 		xhr.send(JSON.stringify(at_send));
 		xhr.addEventListener("readystatechange",function(ev){
 			if(xhr.readyState==xhr.DONE){
-				document.getElementById("res").value=JSON.stringify(response);
+				document.getElementById("res").value=JSON.stringify(xhr.response);
 			}
 		});
 	});
