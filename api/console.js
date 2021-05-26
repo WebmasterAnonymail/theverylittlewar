@@ -1,15 +1,6 @@
 const checkmodule=require("../check.js");
 const fs=require("fs");
-var atomes=[
-"carbone",
-"oxygene",
-"azote",
-"iode",
-"brome",
-"hydrogene",
-"soufre",
-"chlore"
-]
+var geval=eval;
 module.exports={
 	name:'console',
 	PATCH:(req,res,body)=>{
@@ -17,8 +8,7 @@ module.exports={
 		response=[]
 		for(a of body_data){
 			try{
-				var geval=eval;
-				geval(a.toString())
+				response.push(geval(a.toString()))
 			}catch(err){
 				response.push({erreur:err})
 			}
