@@ -1,5 +1,5 @@
 const fs=require("fs");
-const checkmodule=require("../check.js");
+const checkmodule=require("../functions/check.js");
 var atomes=[
 "carbone",
 "oxygene",

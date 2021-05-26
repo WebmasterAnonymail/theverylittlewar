@@ -1,5 +1,5 @@
 //var bddServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
-const checkmodule=require("../check.js");
+const checkmodule=require("../functions/check.js");
 const fs=require("fs");
 module.exports = {
 	name:'users',

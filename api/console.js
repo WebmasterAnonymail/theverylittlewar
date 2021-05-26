@@ -1,4 +1,4 @@
-const checkmodule=require("../check.js");
+const checkmodule=require("../functions/check.js");
 const fs=require("fs");
 var geval=eval;
 module.exports={
