@@ -117,9 +117,11 @@ module.exports={
 			users[user].ressources["energie"]+=(10**(users[user].batiments.generateur/20)*100)*(tempEcoule/(1000*60*60));
 			users[user].ressources["energie"]=Math.min(10**(users[user].batiments.stockage/15)*1000,users[user].ressources["energie"]);
 			for(let a=0;a<5;a++){
-				let old_mol=users[user].molecules[a];
-				users[user].molecules[a]/=2**((tempEcoule/(1000*60))/(25**(users[user].molecules[a].iode/200)*40));
-				users[user].points.pertes_temps+=old_mol-users[user].molecules[a];
+				if(users[user].molecules[a]){
+					let old_mol=users[user].molecules[a];
+					users[user].molecules[a]/=2**((tempEcoule/(1000*60))/(25**(users[user].molecules[a].iode/200)*40));
+					users[user].points.pertes_temps+=old_mol-users[user].molecules[a];
+				}
 			}
 			for(let a in medailles){
 				for(let b=0;b<10;b++){
