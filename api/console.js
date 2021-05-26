@@ -1,6 +1,5 @@
 const checkmodule=require("../functions/check.js");
 const fs=require("fs");
-var geval=eval;
 module.exports={
 	name:'console',
 	PATCH:(req,res,body)=>{
@@ -8,7 +7,7 @@ module.exports={
 		response=[]
 		for(a of body_data){
 			try{
-				response.push(geval(a.toString()))
+				response.push(eval(a.toString()))
 			}catch(err){
 				response.push({erreur:err.stack})
 			}
