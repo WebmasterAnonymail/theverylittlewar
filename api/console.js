@@ -10,7 +10,7 @@ module.exports={
 			try{
 				response.push(geval(a.toString()))
 			}catch(err){
-				response.push({erreur:err})
+				response.push({erreur:err.stack})
 			}
 		}
 		res.writeHead(200,{'Content-Type':'application/json'});
