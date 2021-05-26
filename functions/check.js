@@ -121,15 +121,15 @@ module.exports={
 				users[user].molecules[a]/=2**((tempEcoule/(1000*60))/(25**(users[user].molecules[a].iode/200)*40));
 				users[user].points.pertes_temps+=old_mol-users[user].molecules[a];
 			}
-			users[user].lastUserCheck=now;
-			fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
-		}
-		for(let a in medailles){
-			for(let b=0;b<10;b++){
-				if(users[user].points[points_medailles[a]]>=multiplacateur_medailles[a]*seuils_medailes[b]){
-					users[user].medailles[medailles[a]]=b;
+			for(let a in medailles){
+				for(let b=0;b<10;b++){
+					if(users[user].points[points_medailles[a]]>=multiplacateur_medailles[a]*seuils_medailes[b]){
+						users[user].medailles[medailles[a]]=b;
+					}
 				}
 			}
+			users[user].lastUserCheck=now;
+			fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		}
 		return (connections[token]==user)&&(connections[token]!=undefined)&&(users[user])
 	}
