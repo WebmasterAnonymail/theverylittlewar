@@ -1,12 +1,12 @@
 var atomes=[
-"carbone",
-"oxygene",
-"azote",
-"iode",
-"brome",
-"hydrogene",
-"soufre",
-"chlore"
+	"carbone",
+	"oxygene",
+	"azote",
+	"iode",
+	"brome",
+	"hydrogene",
+	"soufre",
+	"chlore"
 ];
 var create_mol_id=null;
 var initiales=["C","O","N","I","Br","H","S","Cl"];

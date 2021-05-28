@@ -1,14 +1,14 @@
 var opened_iframe_id="";
 var username=null;
 var atomes=[
-"carbone",
-"oxygene",
-"azote",
-"iode",
-"brome",
-"hydrogene",
-"soufre",
-"chlore"
+	"carbone",
+	"oxygene",
+	"azote",
+	"iode",
+	"brome",
+	"hydrogene",
+	"soufre",
+	"chlore"
 ];
 function affichageTemps(time){
 	var jours=Math.floor(time/86400000);

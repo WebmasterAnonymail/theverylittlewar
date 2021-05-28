@@ -1,45 +1,45 @@
 const fs=require("fs");
 var atomes=[
-"carbone",
-"oxygene",
-"azote",
-"iode",
-"brome",
-"hydrogene",
-"soufre",
-"chlore"
+	"carbone",
+	"oxygene",
+	"azote",
+	"iode",
+	"brome",
+	"hydrogene",
+	"soufre",
+	"chlore"
 ];
 var medailles=[
-"def",
-"atk",
-"mol",
-"tps",
-"prt",
-"des",
-"pil",
-"cmb"
+	"def",
+	"atk",
+	"mol",
+	"tps",
+	"prt",
+	"des",
+	"pil",
+	"cmb"
 ];
 var batiment_augmentateurs=[
-"forteresse",
-"ionisateur",
-"lieur",
-"stabilisateur",
-"champDeForce",
-"usineDExplosif",
-"condenseur",
-"booster"
+	"forteresse",
+	"ionisateur",
+	"lieur",
+	"stabilisateur",
+	"champDeForce",
+	"usineDExplosif",
+	"condenseur",
+	"booster"
 ];
 var seuils_medailes=[1,2,5,10,20,50,100,200,500,1000];
 var multiplacateur_medailles=[1000,1000,100,50,50,1000,1000,1];
 var points_medailles=[
-"defense",
-"attaque",
-"molecules_crees",
-"pertes_temps",
-"pertes_combat",
-"destruction",
-"pillage",
-"combats"
+	"defense",
+	"attaque",
+	"molecules_crees",
+	"pertes_temps",
+	"pertes_combat",
+	"destruction",
+	"pillage",
+	"combats"
 ];
 
 function power_atome(utilisateur,molecule,atome){
