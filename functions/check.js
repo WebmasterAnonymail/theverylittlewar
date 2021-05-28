@@ -24,8 +24,8 @@ var batiment_augmentateurs=[
 	"ionisateur",
 	"lieur",
 	"stabilisateur",
-	"champDeForce",
-	"usineDExplosif",
+	"champdeforce",
+	"usinedexplosif",
 	"condenseur",
 	"booster"
 ];
@@ -41,6 +41,19 @@ var points_medailles=[
 	"pillage",
 	"combats"
 ];
+var points_batiments={
+	"generateur":1,
+	"producteur":1,
+	"stockage":1,
+	"forteresse":3,
+	"ionisateur":3,
+	"lieur":3,
+	"stabilisateur":3,
+	"champdeforce":3,
+	"usinedexplosif":3,
+	"condenseur":3,
+	"booster":3
+};
 
 function power_atome(utilisateur,molecule,atome){
 	let result=(25**(utilisateur.molecules[molecule][atomes[atome]]/200)*40);

@@ -81,8 +81,8 @@ module.exports = {
 						"ionisateur":0,
 						"lieur":0,
 						"stabilisateur":0,
-						"champDeForce":0,
-						"usineDExplosif":0,
+						"champdeforce":0,
+						"usinedexplosif":0,
 						"condenseur":0,
 						"booster":0
 					},
