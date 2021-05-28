@@ -73,6 +73,7 @@ module.exports={
 					case "amelioration":
 						if(users[events[a].username]){
 							users[events[a].username].batiments[events[a].batiment]++;
+							users[events[a].username].points.batiments+=points_batiments[events[a].batiment];
 						}
 						a_suprimer.push(a);
 						break;

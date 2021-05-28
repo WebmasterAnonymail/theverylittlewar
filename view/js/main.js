@@ -114,6 +114,7 @@ window.onload=function(ev){
 	at_send2.append("mode","list");
 	list_users_xhr.open("GET","/api/v1/users?"+at_send2.toString());
 	list_users_xhr.responseType="json";
+	list_users_xhr.send();
 	list_users_xhr.addEventListener("readystatechange",function(ev){
 		if(list_users_xhr.readyState==list_users_xhr.DONE){
 			let user_autocomplete_list=document.createElement("datalist");
