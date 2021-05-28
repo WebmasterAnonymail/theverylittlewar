@@ -34,7 +34,7 @@ module.exports = {
 						users[body_data.username].ressources.brome>=10**(users[body_data.username].batiments.producteur/20)*10||
 						users[body_data.username].ressources.hydrogene>=10**(users[body_data.username].batiments.producteur/20)*10||
 						users[body_data.username].ressources.soufre>=10**(users[body_data.username].batiments.producteur/20)*10||
-						users[body_data.username].ressources.chlore>=10**(users[body_data.username].batiments.producteur/20)*10||
+						users[body_data.username].ressources.chlore>=10**(users[body_data.username].batiments.producteur/20)*10
 						){
 							event_amel={
 								"username":body_data.username,
