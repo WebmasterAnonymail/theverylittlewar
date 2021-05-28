@@ -75,9 +75,9 @@ function act_preview(){
 	api_xhr.addEventListener("readystatechange",function(ev){
 		if(api_xhr.readyState==api_xhr.DONE){
 			if(api_xhr.status==200){
-				document.getElementById("preview_energie").innerText=affichageRessources(response.ressources.energie);
+				document.getElementById("preview_energie").innerText=affichageRessources(api_xhr.response.ressources.energie);
 				for(let a of atomes){
-					document.getElementById("preview_"+a).innerText=affichageRessources(response.ressources[a]);
+					document.getElementById("preview_"+a).innerText=affichageRessources(api_xhr.response.ressources[a]);
 				}
 			}else{
 				alert("ERROR in getting user : code "+api_xhr.status)
