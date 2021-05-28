@@ -38,7 +38,6 @@ module.exports = {
 						"positionY":data[body_data.username].positionY,
 						"aliance":data[body_data.username].aliance,
 						"description":data[body_data.username].description,
-						"positionY":data[body_data.username].positionY,
 						"victoires":data[body_data.username].ressources.victoires
 					}
 				}else{
