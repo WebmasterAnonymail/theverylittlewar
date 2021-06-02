@@ -131,6 +131,8 @@ module.exports = {
 						};
 						console.log(users)
 						users[body_data.username].ressources.energie-=10**(body_data.mol_id);
+						res.writeHead(200,{'Content-Type':'application/json'});
+						res.end();
 					}else{
 						res.writeHead(406,{'Content-Type':'application/json'});
 						res.end();
