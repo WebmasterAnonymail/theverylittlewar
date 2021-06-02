@@ -231,6 +231,7 @@ ecl{
 .icon{
 	height:25px;
 	width:25px;
+	vertical-align:middle;
 }
 .fenetre{
 	position:absolute;
