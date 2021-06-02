@@ -36,17 +36,19 @@ function act_all(){
 								formule+="</e"+initiales[b].toLowerCase()+">";
 							}
 						}
-						document.getElementById("formule"+a).innerHTML="Vide";
-						document.getElementById("number_mol"+a).innerHTML="0";
-						document.getElementById("creat_mol"+a).style.display="inline-block";
-						document.getElementById("delete_mol"+a).style.display="none";
-						document.getElementById("new_mol"+a).style.display="none";
+						document.getElementById("formule"+a).innerHTML=formule;
+						document.getElementById("number_mol"+a).innerHTML=users_xhr.response.molecules[a].number;
+						document.getElementById("creat_mol"+a).style.display="none";
+						document.getElementById("delete_mol"+a).style.display="inline-block";
+						document.getElementById("new_mol"+a).style.display="inline-block";
+						document.getElementById("new_mol"+a+"_number").style.display="inline-block";
 					}else{
 						document.getElementById("formule"+a).innerHTML="Vide";
 						document.getElementById("number_mol"+a).innerHTML="0";
 						document.getElementById("creat_mol"+a).style.display="inline-block";
 						document.getElementById("delete_mol"+a).style.display="none";
 						document.getElementById("new_mol"+a).style.display="none";
+						document.getElementById("new_mol"+a+"_number").style.display="none";
 					}
 				}
 			}else{
@@ -77,10 +79,11 @@ window.onload=function(event){
 				}else if(create_xhr.status==401){
 					alert("Vous n'êtes pas connecté");
 				}else{
-					alert("ERROR in getting user : code "+create_xhr.status);
+					alert("ERROR in creating molecule : code "+create_xhr.status);
 				}
 			}
 		});
+		document.forms.create_mol_form.reset();
 		create_mol_id=null;
 		document.getElementById("create_mol_popup").style.display="none";
 	});
@@ -110,7 +113,7 @@ window.onload=function(event){
 					}else if(delete_xhr.status==401){
 						alert("Vous n'êtes pas connecté");
 					}else{
-						alert("ERROR in getting user : code "+delete_xhr.status);
+						alert("ERROR in deleting molecule : code "+delete_xhr.status);
 					}
 				}
 			});

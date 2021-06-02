@@ -38,7 +38,9 @@ module.exports = {
 						"positionY":data[body_data.username].positionY,
 						"aliance":data[body_data.username].aliance,
 						"description":data[body_data.username].description,
-						"victoires":data[body_data.username].ressources.victoires
+						"victoires":data[body_data.username].ressources.victoires,
+						"permission":data[body_data.username].permission,
+						"actif":data[body_data.username].actif
 					}
 				}else{
 					res.writeHead(404,{'Content-Type':'application/json'});
@@ -124,6 +126,8 @@ module.exports = {
 					"messagesPerso":[],
 					"aliance":null,
 					"description":null,
+					"permission":[],
+					"actif":true,
 					"lastUserCheck":(new Date()).getTime()
 				};
 				res.writeHead(204,{'Content-Type':'application/json'});

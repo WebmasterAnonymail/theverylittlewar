@@ -86,26 +86,6 @@ hr{
 a{
 	text-decoration: none;
 }
-#topbar{
-	width: 100%;
-	height: 7.5%;
-	background-image: url("../image/background_topbar.jpg");
-	background-position: center;
-	background-size: cover;
-	display: flex;
-	flex-wrap: nowrap;
-	align-items: center;
-	justify-content: space-around;
-}
-#popup_mask{
-	background-color: #00000080;
-	z-index: 900;
-	height: 100%;
-	width: 100%;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-}
 ec{
 	color: #000000;
 	font-weight: bold;
@@ -145,6 +125,30 @@ ecl{
 	color: #008000;
 	font-weight: bold;
 	font-style: italic;
+}
+#topbar{
+	width: 100%;
+	height: 7.5%;
+	background-image: url("../image/background_topbar.jpg");
+	background-position: center;
+	background-size: cover;
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-around;
+}
+#popup_mask{
+	background-color: #00000080;
+	z-index: 900;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+}
+#accueil_button{
+	position: fixed;
+	top: 250px;
 }
 .small_content{
 	width: 100%;
@@ -217,16 +221,16 @@ ecl{
 .button_labeled_label{
 	padding: 10px;
 }
-#accueil_button{
-	position: fixed;
-	top: 250px;
-}
 .rotated{
 	transform-origin: 0% 0%;
 	transform: rotate(-90deg);
 }
 .link_button{
 	color: #000000;
+}
+.icon{
+	height:25px;
+	width:25px;
 }
 .fenetre{
 	position:absolute;
