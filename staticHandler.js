@@ -23,8 +23,8 @@ module.exports=function(req,res){
 		res.end();
 	}catch(err){
 		if(err.code=='ENOENT'){
-			res.writeHead(400);
-			res.write("400");
+			res.writeHead(404);
+			res.write("404");
 			res.end();
 		}else{
 			res.writeHead(500);
