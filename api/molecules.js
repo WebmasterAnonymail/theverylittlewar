@@ -68,6 +68,7 @@ module.exports = {
 				(energy_cost*body_data.mol_number>users[body_data.username].ressources.energie)
 				){
 					res.writeHead(402,{'Content-Type':'application/json'});
+					res.write("{error:\"Not enough ressources\"}");
 					res.end();
 				}else{
 					event_mol={
@@ -92,6 +93,7 @@ module.exports = {
 				}
 			}else{
 				res.writeHead(400,{'Content-Type':'application/json'});
+				res.write("{error:\"Molecule not exist\"}");
 				res.end();
 			}
 		}else{
@@ -135,11 +137,13 @@ module.exports = {
 						res.end();
 					}else{
 						res.writeHead(406,{'Content-Type':'application/json'});
+						res.write("{error:\"Atoms number have to be integer between 0 and 200\"}");
 						res.end();
 					}
 				}
 			}else{
 				res.writeHead(400,{'Content-Type':'application/json'});
+				res.write("{error:\"Molecule already exist\"}");
 				res.end();
 			}
 		}else{
@@ -159,6 +163,7 @@ module.exports = {
 				res.end();
 			}else{
 				res.writeHead(400,{'Content-Type':'application/json'});
+				res.write("{error:\"Molecule not exist\"}");
 				res.end();
 			}
 		}else{
