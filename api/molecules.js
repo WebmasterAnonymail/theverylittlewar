@@ -86,20 +86,20 @@ module.exports = {
 				}else{
 					let ok=true;
 					for(let a of md.atomes){
-						if((bd[a]<0)||(bd[a]>200)||(bd[a]!=Math.floor(bd[a]))||(typeof bd[a]!="number")){
+						if((bd[a]<0)||(bd[a]>200)||(bd[a]!=Math.floor(bd[a]))||((typeof bd[a]!="number")&&(bd[a]!=null))){
 							ok=false;
 						}
 					}
 					if(ok){
 							users[bd.username].molecules[bd.mol_id]={
-							"carbone":bd.carbone,
-							"oxygene":bd.oxygene,
-							"azote":bd.azote,
-							"iode":bd.iode,
-							"brome":bd.brome,
-							"hydrogene":bd.hydrogene,
-							"soufre":bd.soufre,
-							"chlore":bd.chlore,
+							"carbone":Number(bd.carbone),
+							"oxygene":Number(bd.oxygene),
+							"azote":Number(bd.azote),
+							"iode":Number(bd.iode),
+							"brome":Number(bd.brome),
+							"hydrogene":Number(bd.hydrogene),
+							"soufre":Number(bd.soufre),
+							"chlore":Number(bd.chlore),
 							"number":0
 						};
 						console.log(users)
