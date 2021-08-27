@@ -11,10 +11,10 @@ module.exports = {
 	name:'connect',
 	GET:(req,res,body)=>{
 		let connections=require("/mnt/connections.json");
-		let body_data=JSON.parse(body);
+		let bd=JSON.parse(body);
 		res.writeHead(200,{'Content-Type':'application/json'});
-		if(connections[body_data.token]){
-			res.write(JSON.stringify({connected:true,username:connections[body_data.token]}));
+		if(connections[bd.token]){
+			res.write(JSON.stringify({connected:true,username:connections[bd.token]}));
 		}else{
 			res.write(JSON.stringify({connected:false}));
 		}
@@ -23,10 +23,10 @@ module.exports = {
 	PUT:(req,res,body)=>{
 		let usersdata=require("/mnt/users.json");
 		let connections=require("/mnt/connections.json");
-		let body_data=JSON.parse(body);
-		if((usersdata[body_data["username"]]["password"]==body_data["password"])&&usersdata[body_data["username"]]){
+		let bd=JSON.parse(body);
+		if((usersdata[bd["username"]]["password"]==bd["password"])&&usersdata[bd["username"]]){
 			connect_token=generate_token();
-			connections[connect_token]=body_data["username"];
+			connections[connect_token]=bd["username"];
 			res.writeHead(200,{'Content-Type':'application/json'});
 			res.write(JSON.stringify({token:connect_token}));
 			res.end();
@@ -37,9 +37,9 @@ module.exports = {
 		}
 	},
 	DELETE:(req,res,body)=>{
-		let body_data=JSON.parse(body);
+		let bd=JSON.parse(body);
 		let connections=require("/mnt/connections.json");
-		delete connections[body_data.token];
+		delete connections[bd.token];
 		res.writeHead(204,{'Content-Type':'application/json'});
 		res.end();
 		fs.writeFileSync("/mnt/connections.json",JSON.stringify(connections));

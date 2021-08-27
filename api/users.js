@@ -5,14 +5,14 @@ module.exports = {
 	name:'users',
 	GET:(req,res,body)=>{
 		let data=require("/mnt/users.json");
-		let body_data=JSON.parse(body);
-		switch(body_data.mode){
+		let bd=JSON.parse(body);
+		switch(bd.mode){
 			case "detailed":
 				let connections=require("/mnt/connections.json");
-				if(checkmodule.usercheck(body_data.username,body_data.token)){
+				if(checkmodule.usercheck(bd.username,bd.token)){
 						res.writeHead(200,{'Content-Type':'application/json'});
 						data=require("/mnt/users.json");
-						res.write(JSON.stringify(data[body_data.username]));
+						res.write(JSON.stringify(data[bd.username]));
 						res.end();
 				}else{
 					res.writeHead(401,{'Content-Type':'application/json'});
@@ -30,17 +30,17 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
-				if(data[body_data.username]){
+				if(data[bd.username]){
 					let response={
-						"points":data[body_data.username].points,
-						"medailles":data[body_data.username].medailles,
-						"positionX":data[body_data.username].positionX,
-						"positionY":data[body_data.username].positionY,
-						"aliance":data[body_data.username].aliance,
-						"description":data[body_data.username].description,
-						"victoires":data[body_data.username].ressources.victoires,
-						"permission":data[body_data.username].permission,
-						"actif":data[body_data.username].actif
+						"points":data[bd.username].points,
+						"medailles":data[bd.username].medailles,
+						"positionX":data[bd.username].positionX,
+						"positionY":data[bd.username].positionY,
+						"aliance":data[bd.username].aliance,
+						"description":data[bd.username].description,
+						"victoires":data[bd.username].ressources.victoires,
+						"permission":data[bd.username].permission,
+						"actif":data[bd.username].actif
 					}
 				}else{
 					res.writeHead(404,{'Content-Type':'application/json'});
@@ -52,17 +52,17 @@ module.exports = {
 	},
 	PUT:(req,res,body)=>{
 		let data=require("/mnt/users.json");
-		let body_data=JSON.parse(body);
-		if(body_data.username&&body_data.password){
-			if(data[body_data.username]){
+		let bd=JSON.parse(body);
+		if(bd.username&&bd.password){
+			if(data[bd.username]){
 				res.writeHead(409,{'Content-Type':'application/json'});
 				res.write("{error:\"Already used\"}");
 				res.end();
 			}else{
 				let px=undefined;
 				let py=undefined;
-				data[body_data.username]={
-					"password":body_data.password,
+				data[bd.username]={
+					"password":bd.password,
 					"ressources":{
 						"energie":500,
 						"carbone":50,
@@ -86,7 +86,8 @@ module.exports = {
 						"champdeforce":0,
 						"usinedexplosif":0,
 						"condenseur":0,
-						"booster":0
+						"booster":0,
+						"protecteur":0
 					},
 					"QG":{
 						"production":[4,4,4,4,4,4,4,4,4,4,4,4],
@@ -128,7 +129,7 @@ module.exports = {
 					"description":null,
 					"permission":[],
 					"actif":true,
-					"lastUserCheck":(new Date()).getTime()
+					"lastUserCheck":new Date().getTime()
 				};
 				res.writeHead(204,{'Content-Type':'application/json'});
 				res.end();
