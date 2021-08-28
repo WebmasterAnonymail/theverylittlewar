@@ -9,5 +9,6 @@ tab{
 	border: 1px dashed #808080;
 }
 .namecell{
-	width:50%;
+	width: 50%;
+	display: inline-block;
 }
