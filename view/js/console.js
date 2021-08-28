@@ -1,11 +1,13 @@
 var fs_dir_mode=true
 function HTMLString(obj,also_whitespaces=false){
 	let result=String(obj);
-	result=result.replace(/&/,"&amp;");
-	result=result.replace(/>/,"&gt;");
-	result=result.replace(/</,"&lt;");
-	if(also_whitespaces){
-		result=result.replace(/\n/,"<br>");
+	while(/<&>\n/.test()){
+		result=result.replace(/</,"&lt;");
+		result=result.replace(/&/,"&amp;");
+		result=result.replace(/>/,"&gt;");
+		if(also_whitespaces){
+			result=result.replace(/\n/,"<br>");
+		}
 	}
 	return result;
 }
@@ -91,7 +93,15 @@ window.onload=function(event){
 		xhr.send(JSON.stringify({content:document.getElementById("content_fs").value}));
 		xhr.addEventListener("readystatechange",function(ev){
 			if(xhr.readyState==xhr.DONE){
-				document.getElementById("res_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
+				if(fs_dir_mode){
+					document.getElementById("res_file_fs").style.display="none"
+					document.getElementById("res_dir_fs").style.display="block"
+					document.getElementById("res_dir_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
+				}else{
+					document.getElementById("res_dir_fs").style.display="none"
+					document.getElementById("res_file_fs").style.display="block"
+					document.getElementById("res_file_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
+				}
 			}
 		});
 	});
