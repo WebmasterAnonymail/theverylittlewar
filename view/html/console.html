@@ -7,8 +7,21 @@
 		<script src="../js/console.js"></script>
 	</head>
 	<body>
-		<textarea id="com"></textarea><br>
-		<pre id="res"></pre><br>
-		<input type="button" id="ok" value="valider">
+		<fieldset>
+			<legend>Commande js</legend>
+			<textarea id="com"></textarea><br>
+			<pre id="res_commande"></pre><br>
+			<input type="button" id="ok_commande" value="valider">
+		</fieldset>
+		<fieldset>
+			<legend>Gestion de fichier</legend>
+			<form name="fs">
+				<input type="text" id="path" value="/"><br>
+				Lister un repertoire: <input type="radio" name="action" value="HEAD" selected="selected"><br>
+				Lire un fichier: <input type="radio" name="action" value="GET"><br>
+				<div id="res_fs"></div>
+				<input type="button" id="ok_fs" value="valider">
+			</form>
+		</fieldset>
 	</body>
 </html>

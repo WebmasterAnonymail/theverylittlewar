@@ -68,7 +68,7 @@ function ConvertToHTMLForPre(obj){
 	return result;
 }
 window.onload=function(event){
-	document.getElementById("ok").addEventListener("click",function(event){
+	document.getElementById("ok_commande").addEventListener("click",function(event){
 		let xhr=new XMLHttpRequest();
 		let at_send=document.getElementById("com").value.split(";");
 		xhr.open("PATCH","/api/v1/console");
@@ -76,7 +76,19 @@ window.onload=function(event){
 		xhr.send(JSON.stringify(at_send));
 		xhr.addEventListener("readystatechange",function(ev){
 			if(xhr.readyState==xhr.DONE){
-				document.getElementById("res").innerHTML=ConvertToHTMLForPre(xhr.response);
+				document.getElementById("res_commande").innerHTML=ConvertToHTMLForPre(xhr.response);
+			}
+		});
+	});
+	document.getElementById("ok_fs").addEventListener("click",function(event){
+		let xhr=new XMLHttpRequest();
+		let at_send=document.getElementById("path").value.split(";");
+		xhr.open(document.forms.fs.action.value,"/api/v1/console");
+		xhr.responseType="json";
+		xhr.send(JSON.stringify(at_send));
+		xhr.addEventListener("readystatechange",function(ev){
+			if(xhr.readyState==xhr.DONE){
+				document.getElementById("res_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
 			}
 		});
 	});
