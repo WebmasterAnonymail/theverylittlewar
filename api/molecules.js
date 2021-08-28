@@ -84,7 +84,9 @@ module.exports = {
 				}else{
 					let ok=true;
 					for(let a of md.atomes){
-						if((body[a]<0)||(body[a]>200)||(body[a]!=Math.floor(body[a]))||((typeof body[a]!="number")&&(body[a]!=null))){
+						if(body[a]<0) ok=false;
+						if(body[a]>200) ok=false;
+						if(((body[a]!=Math.floor(body[a]))||(typeof body[a]!="number"))&&(body[a]!=null)){
 							ok=false;
 						}
 					}
