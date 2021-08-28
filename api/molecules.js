@@ -77,8 +77,9 @@ module.exports = {
 	PUT:(req,res,body)=>{
 		let users=require("/mnt/users.json");
 		if(checkmodule.usercheck(body.username,body.token)){
+			console.log(users[body.username].molecules[body.mol_id])
 			if(users[body.username].molecules[body.mol_id]==null){
-				if(10**(body.mol_id)>users[body.username].ressources.energie){
+				if(10**(body.mol_id+1)>users[body.username].ressources.energie){
 					res.writeHead(402,{'Content-Type':'application/json'});
 					res.end();
 				}else{
@@ -103,7 +104,7 @@ module.exports = {
 							"number":0
 						};
 						console.log(users)
-						users[body.username].ressources.energie-=10**(body.mol_id);
+						users[body.username].ressources.energie-=10**(body.mol_id+1);
 						res.writeHead(200,{'Content-Type':'application/json'});
 						res.end();
 					}else{
