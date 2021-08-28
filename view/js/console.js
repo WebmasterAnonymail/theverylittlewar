@@ -117,7 +117,6 @@ window.onload=function(event){
 						line.appendChild(pathbutton);
 						document.getElementById("res_dir_fs").appendChild(line)
 					}
-					document.getElementById("res_dir_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
 				}else{
 					document.getElementById("res_dir_fs").style.display="none";
 					document.getElementById("res_file_fs").style.display="block";
