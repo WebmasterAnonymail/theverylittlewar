@@ -15,7 +15,7 @@ module.exports={
 		res.writeHead(200,{'Content-Type':'application/json'});
 		res.write(JSON.stringify(response));
 		res.end();
-	}
+	},
 	HEAD:(req,res,body)=>{
 		body_data=JSON.parse(body);
 		response=null
@@ -27,8 +27,8 @@ module.exports={
 		res.writeHead(200,{'Content-Type':'application/json'});
 		res.write(JSON.stringify(response));
 		res.end();
-	}
-	HEAD:(req,res,body)=>{
+	},
+	GET:(req,res,body)=>{
 		body_data=JSON.parse(body);
 		response=null
 		try{
