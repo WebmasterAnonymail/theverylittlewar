@@ -1,3 +1,4 @@
+var fs_dir_mode=true
 function HTMLString(obj,also_whitespaces=false){
 	let result=String(obj);
 	result=result.replace(/&/,"&amp;");
@@ -86,6 +87,7 @@ window.onload=function(event){
 		at_send.append("path",document.getElementById("path").value);
 		xhr.open(document.forms.fs.action.value,"/api/v1/console?"+at_send.toString());
 		xhr.responseType="json";
+		fs_dir_mode=document.forms.fs.action.value=="OPTIONS";
 		xhr.send(JSON.stringify({content:document.getElementById("content_fs").value}));
 		xhr.addEventListener("readystatechange",function(ev){
 			if(xhr.readyState==xhr.DONE){

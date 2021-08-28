@@ -15,10 +15,11 @@
 		</fieldset>
 		<fieldset>
 			<legend>Gestion de fichier</legend>
-			<form name="fs">
+			<form name="fs" onsubmit="return false">
 				<input type="text" id="path" value="/"><br>
 				Lister un repertoire: <input type="radio" name="action" value="OPTIONS" checked="checked"><br>
 				Lire un fichier: <input type="radio" name="action" value="GET"><br>
+				Ecrire un fichier: <input type="radio" name="action" value="PUT"><br>
 				<textarea id="content_fs" placeholder="contenu"></textarea>
 				<div id="res_fs"></div>
 				<input type="button" id="ok_fs" value="valider">

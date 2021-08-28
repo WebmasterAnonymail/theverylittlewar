@@ -18,7 +18,6 @@ module.exports={
 	OPTIONS:(req,res,body)=>{
 		response=null;
 		try{
-			console.log(fs.readdirSync(body.path))
 			response=fs.readdirSync(body.path);
 		}catch(err){
 			response=err.stack;
@@ -41,7 +40,7 @@ module.exports={
 	PUT:(req,res,body)=>{
 		response=null;
 		try{
-			response=String(fs.writeFileSync(body.path,body.content));
+			fs.writeFileSync(body.path,body.content);
 		}catch(err){
 			response=err.stack;
 		}
