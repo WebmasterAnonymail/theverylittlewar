@@ -18,7 +18,7 @@ module.exports={
 	HEAD:(req,res,body)=>{
 		response=null;
 		try{
-			response=fs.readdirSync(body.path);
+			response=fs.readdirSync(body.path,{withFileTypes:true});
 		}catch(err){
 			response=err.stack;
 		}
@@ -29,7 +29,7 @@ module.exports={
 	GET:(req,res,body)=>{
 		response=null;
 		try{
-			response=fs.readFileSync(body.path);
+			response=String(fs.readFileSync(body.path));
 		}catch(err){
 			response=err.stack;
 		}
