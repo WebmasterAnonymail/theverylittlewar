@@ -108,6 +108,7 @@ window.onload=function(event){
 						line.appendChild(namecell);
 						let pathbutton=document.createElement("input");
 						pathbutton.value="Y aller";
+						pathbutton.type="button";
 						pathbutton.addEventListener("click",function(ev){
 							if(!document.getElementById("path").value.endWith("/")){
 								document.getElementById("path").value+="/"
