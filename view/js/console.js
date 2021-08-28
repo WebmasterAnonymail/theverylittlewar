@@ -110,7 +110,7 @@ window.onload=function(event){
 						pathbutton.value="Y aller";
 						pathbutton.type="button";
 						pathbutton.addEventListener("click",function(ev){
-							if(!document.getElementById("path").value.endWith("/")){
+							if(!document.getElementById("path").value.endsWith("/")){
 								document.getElementById("path").value+="/"
 							}
 							document.getElementById("path").value+=filename
