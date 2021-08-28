@@ -1,18 +1,17 @@
-//var bddServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
+//var bodydServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
 const checkmodule=require("../functions/check.js");
 const fs=require("fs");
 module.exports = {
 	name:'users',
 	GET:(req,res,body)=>{
 		let data=require("/mnt/users.json");
-		let bd=JSON.parse(body);
-		switch(bd.mode){
+		switch(body.mode){
 			case "detailed":
 				let connections=require("/mnt/connections.json");
-				if(checkmodule.usercheck(bd.username,bd.token)){
+				if(checkmodule.usercheck(body.username,body.token)){
 						res.writeHead(200,{'Content-Type':'application/json'});
 						data=require("/mnt/users.json");
-						res.write(JSON.stringify(data[bd.username]));
+						res.write(JSON.stringify(data[body.username]));
 						res.end();
 				}else{
 					res.writeHead(401,{'Content-Type':'application/json'});
@@ -30,17 +29,17 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
-				if(data[bd.username]){
+				if(data[body.username]){
 					let response={
-						"points":data[bd.username].points,
-						"medailles":data[bd.username].medailles,
-						"positionX":data[bd.username].positionX,
-						"positionY":data[bd.username].positionY,
-						"aliance":data[bd.username].aliance,
-						"description":data[bd.username].description,
-						"victoires":data[bd.username].ressources.victoires,
-						"permission":data[bd.username].permission,
-						"actif":data[bd.username].actif
+						"points":data[body.username].points,
+						"medailles":data[body.username].medailles,
+						"positionX":data[body.username].positionX,
+						"positionY":data[body.username].positionY,
+						"aliance":data[body.username].aliance,
+						"description":data[body.username].description,
+						"victoires":data[body.username].ressources.victoires,
+						"permission":data[body.username].permission,
+						"actif":data[body.username].actif
 					}
 				}else{
 					res.writeHead(404,{'Content-Type':'application/json'});
@@ -52,17 +51,16 @@ module.exports = {
 	},
 	PUT:(req,res,body)=>{
 		let data=require("/mnt/users.json");
-		let bd=JSON.parse(body);
-		if(bd.username&&bd.password){
-			if(data[bd.username]){
+		if(body.username&&body.password){
+			if(data[body.username]){
 				res.writeHead(409,{'Content-Type':'application/json'});
 				res.write("{error:\"Already used\"}");
 				res.end();
 			}else{
 				let px=undefined;
 				let py=undefined;
-				data[bd.username]={
-					"password":bd.password,
+				data[body.username]={
+					"password":body.password,
 					"ressources":{
 						"energie":500,
 						"carbone":50,

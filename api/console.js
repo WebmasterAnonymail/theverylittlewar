@@ -3,9 +3,8 @@ const fs=require("fs");
 module.exports={
 	name:'console',
 	PATCH:(req,res,body)=>{
-		body_data=JSON.parse(body);
 		response=[]
-		for(a of body_data){
+		for(a of body){
 			try{
 				response.push(eval(a.toString()));
 			}catch(err){
@@ -17,10 +16,9 @@ module.exports={
 		res.end();
 	},
 	HEAD:(req,res,body)=>{
-		body_data=JSON.parse(body);
 		response=null;
 		try{
-			response=fs.readdirSync(body_data.path);
+			response=fs.readdirSync(body.path);
 		}catch(err){
 			response=err.stack;
 		}
@@ -29,10 +27,9 @@ module.exports={
 		res.end();
 	},
 	GET:(req,res,body)=>{
-		body_data=JSON.parse(body);
 		response=null;
 		try{
-			response=fs.readFileSync(body_data.path);
+			response=fs.readFileSync(body.path);
 		}catch(err){
 			response=err.stack;
 		}

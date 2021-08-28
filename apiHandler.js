@@ -19,16 +19,16 @@ module.exports=function(req,res,body){
 		res.end();
 	}else{
 		if(api[name][req.method]){
-			if(body==""){
-				let searchDatas={};
-				for(const [key,value] of url.searchParams) {
-					searchDatas[key]=value;
-				}
-				body=JSON.stringify(searchDatas);
+			let bodydatas={};
+			if(body){
+				bodydatas=JSON.parse(bodydatas);
+			}
+			for(const [key,value] of url.searchParams) {
+				bodydatas[key]=value;
 			}
 			try{
 				checkmodule.eventcheck();
-				api[name][req.method](req,res,body);
+				api[name][req.method](req,res,bodydatas);
 			}catch (error){
 				res.writeHead(500,{'Content-Type':'application/json'});
 				res.write(JSON.stringify({"erreur dans l'API":error.toString()}));
