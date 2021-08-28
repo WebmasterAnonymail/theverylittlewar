@@ -76,9 +76,8 @@ module.exports = {
 	},
 	PUT:(req,res,body)=>{
 		let users=require("/mnt/users.json");
+		console.log(users[body.username].molecules)
 		if(checkmodule.usercheck(body.username,body.token)){
-			console.log(body)
-			console.log(users[body.username].molecules)
 			if(users[body.username].molecules[body.mol_id]==null){
 				if(10**(body.mol_id+1)>users[body.username].ressources.energie){
 					res.writeHead(402,{'Content-Type':'application/json'});
@@ -124,8 +123,8 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		console.log(fs.writeFileSync("/mnt/users.json",JSON.stringify(users)))
-		// fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		console.log(JSON.stringify(users))
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
 		let users=require("/mnt/users.json");
