@@ -1,5 +1,5 @@
 const fs=require('fs');
-const checkmodule=require("../functions/check.js");
+const checkmodule=require("./functions/check.js");
 const toSlice='/api/v1/';
 var api={};
 var files=fs.readdirSync('./api');
@@ -21,7 +21,7 @@ module.exports=function(req,res,body){
 		if(api[name][req.method]){
 			let bodydatas={};
 			if(body){
-				bodydatas=JSON.parse(bodydatas);
+				bodydatas=JSON.parse(body);
 			}
 			for(const [key,value] of url.searchParams) {
 				bodydatas[key]=value;

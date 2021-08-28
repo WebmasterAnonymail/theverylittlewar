@@ -15,10 +15,11 @@ module.exports={
 		res.write(JSON.stringify(response));
 		res.end();
 	},
-	HEAD:(req,res,body)=>{
+	OPTIONS:(req,res,body)=>{
 		response=null;
 		try{
-			response=fs.readdirSync(body.path,{withFileTypes:true});
+			console.log(fs.readdirSync(body.path))
+			response=fs.readdirSync(body.path);
 		}catch(err){
 			response=err.stack;
 		}
