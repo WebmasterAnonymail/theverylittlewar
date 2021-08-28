@@ -124,8 +124,8 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		console.log(JSON.stringify(users))
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		console.log(fs.writeFileSync("/mnt/users.json",JSON.stringify(users)))
+		// fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
 		let users=require("/mnt/users.json");
