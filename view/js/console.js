@@ -82,7 +82,7 @@ window.onload=function(event){
 	});
 	document.getElementById("ok_fs").addEventListener("click",function(event){
 		let xhr=new XMLHttpRequest();
-		let at_send=document.getElementById("path").value.split(";");
+		let at_send=document.getElementById("path").value;
 		xhr.open(document.forms.fs.action.value,"/api/v1/console");
 		xhr.responseType="json";
 		xhr.send(JSON.stringify(at_send));
