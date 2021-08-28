@@ -86,7 +86,7 @@ window.onload=function(event){
 		at_send.append("path",document.getElementById("path").value);
 		xhr.open(document.forms.fs.action.value,"/api/v1/console?"+at_send.toString());
 		xhr.responseType="json";
-		xhr.send();
+		xhr.send(JSON.stringify({content:document.getElementById("content_fs").value}));
 		xhr.addEventListener("readystatechange",function(ev){
 			if(xhr.readyState==xhr.DONE){
 				document.getElementById("res_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
