@@ -99,7 +99,7 @@ window.onload=function(event){
 					while(document.getElementById("res_dir_fs").childElementCount>0){
 						document.getElementById("res_dir_fs").removeChild(document.getElementById("res_dir_fs").firstElementChild);
 					}
-					for(filename of xhr.response){
+					for(let filename of xhr.response){
 						let line=document.createElement("div");
 						line.classList.add("fileline");
 						let namecell=document.createElement("div");
