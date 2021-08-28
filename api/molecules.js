@@ -76,7 +76,6 @@ module.exports = {
 	},
 	PUT:(req,res,body)=>{
 		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
-		console.log(users)
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]==null){
 				if(10**(body.mol_id+1)>users[body.username].ressources.energie){
@@ -122,7 +121,6 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		console.log(JSON.stringify(users))
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
