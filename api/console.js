@@ -18,11 +18,11 @@ module.exports={
 	},
 	HEAD:(req,res,body)=>{
 		body_data=JSON.parse(body);
-		response=null
+		response=null;
 		try{
-			response=readdirSync(body_data.path);
+			response=fs.readdirSync(body_data.path);
 		}catch(err){
-			response.push({erreur:err.stack})
+			response=err.stack;
 		}
 		res.writeHead(200,{'Content-Type':'application/json'});
 		res.write(JSON.stringify(response));
@@ -30,11 +30,11 @@ module.exports={
 	},
 	GET:(req,res,body)=>{
 		body_data=JSON.parse(body);
-		response=null
+		response=null;
 		try{
-			response=readFileSync(body_data.path);
+			response=fs.readFileSync(body_data.path);
 		}catch(err){
-			response=err.stack
+			response=err.stack;
 		}
 		res.writeHead(200,{'Content-Type':'application/json'});
 		res.write(JSON.stringify(response));
