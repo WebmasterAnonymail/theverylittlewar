@@ -77,6 +77,8 @@ module.exports = {
 	PUT:(req,res,body)=>{
 		let users=require("/mnt/users.json");
 		if(checkmodule.usercheck(body.username,body.token)){
+			console.log(body)
+			console.log(users[body.username].molecules)
 			console.log(users[body.username].molecules[body.mol_id])
 			if(users[body.username].molecules[body.mol_id]==null){
 				if(10**(body.mol_id+1)>users[body.username].ressources.energie){
@@ -103,7 +105,7 @@ module.exports = {
 							"chlore":Number(body.chlore),
 							"number":0
 						};
-						console.log(users)
+						console.log(users[body.username].molecules)
 						users[body.username].ressources.energie-=10**(body.mol_id+1);
 						res.writeHead(200,{'Content-Type':'application/json'});
 						res.end();
