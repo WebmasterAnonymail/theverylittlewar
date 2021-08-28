@@ -9,8 +9,8 @@ function power_atome(utilisateur,molecule,atome){
 }
 module.exports={
 	eventcheck:function(){
-		let events=require("/mnt/events.json");
-		let users=require("/mnt/users.json");
+		let events=JSON.parse(fs.readFileSync("/mnt/events.json"))
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		let a_suprimer=[];
 		for(let a in events){
 			if(events[a].time>new Date().getTime()){
@@ -64,8 +64,8 @@ module.exports={
 		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
 	},
 	usercheck:function(user,token){
-		let connections=require("/mnt/connections.json");
-		let users=require("/mnt/users.json");
+		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		if(users[user]){
 			let now=new Date().getTime();
 			let tempEcoule=(now-users[user].lastUserCheck);

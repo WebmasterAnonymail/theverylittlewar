@@ -11,8 +11,8 @@ function power_atome(utilisateur,molecule,atome){
 module.exports = {
 	name:'molecules',
 	POST:(req,res,body)=>{
-		let users=require("/mnt/users.json");
-		let events=require("/mnt/events.json");
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let events=JSON.parse(fs.readFileSync("/mnt/events.json"))
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]){
 				let energy_cost=0;
@@ -75,7 +75,7 @@ module.exports = {
 		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
 	},
 	PUT:(req,res,body)=>{
-		let users=require("/mnt/users.json");
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		console.log(users[body.username].molecules)
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]==null){
@@ -104,7 +104,6 @@ module.exports = {
 							"number":0
 						};
 						users[body.username].ressources.energie-=10**(body.mol_id+1);
-						console.log(users[body.username].molecules)
 						res.writeHead(200,{'Content-Type':'application/json'});
 						res.end();
 					}else{
@@ -127,7 +126,7 @@ module.exports = {
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
-		let users=require("/mnt/users.json");
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]){
 				users[body.username].molecules[body.mol_id]=null;

@@ -10,7 +10,7 @@ function generate_token(length=50){
 module.exports = {
 	name:'connect',
 	GET:(req,res,body)=>{
-		let connections=require("/mnt/connections.json");
+		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
 		res.writeHead(200,{'Content-Type':'application/json'});
 		if(connections[body.token]){
 			res.write(JSON.stringify({connected:true,username:connections[body.token]}));
@@ -20,8 +20,8 @@ module.exports = {
 		res.end();
 	},
 	PUT:(req,res,body)=>{
-		let usersdata=require("/mnt/users.json");
-		let connections=require("/mnt/connections.json");
+		let usersdata=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
 		if((usersdata[body["username"]]["password"]==body["password"])&&usersdata[body["username"]]){
 			connect_token=generate_token();
 			connections[connect_token]=body["username"];
@@ -35,7 +35,7 @@ module.exports = {
 		}
 	},
 	DELETE:(req,res,body)=>{
-		let connections=require("/mnt/connections.json");
+		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
 		delete connections[body.token];
 		res.writeHead(204,{'Content-Type':'application/json'});
 		res.end();

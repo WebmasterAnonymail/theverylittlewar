@@ -4,8 +4,8 @@ const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'batiments',
 	POST:(req,res,body)=>{
-		let users=require("/mnt/users.json");
-		let events=require("/mnt/events.json");
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let events=JSON.parse(fs.readFileSync("/mnt/events.json"))
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].batiments[body.batiment]){
 				switch(body.batiment){
