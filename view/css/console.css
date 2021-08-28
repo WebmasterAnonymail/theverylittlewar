@@ -1,7 +1,13 @@
 pre{
-	border:1px dotted #000000
+	border:1px dotted #000000;
 }
 tab{
 	display: inline-block;
 	margin-left: 2em;
+}
+.fileline{
+	border: 1px dashed #808080;
+}
+.namecell{
+	width:50%;
 }

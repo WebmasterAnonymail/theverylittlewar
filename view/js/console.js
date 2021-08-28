@@ -94,12 +94,33 @@ window.onload=function(event){
 		xhr.addEventListener("readystatechange",function(ev){
 			if(xhr.readyState==xhr.DONE){
 				if(fs_dir_mode){
-					document.getElementById("res_file_fs").style.display="none"
-					document.getElementById("res_dir_fs").style.display="block"
+					document.getElementById("res_file_fs").style.display="none";
+					document.getElementById("res_dir_fs").style.display="block";
+					while(document.getElementById("res_dir_fs").childElementCount>0){
+						document.getElementById("res_dir_fs").removeChild(document.getElementById("res_dir_fs").firstElementChild);
+					}
+					for(filename of xhr.response){
+						let line=document.createElement("div");
+						line.classList.add("fileline");
+						let namecell=document.createElement("div");
+						namecell.classList.add("namecell");
+						namecell.innerText=filename
+						line.appendChild(namecell);
+						let pathbutton=document.createElement("input");
+						pathbutton.value="Y aller";
+						pathbutton.addEventListener("click",function(ev){
+							if(!document.getElementById("path").value.endWith("/")){
+								document.getElementById("path").value+="/"
+							}
+							document.getElementById("path").value+=filename
+						});
+						line.appendChild(pathbutton);
+						document.getElementById("res_dir_fs").appendChild(line)
+					}
 					document.getElementById("res_dir_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
 				}else{
-					document.getElementById("res_dir_fs").style.display="none"
-					document.getElementById("res_file_fs").style.display="block"
+					document.getElementById("res_dir_fs").style.display="none";
+					document.getElementById("res_file_fs").style.display="block";
 					document.getElementById("res_file_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
 				}
 			}
