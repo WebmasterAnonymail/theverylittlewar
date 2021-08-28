@@ -105,8 +105,8 @@ module.exports = {
 							"chlore":Number(body.chlore),
 							"number":0
 						};
-						console.log(users[body.username].molecules)
 						users[body.username].ressources.energie-=10**(body.mol_id+1);
+						console.log(users[body.username].molecules)
 						res.writeHead(200,{'Content-Type':'application/json'});
 						res.end();
 					}else{
@@ -125,6 +125,7 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
+		console.log(users[body.username].molecules)
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
