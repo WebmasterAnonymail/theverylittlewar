@@ -19,7 +19,8 @@ batiments_list=[
 	"usinedexplosif",
 	"condenseur",
 	"lieur",
-	"stabilisateur"
+	"stabilisateur",
+	"protecteur"
 ]
 var production_QG=new Array(8)
 var production_QG_rest=0
@@ -92,6 +93,19 @@ window.onload=()=>{
 			}
 			document.getElementById("QG_destruction_"+batiments_list[a]).innerHTML=destruction_QG[a]+"%"
 			document.getElementById("QG_destruction_rest").innerHTML=destruction_QG_rest
+		})
+	}
+	for(let a in batiments_list){
+		document.getElementById(batiments_list[a]+"_bouton").addEventListener("click",function(event){
+			let api_xhr=new XMLHttpRequest()
+			let at_send={
+				"username":localStorage.getItem("username"),
+				"token":localStorage.getItem("token"),
+				"batiment":batiments_list[a]
+			}
+			api_xhr.open("POST","/api/batiments")
+			api_xhr.responseType="json"
+			api_xhr.send(JSON.stringify(at_send))
 		})
 	}
 }
