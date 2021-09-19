@@ -108,6 +108,7 @@ module.exports = {
 				}
 			}else{
 				res.writeHead(400,{'Content-Type':'application/json'});
+				res.write("{error:\"no batiment named '"+body.batiment+"'\"");
 				res.end();
 			}
 		}else{
