@@ -7,7 +7,7 @@ module.exports = {
 		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		let events=JSON.parse(fs.readFileSync("/mnt/events.json"))
 		if(checkmodule.usercheck(body.username,body.token)){
-			if(users[body.username].batiments[body.batiment]){
+			if(users[body.username].batiments[body.batiment]!==undefined){
 				switch(body.batiment){
 					case "generateur":
 						if(

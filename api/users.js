@@ -107,6 +107,7 @@ module.exports = {
 						"generateur":0,
 						"producteur":0,
 						"stockage":0,
+						"protecteur":0
 					},
 					"molecules":[null,null,null,null,null],
 					"medailles":{
