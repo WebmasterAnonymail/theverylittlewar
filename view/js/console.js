@@ -2,11 +2,11 @@ var fs_dir_mode=true
 function HTMLString(obj,also_whitespaces=false){
 	let result=String(obj);
 	while(/<&>\n/.test()){
-		result=result.replace(/</,"&lt;");
-		result=result.replace(/&/,"&amp;");
-		result=result.replace(/>/,"&gt;");
+		result=result.replaceAll(/</,"&lt;");
+		result=result.replaceAll(/&/,"&amp;");
+		result=result.replaceAll(/>/,"&gt;");
 		if(also_whitespaces){
-			result=result.replace(/\n/,"<br>");
+			result=result.replaceAll(/\n/,"<br>");
 		}
 	}
 	return result;
