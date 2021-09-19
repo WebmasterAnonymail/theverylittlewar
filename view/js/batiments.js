@@ -103,7 +103,7 @@ window.onload=()=>{
 				"token":localStorage.getItem("token"),
 				"batiment":batiments_list[a]
 			}
-			api_xhr.open("POST","/api/batiments")
+			api_xhr.open("POST","/api/v1/batiments")
 			api_xhr.responseType="json"
 			api_xhr.send(JSON.stringify(at_send))
 		})
