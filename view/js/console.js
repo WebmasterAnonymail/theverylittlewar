@@ -2,8 +2,8 @@ var fs_dir_mode=true
 function HTMLString(obj,also_whitespaces=false){
 	let result=String(obj);
 	while(/<&>\n/.test()){
-		result=result.replaceAll(/</,"&lt;");
 		result=result.replaceAll(/&/,"&amp;");
+		result=result.replaceAll(/</,"&lt;");
 		result=result.replaceAll(/>/,"&gt;");
 		if(also_whitespaces){
 			result=result.replaceAll(/\n/,"<br>");
