@@ -80,7 +80,7 @@ function act_preview(){
 					document.getElementById("preview_"+a).innerText=affichageRessources(api_xhr.response.ressources[a]);
 				}
 			}else{
-				alert("ERROR in getting user : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error)
+				alert("ERROR in getting user : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
 			}
 		}
 	});

@@ -52,7 +52,7 @@ function act_all(){
 					}
 				}
 			}else{
-				alert("ERROR in getting user : code "+users_xhr.status);
+				alert("ERROR in getting user : code "+users_xhr.status+"\n Erreur : "+api_xhr.response.error);
 			}
 		}
 	});
@@ -79,7 +79,7 @@ window.onload=function(event){
 				}else if(create_xhr.status==401){
 					alert("Vous n'êtes pas connecté");
 				}else{
-					alert("ERROR in creating molecule : code "+create_xhr.status);
+					alert("ERROR in creating molecule : code "+create_xhr.status+"\n Erreur : "+api_xhr.response.error);
 				}
 			}
 		});
@@ -113,7 +113,7 @@ window.onload=function(event){
 					}else if(delete_xhr.status==401){
 						alert("Vous n'êtes pas connecté");
 					}else{
-						alert("ERROR in deleting molecule : code "+delete_xhr.status);
+						alert("ERROR in deleting molecule : code "+delete_xhr.status+"\n Erreur : "+api_xhr.response.error);
 					}
 				}
 			});

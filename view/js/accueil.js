@@ -18,7 +18,7 @@ window.onload=function(ev){
 				}else if(api_xhr.status==401){
 					alert("Mauvais pseudo/mot de passe");
 				}else{
-					alert("ERROR in connecting : code "+api_xhr.status)
+					alert("ERROR in connecting : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
 				}
 			}
 		});
@@ -56,7 +56,7 @@ window.onload=function(ev){
 				}else if(api_xhr.status==401){
 					alert("Veuillez entrer un nom d'utuilateur et un mot de passe");
 				}else{
-					alert("ERROR in creating account : code "+api_xhr.status)
+					alert("ERROR in creating account : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error)
 				}
 			}
 		});
