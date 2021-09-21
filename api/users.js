@@ -88,8 +88,8 @@ module.exports = {
 						"protecteur":0
 					},
 					"QG":{
-						"production":[4,4,4,4,4,4,4,4,4,4,4,4],
-						"pillage":[4,4,4,4,4,4,4,4,4,4,4,4],
+						"production":[4,4,4,4,4,4,4,4],
+						"pillage":[4,4,4,4,4,4,4,4],
 						"destruction":[4,4,4]
 					},
 					"points":{

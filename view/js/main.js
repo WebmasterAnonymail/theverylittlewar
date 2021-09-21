@@ -1,5 +1,6 @@
 var opened_iframe_id="";
 var username=null;
+var user=null;
 var atomes=[
 	"carbone",
 	"oxygene",
@@ -84,9 +85,31 @@ function act_preview(){
 			}
 		}
 	});
-	setTimeout(act_preview,1000*60)
+	setTimeout(act_preview,1000*10)
 }
-window.onload=function(ev){
+function act_user(){
+	let api_xhr=new XMLHttpRequest();
+	let at_send=new URLSearchParams();
+	at_send.append("mode","detailed");
+	at_send.append("token",localStorage.getItem("token"));
+	at_send.append("username",username);
+	api_xhr.open("GET","/api/v1/users?"+at_send.toString());
+	api_xhr.responseType="json";
+	api_xhr.send();
+	api_xhr.addEventListener("readystatechange",function(ev){
+		if(api_xhr.readyState==api_xhr.DONE){
+			if(api_xhr.status==200){
+				user=api_xhr.response;
+				if(post_getuser_action){
+					post_getuser_action();
+				}
+			}else{
+				alert("ERROR in getting user : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
+			}
+		}
+	});
+}
+window.addEventListener("load",function(ev){
 	let check_connect_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
 	at_send.append("token",localStorage.getItem("token"));
@@ -105,7 +128,9 @@ window.onload=function(ev){
 					act_preview();
 				}
 			}else{
-				document.location.replace("html/accueil.html");
+				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){
+					document.location.replace("html/accueil.html");
+				}
 			}
 		}
 	});
@@ -127,7 +152,7 @@ window.onload=function(ev){
 			document.body.appendChild(user_autocomplete_list);
 		}
 	});
-}
+})
 function open_iframe(iframeid){
 	let iframe=document.getElementById("iframe"+iframeid);
 	iframe.setAttribute("open","yes");
