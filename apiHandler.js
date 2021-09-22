@@ -26,8 +26,8 @@ module.exports=function(req,res,body){
 			for(const [key,value] of url.searchParams) {
 				bodydatas[key]=value;
 			}
+			checkmodule.eventcheck();
 			try{
-				checkmodule.eventcheck();
 				api[name][req.method](req,res,bodydatas);
 			}catch (error){
 				res.writeHead(500,{'Content-Type':'application/json'});

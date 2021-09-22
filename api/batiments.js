@@ -4,8 +4,8 @@ const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'batiments',
 	POST:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
-		let events=JSON.parse(fs.readFileSync("/mnt/events.json"))
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"));
+		let events=JSON.parse(fs.readFileSync("/mnt/events.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].batiments[body.batiment]!==undefined){
 				switch(body.batiment){
@@ -20,6 +20,7 @@ module.exports = {
 								"batiment":"generateur",
 							};
 							users[body.username].ressources.energie-=(10**(users[body.username].batiments.generateur/20)*100);
+							users[body.username].points.batmients+=1;
 							events.push(event_amel);
 						}else{
 							res.writeHead(402,{'Content-Type':'application/json'});
@@ -46,6 +47,7 @@ module.exports = {
 							for(a of md.atomes){
 								users[body.username].ressources[a]-=10**(users[body.username].batiments.producteur/20)*10;
 							}
+							users[body.username].points.batmients+=1;
 							events.push(event_amel);
 						}else{
 							res.writeHead(402,{'Content-Type':'application/json'});
@@ -74,6 +76,7 @@ module.exports = {
 							for(a of md.atomes){
 								users[body.username].ressources[a]-=10**(users[body.username].batiments.stockage/15)*10;
 							}
+							users[body.username].points.batmients+=1;
 							events.push(event_amel);
 						}else{
 							res.writeHead(402,{'Content-Type':'application/json'});
@@ -98,6 +101,7 @@ module.exports = {
 									"batiment":"stockage",
 								};
 								users[body.username].ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(users[body.username].batiments[body.batiment]+1)**3;
+								users[body.username].points.batmients+=3;
 								events.push(event_amel);
 							}
 						}else{
@@ -118,5 +122,60 @@ module.exports = {
 		}
 		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
+	},
+	PATCH:(req,res,body)=>{
+		let users=JSON.parse(fs.readFileSync("/mnt/users.json"));
+		if(checkmodule.usercheck(body.username,body.token)){
+			let check=true;
+			for(a of ["production","pillage","destruction"]){
+				if(body[a] instanceof Array){
+					if(a=="destruction"){
+						if(body[a].length!=3){
+							check=false;
+						}else{
+							let sum=0;
+							for(b=0;b<3;b++){
+								sum+=body[a][b]
+							}
+							if(sum>3*4){
+								check=false;
+							}
+						}
+					}else{
+						if(body[a].length!=8){
+							check=false;
+						}else{
+							let sum=0;
+							for(b=0;b<8;b++){
+								sum+=body[a][b]
+							}
+							if(sum>8*4){
+								check=false;
+							}
+						}
+					}
+				}else{
+					check=false;
+				}
+			}
+			if(check){
+				users[body.username].QG={
+					"production":body.production,
+					"pillage":body.pillage,
+					"destruction":body.destruction
+				};
+				res.writeHead(200,{'Content-Type':'application/json'});
+				res.end();
+			}else{
+				res.writeHead(400,{'Content-Type':'application/json'});
+				res.write("{error:\"Not valid input\"}");
+				res.end();
+			}
+		}else{
+			res.writeHead(401,{'Content-Type':'application/json'});
+			res.write("{error:\"Not connected\"}");
+			res.end();
+		}
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 	}
 }

@@ -28,7 +28,7 @@ var pillage_QG=new Array(8)
 var pillage_QG_rest=0
 var destruction_QG=new Array(3)
 var destruction_QG_rest=0
-function act_QG(){
+function act_QG(patch=true){
 	for(let a=0;a<8;a++){
 		document.getElementById("QG_production_"+atomes[a]).innerHTML=production_QG[a]*25+"%";
 		document.getElementById("QG_production_rest").innerHTML=production_QG_rest;
@@ -39,7 +39,19 @@ function act_QG(){
 		document.getElementById("QG_destruction_"+batiments_list[a]).innerHTML=destruction_QG[a]*25+"%";
 		document.getElementById("QG_destruction_rest").innerHTML=destruction_QG_rest;
 	}
-	
+	if(patch){
+		use_api("PATCH","batiments",{
+			production:production_QG,
+			pillage:pillage_QG,
+			destruction:destruction_QG
+		},true,function(xhr){
+			if(xhr.status==200){
+				
+			}else{
+				alert("ERROR in setting HQ params : code "+xhr.status+"\n Erreur : "+xhr.response.error);
+			}
+		});
+	}
 }
 window.onload=()=>{
 	for(let a=0;a<8;a++){
@@ -110,7 +122,7 @@ window.onload=()=>{
 		})
 	}
 }
-var post_getuser_action=function(){
+function post_getuser_action(){
 	production_QG=user.QG.production;
 	pillage_QG=user.QG.pillage;
 	destruction_QG=user.QG.destruction;
@@ -124,5 +136,5 @@ var post_getuser_action=function(){
 	for(let a=0;a<3;a++){
 		destruction_QG_rest+=4-destruction_QG[a];
 	}
-	act_QG();
+	act_QG(false);
 }

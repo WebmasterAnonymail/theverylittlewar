@@ -100,12 +100,40 @@ function act_user(){
 		if(api_xhr.readyState==api_xhr.DONE){
 			if(api_xhr.status==200){
 				user=api_xhr.response;
-				if(post_getuser_action){
+				if(window.post_getuser_action){
 					post_getuser_action();
 				}
 			}else{
 				alert("ERROR in getting user : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
 			}
+		}
+	});
+}
+function use_api(method,api,data,in_body,callback){
+	let api_xhr=new XMLHttpRequest();
+	if(in_body){
+		api_xhr.open(method,"/api/v1/"+api);
+	}else{
+		let at_send=new URLSearchParams();
+		at_send.append("token",localStorage.getItem("token"));
+		at_send.append("username",username);
+		for(let b in data){
+			at_send.append(b,data[b]);
+		}
+		api_xhr.open(method,"/api/v1/"+api+"?"+at_send.toString());
+	}
+	api_xhr.responseType="json";
+	if(in_body){
+		let at_send=data;
+		at_send.token=localStorage.getItem("token");
+		at_send.username=username;
+		api_xhr.send(JSON.stringify(at_send));
+	}else{
+		api_xhr.send();
+	}
+	api_xhr.addEventListener("readystatechange",function(ev){
+		if(api_xhr.readyState==api_xhr.DONE){
+			callback(api_xhr);
 		}
 	});
 }
@@ -126,6 +154,9 @@ window.addEventListener("load",function(ev){
 						document.getElementById(opened_iframe_id).setAttribute("open","no");
 					});
 					act_preview();
+				}else{
+					act_user();
+					setInterval(act_user,10000)
 				}
 			}else{
 				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){

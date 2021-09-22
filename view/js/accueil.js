@@ -11,7 +11,6 @@ window.onload=function(ev){
 			if(api_xhr.readyState==api_xhr.DONE){
 				if(api_xhr.status==200){
 					localStorage.setItem("token",api_xhr.response.token)
-					localStorage.setItem("username",at_send.username)
 					document.getElementById("preview_username").innerHTML=at_send.username;
 					document.getElementById("connected").style.display="block";
 					document.getElementById("unconnected").style.display="none";
@@ -33,7 +32,6 @@ window.onload=function(ev){
 		api_xhr.addEventListener("readystatechange",function(ev){
 			if(api_xhr.readyState==api_xhr.DONE){
 				localStorage.removeItem("token")
-				localStorage.removeItem("username")
 				document.getElementById("connected").style.display="none";
 				document.getElementById("unconnected").style.display="block";
 			}
@@ -71,7 +69,6 @@ window.onload=function(ev){
 		if(api_xhr.readyState==api_xhr.DONE){
 			if(api_xhr.response.connected){
 				document.getElementById("preview_username").innerHTML=api_xhr.response.username;
-				localStorage.setItem("username",api_xhr.response.username)
 				document.getElementById("connected").style.display="block";
 				document.getElementById("unconnected").style.display="none";
 			}else{

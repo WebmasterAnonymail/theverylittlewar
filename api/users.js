@@ -4,13 +4,13 @@ const fs=require("fs");
 module.exports = {
 	name:'users',
 	GET:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let data=JSON.parse(fs.readFileSync("/mnt/users.json"));
 		switch(body.mode){
 			case "detailed":
 				let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
 				if(checkmodule.usercheck(body.username,body.token)){
 						res.writeHead(200,{'Content-Type':'application/json'});
-						data=require("/mnt/users.json");
+						data=JSON.parse(fs.readFileSync("/mnt/users.json"));
 						res.write(JSON.stringify(data[body.username]));
 						res.end();
 				}else{
@@ -50,7 +50,7 @@ module.exports = {
 		}
 	},
 	PUT:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let data=JSON.parse(fs.readFileSync("/mnt/users.json"));
 		if(body.username&&body.password){
 			if(data[body.username]){
 				res.writeHead(409,{'Content-Type':'application/json'});
