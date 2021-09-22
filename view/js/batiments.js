@@ -120,15 +120,17 @@ window.onload=()=>{
 	}
 	for(let a in batiments_list){
 		document.getElementById(batiments_list[a]+"_bouton").addEventListener("click",function(event){
-			let api_xhr=new XMLHttpRequest()
-			let at_send={
-				"username":localStorage.getItem("username"),
-				"token":localStorage.getItem("token"),
-				"batiment":batiments_list[a]
-			}
-			api_xhr.open("POST","/api/v1/batiments")
-			api_xhr.responseType="json"
-			api_xhr.send(JSON.stringify(at_send))
+			use_api("POST","batiments","batiment":batiments_list[a],true,function(xhr){
+				if(xhr.status=200){
+					//rien pour le moment
+				}else if(xhr.status==402){
+					alert("Pas assez de ressources")
+				}else if(xhr.status==409){
+					alert("Deja en ameliration")
+				}else{
+					alert("ERROR in upgrading batiment : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
+				}
+			});
 		})
 	}
 }

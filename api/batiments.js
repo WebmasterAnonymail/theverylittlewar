@@ -24,6 +24,8 @@ module.exports = {
 								users[body.username].ressources.energie-=(10**(users[body.username].batiments.generateur/20)*100);
 								users[body.username].points.batmients+=1;
 								events.push(event_amel);
+								res.writeHead(200,{'Content-Type':'application/json'});
+								res.end();
 							}else{
 								res.writeHead(402,{'Content-Type':'application/json'});
 								res.end();
@@ -52,6 +54,8 @@ module.exports = {
 								}
 								users[body.username].points.batmients+=1;
 								events.push(event_amel);
+								res.writeHead(200,{'Content-Type':'application/json'});
+								res.end();
 							}else{
 								res.writeHead(402,{'Content-Type':'application/json'});
 								res.end();
@@ -81,6 +85,8 @@ module.exports = {
 								}
 								users[body.username].points.batmients+=1;
 								events.push(event_amel);
+								res.writeHead(200,{'Content-Type':'application/json'});
+								res.end();
 							}else{
 								res.writeHead(402,{'Content-Type':'application/json'});
 								res.end();
@@ -106,6 +112,11 @@ module.exports = {
 									users[body.username].ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(users[body.username].batiments[body.batiment]+1)**3;
 									users[body.username].points.batmients+=3;
 									events.push(event_amel);
+									res.writeHead(200,{'Content-Type':'application/json'});
+									res.end();
+								}else{
+									res.writeHead(402,{'Content-Type':'application/json'});
+									res.end();
 								}
 							}else{
 								res.writeHead(403,{'Content-Type':'application/json'});
