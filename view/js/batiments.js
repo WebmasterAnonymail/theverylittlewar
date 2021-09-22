@@ -136,5 +136,8 @@ function post_getuser_action(){
 	for(let a=0;a<3;a++){
 		destruction_QG_rest+=4-destruction_QG[a];
 	}
+	for(let a of batiments_list){
+		document.getElementById(a+"_niveau").innerText=user.batiments[a];
+	}
 	act_QG(false);
 }

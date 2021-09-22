@@ -127,14 +127,14 @@ module.exports = {
 		let users=JSON.parse(fs.readFileSync("/mnt/users.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			let check=true;
-			for(a of ["production","pillage","destruction"]){
+			for(let a of ["production","pillage","destruction"]){
 				if(body[a] instanceof Array){
 					if(a=="destruction"){
 						if(body[a].length!=3){
 							check=false;
 						}else{
 							let sum=0;
-							for(b=0;b<3;b++){
+							for(let b=0;b<3;b++){
 								sum+=body[a][b]
 							}
 							if(sum>3*4){
@@ -146,7 +146,7 @@ module.exports = {
 							check=false;
 						}else{
 							let sum=0;
-							for(b=0;b<8;b++){
+							for(let b=0;b<8;b++){
 								sum+=body[a][b]
 							}
 							if(sum>8*4){
