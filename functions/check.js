@@ -19,6 +19,7 @@ module.exports={
 						if(users[events[a].username]){
 							users[events[a].username].batiments[events[a].batiment]++;
 							users[events[a].username].points.batiments+=md.points_batiments[events[a].batiment];
+							users[events[a].username].batiment_en_amelioration.splice(users[events[a].username].indexOf(events[a].batiment),1);
 						}
 						a_suprimer.push(a);
 						break;

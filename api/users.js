@@ -87,6 +87,7 @@ module.exports = {
 						"booster":0,
 						"protecteur":0
 					},
+					"batiment_en_amelioration":[],
 					"QG":{
 						"production":[4,4,4,4,4,4,4,4],
 						"pillage":[4,4,4,4,4,4,4,4],

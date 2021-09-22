@@ -1,4 +1,4 @@
-atomes=[
+var atomes=[
 	"carbone",
 	"oxygene",
 	"azote",
@@ -7,8 +7,8 @@ atomes=[
 	"hydrogene",
 	"soufre",
 	"chlore"
-]
-batiments_list=[
+];
+var batiments_list=[
 	"generateur",
 	"producteur",
 	"stockage",
@@ -21,7 +21,17 @@ batiments_list=[
 	"lieur",
 	"stabilisateur",
 	"protecteur"
-]
+];
+var batiment_augmentateurs=[
+	"forteresse",
+	"ionisateur",
+	"lieur",
+	"stabilisateur",
+	"champdeforce",
+	"usinedexplosif",
+	"condenseur",
+	"booster"
+];
 var production_QG=new Array(8)
 var production_QG_rest=0
 var pillage_QG=new Array(8)
@@ -138,14 +148,16 @@ function post_getuser_action(){
 	}
 	for(let a of batiments_list){
 		document.getElementById(a+"_niveau").innerText=user.batiments[a];
-		if(a=="stockage"){
+		if(a=="protecteur"){
+			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
+		}else if(a=="stockage"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.stockage/15)*1000);
 		}else if(a=="generateur"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.generateur/20)*100)+"/h";
 		}else if(a=="producteur"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.producteur/20)*10)+"/h";
 		}else{
-			
+			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
 		}
 	}
 	act_QG(false);
