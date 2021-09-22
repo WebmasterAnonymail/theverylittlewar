@@ -120,7 +120,7 @@ window.onload=()=>{
 	}
 	for(let a in batiments_list){
 		document.getElementById(batiments_list[a]+"_bouton").addEventListener("click",function(event){
-			use_api("POST","batiments","batiment":batiments_list[a],true,function(xhr){
+			use_api("POST","batiments",{"batiment":batiments_list[a]},true,function(xhr){
 				if(xhr.status=200){
 					//rien pour le moment
 				}else if(xhr.status==402){
