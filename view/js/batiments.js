@@ -138,6 +138,11 @@ function post_getuser_action(){
 	}
 	for(let a of batiments_list){
 		document.getElementById(a+"_niveau").innerText=user.batiments[a];
+		if(a=="generateur"){
+			document.getElementById(a+"_effet").innerText=((10**user.batiments.generateur/20)*100)+"/h"
+		}else if(a=="producteur"){
+			document.getElementById(a+"_effet").innerText=((10**user.batiments.producteur/20)*10)+"/h"
+		}
 	}
 	act_QG(false);
 }
