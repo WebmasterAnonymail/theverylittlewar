@@ -144,7 +144,9 @@ function post_getuser_action(){
 			document.getElementById(a+"_effet").innerText=(10**(users[user].batiments.generateur/20)*100)+"/h";
 		}else if(a=="producteur"){
 			document.getElementById(a+"_effet").innerText=(10**(users[user].batiments.producteur/20)*10)+"/h";
-		}else
+		}else{
+			
+		}
 	}
 	act_QG(false);
 }
