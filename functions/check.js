@@ -13,7 +13,7 @@ module.exports={
 		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		let a_suprimer=[];
 		for(let a in events){
-			if(events[a].time>new Date().getTime()){
+			if(events[a].time<new Date().getTime()){
 				switch(events[a].type){
 					case "amelioration":
 						if(users[events[a].username]){
