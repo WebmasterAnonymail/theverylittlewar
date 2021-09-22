@@ -141,9 +141,9 @@ function post_getuser_action(){
 		if(a=="stockage"){
 			document.getElementById(a+"_effet").innerText="";
 		}else if(a=="generateur"){
-			document.getElementById(a+"_effet").innerText=(10**(users[user].batiments.generateur/20)*100)+"/h";
+			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.generateur/20)*100)+"/h";
 		}else if(a=="producteur"){
-			document.getElementById(a+"_effet").innerText=(10**(users[user].batiments.producteur/20)*10)+"/h";
+			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.producteur/20)*10)+"/h";
 		}else{
 			
 		}
