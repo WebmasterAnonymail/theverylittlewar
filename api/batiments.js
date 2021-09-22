@@ -29,13 +29,13 @@ module.exports = {
 						break;
 					case "producteur":
 						if(
-						users[body.username].ressources.carbone>=10**(users[body.username].batiments.producteur/20)*10||
-						users[body.username].ressources.oxygene>=10**(users[body.username].batiments.producteur/20)*10||
-						users[body.username].ressources.azote>=10**(users[body.username].batiments.producteur/20)*10||
-						users[body.username].ressources.iode>=10**(users[body.username].batiments.producteur/20)*10||
-						users[body.username].ressources.brome>=10**(users[body.username].batiments.producteur/20)*10||
-						users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.producteur/20)*10||
-						users[body.username].ressources.soufre>=10**(users[body.username].batiments.producteur/20)*10||
+						users[body.username].ressources.carbone>=10**(users[body.username].batiments.producteur/20)*10&&
+						users[body.username].ressources.oxygene>=10**(users[body.username].batiments.producteur/20)*10&&
+						users[body.username].ressources.azote>=10**(users[body.username].batiments.producteur/20)*10&&
+						users[body.username].ressources.iode>=10**(users[body.username].batiments.producteur/20)*10&&
+						users[body.username].ressources.brome>=10**(users[body.username].batiments.producteur/20)*10&&
+						users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.producteur/20)*10&&
+						users[body.username].ressources.soufre>=10**(users[body.username].batiments.producteur/20)*10&&
 						users[body.username].ressources.chlore>=10**(users[body.username].batiments.producteur/20)*10
 						){
 							event_amel={
@@ -57,14 +57,14 @@ module.exports = {
 					case "stockage":
 						if(
 						users[body.username].ressources.energie>=10**(users[body.username].batiments.stockage/15)*100
-						||users[body.username].ressources.carbone>=10**(users[body.username].batiments.stockage/15)*10
-						||users[body.username].ressources.oxygene>=10**(users[body.username].batiments.stockage/15)*10
-						||users[body.username].ressources.azote>=10**(users[body.username].batiments.stockage/15)*10
-						||users[body.username].ressources.iode>=10**(users[body.username].batiments.stockage/15)*10
-						||users[body.username].ressources.brome>=10**(users[body.username].batiments.stockage/15)*10
-						||users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.stockage/15)*10
-						||users[body.username].ressources.soufre>=10**(users[body.username].batiments.stockage/15)*10
-						||users[body.username].ressources.chlore>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.carbone>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.oxygene>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.azote>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.iode>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.brome>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.soufre>=10**(users[body.username].batiments.stockage/15)*10
+						&&users[body.username].ressources.chlore>=10**(users[body.username].batiments.stockage/15)*10
 						){
 							event_amel={
 								"username":body.username,
