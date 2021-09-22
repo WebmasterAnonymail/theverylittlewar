@@ -139,7 +139,7 @@ function post_getuser_action(){
 	for(let a of batiments_list){
 		document.getElementById(a+"_niveau").innerText=user.batiments[a];
 		if(a=="stockage"){
-			document.getElementById(a+"_effet").innerText=affichageRessources(10**(users[user].batiments.stockage/15)*1000);
+			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.stockage/15)*1000);
 		}else if(a=="generateur"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.generateur/20)*100)+"/h";
 		}else if(a=="producteur"){
