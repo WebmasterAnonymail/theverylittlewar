@@ -161,6 +161,13 @@ function post_getuser_action(){
 		}else{
 			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
 		}
+		if(user.batiment_en_amelioration.indexOf(a)<0){
+			document.getElementById(a+"_bouton").value="Ameliorer au niveau "+user.batiments[a];
+			document.getElementById(a+"_bouton").disabled=false;
+		}else{
+			document.getElementById(a+"_bouton").value="En amelioration au niveau "+(user.batiments[a]+1);
+			document.getElementById(a+"_bouton").disabled=true;
+		}
 	}
 	act_QG(false);
 }
