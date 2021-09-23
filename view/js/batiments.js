@@ -158,11 +158,14 @@ function post_getuser_action(){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.generateur/20)*100)+"/h";
 		}else if(a=="producteur"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.producteur/20)*10)+"/h";
+			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.producteur/20)*10);
+			document.getElementById(a+"_temps").innerText=affichageTemps(Math.log2(user.batiments.producteur+1)*10*(60*1000));
 		}else{
 			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
+			document.getElementById(a+"_ressources").innerText=affichageRessources((user.batiments[a]+1)**3);
 		}
 		if(user.batiment_en_amelioration.indexOf(a)<0){
-			document.getElementById(a+"_bouton").value="Ameliorer au niveau "+user.batiments[a];
+			document.getElementById(a+"_bouton").value="Ameliorer au niveau "+(user.batiments[a]+1);
 			document.getElementById(a+"_bouton").disabled=false;
 		}else{
 			document.getElementById(a+"_bouton").value="En amelioration au niveau "+(user.batiments[a]+1);
