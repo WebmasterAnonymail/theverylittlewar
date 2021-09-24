@@ -21,7 +21,7 @@ module.exports={
 							users[events[a].username].points.batiments+=md.points_batiments[events[a].batiment];
 							users[events[a].username].batiment_en_amelioration.splice(users[events[a].username].batiment_en_amelioration.indexOf(events[a].batiment),1);
 						}
-						a_suprimer.push(a);
+						events[a]=null;
 						break;
 					case "combat":
 						//le plus dur =]
@@ -33,7 +33,7 @@ module.exports={
 								events[a].rest_mols--;
 								events[a].time+=events[a].create_time;
 							}else{
-								a_suprimer.push(a);
+								events[a]=null;
 							}
 						}
 						break;
@@ -48,9 +48,6 @@ module.exports={
 						break;
 				}
 			}
-		}
-		for(let a of a_suprimer){
-			events[a]=null;
 		}
 		let b=0;
 		let l=events.length;

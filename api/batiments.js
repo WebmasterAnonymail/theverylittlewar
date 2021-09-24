@@ -107,7 +107,7 @@ module.exports = {
 										"username":body.username,
 										"time":new Date().getTime()+(Math.sqrt(users[body.username].batiments[body.batiment]+1)*10*(60*1000)),
 										"type":"amelioration",
-										"batiment":"stockage",
+										"batiment":body.batiment,
 									};
 									users[body.username].ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(users[body.username].batiments[body.batiment]+1)**3;
 									users[body.username].points.batmients+=3;
