@@ -94,7 +94,16 @@ module.exports = {
 							break;
 						case "protecteur":
 							if(users[body.username].batiments.protecteur<100){
-								///WorkInProgress
+								event_amel={
+									"username":body.username,
+									"time":new Date().getTime()+Math.sin(Math.pi*(users[body.username].batiments.protecteur+1)/200)*5*(60*60*1000),
+									"type":"amelioration",
+									"batiment":"protecteur",
+								};
+								users[body.username].points.batmients+=5;
+								events.push(event_amel);
+								res.writeHead(200,{'Content-Type':'application/json'});
+								res.end();
 							}else{
 								res.writeHead(403,{'Content-Type':'application/json'});
 								res.end();

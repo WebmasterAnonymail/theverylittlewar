@@ -1,13 +1,6 @@
 const fs=require("fs");
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js")
-function power_atome(utilisateur,molecule,atome){
-	let result=(25**(utilisateur.molecules[molecule][md.atomes[atome]]/200)*40);
-	result*=1+(utilisateur.batiments[md.batiment_augmentateurs[atome]]/100);
-	result*=1+(utilisateur.medailles[md.medailles[atome]]/10);
-	//dupli
-	return result;
-}
 module.exports = {
 	name:'molecules',
 	POST:(req,res,body)=>{
@@ -43,11 +36,11 @@ module.exports = {
 				}else{
 					event_mol={
 						"username":body.username,
-						"time":new Date().getTime()+(1000*60*60)/power_atome(users[body.username],body.mol_id,2),
+						"time":new Date().getTime()+(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2),
 						"type":"molecule",
 						"molecule":body.mol_id,
 						"rest_mols":body.mol_numbers-1,
-						"create_time":(1000*60*60)/power_atome(users[body.username],body.mol_id,2)
+						"create_time":(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2)
 					};
 					events.push(event_mol);
 					users[body.username].ressources.energie-=energy_cost*body.mol_number;
