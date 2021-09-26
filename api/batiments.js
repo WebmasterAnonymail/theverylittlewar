@@ -96,7 +96,7 @@ module.exports = {
 							if(users[body.username].batiments.protecteur<100){
 								event_amel={
 									"username":body.username,
-									"time":new Date().getTime()+Math.sin(Math.pi*(users[body.username].batiments.protecteur+1)/200)*5*(60*60*1000),
+									"time":new Date().getTime()+Math.sin(Math.PI*(users[body.username].batiments.protecteur+1)/200)*5*(60*60*1000),
 									"type":"amelioration",
 									"batiment":"protecteur",
 								};

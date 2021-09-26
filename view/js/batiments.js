@@ -152,7 +152,7 @@ function post_getuser_action(){
 		document.getElementById(a+"_niveau").innerText=user.batiments[a];
 		if(a=="protecteur"){
 			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
-			document.getElementById(a+"_temps").innerText=affichageTemps(Math.sin(Math.pi*(user.batiments.protecteur+1)/200)*5*(60*60*1000));
+			document.getElementById(a+"_temps").innerText=affichageTemps(Math.sin(Math.PI*(user.batiments.protecteur+1)/200)*5*(60*60*1000));
 		}else if(a=="stockage"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.stockage/15)*1000);
 			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.stockage/15)*10);
