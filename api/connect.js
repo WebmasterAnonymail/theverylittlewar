@@ -22,15 +22,22 @@ module.exports = {
 	PUT:(req,res,body)=>{
 		let usersdata=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
-		if((usersdata[body["username"]]["password"]==body["password"])&&usersdata[body["username"]]){
-			connect_token=generate_token();
-			connections[connect_token]=body["username"];
-			res.writeHead(200,{'Content-Type':'application/json'});
-			res.write(JSON.stringify({token:connect_token}));
-			res.end();
-			fs.writeFileSync("/mnt/connections.json",JSON.stringify(connections));
+		if(usersdata[body["username"]]){
+			if(usersdata[body["username"]]["password"]==body["password"]){
+				connect_token=generate_token();
+				connections[connect_token]=body["username"];
+				res.writeHead(200,{'Content-Type':'application/json'});
+				res.write(JSON.stringify({token:connect_token}));
+				res.end();
+				fs.writeFileSync("/mnt/connections.json",JSON.stringify(connections));
+			}else{
+				res.writeHead(401,{'Content-Type':'application/json'});
+				res.write("{error:\"Bad password\"}");
+				res.end();
+			}
 		}else{
 			res.writeHead(401,{'Content-Type':'application/json'});
+			res.write("{error:\"Bad username\"}");
 			res.end();
 		}
 	},
