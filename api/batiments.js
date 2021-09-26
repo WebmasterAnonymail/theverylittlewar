@@ -9,7 +9,6 @@ module.exports = {
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].batiments[body.batiment]!==undefined){
 				if(users[body.username].batiment_en_amelioration.indexOf(body.batiment)<0){
-					users[body.username].batiment_en_amelioration.push(body.batiment);
 					switch(body.batiment){
 						case "generateur":
 							if(
@@ -21,6 +20,7 @@ module.exports = {
 									"type":"amelioration",
 									"batiment":"generateur",
 								};
+								users[body.username].batiment_en_amelioration.push("generateur");
 								users[body.username].ressources.energie-=(10**(users[body.username].batiments.generateur/20)*100);
 								users[body.username].points.batmients+=1;
 								events.push(event_amel);
@@ -49,6 +49,7 @@ module.exports = {
 									"type":"amelioration",
 									"batiment":"producteur",
 								};
+								users[body.username].batiment_en_amelioration.push("producteur");
 								for(a of md.atomes){
 									users[body.username].ressources[a]-=10**(users[body.username].batiments.producteur/20)*10;
 								}
@@ -79,6 +80,7 @@ module.exports = {
 									"type":"amelioration",
 									"batiment":"stockage",
 								};
+								users[body.username].batiment_en_amelioration.push("stockage");
 								users[body.username].ressources.energie-=10**(users[body.username].batiments.stockage/15)*100;
 								for(a of md.atomes){
 									users[body.username].ressources[a]-=10**(users[body.username].batiments.stockage/15)*10;
@@ -100,6 +102,7 @@ module.exports = {
 									"type":"amelioration",
 									"batiment":"protecteur",
 								};
+								users[body.username].batiment_en_amelioration.push("protecteur");
 								users[body.username].points.batmients+=5;
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
@@ -118,6 +121,7 @@ module.exports = {
 										"type":"amelioration",
 										"batiment":body.batiment,
 									};
+									users[body.username].batiment_en_amelioration.push(body.batiment);
 									users[body.username].ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(users[body.username].batiments[body.batiment]+1)**3;
 									users[body.username].points.batmients+=3;
 									events.push(event_amel);

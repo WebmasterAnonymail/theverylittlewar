@@ -57,7 +57,9 @@ module.exports.points_batiments={
 module.exports.power_atome=function(utilisateur,molecule,atome,md){
 	let result=(25**(utilisateur.molecules[molecule][md.atomes[atome]]/200)*40);
 	result*=1+(utilisateur.batiments[md.batiment_augmentateurs[atome]]/100);
-	result*=1+(utilisateur.medailles[md.medailles[atome]]/10);
+	if(md.medailles[atome]>=0){
+		result*=1+(utilisateur.medailles[md.medailles[atome]]/10);
+	}
 	//dupli
 	return result;
 }

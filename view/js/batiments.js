@@ -122,7 +122,7 @@ window.onload=()=>{
 		document.getElementById(batiments_list[a]+"_bouton").addEventListener("click",function(event){
 			use_api("POST","batiments",{"batiment":batiments_list[a]},true,function(xhr){
 				if(xhr.status==200){
-					//rien pour le moment
+					act_user();
 				}else if(xhr.status==402){
 					alert("Pas assez de ressources")
 				}else if(xhr.status==409){
@@ -161,7 +161,7 @@ function post_getuser_action(){
 			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.stockage+1)/15)-10**(user.batiments.stockage/15))*1000);
 		}else if(a=="generateur"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.generateur/20)*100)+"/h";
-			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.generateur/20)*10);
+			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.generateur/20)*100);
 			document.getElementById(a+"_temps").innerText=affichageTemps(Math.log2(user.batiments.generateur+1)*10*(60*1000));
 			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.generateur+1)/20)-10**(user.batiments.generateur/20))*100)+"/h";
 		}else if(a=="producteur"){

@@ -84,7 +84,7 @@ module.exports = {
 						}
 					}
 					if(ok){
-							users[body.username].molecules[body.mol_id]={
+						users[body.username].molecules[body.mol_id]={
 							"carbone":Number(body.carbone),
 							"oxygene":Number(body.oxygene),
 							"azote":Number(body.azote),
@@ -105,7 +105,7 @@ module.exports = {
 					}
 				}
 			}else{
-				res.writeHead(400,{'Content-Type':'application/json'});
+				res.writeHead(409,{'Content-Type':'application/json'});
 				res.write("{error:\"Molecule already exist\"}");
 				res.end();
 			}
@@ -124,7 +124,7 @@ module.exports = {
 				res.writeHead(200,{'Content-Type':'application/json'});
 				res.end();
 			}else{
-				res.writeHead(400,{'Content-Type':'application/json'});
+				res.writeHead(409,{'Content-Type':'application/json'});
 				res.write("{error:\"Molecule not exist\"}");
 				res.end();
 			}
@@ -133,5 +133,6 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
+		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 	}
 }
