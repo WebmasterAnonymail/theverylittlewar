@@ -36,11 +36,11 @@ module.exports = {
 				}else{
 					event_mol={
 						"username":body.username,
-						"time":new Date().getTime()+(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2),
+						"time":new Date().getTime()+(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2,md),
 						"type":"molecule",
 						"molecule":body.mol_id,
 						"rest_mols":body.mol_numbers-1,
-						"create_time":(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2)
+						"create_time":(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2,md)
 					};
 					events.push(event_mol);
 					users[body.username].ressources.energie-=energy_cost*body.mol_number;

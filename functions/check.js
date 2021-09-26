@@ -69,7 +69,7 @@ module.exports={
 			for(let a=0;a<5;a++){
 				if(users[user].molecules[a]){
 					let old_mol=users[user].molecules[a];
-					users[user].molecules[a]/=2**((tempEcoule/(1000*60))/(25**(users[user].molecules[a].iode/200)*40));
+					users[user].molecules[a]/=2**((tempEcoule/(1000*60))/md.power_atome(users[user],a,3,md));
 					users[user].points.pertes_temps+=old_mol-users[user].molecules[a];
 				}
 			}
