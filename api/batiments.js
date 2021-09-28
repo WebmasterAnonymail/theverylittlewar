@@ -12,7 +12,7 @@ module.exports = {
 					switch(body.batiment){
 						case "generateur":
 							if(
-							users[body.username].ressources.energie>=(10**(users[body.username].batiments.generateur/20)*100)
+							users[body.username].ressources.energie>=(10**(users[body.username].batiments.generateur/15)*100)
 							){
 								event_amel={
 									"username":body.username,
@@ -21,7 +21,7 @@ module.exports = {
 									"batiment":"generateur",
 								};
 								users[body.username].batiment_en_amelioration.push("generateur");
-								users[body.username].ressources.energie-=(10**(users[body.username].batiments.generateur/20)*100);
+								users[body.username].ressources.energie-=(10**(users[body.username].batiments.generateur/15)*100);
 								users[body.username].points.batmients+=1;
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
@@ -34,14 +34,14 @@ module.exports = {
 							break;
 						case "producteur":
 							if(
-							users[body.username].ressources.carbone>=10**(users[body.username].batiments.producteur/20)*10&&
-							users[body.username].ressources.oxygene>=10**(users[body.username].batiments.producteur/20)*10&&
-							users[body.username].ressources.azote>=10**(users[body.username].batiments.producteur/20)*10&&
-							users[body.username].ressources.iode>=10**(users[body.username].batiments.producteur/20)*10&&
-							users[body.username].ressources.brome>=10**(users[body.username].batiments.producteur/20)*10&&
-							users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.producteur/20)*10&&
-							users[body.username].ressources.soufre>=10**(users[body.username].batiments.producteur/20)*10&&
-							users[body.username].ressources.chlore>=10**(users[body.username].batiments.producteur/20)*10
+							users[body.username].ressources.carbone>=10**(users[body.username].batiments.producteur/15)*10&&
+							users[body.username].ressources.oxygene>=10**(users[body.username].batiments.producteur/15)*10&&
+							users[body.username].ressources.azote>=10**(users[body.username].batiments.producteur/15)*10&&
+							users[body.username].ressources.iode>=10**(users[body.username].batiments.producteur/15)*10&&
+							users[body.username].ressources.brome>=10**(users[body.username].batiments.producteur/15)*10&&
+							users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.producteur/15)*10&&
+							users[body.username].ressources.soufre>=10**(users[body.username].batiments.producteur/15)*10&&
+							users[body.username].ressources.chlore>=10**(users[body.username].batiments.producteur/15)*10
 							){
 								event_amel={
 									"username":body.username,
@@ -51,7 +51,7 @@ module.exports = {
 								};
 								users[body.username].batiment_en_amelioration.push("producteur");
 								for(a of md.atomes){
-									users[body.username].ressources[a]-=10**(users[body.username].batiments.producteur/20)*10;
+									users[body.username].ressources[a]-=10**(users[body.username].batiments.producteur/15)*10;
 								}
 								users[body.username].points.batmients+=1;
 								events.push(event_amel);

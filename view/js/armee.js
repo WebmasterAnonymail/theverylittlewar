@@ -68,6 +68,11 @@ window.onload=function(event){
 		create_mol_id=null;
 		document.getElementById("create_mol_popup").style.display="none";
 	});
+	for(let a of atomes){
+		document.forms.create_mol_form[a].addEventListener("change",function(){
+			document.getElementById(a+"_effet").innerText=affichageRessources(25**(document.forms.create_mol_form[a].valueAsNumber/200)*40);
+		});
+	}
 	for(let a=0;a<5;a++){
 		document.getElementById("create_mol"+a).addEventListener("click",function(event){
 			document.getElementById("create_mol_popup").style.display="block";

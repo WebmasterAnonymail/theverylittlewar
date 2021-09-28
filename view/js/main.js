@@ -156,7 +156,7 @@ window.addEventListener("load",function(ev){
 					act_preview();
 				}else{
 					act_user();
-					setInterval(act_user,10000)
+					setInterval(act_user,30000)
 				}
 			}else{
 				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){

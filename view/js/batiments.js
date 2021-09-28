@@ -160,15 +160,15 @@ function post_getuser_action(){
 			document.getElementById(a+"_temps").innerText=affichageTemps(Math.log2(user.batiments.stockage+1)*10*(60*1000));
 			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.stockage+1)/15)-10**(user.batiments.stockage/15))*1000);
 		}else if(a=="generateur"){
-			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.generateur/20)*100)+"/h";
-			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.generateur/20)*100);
+			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.generateur/15)*100)+"/h";
+			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.generateur/15)*100);
 			document.getElementById(a+"_temps").innerText=affichageTemps(Math.log2(user.batiments.generateur+1)*10*(60*1000));
-			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.generateur+1)/20)-10**(user.batiments.generateur/20))*100)+"/h";
+			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.generateur+1)/15)-10**(user.batiments.generateur/15))*100)+"/h";
 		}else if(a=="producteur"){
-			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.producteur/20)*10)+"/h";
-			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.producteur/20)*10);
+			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.producteur/15)*10)+"/h";
+			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.producteur/15)*10);
 			document.getElementById(a+"_temps").innerText=affichageTemps(Math.log2(user.batiments.producteur+1)*10*(60*1000));
-			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.producteur+1)/20)-10**(user.batiments.producteur/20))*10)+"/h";
+			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.producteur+1)/15)-10**(user.batiments.producteur/15))*10)+"/h";
 		}else{
 			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
 			document.getElementById(a+"_ressources").innerText=affichageRessources((user.batiments[a]+1)**3);

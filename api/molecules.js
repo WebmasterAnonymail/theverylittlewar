@@ -36,7 +36,7 @@ module.exports = {
 				}else{
 					event_mol={
 						"username":body.username,
-						"time":new Date().getTime()+(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2,md),
+						"time":new Date().getTime()+(1000*60*60)*body.mol_number/md.power_atome(users[body.username],body.mol_id,2,md),
 						"type":"molecule",
 						"molecule":body.mol_id,
 						"rest_mols":body.mol_numbers-1,
