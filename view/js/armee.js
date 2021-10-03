@@ -70,7 +70,14 @@ window.onload=function(event){
 	});
 	for(let a of atomes){
 		document.forms.create_mol_form[a].addEventListener("change",function(){
-			document.getElementById(a+"_effet").innerText=affichageRessources(25**(document.forms.create_mol_form[a].valueAsNumber/200)*40);
+			let res=affichageRessources(25**(document.forms.create_mol_form[a].valueAsNumber/200)*40);
+			if(a=="azote"){
+				res+=" mol/h"
+			}
+			if(a=="iode"){
+				res+="min (demi vie)"
+			}
+			document.getElementById(a+"_effet").innerText=res;
 		});
 	}
 	for(let a=0;a<5;a++){

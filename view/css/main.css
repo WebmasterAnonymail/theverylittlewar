@@ -179,8 +179,7 @@ ecl{
 	overflow: visible;
 }
 .text_ressource{
-	padding-left: 4px;
-	padding-right: 16px;
+	padding-right: 10px;
 }
 .fullscreen_image{
 	height: 10%;
@@ -235,10 +234,10 @@ ecl{
 }
 .fenetre{
 	position:absolute;
-	top:25%;
+	top:20%;
 	left:25%;
 	width:50%;
-	height:50%;
+	height:60%;
 	border:2px outset #808080;
 	padding:5px;
 	clip: rect(0 100 100 10);
