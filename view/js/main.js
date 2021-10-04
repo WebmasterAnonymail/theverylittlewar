@@ -1,4 +1,4 @@
-var opened_iframe_id="";
+var opened_popup_id="";
 var username=null;
 var user=null;
 var atomes=[
@@ -151,8 +151,14 @@ window.addEventListener("load",function(ev){
 				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){
 					document.getElementById("popup_mask").addEventListener("click",(ev)=>{
 						document.getElementById("popup_mask").style.display="none";
-						document.getElementById(opened_iframe_id).setAttribute("open","no");
+						document.getElementById(opened_popup_id).setAttribute("open","no");
 					});
+					document.getElementById("notifbar").addEventListener("click",(ev)=>{
+						document.getElementById("notifbar").setAttribute("open","yes");
+						document.getElementById("popup_mask").style.display="block";
+						opened_popup_id="notifbar";
+					});
+					
 					act_preview();
 				}else{
 					act_user();
@@ -188,5 +194,5 @@ function open_iframe(iframeid){
 	let iframe=document.getElementById("iframe"+iframeid);
 	iframe.setAttribute("open","yes");
 	document.getElementById("popup_mask").style.display="block";
-	opened_iframe_id="iframe"+iframeid;
+	opened_popup_id="iframe"+iframeid;
 }
