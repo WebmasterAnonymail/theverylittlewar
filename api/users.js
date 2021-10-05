@@ -5,9 +5,9 @@ module.exports = {
 	name:'users',
 	GET:(req,res,body)=>{
 		let data=JSON.parse(fs.readFileSync("/mnt/users.json"));
+		let events=JSON.parse(fs.readFileSync("/mnt/events.json"));
 		switch(body.mode){
 			case "detailed":
-				let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
 				if(checkmodule.usercheck(body.username,body.token)){
 						res.writeHead(200,{'Content-Type':'application/json'});
 						data=JSON.parse(fs.readFileSync("/mnt/users.json"));
@@ -44,6 +44,28 @@ module.exports = {
 				}else{
 					res.writeHead(404,{'Content-Type':'application/json'});
 					res.write("{error:\"User not found\"}");
+					res.end();
+				}
+				break;
+			case "events":
+				if(checkmodule.usercheck(body.username,body.token)){
+						let response=[];
+						for(let event in events){
+							switch(events[a].type){
+								case "amelioration":
+									response.push({
+										"time":event.time,
+										"type":"amelioration",
+										"batiment":event.batiment
+									});
+							}
+						}
+						res.writeHead(200,{'Content-Type':'application/json'});
+						res.write(JSON.stringify(response));
+						res.end();
+				}else{
+					res.writeHead(401,{'Content-Type':'application/json'});
+					res.write("{error:\"Not connected\"}");
 					res.end();
 				}
 				break;
