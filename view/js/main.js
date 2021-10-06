@@ -65,24 +65,43 @@ function affichageRessources(num){
 	return Math.floor(num);
 }
 function act_preview(){
-	let api_xhr=new XMLHttpRequest();
-	let at_send=new URLSearchParams();
-	at_send.append("mode","detailed");
-	at_send.append("token",localStorage.getItem("token"));
-	at_send.append("username",username);
-	api_xhr.open("GET","/api/v1/users?"+at_send.toString());
-	api_xhr.responseType="json";
-	api_xhr.send();
-	api_xhr.addEventListener("readystatechange",function(ev){
-		if(api_xhr.readyState==api_xhr.DONE){
-			if(api_xhr.status==200){
-				document.getElementById("preview_energie").innerText=affichageRessources(api_xhr.response.ressources.energie);
-				for(let a of atomes){
-					document.getElementById("preview_"+a).innerText=affichageRessources(api_xhr.response.ressources[a]);
-				}
-			}else{
-				alert("ERROR in getting user : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
+	use_api("GET","users",{"mode":"detailed"},false,function(xhr){
+		if(xhr.status==200){
+			document.getElementById("preview_energie").innerText=affichageRessources(xhr.response.ressources.energie);
+			for(let a of atomes){
+				document.getElementById("preview_"+a).innerText=affichageRessources(xhr.response.ressources[a]);
 			}
+		}else{
+			alert("ERROR in getting user : code "+xhr.status+"\n Erreur : "+xhr.response.error);
+		}
+	});
+	use_api("GET","users",{"mode":"events"},false,function(xhr){
+		if(xhr.status==200){
+			let notifbar=document.getElementById("notifbar");
+			notifbar.innerText="";
+			for(let event of xhr.response){
+				notif=document.createElement("div");
+				notif.classList.add("notif");
+				switch(event.type){
+					case "amelioration":
+						let icon=document.createElement("img");
+						icon.classList.add("icon");
+						icon.src="image/actions/upgrade.png";
+						notif.appendChild(icon);
+						let batiment=document.createElement("span");
+						batiment.style.marginLeft="10px";
+						batiment.innerText=event.batiment;
+						notif.appendChild(batiment);
+						break;
+				}
+				time=document.createElement("span");
+				time.classList.add("notif_time");
+				time.innerText=affichageTemps(event.time-new Date().getTime());
+				notif.appendChild(time);
+				notifbar.appendChild(notif);
+			}
+		}else{
+			alert("ERROR in getting user's events : code "+xhr.status+"\n Erreur : "+xhr.response.error);
 		}
 	});
 	setTimeout(act_preview,1000*10)

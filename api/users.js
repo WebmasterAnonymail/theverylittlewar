@@ -49,20 +49,23 @@ module.exports = {
 				break;
 			case "events":
 				if(checkmodule.usercheck(body.username,body.token)){
-						let response=[];
-						for(let event in events){
-							switch(events[a].type){
-								case "amelioration":
+					let response=[];
+					for(let event of events){
+						switch(event.type){
+							case "amelioration":
+								if(event.username==body.username){
 									response.push({
 										"time":event.time,
 										"type":"amelioration",
 										"batiment":event.batiment
 									});
-							}
+								}
+								break;
 						}
-						res.writeHead(200,{'Content-Type':'application/json'});
-						res.write(JSON.stringify(response));
-						res.end();
+					}
+					res.writeHead(200,{'Content-Type':'application/json'});
+					res.write(JSON.stringify(response));
+					res.end();
 				}else{
 					res.writeHead(401,{'Content-Type':'application/json'});
 					res.write("{error:\"Not connected\"}");
