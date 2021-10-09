@@ -58,7 +58,7 @@ function act_QG(patch=true){
 			if(xhr.status==200){
 				
 			}else{
-				alert("ERROR in setting HQ params : code "+xhr.status+"\n Erreur : "+xhr.response.error);
+				alert("ERROR in setting HQ params : code "+xhr.status);
 			}
 		});
 	}
@@ -128,7 +128,7 @@ window.onload=()=>{
 				}else if(xhr.status==409){
 					alert("Deja en ameliration")
 				}else{
-					alert("ERROR in upgrading batiment : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
+					alert("ERROR in upgrading batiment : code "+xhr.status);
 				}
 			});
 		})

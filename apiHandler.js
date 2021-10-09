@@ -14,7 +14,7 @@ module.exports=function(req,res,body){
 	let url=new URL("http://"+req.headers.host+req.url);
 	let name=url.pathname.slice(toSlice.length);
 	if(!api[name]) {
-		res.writeHead(404,{'Content-Type':'application/json'});
+		res.writeHead(501,{'Content-Type':'application/json'});
 		res.write("{error:\"not api with name '"+name+"' found\"}");
 		res.end();
 	}else{

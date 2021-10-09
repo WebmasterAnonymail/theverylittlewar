@@ -6,14 +6,14 @@
 	font-family: "BigTitle";
 	src: url("../font/Title.ttf") format("truetype");
 }
-@media (max-width:750px){
-	#small_content{
-		display: flex !important;
-	}
-	#big_content{
-		display: none !important;
-	}
-}
+/* @media (max-width:750px){ */
+	/* #small_content{ */
+		/* display: flex !important; */
+	/* } */
+	/* #big_content{ */
+		/* display: none !important; */
+	/* } */
+/* } */
 @media (orientation:portrait) {
 	.miniature{
 		width: 90%;
@@ -226,6 +226,7 @@ ecl{
 	width: 32px;
 	margin: 4px;
 	cursor: pointer;
+	vertical-align: middle;
 }
 .button_labeled{
 	margin: 12px;
@@ -263,8 +264,9 @@ ecl{
 	width:50%;
 	max-height:75%;
 	border:2px outset #808080;
+	border-radius: 5px;
 	padding:5px;
-	clip: rect(0 100 100 10);
+	/* clip: rect(0 100 100 10); */
 	background-color:#ffffff;
 	box-shadow:5px 5px 10px 0px #404040;
 }

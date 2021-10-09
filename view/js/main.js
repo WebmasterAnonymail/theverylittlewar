@@ -72,7 +72,7 @@ function act_preview(){
 				document.getElementById("preview_"+a).innerText=affichageRessources(xhr.response.ressources[a]);
 			}
 		}else{
-			alert("ERROR in getting user : code "+xhr.status+"\n Erreur : "+xhr.response.error);
+			alert("ERROR in getting user : code "+xhr.status);
 		}
 	});
 	use_api("GET","users",{"mode":"events"},false,function(xhr){
@@ -101,7 +101,7 @@ function act_preview(){
 				notifbar.appendChild(notif);
 			}
 		}else{
-			alert("ERROR in getting user's events : code "+xhr.status+"\n Erreur : "+xhr.response.error);
+			alert("ERROR in getting user's events : code "+xhr.status);
 		}
 	});
 	setTimeout(act_preview,1000*10)

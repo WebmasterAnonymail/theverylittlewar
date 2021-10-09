@@ -32,6 +32,7 @@ function post_getuser_action(){
 			document.getElementById("delete_mol"+a).style.display="inline-block";
 			document.getElementById("new_mol"+a).style.display="inline-block";
 			document.getElementById("new_mol"+a+"_number").style.display="inline-block";
+			document.getElementById("prix_new_mol"+a).style.display="inline-block";
 		}else{
 			document.getElementById("formule"+a).innerHTML="Vide";
 			document.getElementById("number_mol"+a).innerText="0";
@@ -40,6 +41,7 @@ function post_getuser_action(){
 			document.getElementById("delete_mol"+a).style.display="none";
 			document.getElementById("new_mol"+a).style.display="none";
 			document.getElementById("new_mol"+a+"_number").style.display="none";
+			document.getElementById("prix_new_mol"+a).style.display="none";
 		}
 	}
 }
@@ -56,7 +58,7 @@ window.onload=function(event){
 			}else if(xhr.status==402){
 				alert("Pas assez d'énergie");
 			}else{
-				alert("ERROR in creating molecule : code "+xhr.status+"\n Erreur : "+api_xhr.response.error);
+				alert("ERROR in creating molecule : code "+xhr.status);
 			}
 		});
 		document.forms.create_mol_form.reset();
@@ -85,12 +87,27 @@ window.onload=function(event){
 			document.getElementById("create_mol_popup").style.display="block";
 			create_mol_id=a;
 		});
+		document.getElementById("new_mol"+a).addEventListener("click",function(event){
+			let datas={
+				mol_id:a,
+				mol_number:document.getElementById("new_mol"+a+"_number").valueAsNumber
+			}
+			use_api("POST","molecules",datas,true,function(xhr){
+				if(xhr.status==200){
+					act_user();
+				}else if(xhr.status==406){
+					alert("Veuillez preciser une valeur");
+				}else{
+					alert("ERROR in deleting molecule : code "+xhr.status);
+				}
+			});
+		});
 		document.getElementById("delete_mol"+a).addEventListener("click",function(event){
 			use_api("DELETE","molecules",{"mol_id":a},false,function(xhr){
 				if(xhr.status==200){
 					act_user();
 				}else{
-					alert("ERROR in deleting molecule : code "+xhr.status+"\n Erreur : "+api_xhr.response.error);
+					alert("ERROR in deleting molecule : code "+xhr.status);
 				}
 			});
 		});
