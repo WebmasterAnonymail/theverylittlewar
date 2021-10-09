@@ -191,7 +191,7 @@ ecl{
 	margin: 4px;
 	background-color: #c0c0c0;
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
 }
 .icon_ressource{
 	border-radius: 16px;
