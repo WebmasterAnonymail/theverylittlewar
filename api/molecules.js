@@ -40,7 +40,7 @@ module.exports = {
 							"time":new Date().getTime()+(1000*60*60)*body.mol_number/md.power_atome(users[body.username],body.mol_id,2,md),
 							"type":"molecule",
 							"molecule":body.mol_id,
-							"rest_mols":body.mol_number-1,
+							"rest_mols":body.mol_number,
 							"create_time":(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2,md)
 						};
 						events.push(event_mol);

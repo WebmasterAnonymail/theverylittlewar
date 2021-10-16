@@ -26,7 +26,7 @@ function post_getuser_action(){
 				}
 			}
 			document.getElementById("formule"+a).innerHTML=formule;
-			document.getElementById("number_mol"+a).innerText=user.molecules[a].number;
+			document.getElementById("number_mol"+a).innerText=affichageRessources(user.molecules[a].number);
 			document.getElementById("prix_mol"+a).style.display="none";
 			document.getElementById("create_mol"+a).style.display="none";
 			document.getElementById("delete_mol"+a).style.display="inline-block";
@@ -77,7 +77,10 @@ window.onload=function(event){
 				res+=" mol/h"
 			}
 			if(a=="iode"){
-				res+="min (demi vie)"
+				res=affichageTemps(25**(document.forms.create_mol_form[a].valueAsNumber/200)*40*60000)+"(demi vie)"
+			}
+			if(a=="chlore"){
+				res+=" case/h"
 			}
 			document.getElementById(a+"_effet").innerText=res;
 		});
@@ -97,8 +100,10 @@ window.onload=function(event){
 					act_user();
 				}else if(xhr.status==406){
 					alert("Veuillez preciser une valeur");
+				}else if(xhr.status==402){
+					alert("Pas assez de ressources");
 				}else{
-					alert("ERROR in deleting molecule : code "+xhr.status);
+					alert("ERROR in producting molecule : code "+xhr.status);
 				}
 			});
 		});

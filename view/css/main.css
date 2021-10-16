@@ -163,6 +163,7 @@ ecl{
 	background-image: url("../image/background_notifbar.jpg");
 	background-position: center;
 	background-size: cover;
+	border: 1px solid #000000;
 	border-bottom-right-radius: 10px;
 	border-bottom-left-radius: 10px;
 }

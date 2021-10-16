@@ -21,9 +21,13 @@ module.exports={
 						break;
 					case "molecule":
 						if(users[events[a].username]){
-							users[events[a].username].molecules[events[a].molecule].number++;
-							if(events[a].rest_mols>0){
-								events[a].rest_mols--;
+							elapsed_time=new Date().getTime()-events[a].time;
+							mol_create=Math.min(events[a].rest_mols,Math.floor(elapsed_time/events[a].create_time));
+							time_in_more=elapsed_time%events[a].create_time;
+							console.log(mol_create)
+							users[events[a].username].molecules[events[a].molecule].number+=mol_create;
+							if(events[a].rest_mols>mol_create){
+								events[a].rest_mols-=mol_create;
 								events[a].time+=events[a].create_time;
 							}else{
 								events[a]=null;

@@ -61,6 +61,15 @@ module.exports = {
 									});
 								}
 								break;
+							case "molecule":
+								if(event.username==body.username){
+									response.push({
+										"time":event.time,
+										"type":"amelioration",
+										"number":event.rest_mols,
+									});
+								}
+								break;
 						}
 					}
 					res.writeHead(200,{'Content-Type':'application/json'});

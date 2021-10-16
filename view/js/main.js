@@ -71,6 +71,7 @@ function act_preview(){
 			for(let a of atomes){
 				document.getElementById("preview_"+a).innerText=affichageRessources(xhr.response.ressources[a]);
 			}
+			document.getElementById("preview_points").innerText=xhr.response.points.batmients;
 		}else{
 			alert("ERROR in getting user : code "+xhr.status);
 		}

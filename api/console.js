@@ -16,36 +16,69 @@ module.exports={
 		res.end();
 	},
 	OPTIONS:(req,res,body)=>{
-		response=null;
 		try{
-			response=fs.readdirSync(body.path);
+			let response=fs.readdirSync(body.path);
+			res.writeHead(200,{'Content-Type':'application/json'});
+			res.write(JSON.stringify(response));
+			res.end();
+			
 		}catch(err){
-			response=err.stack;
+			if(err.code=="EPERM"){
+				res.writeHead(403);
+				res.end();
+			}else if(err.code=="EISDIR"){
+				res.writeHead(406);
+				res.end();
+			}else if(err.code=="ENOENT"){
+				res.writeHead(404);
+				res.end();
+			}else{
+				res.writeHead(500);
+				res.end();
+			}
 		}
-		res.writeHead(200,{'Content-Type':'application/json'});
-		res.write(JSON.stringify(response));
-		res.end();
 	},
 	GET:(req,res,body)=>{
-		response=null;
 		try{
-			response=String(fs.readFileSync(body.path));
+			let response=String(fs.readFileSync(body.path));
+			res.writeHead(200,{'Content-Type':'text/plain'});
+			res.write(response);
+			res.end();
 		}catch(err){
-			response=err.stack;
+			if(err.code=="EPERM"){
+				res.writeHead(403);
+				res.end();
+			}else if(err.code=="EISDIR"){
+				res.writeHead(406);
+				res.end();
+			}else if(err.code=="ENOENT"){
+				res.writeHead(404);
+				res.end();
+			}else{
+				res.writeHead(500);
+				res.end();
+			}
 		}
-		res.writeHead(200,{'Content-Type':'application/json'});
-		res.write(JSON.stringify(response));
-		res.end();
 	},
 	PUT:(req,res,body)=>{
-		response=null;
 		try{
 			fs.writeFileSync(body.path,body.content);
+			res.writeHead(200);
+			res.end();
 		}catch(err){
-			response=err.stack;
+			if(err.code=="EPERM"){
+				res.writeHead(403);
+				res.end();
+			}else if(err.code=="EISDIR"){
+				res.writeHead(406);
+				res.end();
+			}else if(err.code=="ENOENT"){
+				res.writeHead(404);
+				res.end();
+			}else{
+				res.writeHead(500);
+				res.end();
+			}
 		}
-		res.writeHead(200,{'Content-Type':'application/json'});
-		res.write(JSON.stringify(response));
-		res.end();
 	}
 }

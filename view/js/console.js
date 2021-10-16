@@ -1,4 +1,4 @@
-var fs_dir_mode=true
+var fs_mode=null;
 function HTMLString(obj,also_whitespaces=false){
 	let result=String(obj);
 	while(/<&>\n/.test()){
@@ -88,40 +88,51 @@ window.onload=function(event){
 		let at_send=new URLSearchParams();
 		at_send.append("path",document.getElementById("path").value);
 		xhr.open(document.forms.fs.action.value,"/api/v1/console?"+at_send.toString());
-		xhr.responseType="json";
-		fs_dir_mode=document.forms.fs.action.value=="OPTIONS";
+		fs_mode=document.forms.fs.action.value;
+		if(fs_mode=="OPTIONS"){
+			xhr.responseType="json";
+		}else{
+			xhr.responseType="text";
+		}
 		xhr.send(JSON.stringify({content:document.getElementById("content_fs").value}));
 		xhr.addEventListener("readystatechange",function(ev){
 			if(xhr.readyState==xhr.DONE){
-				if(fs_dir_mode){
-					document.getElementById("res_file_fs").style.display="none";
-					document.getElementById("res_dir_fs").style.display="block";
-					while(document.getElementById("res_dir_fs").childElementCount>0){
-						document.getElementById("res_dir_fs").removeChild(document.getElementById("res_dir_fs").firstElementChild);
-					}
-					for(let filename of xhr.response){
-						let line=document.createElement("div");
-						line.classList.add("fileline");
-						let namecell=document.createElement("div");
-						namecell.classList.add("namecell");
-						namecell.innerText=filename
-						line.appendChild(namecell);
-						let pathbutton=document.createElement("input");
-						pathbutton.value="Y aller";
-						pathbutton.type="button";
-						pathbutton.addEventListener("click",function(ev){
-							if(!document.getElementById("path").value.endsWith("/")){
-								document.getElementById("path").value+="/"
-							}
-							document.getElementById("path").value+=filename
-						});
-						line.appendChild(pathbutton);
-						document.getElementById("res_dir_fs").appendChild(line)
+				if(xhr.status==200){
+					if(fs_mode=="OPTIONS"){
+						document.getElementById("res_file_fs").style.display="none";
+						document.getElementById("res_dir_fs").style.display="block";
+						while(document.getElementById("res_dir_fs").childElementCount>0){
+							document.getElementById("res_dir_fs").removeChild(document.getElementById("res_dir_fs").firstElementChild);
+						}
+						for(let filename of xhr.response){
+							let line=document.createElement("div");
+							line.classList.add("fileline");
+							let namecell=document.createElement("div");
+							namecell.classList.add("namecell");
+							namecell.innerText=filename
+							line.appendChild(namecell);
+							let pathbutton=document.createElement("input");
+							pathbutton.value="Y aller";
+							pathbutton.type="button";
+							pathbutton.addEventListener("click",function(ev){
+								if(!document.getElementById("path").value.endsWith("/")){
+									document.getElementById("path").value+="/"
+								}
+								document.getElementById("path").value+=filename
+							});
+							line.appendChild(pathbutton);
+							document.getElementById("res_dir_fs").appendChild(line)
+						}
+					}else if(fs_mode=="GET"){
+						document.getElementById("res_dir_fs").style.display="none";
+						document.getElementById("res_file_fs").style.display="block";
+						document.getElementById("res_file_fs").innerText=xhr.response;
+					}else{
+						document.getElementById("res_dir_fs").style.display="none";
+						document.getElementById("res_file_fs").style.display="none";
 					}
 				}else{
-					document.getElementById("res_dir_fs").style.display="none";
-					document.getElementById("res_file_fs").style.display="block";
-					document.getElementById("res_file_fs").innerHTML=ConvertToHTMLForPre(xhr.response);
+					alert("ERROR "+xhr.status)
 				}
 			}
 		});
