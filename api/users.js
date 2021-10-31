@@ -4,13 +4,13 @@ const fs=require("fs");
 module.exports = {
 	name:'users',
 	GET:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync("/mnt/users.json"));
-		let events=JSON.parse(fs.readFileSync("/mnt/events.json"));
+		let data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
 		switch(body.mode){
 			case "detailed":
 				if(checkmodule.usercheck(body.username,body.token)){
 						res.writeHead(200,{'Content-Type':'application/json'});
-						data=JSON.parse(fs.readFileSync("/mnt/users.json"));
+						data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 						res.write(JSON.stringify(data[body.username]));
 						res.end();
 				}else{
@@ -84,7 +84,7 @@ module.exports = {
 		}
 	},
 	PUT:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync("/mnt/users.json"));
+		let data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		if(body.username&&body.password){
 			if(data[body.username]){
 				res.writeHead(409,{'Content-Type':'application/json'});
@@ -173,10 +173,10 @@ module.exports = {
 			res.write(JSON.stringify({"error":"aucun nom d'utilisateur ou aucun mot de passe"}));
 			res.end();
 		}
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(data));
 	},
 	DELETE:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync("/mnt/users.json"))
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(data));
+		let data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(data));
 	}
 }

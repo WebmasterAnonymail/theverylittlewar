@@ -4,8 +4,8 @@ const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'batiments',
 	POST:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"));
-		let events=JSON.parse(fs.readFileSync("/mnt/events.json"));
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].batiments[body.batiment]!==undefined){
 				if(users[body.username].batiment_en_amelioration.indexOf(body.batiment)<0){
@@ -152,11 +152,11 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
-		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	PATCH:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"));
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			let check=true;
 			for(let a of ["production","pillage","destruction"]){
@@ -208,6 +208,6 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 	}
 }

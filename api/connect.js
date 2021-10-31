@@ -10,7 +10,7 @@ function generate_token(length=50){
 module.exports = {
 	name:'connect',
 	GET:(req,res,body)=>{
-		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
+		let connections=JSON.parse(fs.readFileSync(process.env.storage_root+"connections.json"))
 		res.writeHead(200,{'Content-Type':'application/json'});
 		if(connections[body.token]){
 			res.write(JSON.stringify({connected:true,username:connections[body.token]}));
@@ -20,8 +20,8 @@ module.exports = {
 		res.end();
 	},
 	PUT:(req,res,body)=>{
-		let usersdata=JSON.parse(fs.readFileSync("/mnt/users.json"))
-		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
+		let usersdata=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
+		let connections=JSON.parse(fs.readFileSync(process.env.storage_root+"connections.json"))
 		if(usersdata[body["username"]]){
 			if(usersdata[body["username"]]["password"]==body["password"]){
 				connect_token=generate_token();
@@ -29,7 +29,7 @@ module.exports = {
 				res.writeHead(200,{'Content-Type':'application/json'});
 				res.write(JSON.stringify({token:connect_token}));
 				res.end();
-				fs.writeFileSync("/mnt/connections.json",JSON.stringify(connections));
+				fs.writeFileSync(process.env.storage_root+"connections.json",JSON.stringify(connections));
 			}else{
 				res.writeHead(401,{'Content-Type':'application/json'});
 				res.write("{error:\"Bad password\"}");
@@ -42,10 +42,10 @@ module.exports = {
 		}
 	},
 	DELETE:(req,res,body)=>{
-		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
+		let connections=JSON.parse(fs.readFileSync(process.env.storage_root+"connections.json"))
 		delete connections[body.token];
 		res.writeHead(204,{'Content-Type':'application/json'});
 		res.end();
-		fs.writeFileSync("/mnt/connections.json",JSON.stringify(connections));
+		fs.writeFileSync(process.env.storage_root+"connections.json",JSON.stringify(connections));
 	}
 }

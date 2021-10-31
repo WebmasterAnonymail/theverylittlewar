@@ -2,8 +2,8 @@ const fs=require("fs");
 const md=require("../functions/miscdatas.js")
 module.exports={
 	eventcheck:function(){
-		let events=JSON.parse(fs.readFileSync("/mnt/events.json"))
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"))
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
 		let a_suprimer=[];
 		for(let a in events){
 			if(events[a].time<Date.now()){
@@ -56,12 +56,12 @@ module.exports={
 			}
 			b++;
 		}
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
-		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	usercheck:function(user,token){
-		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let connections=JSON.parse(fs.readFileSync(process.env.storage_root+"connections.json"))
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
 		if(users[user]){
 			let tempEcoule=Date.now()-users[user].lastUserCheck;
 			for(let a in md.atomes){
@@ -85,7 +85,7 @@ module.exports={
 				}
 			}
 			users[user].lastUserCheck=Date.now();
-			fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}
 		return (connections[token]==user)&&(connections[token]!=undefined)&&(users[user]);
 	}

@@ -4,8 +4,8 @@ const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'molecules',
 	POST:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
-		let events=JSON.parse(fs.readFileSync("/mnt/events.json"))
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
+		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"))
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]){
 				if((typeof(body.mol_number)=="number")&&(body.mol_number!=0)){
@@ -72,11 +72,11 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
-		fs.writeFileSync("/mnt/events.json",JSON.stringify(events));
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	PUT:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]==null){
 				if(10**(body.mol_id+1)>users[body.username].ressources.energie){
@@ -122,10 +122,10 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]){
 				users[body.username].molecules[body.mol_id]=null;
@@ -141,6 +141,6 @@ module.exports = {
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 	}
 }
