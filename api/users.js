@@ -65,7 +65,7 @@ module.exports = {
 								if(event.username==body.username){
 									response.push({
 										"time":event.time,
-										"type":"amelioration",
+										"type":"molecule",
 										"number":event.rest_mols,
 									});
 								}
@@ -163,7 +163,7 @@ module.exports = {
 					"description":null,
 					"permission":[],
 					"actif":true,
-					"lastUserCheck":new Date().getTime()
+					"lastUserCheck":Date.now()
 				};
 				res.writeHead(204,{'Content-Type':'application/json'});
 				res.end();

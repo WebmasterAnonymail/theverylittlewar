@@ -6,7 +6,7 @@ module.exports={
 		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		let a_suprimer=[];
 		for(let a in events){
-			if(events[a].time<new Date().getTime()){
+			if(events[a].time<Date.now()){
 				switch(events[a].type){
 					case "amelioration":
 						if(users[events[a].username]){
@@ -21,15 +21,16 @@ module.exports={
 						break;
 					case "molecule":
 						if(users[events[a].username]){
-							elapsed_time=new Date().getTime()-events[a].time;
-							mol_create=Math.min(events[a].rest_mols,Math.floor(elapsed_time/events[a].create_time));
+							elapsed_time=Date.now()-events[a].time;
+							mol_creatable=Math.floor(elapsed_time/events[a].create_time);
 							time_in_more=elapsed_time%events[a].create_time;
-							console.log(mol_create)
-							users[events[a].username].molecules[events[a].molecule].number+=mol_create;
-							if(events[a].rest_mols>mol_create){
-								events[a].rest_mols-=mol_create;
-								events[a].time+=events[a].create_time;
+							console.log(mol_creatable)
+							if(events[a].rest_mols>mol_creatable){
+								events[a].rest_mols-=mol_creatable;
+								events[a].time=time_in_more+Date.now();
+								users[events[a].username].molecules[events[a].molecule].number+=mol_creatable;
 							}else{
+								users[events[a].username].molecules[events[a].molecule].number+=events[a].rest_mols;
 								events[a]=null;
 							}
 						}
@@ -62,8 +63,7 @@ module.exports={
 		let connections=JSON.parse(fs.readFileSync("/mnt/connections.json"))
 		let users=JSON.parse(fs.readFileSync("/mnt/users.json"))
 		if(users[user]){
-			let now=new Date().getTime();
-			let tempEcoule=(now-users[user].lastUserCheck);
+			let tempEcoule=Date.now()-users[user].lastUserCheck;
 			for(let a in md.atomes){
 				users[user].ressources[md.atomes[a]]+=(10**(users[user].batiments.producteur/15)*10)*(users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
 				users[user].ressources[md.atomes[a]]=Math.min(10**(users[user].batiments.stockage/15)*100,users[user].ressources[md.atomes[a]]);
@@ -73,7 +73,7 @@ module.exports={
 			for(let a=0;a<5;a++){
 				if(users[user].molecules[a]){
 					let old_mol=users[user].molecules[a].number;
-					users[user].molecules[a].number/=2**((tempEcoule/(1000*60))/md.power_atome(users[user],a,3,md));
+					users[user].molecules[a].number/=2**((tempEcoule/(1000*60))/md.power_atome(users[user],a,3));
 					users[user].points.pertes_temps+=old_mol-users[user].molecules[a].number;
 				}
 			}
@@ -84,7 +84,7 @@ module.exports={
 					}
 				}
 			}
-			users[user].lastUserCheck=now;
+			users[user].lastUserCheck=Date.now();
 			fs.writeFileSync("/mnt/users.json",JSON.stringify(users));
 		}
 		return (connections[token]==user)&&(connections[token]!=undefined)&&(users[user]);

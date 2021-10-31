@@ -85,19 +85,29 @@ function act_preview(){
 				notif.classList.add("notif");
 				switch(event.type){
 					case "amelioration":
-						let icon=document.createElement("img");
-						icon.classList.add("icon");
-						icon.src="image/actions/upgrade.png";
-						notif.appendChild(icon);
+						let icon1=document.createElement("img");
+						icon1.classList.add("icon");
+						icon1.src="image/actions/upgrade.png";
+						notif.appendChild(icon1);
 						let batiment=document.createElement("span");
 						batiment.style.marginLeft="10px";
 						batiment.innerText=event.batiment;
 						notif.appendChild(batiment);
 						break;
+					case "molecule":
+						let icon2=document.createElement("img");
+						icon2.classList.add("icon");
+						icon2.src="image/actions/molecule.png";
+						notif.appendChild(icon2);
+						let molecule=document.createElement("span");
+						molecule.style.marginLeft="10px";
+						molecule.innerText="NOT DEV";
+						notif.appendChild(molecule);
+						break;
 				}
 				time=document.createElement("span");
 				time.classList.add("notif_time");
-				time.innerText=affichageTemps(event.time-new Date().getTime());
+				time.innerText=affichageTemps(event.time-Date.now());
 				notif.appendChild(time);
 				notifbar.appendChild(notif);
 			}

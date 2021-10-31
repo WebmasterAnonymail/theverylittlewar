@@ -72,7 +72,7 @@ window.onload=function(event){
 	});
 	for(let a of atomes){
 		document.forms.create_mol_form[a].addEventListener("change",function(){
-			let res=affichageRessources(25**(document.forms.create_mol_form[a].valueAsNumber/200)*40);
+			let res=affichageRessources(Math.max(1,Math.asin(create_mol_form[a].valueAsNumber/200)/Math.PI*2000));
 			if(a=="azote"){
 				res+=" mol/h"
 			}
