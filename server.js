@@ -13,4 +13,3 @@ if(process.env.reset_files=="yes"){
 	fs.writeFileSync(process.env.storage_root+"users.json","{}");
 	fs.writeFileSync(process.env.storage_root+"connections.json","{}");
 }
-console.log(process.env.storage_root)

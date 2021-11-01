@@ -66,7 +66,7 @@ module.exports={
 			let tempEcoule=Date.now()-users[user].lastUserCheck;
 			for(let a in md.atomes){
 				users[user].ressources[md.atomes[a]]+=(10**(users[user].batiments.producteur/15)*10)*(users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
-				users[user].ressources[md.atomes[a]]=Math.min(10**(users[user].batiments.stockage/15)*100,users[user].ressources[md.atomes[a]]);
+				users[user].ressources[md.atomes[a]]=Math.min(10**(users[user].batiments.stockage/15)*100*(users[user].QG.production[a]/4),users[user].ressources[md.atomes[a]]);
 			}
 			users[user].ressources["energie"]+=(10**(users[user].batiments.generateur/15)*100)*(tempEcoule/(1000*60*60));
 			users[user].ressources["energie"]=Math.min(10**(users[user].batiments.stockage/15)*1000,users[user].ressources["energie"]);
