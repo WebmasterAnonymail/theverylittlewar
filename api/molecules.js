@@ -65,6 +65,7 @@ module.exports = {
 						users[body.username].ressources.hydrogene-=users[body.username].molecules[body.mol_id].hydrogene*body.mol_number;
 						users[body.username].ressources.soufre-=users[body.username].molecules[body.mol_id].soufre*body.mol_number;
 						users[body.username].ressources.chlore-=users[body.username].molecules[body.mol_id].chlore*body.mol_number;
+						users[body.username].points.molecules_crees+=body.mol_number;
 						res.writeHead(200,{'Content-Type':'application/json'});
 						res.write("{status:\"DONE\"}");
 						res.end();
