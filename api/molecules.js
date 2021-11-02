@@ -35,15 +35,27 @@ module.exports = {
 						res.write("{error:\"Not enough ressources\"}");
 						res.end();
 					}else{
-						event_mol={
-							"username":body.username,
-							"time":Date.now()+(1000*60*60)*body.mol_number/md.power_atome(users[body.username],body.mol_id,2),
-							"type":"molecule",
-							"molecule":body.mol_id,
-							"rest_mols":body.mol_number,
-							"create_time":(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2)
-						};
-						events.push(event_mol);
+						let existing_mol_event=-1;
+						for(let a in events){
+							if(events[a].type=="molecule"
+							&&events[a].username==body.username
+							&&events[a].molecule==body.mol_id){
+								existing_mol_event=a;
+							}
+						}
+						if(existing_mol_event<0){
+							event_mol={
+								"username":body.username,
+								"time":Date.now()+(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2),
+								"type":"molecule",
+								"molecule":body.mol_id,
+								"rest_mols":body.mol_number,
+								"create_time":(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2)
+							};
+							events.push(event_mol);
+						}else{
+							events[existing_mol_event].rest_mols+=body.mol_number;
+						}
 						users[body.username].ressources.energie-=energy_cost*body.mol_number;
 						users[body.username].ressources.carbone-=users[body.username].molecules[body.mol_id].carbone*body.mol_number;
 						users[body.username].ressources.oxygene-=users[body.username].molecules[body.mol_id].oxygene*body.mol_number;
@@ -125,10 +137,21 @@ module.exports = {
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]){
 				users[body.username].molecules[body.mol_id]=null;
+				let b=0;
+				for(let a=0;a<events.length;a++){
+					if(events[b].type=="molecule"
+					&&events[b].username==body.username
+					&&events[b].molecule==body.mol_id){
+						events.splice(b,1);
+						b--
+					}
+					b++;
+				}
 				res.writeHead(200,{'Content-Type':'application/json'});
 				res.end();
 			}else{
@@ -142,5 +165,6 @@ module.exports = {
 			res.end();
 		}
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	}
 }

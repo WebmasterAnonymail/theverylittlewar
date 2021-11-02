@@ -68,8 +68,10 @@ function act_preview(){
 	use_api("GET","users",{"mode":"detailed"},false,function(xhr){
 		if(xhr.status==200){
 			document.getElementById("preview_energie").innerText=affichageRessources(xhr.response.ressources.energie);
+			document.getElementById("preview_energie").title=Math.floor(xhr.response.ressources.energie);
 			for(let a of atomes){
 				document.getElementById("preview_"+a).innerText=affichageRessources(xhr.response.ressources[a]);
+				document.getElementById("preview_"+a).title=Math.floor(xhr.response.ressources[a]);
 			}
 			document.getElementById("preview_points").innerText=xhr.response.points.batmients;
 		}else{

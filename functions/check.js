@@ -2,8 +2,8 @@ const fs=require("fs");
 const md=require("../functions/miscdatas.js")
 module.exports={
 	eventcheck:function(){
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"))
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
+		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		let a_suprimer=[];
 		for(let a in events){
 			if(events[a].time<Date.now()){
@@ -22,12 +22,12 @@ module.exports={
 					case "molecule":
 						if(users[events[a].username]){
 							elapsed_time=Date.now()-events[a].time;
-							mol_creatable=Math.floor(elapsed_time/events[a].create_time);
+							mol_creatable=Math.floor(elapsed_time/events[a].create_time)+1;
 							time_in_more=elapsed_time%events[a].create_time;
 							console.log(mol_creatable)
 							if(events[a].rest_mols>mol_creatable){
 								events[a].rest_mols-=mol_creatable;
-								events[a].time=time_in_more+Date.now();
+								events[a].time=Date.now()+events[a].create_time-time_in_more;
 								users[events[a].username].molecules[events[a].molecule].number+=mol_creatable;
 							}else{
 								users[events[a].username].molecules[events[a].molecule].number+=events[a].rest_mols;

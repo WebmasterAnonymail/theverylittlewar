@@ -77,7 +77,7 @@ window.onload=function(event){
 				res+=" mol/h"
 			}
 			if(a=="iode"){
-				res=affichageTemps(25**(document.forms.create_mol_form[a].valueAsNumber/200)*40*60000)+"(demi vie)"
+				res=affichageTemps(Math.max(1,Math.asin(create_mol_form[a].valueAsNumber/200)/Math.PI*2000)*60000)+"(demi vie)"
 			}
 			if(a=="chlore"){
 				res+=" case/h"
