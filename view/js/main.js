@@ -103,7 +103,7 @@ function act_preview(){
 						notif.appendChild(icon2);
 						let molecule=document.createElement("span");
 						molecule.style.marginLeft="10px";
-						molecule.innerText="NOT DEV";
+						molecule.innerHTML="Mol&eacute;cule "+(event.molecule+1)+" : "+event.number+" restantes";
 						notif.appendChild(molecule);
 						break;
 				}

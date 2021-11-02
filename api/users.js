@@ -67,6 +67,7 @@ module.exports = {
 										"time":event.time,
 										"type":"molecule",
 										"number":event.rest_mols,
+										"molecule":event.molecule,
 									});
 								}
 								break;

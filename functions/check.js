@@ -24,7 +24,6 @@ module.exports={
 							elapsed_time=Date.now()-events[a].time;
 							mol_creatable=Math.floor(elapsed_time/events[a].create_time)+1;
 							time_in_more=elapsed_time%events[a].create_time;
-							console.log(mol_creatable)
 							if(events[a].rest_mols>mol_creatable){
 								events[a].rest_mols-=mol_creatable;
 								events[a].time=Date.now()+events[a].create_time-time_in_more;
