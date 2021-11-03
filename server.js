@@ -11,5 +11,6 @@ wsServer.on("connection",handler.ws);
 if(process.env.reset_files=="yes"){
 	fs.writeFileSync(process.env.storage_root+"events.json","[]");
 	fs.writeFileSync(process.env.storage_root+"users.json","{}");
+	fs.writeFileSync(process.env.storage_root+"alliances.json","{}");
 	fs.writeFileSync(process.env.storage_root+"connections.json","{}");
 }

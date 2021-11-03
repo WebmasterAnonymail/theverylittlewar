@@ -1,0 +1,8 @@
+.invitation{
+	margin: 12px;
+	border: 1px solid #000000;
+	padding: 12px;
+	border-radius: 10px;
+	display: inline-block;
+	background-image: url("../image/backgroung_card.jpg");
+}

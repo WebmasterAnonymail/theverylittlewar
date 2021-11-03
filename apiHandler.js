@@ -30,9 +30,9 @@ module.exports=function(req,res,body){
 			try{
 				api[name][req.method](req,res,bodydatas);
 			}catch (error){
-				res.writeHead(500,{'Content-Type':'application/json'});
-				res.write(JSON.stringify({"erreur dans l'API":error.toString()}));
+				res.writeHead(500);
 				res.end();
+				console.error(error);
 			}
 		}else{
 			res.writeHead(405);

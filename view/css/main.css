@@ -278,8 +278,15 @@ ecl{
 	border-radius: 10px;
 	display: block;
 	background-image: url("../image/backgroung_card.jpg");
-	font-size: 20px;
 }
 .notif_time{
 	float: right;
+}
+.alternate_body{
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+.alternate_body[used="yes"]{
+	display: block;
 }

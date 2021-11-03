@@ -117,7 +117,7 @@ function act_preview(){
 			alert("ERROR in getting user's events : code "+xhr.status);
 		}
 	});
-	setTimeout(act_preview,1000*10)
+	setTimeout(act_preview,2500)
 }
 function act_user(){
 	let api_xhr=new XMLHttpRequest();
@@ -136,7 +136,7 @@ function act_user(){
 					post_getuser_action();
 				}
 			}else{
-				alert("ERROR in getting user : code "+api_xhr.status+"\n Erreur : "+api_xhr.response.error);
+				alert("ERROR in getting user : code "+api_xhr.status);
 			}
 		}
 	});
@@ -194,7 +194,7 @@ window.addEventListener("load",function(ev){
 					act_preview();
 				}else{
 					act_user();
-					setInterval(act_user,30000)
+					setInterval(act_user,10000)
 				}
 			}else{
 				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){
