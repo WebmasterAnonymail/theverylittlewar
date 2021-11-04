@@ -45,3 +45,21 @@ function post_getuser_action(){
 		}
 	}
 }
+window.onload=()=>{
+	document.getElementById("create_team").addEventListener("click",function(){
+		let data={
+			"name_team":document.getElementById("name_team").value
+		}
+		use_api("PUT","alliance",data,true,function(xhr){
+			if(xhr.status==204){
+				act_user()
+			}else if(xhr.status==402){
+				alert("Pas assez de ressoources");
+			}else if(xhr.status==400){
+				alert("Veuillez entrer un nom");
+			}else{
+				alert("ERROR in creating team : code "+xhr.status);
+			}
+		});
+	});
+}

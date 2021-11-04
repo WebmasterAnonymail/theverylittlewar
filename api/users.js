@@ -14,8 +14,8 @@ module.exports = {
 						res.write(JSON.stringify(data[body.username]));
 						res.end();
 				}else{
-					res.writeHead(401,{'Content-Type':'application/json'});
-					res.write("{error:\"Not connected\"}");
+					res.writeHead(401);
+					res.write("Not connected");
 					res.end();
 				}
 				break;
@@ -42,8 +42,8 @@ module.exports = {
 						"actif":data[body.username].actif
 					}
 				}else{
-					res.writeHead(404,{'Content-Type':'application/json'});
-					res.write("{error:\"User not found\"}");
+					res.writeHead(404);
+					res.write("User not found");
 					res.end();
 				}
 				break;
@@ -77,8 +77,8 @@ module.exports = {
 					res.write(JSON.stringify(response));
 					res.end();
 				}else{
-					res.writeHead(401,{'Content-Type':'application/json'});
-					res.write("{error:\"Not connected\"}");
+					res.writeHead(401);
+					res.write("Not connected");
 					res.end();
 				}
 				break;
@@ -171,8 +171,8 @@ module.exports = {
 				res.end();
 			}
 		}else{
-			res.writeHead(401,{'Content-Type':'application/json'});
-			res.write(JSON.stringify({"error":"aucun nom d'utilisateur ou aucun mot de passe"}));
+			res.writeHead(401);
+			res.write("Aucun nom d'utilisateur ou aucun mot de passe");
 			res.end();
 		}
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(data));
@@ -187,42 +187,44 @@ module.exports = {
 						if(users[body.target].invitations.indexOf(users[body.username].alliance)<0){
 							///IN DEV
 						}else{
-							res.writeHead(409,{'Content-Type':'application/json'});
-							res.write("{error:\"Already invited\"}");
+							res.writeHead(409);
+							res.write("Already invited");
 							res.end();
 						}
 					}else{
-						res.writeHead(404,{'Content-Type':'application/json'});
-						res.write("{error:\"Target user not exist\"}");
+						res.writeHead(404);
+						res.write("Target user not exist");
 						res.end();
 					}
 					break;
 				case "accept_invit":
 					if(users[body.username].invitations.indexOf(body.invit)<0){
-						res.writeHead(404,{'Content-Type':'application/json'});
-						res.write("{error:\"Invit not exist\"}");
+						res.writeHead(404);
+						res.write("Invit not exist");
 						res.end();
 					}else{
 						if(alliances[body.invit]){
 							if(alliances[body.invit].members.length<25){
 								users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
+								res.writeHead(200);
+								res.end();
 							}else{
-								res.writeHead(507,{'Content-Type':'application/json'});
-								res.write("{error:\"No places in team\"}");
+								res.writeHead(507);
+								res.write("No places in team");
 								res.end();
 							}
 						}else{
 							users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
-							res.writeHead(410,{'Content-Type':'application/json'});
-							res.write("{error:\"The team not exist more\"}");
+							res.writeHead(410);
+							res.write("The team not exist more");
 							res.end();
 						}
 					}
 					break;
 				case "decline_invit":
 					if(users[body.username].invitations.indexOf(body.invit)<0){
-						res.writeHead(404,{'Content-Type':'application/json'});
-						res.write("{error:\"Invit not exist\"}");
+						res.writeHead(404);
+						res.write("Invit not exist");
 						res.end();
 					}else{
 						users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
@@ -232,8 +234,8 @@ module.exports = {
 					break;
 			}
 		}else{
-			res.writeHead(401,{'Content-Type':'application/json'});
-			res.write("{error:\"Not connected\"}");
+			res.writeHead(401);
+			res.write("Not connected");
 			res.end();
 		}
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
