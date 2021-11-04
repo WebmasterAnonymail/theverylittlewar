@@ -221,6 +221,24 @@ window.addEventListener("load",function(ev){
 			document.body.appendChild(user_autocomplete_list);
 		}
 	});
+	let list_teams_xhr=new XMLHttpRequest();
+	let at_send3=new URLSearchParams();
+	at_send3.append("mode","list");
+	list_teams_xhr.open("GET","/api/v1/teams?"+at_send3.toString());
+	list_teams_xhr.responseType="json";
+	list_teams_xhr.send();
+	list_teams_xhr.addEventListener("readystatechange",function(ev){
+		if(list_teams_xhr.readyState==list_teams_xhr.DONE){
+			let team_autocomplete_list=document.createElement("datalist");
+			team_autocomplete_list.id="team_autocomplete_list";
+			for(let a of list_teams_xhr.response){
+				let team_element=document.createElement("option");
+				team_element.innerHTML=a;
+				team_autocomplete_list.appendChild(team_element);
+			}
+			document.body.appendChild(team_autocomplete_list);
+		}
+	});
 })
 function open_iframe(iframeid){
 	let iframe=document.getElementById("iframe"+iframeid);

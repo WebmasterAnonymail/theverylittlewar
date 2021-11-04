@@ -2,6 +2,7 @@ function post_getuser_action(){
 	if(user.alliance){
 		document.getElementById("alliance").setAttribute("used","yes");
 		document.getElementById("no_alliance").removeAttribute("used");
+		document.getElementById("nom_alliance").innerText=user.alliance;
 	}else{
 		document.getElementById("alliance").removeAttribute("used");
 		document.getElementById("no_alliance").setAttribute("used","yes");
@@ -50,7 +51,7 @@ window.onload=()=>{
 		let data={
 			"name_team":document.getElementById("name_team").value
 		}
-		use_api("PUT","alliance",data,true,function(xhr){
+		use_api("PUT","teams",data,true,function(xhr){
 			if(xhr.status==204){
 				act_user()
 			}else if(xhr.status==402){

@@ -179,7 +179,7 @@ module.exports = {
 	},
 	PATCH:(req,res,body)=>{
 		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-		let alliances=JSON.parse(fs.readFileSync(process.env.storage_root+"alliances.json"));
+		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			switch(body.action){
 				case "add_invit":
@@ -203,8 +203,8 @@ module.exports = {
 						res.write("Invit not exist");
 						res.end();
 					}else{
-						if(alliances[body.invit]){
-							if(alliances[body.invit].members.length<25){
+						if(teams[body.invit]){
+							if(teams[body.invit].members.length<25){
 								users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
 								res.writeHead(200);
 								res.end();
@@ -239,7 +239,7 @@ module.exports = {
 			res.end();
 		}
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
-		fs.writeFileSync(process.env.storage_root+"alliances.json",JSON.stringify(alliances));
+		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	},
 	DELETE:(req,res,body)=>{
 		let data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
