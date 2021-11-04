@@ -72,10 +72,10 @@ module.exports.has_team_permission=function(username,permission){
 	if(team.chef==username){
 		res=true;
 	}
-	//permissions : guerre pactes finance grades description
-	for(let grade of team.grades){
-		if(grade.posseseur==username){
-			res=res||grade[permission];
+	//permissions : guerre pacte finance grades membres description
+	for(let grade in team.grades){
+		if(team.grades[grade].posseseur==username){
+			res=res||team.grades[grade][permission];
 		}
 	}
 	return res
