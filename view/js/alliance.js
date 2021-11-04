@@ -4,6 +4,12 @@ function has_team_permission(permission){
 	if(team.chef==username){
 		res=true;
 	}
+	//permissions : guerre pactes finance grades description
+	for(let grade of team.grades){
+		if(grade.posseseur==username){
+			res=res||grade[permission];
+		}
+	}
 	return res
 }
 function post_getuser_action(){
