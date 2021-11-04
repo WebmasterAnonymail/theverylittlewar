@@ -9,14 +9,14 @@ module.exports = {
 		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		let alliances=JSON.parse(fs.readFileSync(process.env.storage_root+"alliances.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
-			if(body.name_alliance){
-				if(alliances[body.name_alliance]){
+			if(body.name_team){
+				if(alliances[body.name_team]){
 					res.writeHead(409);
 					res.write("Already used");
 					res.end();
 				}else{
 					if(users[body.username].ressources.energie>=100000){
-						alliances[body.name_alliance]={
+						alliances[body.name_team]={
 							members:[body.username],
 							chef:body.username,
 							grades:{},
@@ -36,9 +36,10 @@ module.exports = {
 							"diplomatie":{
 								"pactes":[],
 								"guerres":[]
-							}
+							},
+							"requetes_ressources":[]
 						}
-						users[body.username].alliance=body.name_alliance;
+						users[body.username].alliance=body.name_team;
 						users[body.username].ressources.energie-=100000;
 						res.writeHead(204);
 						res.end();
