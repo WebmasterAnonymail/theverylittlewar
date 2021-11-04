@@ -37,11 +37,11 @@ module.exports = {
 								"pactes":[],
 								"guerres":[]
 							}
-							users[body.username].alliance=body.name_alliance;
-							users[body.username].ressources.energie-=100000;
-							res.writeHead(204);
-							res.end();
 						}
+						users[body.username].alliance=body.name_alliance;
+						users[body.username].ressources.energie-=100000;
+						res.writeHead(204);
+						res.end();
 					}else{
 						res.writeHead(402);
 						res.write("Not enough energy");
