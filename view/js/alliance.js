@@ -1,8 +1,26 @@
+var team=null;
+function has_team_permission(permission){
+	let res=false;
+	if(team.chef==username){
+		res=true;
+	}
+	return res
+}
 function post_getuser_action(){
 	if(user.alliance){
 		document.getElementById("alliance").setAttribute("used","yes");
 		document.getElementById("no_alliance").removeAttribute("used");
-		document.getElementById("nom_alliance").innerText=user.alliance;
+		document.getElementById("nom").innerText=user.alliance;
+		use_api("GET","teams",{"mode":"detailed"},function(xhr){
+			if(xhr.status==200){
+				team=xhr.response;
+				document.getElementById("description").innerText=team.description;
+				document.getElementById("action").innerText="";
+				
+			}else{
+				alert("ERROR in getting team : code "+xhr.status);
+			}
+		});
 	}else{
 		document.getElementById("alliance").removeAttribute("used");
 		document.getElementById("no_alliance").setAttribute("used","yes");

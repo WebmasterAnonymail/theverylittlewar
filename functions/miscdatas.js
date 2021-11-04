@@ -63,3 +63,20 @@ module.exports.power_atome=function(utilisateur,molecule,atome){
 	//dupli
 	return result;
 }
+module.exports.has_team_permission=function(username,permission){
+	let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+	let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
+	let user=users[username];
+	let team=teams[user.alliance]
+	let res=false;
+	if(team.chef==username){
+		res=true;
+	}
+	//permissions : guerre pactes finance grades description
+	for(let grade of team.grades){
+		if(grade.posseseur==username){
+			res||=grade[permission];
+		}
+	}
+	return res
+}

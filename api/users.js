@@ -205,6 +205,7 @@ module.exports = {
 					}else{
 						if(teams[body.invit]){
 							if(teams[body.invit].members.length<25){
+								users[body.username].alliance=body.invit;
 								users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
 								res.writeHead(200);
 								res.end();

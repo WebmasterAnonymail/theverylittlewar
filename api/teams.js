@@ -8,10 +8,16 @@ module.exports = {
 		switch(body.mode){
 			case "detailed":
 				if(checkmodule.usercheck(body.username,body.token)){
+					if(users[body.username].alliance){
+						let data=teams[users[body.username].alliance];
 						res.writeHead(200,{'Content-Type':'application/json'});
-						data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-						res.write(JSON.stringify(data[body.username]));
+						res.write(JSON.stringify(data));
 						res.end();
+					}else{
+						res.writeHead(404);
+						res.write("No teams");
+						res.end();
+					}
 				}else{
 					res.writeHead(401);
 					res.write("Not connected");
