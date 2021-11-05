@@ -1,4 +1,29 @@
 var team=null;
+function bb_code(texte){
+	let res=texte;
+	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*)\[\/\1\]/;
+	let oldres="";
+	do{
+		oldres=res;
+		res=res.replace(unibalises,"<$1>$2</$1>");
+	}while(oldres==res);
+	let monobalises=/\[(br|hr)\]/;
+	do{
+		oldres=res;
+		res=res.replace(monobalises,"<$1>");
+	}while(oldres==res);
+	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/url\]/;
+	do{
+		oldres=res;
+		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
+	}while(oldres==res);
+	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/img\]/;
+	do{
+		oldres=res;
+		res=res.replace(imgbalise,"<img src='$1'>$5</a>");
+	}while(oldres==res);
+	return res;
+}
 function has_team_permission(permission){
 	let res=false;
 	if(team.chef==username){
@@ -20,7 +45,7 @@ function post_getuser_action(){
 		use_api("GET","teams",{"mode":"detailed"},false,function(xhr){
 			if(xhr.status==200){
 				team=xhr.response;
-				document.getElementById("description").innerText=team.description;
+				document.getElementById("description").innerHTML=bb_code(team.description);
 				document.getElementById("actions").innerText="";
 				if(has_team_permission("grades")){
 					let action_button=document.createElement("div");

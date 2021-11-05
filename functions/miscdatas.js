@@ -78,5 +78,30 @@ module.exports.has_team_permission=function(username,permission){
 			res=res||team.grades[grade][permission];
 		}
 	}
-	return res
+	return res;
+}
+module.exports.bb_code=function(texte){
+	let res=texte;
+	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*)\[\/\1\]/;
+	let oldres="";
+	do{
+		oldres=res;
+		res=res.replace(unibalises,"<$1>$2</$1>");
+	}while(oldres==res);
+	let monobalises=/\[(br|hr)\]/;
+	do{
+		oldres=res;
+		res=res.replace(monobalises,"<$1>");
+	}while(oldres==res);
+	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/url\]/;
+	do{
+		oldres=res;
+		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
+	}while(oldres==res);
+	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/img\]/;
+	do{
+		oldres=res;
+		res=res.replace(imgbalise,"<img src='$1'>$5</a>");
+	}while(oldres==res);
+	return res;
 }
