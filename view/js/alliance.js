@@ -175,7 +175,13 @@ function post_getuser_action(){
 				}else{
 					document.getElementById("inviter").style.display="none";
 				}
-				for(membre of team.membres)
+				let members_autocomplete_list=document.getElementById("members_autocomplete_list");
+				members_autocomplete_list.innerText="";
+				for(membre of team.membres){
+					let member_element=document.createElement("option");
+					member_element.innerHTML=membre;
+					members_autocomplete_list.appendChild(member_element);
+				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
 				act_user();
@@ -227,6 +233,9 @@ function post_getuser_action(){
 	}
 }
 window.onload=()=>{
+	let members_autocomplete_list=document.createElement("datalist");
+	members_autocomplete_list.id="members_autocomplete_list";
+	document.body.appendChild(members_autocomplete_list);
 	document.getElementById("create_team").addEventListener("click",function(){
 		let data={
 			"name_team":document.getElementById("name_team").value
