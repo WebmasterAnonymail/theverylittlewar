@@ -175,6 +175,11 @@ function post_getuser_action(){
 				}else{
 					document.getElementById("inviter").style.display="none";
 				}
+				if(has_team_permission("expulser")){
+					document.getElementById("expulser").style.display="block";
+				}else{
+					document.getElementById("expulser").style.display="none";
+				}
 				let members_autocomplete_list=document.getElementById("members_autocomplete_list");
 				members_autocomplete_list.innerText="";
 				for(membre of team.membres){
@@ -272,5 +277,20 @@ window.onload=()=>{
 			}
 		});
 	});
-	
+	document.getElementById("bouton_expulser").addEventListener("click",function(){
+		let datas={
+			"action":"expel_user",
+			"target":document.getElementById("joueur_a_expulser").value
+		}
+		use_api("PATCH","users",datas,true,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("joueur_a_expulser").value="";
+				act_user();
+			}else if(xhr.status==404){
+				alert("Ce joueur n'est pas dans l'alliance");
+			}else{
+				alert("ERROR in inviting user : code "+xhr.status);
+			}
+		});
+	});
 }
