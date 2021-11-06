@@ -1,27 +1,35 @@
 var team=null;
+var popups=["membres"]
+function popup_open_close(at_open){
+	for(a of popups){
+		document.getElementById("popup_"+a).style.display="none";
+	}
+	if(at_open){
+		document.getElementById("popup_"+at_open).style.display="block";
+	}
+}
 function bb_code(texte){
 	let res=texte;
+	res=res.replaceAll("&","&amp;");
+	res=res.replaceAll("<","&lt;");
+	res=res.replaceAll(">","&gt;");
+	res=res.replaceAll("\n","<br>");
 	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*)\[\/\1\]/;
 	let oldres="";
 	do{
 		oldres=res;
 		res=res.replace(unibalises,"<$1>$2</$1>");
-	}while(oldres==res);
-	let monobalises=/\[(br|hr)\]/;
-	do{
-		oldres=res;
-		res=res.replace(monobalises,"<$1>");
-	}while(oldres==res);
+	}while(oldres!=res);
 	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/url\]/;
 	do{
 		oldres=res;
 		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
-	}while(oldres==res);
+	}while(oldres!=res);
 	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/img\]/;
 	do{
 		oldres=res;
 		res=res.replace(imgbalise,"<img src='$1'>$5</a>");
-	}while(oldres==res);
+	}while(oldres!=res);
 	return res;
 }
 function has_team_permission(permission){
@@ -29,7 +37,7 @@ function has_team_permission(permission){
 	if(team.chef==username){
 		res=true;
 	}
-	//permissions : guerre pacte finance description membres grades
+	//permissions : guerre pacte finance description inviter expulser grades
 	for(let grade in team.grades){
 		if(team.grades[grade].posseseur==username){
 			res=res||team.grades[grade][permission];
@@ -45,7 +53,9 @@ function post_getuser_action(){
 		use_api("GET","teams",{"mode":"detailed"},false,function(xhr){
 			if(xhr.status==200){
 				team=xhr.response;
-				document.getElementById("description").innerHTML=bb_code(team.description);
+				if(team.description){
+					document.getElementById("description").innerHTML=bb_code(team.description);
+				}
 				document.getElementById("actions").innerText="";
 				if(has_team_permission("grades")){
 					let action_button=document.createElement("div");
@@ -99,19 +109,20 @@ function post_getuser_action(){
 					action_button.appendChild(button_text);
 					document.getElementById("actions").appendChild(action_button);
 				}
-				if(has_team_permission("membres")){
-					let action_button=document.createElement("div");
-					action_button.classList.add("button_labeled");
-					let button_image=document.createElement("img");
-					button_image.src="../image/equipe/membres.png";
-					button_image.classList.add("button_labeled_image");
-					action_button.appendChild(button_image);
-					let button_text=document.createElement("span");
-					button_text.innerText="Gestion des membres";
-					button_text.classList.add("button_labeled_label");
-					action_button.appendChild(button_text);
-					document.getElementById("actions").appendChild(action_button);
-				}
+				let membres_button=document.createElement("div");
+				membres_button.classList.add("button_labeled");
+				let membres_image=document.createElement("img");
+				membres_image.src="../image/equipe/membres.png";
+				membres_image.classList.add("button_labeled_image");
+				membres_button.appendChild(membres_image);
+				let membres_text=document.createElement("span");
+				membres_text.innerText="Membres";
+				membres_text.classList.add("button_labeled_label");
+				membres_button.appendChild(membres_text);
+				membres_button.addEventListener("click",function(){
+					popup_open_close("membres");
+				});
+				document.getElementById("actions").appendChild(membres_button);
 				let finance_button=document.createElement("div");
 				finance_button.classList.add("button_labeled");
 				let finance_image=document.createElement("img");
@@ -123,17 +134,48 @@ function post_getuser_action(){
 				finance_text.classList.add("button_labeled_label");
 				finance_button.appendChild(finance_text);
 				document.getElementById("actions").appendChild(finance_button);
-				let leave_button=document.createElement("div");
-				leave_button.classList.add("button_labeled");
-				let leave_image=document.createElement("img");
-				leave_image.src="../image/equipe/quitter.png";
-				leave_image.classList.add("button_labeled_image");
-				leave_button.appendChild(leave_image);
-				let leave_text=document.createElement("span");
-				leave_text.innerText="Quitter";
-				leave_text.classList.add("button_labeled_label");
-				leave_button.appendChild(leave_text);
-				document.getElementById("actions").appendChild(leave_button);
+				if(team.chef==username){
+					let delete_button=document.createElement("div");
+					delete_button.classList.add("button_labeled");
+					let delete_image=document.createElement("img");
+					delete_image.src="../image/equipe/supprimer.png";
+					delete_image.classList.add("button_labeled_image");
+					delete_button.appendChild(delete_image);
+					let delete_text=document.createElement("span");
+					delete_text.innerText="Supprimer l'alliance";
+					delete_text.classList.add("button_labeled_label");
+					delete_button.appendChild(delete_text);
+					document.getElementById("actions").appendChild(delete_button);
+				}else{
+					let leave_button=document.createElement("div");
+					leave_button.classList.add("button_labeled");
+					let leave_image=document.createElement("img");
+					leave_image.src="../image/equipe/quitter.png";
+					leave_image.classList.add("button_labeled_image");
+					leave_button.appendChild(leave_image);
+					let leave_text=document.createElement("span");
+					leave_text.innerText="Quitter";
+					leave_text.classList.add("button_labeled_label");
+					leave_button.appendChild(leave_text);
+					leave_button.addEventListener("click",function(){
+						use_api("PATCH","users",{"action":"leave_team"},true,function(xhr){
+							if(xhr.status==200){
+								act_user();
+							}else{
+								alert("ERROR in leaving team : code "+xhr.status);
+							}
+						});
+					});
+					document.getElementById("actions").appendChild(leave_button);
+				}
+				if(has_team_permission("inviter")){
+					document.getElementById("inviter").style.display="block";
+				}else{
+					document.getElementById("inviter").style.display="none";
+				}
+			}else if(xhr.status==410){
+				alert("L'alliance a été supprimee");
+				act_user();
 			}else{
 				alert("ERROR in getting team : code "+xhr.status);
 			}
@@ -198,4 +240,22 @@ window.onload=()=>{
 			}
 		});
 	});
+	document.getElementById("bouton_inviter").addEventListener("click",function(){
+		let datas={
+			"action":"add_invit",
+			"target":document.getElementById("joueur_a_inviter").value
+		}
+		use_api("PATCH","users",datas,true,function(xhr){
+			if(xhr.status==200){
+				///RIEN A FAIRE
+			}else if(xhr.status==409){
+				alert("Ce joueur a deja ete invite");
+			}else if(xhr.status==404){
+				alert("Ce joueur n'existe pas");
+			}else{
+				alert("ERROR in inviting user : code "+xhr.status);
+			}
+		});
+	});
+	
 }

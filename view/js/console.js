@@ -1,13 +1,11 @@
 var fs_mode=null;
 function HTMLString(obj,also_whitespaces=false){
 	let result=String(obj);
-	while(/<&>\n/.test()){
-		result=result.replaceAll(/&/,"&amp;");
-		result=result.replaceAll(/</,"&lt;");
-		result=result.replaceAll(/>/,"&gt;");
-		if(also_whitespaces){
-			result=result.replaceAll(/\n/,"<br>");
-		}
+	result=result.replaceAll(/&/g,"&amp;");
+	result=result.replaceAll(/</g,"&lt;");
+	result=result.replaceAll(/>/g,"&gt;");
+	if(also_whitespaces){
+		result=result.replaceAll(/\n/g,"<br>");
 	}
 	return result;
 }

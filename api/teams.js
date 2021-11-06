@@ -1,4 +1,5 @@
 const checkmodule=require("../functions/check.js");
+const md=require("../functions/miscdatas.js");
 const fs=require("fs");
 module.exports = {
 	name:'teams',
@@ -10,9 +11,17 @@ module.exports = {
 				if(checkmodule.usercheck(body.username,body.token)){
 					if(users[body.username].alliance){
 						let data=teams[users[body.username].alliance];
-						res.writeHead(200,{'Content-Type':'application/json'});
-						res.write(JSON.stringify(data));
-						res.end();
+						if(data){
+							res.writeHead(200,{'Content-Type':'application/json'});
+							res.write(JSON.stringify(data));
+							res.end();
+						}else{
+							users.alliance=null;
+							res.writeHead(410);
+							res.write("Team not exist more");
+							res.end();
+							fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+						}
 					}else{
 						res.writeHead(404);
 						res.write("No teams");

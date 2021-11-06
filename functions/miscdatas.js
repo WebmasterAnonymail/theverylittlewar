@@ -1,3 +1,4 @@
+const fs=require("fs");
 module.exports.atomes=[
 	"carbone",
 	"oxygene",
@@ -72,7 +73,7 @@ module.exports.has_team_permission=function(username,permission){
 	if(team.chef==username){
 		res=true;
 	}
-	//permissions : guerre pacte finance grades membres description
+	//permissions : guerre pacte finance grades inviter expulser description
 	for(let grade in team.grades){
 		if(team.grades[grade].posseseur==username){
 			res=res||team.grades[grade][permission];
@@ -82,26 +83,25 @@ module.exports.has_team_permission=function(username,permission){
 }
 module.exports.bb_code=function(texte){
 	let res=texte;
+	res=res.replaceAll("&","&amp;");
+	res=res.replaceAll("<","&lt;");
+	res=res.replaceAll(">","&gt;");
+	res=res.replaceAll("\n","<br>");
 	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*)\[\/\1\]/;
 	let oldres="";
 	do{
 		oldres=res;
 		res=res.replace(unibalises,"<$1>$2</$1>");
-	}while(oldres==res);
-	let monobalises=/\[(br|hr)\]/;
-	do{
-		oldres=res;
-		res=res.replace(monobalises,"<$1>");
-	}while(oldres==res);
+	}while(oldres!=res);
 	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/url\]/;
 	do{
 		oldres=res;
 		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
-	}while(oldres==res);
+	}while(oldres!=res);
 	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/img\]/;
 	do{
 		oldres=res;
 		res=res.replace(imgbalise,"<img src='$1'>$5</a>");
-	}while(oldres==res);
+	}while(oldres!=res);
 	return res;
 }

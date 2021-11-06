@@ -1,5 +1,6 @@
 //var bodydServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
 const checkmodule=require("../functions/check.js");
+const md=require("../functions/miscdatas.js");
 const fs=require("fs");
 module.exports = {
 	name:'users',
@@ -184,11 +185,24 @@ module.exports = {
 			switch(body.action){
 				case "add_invit":
 					if(users[body.target]){
-						if(users[body.target].invitations.indexOf(users[body.username].alliance)<0){
-							///IN DEV
+						let invite_team=users[body.username].alliance;
+						if(teams[invite_team]){
+							if(users[body.target].invitations.indexOf(invite_team)<0){
+								if(md.has_team_permission(body.username,"membres")){
+									users[body.target].invitations.push(invite_team);
+								}else{
+									res.writeHead(403);
+									res.write("Forbidden");
+									res.end();
+								}
+							}else{
+								res.writeHead(409);
+								res.write("Already invited");
+								res.end();
+							}
 						}else{
-							res.writeHead(409);
-							res.write("Already invited");
+							res.writeHead(400);
+							res.write("Team not exist");
 							res.end();
 						}
 					}else{
@@ -230,6 +244,27 @@ module.exports = {
 					}else{
 						users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
 						res.writeHead(200);
+						res.end();
+					}
+					break;
+				case "leave_team":
+					if(users[body.username].alliance){
+						if(teams[users[body.username].alliance].chef==body.username){
+							res.writeHead(403);
+							res.write("You are the chief");
+							res.end();
+						}else{
+							for(let a in teams[users[body.username].alliance].grades){
+								if(teams[users[body.username].alliance].grades[a].posseseur==body.username){
+									delete teams[users[body.username].alliance].grades[a];
+								}
+							}
+							users[body.username].alliance=null;
+							res.writeHead(200);
+							res.end();
+						}
+					}else{
+						res.writeHead(304);
 						res.end();
 					}
 					break;
