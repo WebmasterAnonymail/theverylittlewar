@@ -184,10 +184,17 @@ function post_getuser_action(){
 				}
 				let members_autocomplete_list=document.getElementById("members_autocomplete_list");
 				members_autocomplete_list.innerText="";
+				members_list=document.getElementById("members_list");
+				members_list.innerHTML="";
 				for(membre of team.membres){
 					let member_element=document.createElement("option");
 					member_element.innerHTML=membre;
 					members_autocomplete_list.appendChild(member_element);
+					let line=document.createElement("tr");
+					let cell1=document.createElement("td");
+					cell1.innerText=membre;
+					line.appendChild(cell1);
+					members_list.appendChild(line);
 				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");

@@ -3,6 +3,17 @@ body{
 	width: unset;
 	height: unset;
 }
+table{
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+thead{
+	background-color: #e0e0e0;
+}
+td{
+	border: 1px solid #606060;
+}
 .invitation{
 	margin: 12px;
 	border: 1px solid #000000;
