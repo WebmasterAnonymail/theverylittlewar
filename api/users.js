@@ -221,8 +221,22 @@ module.exports = {
 								res.write("Target user not in team");
 								res.end();
 							}else{
-								teams[users[body.username]].membres.splice(teams[users[body.username].alliance].membres.indexOf(body.target),1);
-								users[body.target].alliance=null;
+								if(body.target!=teams[users[body.username].alliance].chef){
+									if(md.has_team_permission(body.username,"expulser")){
+										teams[users[body.username].alliance].membres.splice(teams[users[body.username].alliance].membres.indexOf(body.target),1);
+										users[body.target].alliance=null;
+										res.writeHead(200);
+										res.end();
+									}else{
+										res.writeHead(403);
+										res.write("Forbidden");
+										res.end();
+									}
+								}else{
+									res.writeHead(403);
+									res.write("You can't expel the chief");
+									res.end();
+								}
 							}
 						}else{
 							res.writeHead(400);
@@ -244,7 +258,7 @@ module.exports = {
 						if(teams[body.invit]){
 							if(teams[body.invit].membres.length<25){
 								users[body.username].alliance=body.invit;
-								teams[body.invit].membres.push(body.invit);
+								teams[body.invit].membres.push(body.username);
 								users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
 								res.writeHead(200);
 								res.end();
