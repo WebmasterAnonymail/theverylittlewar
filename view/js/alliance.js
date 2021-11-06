@@ -175,6 +175,7 @@ function post_getuser_action(){
 				}else{
 					document.getElementById("inviter").style.display="none";
 				}
+				for(membre of team.membres)
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
 				act_user();

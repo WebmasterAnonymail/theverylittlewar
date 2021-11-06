@@ -75,7 +75,7 @@ module.exports = {
 				}else{
 					if(users[body.username].ressources.energie>=100000){
 						teams[body.name_team]={
-							members:[body.username],
+							membres:[body.username],
 							chef:body.username,
 							grades:{},
 							"ressources":{
