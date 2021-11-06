@@ -1,5 +1,6 @@
 var team=null;
-var popups=["membres"]
+var popups=["membres","change_description"];
+var block_description_geting=false;
 function popup_open_close(at_open=null){
 	document.getElementById("popup_mask").style.display="none";
 	for(a of popups){
@@ -57,6 +58,9 @@ function post_getuser_action(){
 				team=xhr.response;
 				if(team.description){
 					document.getElementById("description").innerHTML=bb_code(team.description);
+					if(!block_description_geting){
+						document.getElementById("new_description").value=team.description;
+					}
 				}
 				document.getElementById("actions").innerText="";
 				if(has_team_permission("grades")){
@@ -83,6 +87,10 @@ function post_getuser_action(){
 					button_text.innerText="Changer la description";
 					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
+					action_button.addEventListener("click",function(){
+						popup_open_close("change_description");
+						block_description_geting=true;
+					});
 					document.getElementById("actions").appendChild(action_button);
 				}
 				if(has_team_permission("guerre")){
@@ -194,6 +202,15 @@ function post_getuser_action(){
 					let cell1=document.createElement("td");
 					cell1.innerText=membre;
 					line.appendChild(cell1);
+					let cell2=document.createElement("td");
+					if(membre==team.chef){
+						let img=document.createElement("img");
+						img.classList.add("icon");
+						img.src="../image/equipe/chef.png";
+						cell2.appendChild(img);
+					}
+					
+					line.appendChild(cell2);
 					members_list.appendChild(line);
 				}
 			}else if(xhr.status==410){
@@ -268,6 +285,8 @@ window.onload=()=>{
 	});
 	document.getElementById("popup_mask").addEventListener("click",function(){
 		popup_open_close();
+		block_description_geting=false;
+		act_user();
 	});
 	document.getElementById("bouton_inviter").addEventListener("click",function(){
 		let datas={
@@ -315,6 +334,17 @@ window.onload=()=>{
 				alert("Ce joueur n'est pas dans l'alliance ou n'existe pas");
 			}else{
 				alert("ERROR in transfering team : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("new_description").addEventListener("change",function(){
+		datas={
+			"action":"change_description",
+			"description":document.getElementById("new_description").value
+		}
+		use_api("PATCH","teams",datas,true,function(xhr){
+			if(xhr.status!=200){
+				alert("ERROR in editing description : code "+xhr.status);
 			}
 		});
 	});

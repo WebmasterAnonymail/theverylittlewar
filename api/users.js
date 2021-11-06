@@ -30,7 +30,7 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
-				if(data[body.username]){
+				if(data[body.user]){
 					let response={
 						"points":data[body.username].points,
 						"medailles":data[body.username].medailles,

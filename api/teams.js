@@ -43,21 +43,13 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
-				if(data[body.username]){
+				if(data[body.team]){
 					let response={
-						"points":data[body.username].points,
-						"medailles":data[body.username].medailles,
-						"positionX":data[body.username].positionX,
-						"positionY":data[body.username].positionY,
-						"alliance":data[body.username].alliance,
-						"description":data[body.username].description,
-						"victoires":data[body.username].ressources.victoires,
-						"permission":data[body.username].permission,
-						"actif":data[body.username].actif
+						
 					}
 				}else{
 					res.writeHead(404);
-					res.write("User not found");
+					res.write("Team not found");
 					res.end();
 				}
 				break;
@@ -111,6 +103,37 @@ module.exports = {
 				res.writeHead(400);
 				res.write("Please give an team name");
 				res.end();
+			}
+		}else{
+			res.writeHead(401);
+			res.write("Not connected");
+			res.end();
+		}
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
+	},
+	PATCH:(req,res,body)=>{
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
+		if(checkmodule.usercheck(body.username,body.token)){
+			switch(body.action){
+				case "change_description":
+					if(teams[users[body.username].alliance]){
+						if(md.has_team_permission(body.username,"description")){
+							teams[users[body.username].alliance].description=body.description;
+							res.writeHead(200);
+							res.end();
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+					}else{
+						res.writeHead(400);
+						res.write("Team not exist");
+						res.end();
+					}
+					break;
 			}
 		}else{
 			res.writeHead(401);

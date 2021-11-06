@@ -14,6 +14,16 @@ thead{
 td{
 	border: 1px solid #606060;
 }
+#actions{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+#new_description{
+	resize: vertical;
+	width: -webkit-fill-available;
+	width: -moz-available;
+}
 .invitation{
 	margin: 12px;
 	border: 1px solid #000000;
@@ -21,9 +31,4 @@ td{
 	border-radius: 10px;
 	display: inline-block;
 	background-image: url("../image/backgroung_card.jpg");
-}
-#actions{
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
 }
