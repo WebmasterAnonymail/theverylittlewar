@@ -1,11 +1,13 @@
 var team=null;
 var popups=["membres"]
-function popup_open_close(at_open){
+function popup_open_close(at_open=null){
+	document.getElementById("popup_mask").style.display="none";
 	for(a of popups){
 		document.getElementById("popup_"+a).style.display="none";
 	}
 	if(at_open){
 		document.getElementById("popup_"+at_open).style.display="block";
+		document.getElementById("popup_mask").style.display="block";
 	}
 }
 function bb_code(texte){
@@ -174,7 +176,7 @@ function post_getuser_action(){
 					document.getElementById("inviter").style.display="none";
 				}
 			}else if(xhr.status==410){
-				alert("L'alliance a été supprimee");
+				alert("L'alliance a ete supprimee");
 				act_user();
 			}else{
 				alert("ERROR in getting team : code "+xhr.status);
@@ -240,6 +242,9 @@ window.onload=()=>{
 			}
 		});
 	});
+	document.getElementById("popup_mask").addEventListener("click",function(){
+		popup_open_close();
+	});
 	document.getElementById("bouton_inviter").addEventListener("click",function(){
 		let datas={
 			"action":"add_invit",
@@ -247,7 +252,7 @@ window.onload=()=>{
 		}
 		use_api("PATCH","users",datas,true,function(xhr){
 			if(xhr.status==200){
-				///RIEN A FAIRE
+				document.getElementById("joueur_a_inviter").value="";
 			}else if(xhr.status==409){
 				alert("Ce joueur a deja ete invite");
 			}else if(xhr.status==404){

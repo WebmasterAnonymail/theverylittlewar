@@ -190,6 +190,8 @@ module.exports = {
 							if(users[body.target].invitations.indexOf(invite_team)<0){
 								if(md.has_team_permission(body.username,"membres")){
 									users[body.target].invitations.push(invite_team);
+									res.writeHead(200);
+									res.end();
 								}else{
 									res.writeHead(403);
 									res.write("Forbidden");
