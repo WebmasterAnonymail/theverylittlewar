@@ -148,6 +148,7 @@ function post_getuser_action(){
 					delete_text.classList.add("button_labeled_label");
 					delete_button.appendChild(delete_text);
 					document.getElementById("actions").appendChild(delete_button);
+					document.getElementById("transferer").style.display="block";
 				}else{
 					let leave_button=document.createElement("div");
 					leave_button.classList.add("button_labeled");
@@ -169,6 +170,7 @@ function post_getuser_action(){
 						});
 					});
 					document.getElementById("actions").appendChild(leave_button);
+					document.getElementById("transferer").style.display="none";
 				}
 				if(has_team_permission("inviter")){
 					document.getElementById("inviter").style.display="block";
@@ -287,9 +289,25 @@ window.onload=()=>{
 				document.getElementById("joueur_a_expulser").value="";
 				act_user();
 			}else if(xhr.status==404){
-				alert("Ce joueur n'est pas dans l'alliance");
+				alert("Ce joueur n'est pas dans l'alliance ou n'existe pas");
 			}else{
-				alert("ERROR in inviting user : code "+xhr.status);
+				alert("ERROR in expeling user : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("bouton_transferer").addEventListener("click",function(){
+		let datas={
+			"action":"transfer_team",
+			"target":document.getElementById("joueur_a_transferer").value
+		}
+		use_api("PATCH","users",datas,true,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("joueur_a_transferer").value="";
+				act_user();
+			}else if(xhr.status==404){
+				alert("Ce joueur n'est pas dans l'alliance ou n'existe pas");
+			}else{
+				alert("ERROR in transfering team : code "+xhr.status);
 			}
 		});
 	});

@@ -249,6 +249,35 @@ module.exports = {
 						res.end();
 					}
 					break;
+				case "transfer_team":
+					if(users[body.target]){
+						if(teams[users[body.username].alliance]){
+							if(teams[users[body.username].alliance].membres.indexOf(body.target)<0){
+								res.writeHead(404);
+								res.write("Target user not in team");
+								res.end();
+							}else{
+								if(body.username==teams[users[body.username].alliance].chef){
+									teams[users[body.username].alliance].chef=body.target;
+									res.writeHead(200);
+									res.end();
+								}else{
+									res.writeHead(403);
+									res.write("You are not the chief");
+									res.end();
+								}
+							}
+						}else{
+							res.writeHead(400);
+							res.write("Team not exist");
+							res.end();
+						}
+					}else{
+						res.writeHead(404);
+						res.write("Target user not exist");
+						res.end();
+					}
+					break;
 				case "accept_invit":
 					if(users[body.username].invitations.indexOf(body.invit)<0){
 						res.writeHead(404);

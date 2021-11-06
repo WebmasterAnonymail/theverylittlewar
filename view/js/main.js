@@ -180,7 +180,7 @@ window.addEventListener("load",function(ev){
 		if(check_connect_xhr.readyState==check_connect_xhr.DONE){
 			if(check_connect_xhr.response.connected){
 				username=check_connect_xhr.response.username;
-				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){
+				if(/(^\/$)|(\/main.html$)/.test(document.location.pathname)){
 					document.getElementById("popup_mask").addEventListener("click",(ev)=>{
 						document.getElementById("popup_mask").style.display="none";
 						document.getElementById(opened_popup_id).setAttribute("open","no");
