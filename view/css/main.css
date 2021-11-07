@@ -55,10 +55,10 @@ iframe{
 	z-index: 700;
 }
 .iframe[open="yes"]{
-	top: 10% !important;
-	left: 7.5% !important;
-	width: 85% !important;
-	height: 85% !important;
+	top: 7.5% !important;
+	left: 5% !important;
+	width: 90% !important;
+	height: 90% !important;
 	z-index: 1000;
 }
 .iframe:not([open="yes"]) .small_content{
@@ -279,6 +279,7 @@ blockquote{
 	background-color:#ffffff;
 	box-shadow:5px 5px 10px 0px #404040;
 	z-index:1000;
+	overflow-y: auto;
 }
 .notif{
 	margin: 12px;

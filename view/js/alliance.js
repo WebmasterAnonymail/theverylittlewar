@@ -357,8 +357,10 @@ function post_getuser_action(){
 						list_donnation_ask.appendChild(line);
 					}
 					document.getElementById("demandes").style.display="table";
+					document.getElementById("transferer_ressources").style.display="inline-block";
 				}else{
 					document.getElementById("demandes").style.display="none";
+					document.getElementById("transferer_ressources").style.display="none";
 				}
 				//Pactes
 				let pactes_list=document.getElementById("pactes_list");
@@ -586,6 +588,32 @@ window.onload=()=>{
 				act_user();
 			}else{
 				alert("ERROR in asking donnation at team : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("transferer_ressources").addEventListener("click",function(){
+		let datas={
+			"action":"transfer",
+			"target":document.getElementById("finances_alliance").value
+		};
+		for(let a of ressources){
+			datas[a]=document.getElementById("finances_"+a).valueAsNumber;
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				for(let a of ressources){
+					document.getElementById("finances_"+a).value="";
+				}
+				document.getElementById("finances_alliance").value="";
+				act_user();
+			}else if(xhr.status==402){
+				alert("L'alliance n'a pas assez de ressources");
+			}else if(xhr.status==404){
+				alert("L'alliance n'existe pas");
+			}else if(xhr.status==409){
+				alert("Vous devez avoir un pacte avec l'alliance cible");
+			}else{
+				alert("ERROR in transfering : code "+xhr.status);
 			}
 		});
 	});

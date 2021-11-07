@@ -188,7 +188,7 @@ module.exports = {
 						let invite_team=users[body.username].alliance;
 						if(teams[invite_team]){
 							if(users[body.target].invitations.indexOf(invite_team)<0){
-								if(md.has_team_permission(body.username,"membres")){
+								if(md.has_team_permission(body.username,"inviter")){
 									users[body.target].invitations.push(invite_team);
 									res.writeHead(200);
 									res.end();

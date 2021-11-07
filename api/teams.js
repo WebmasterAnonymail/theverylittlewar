@@ -319,7 +319,7 @@ module.exports = {
 								res.end();
 							}else{
 								res.writeHead(404);
-								res.write("Donnastion ask not exist");
+								res.write("Donnation ask not exist");
 								res.end();
 							}
 						}else{
@@ -400,6 +400,44 @@ module.exports = {
 							}else{
 								teams[users[body.username].alliance].diplomatie.guerres.splice(teams[users[body.username].alliance].diplomatie.guerres.indexOf(body.guerre),1);
 								res.writeHead(200);
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+					case "transfer":
+						if(md.has_team_permission(body.username,"finance")){
+							let OK3=true;
+							for(let a of md.ressources){
+								if(body[a]>teams[users[body.username].alliance].ressources[a]){
+									OK3=false;
+								}
+							}
+							if(OK3){
+								if(teams[body.target]){
+									if(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.target)<0){
+										res.writeHead(409);
+										res.write("You need to have a pact with the team");
+										res.end();
+									}else{
+										for(let b of md.ressources){
+											teams[body.target].ressources[b]+=body[b];
+											teams[users[body.username].alliance].ressources[b]-=body[b];
+										}
+										res.writeHead(200);
+										res.end();
+									}
+								}else{
+									res.writeHead(404);
+									res.write("Team not exist");
+									res.end();
+								}
+							}else{
+								res.writeHead(402);
+								res.write("No enough ressources");
 								res.end();
 							}
 						}else{
