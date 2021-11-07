@@ -316,7 +316,7 @@ module.exports = {
 					}
 					break;
 				case "leave_team":
-					if(team[users[body.username].alliance]){
+					if(teams[users[body.username].alliance]){
 						if(teams[users[body.username].alliance].chef==body.username){
 							res.writeHead(403);
 							res.write("You are the chief");
@@ -327,6 +327,7 @@ module.exports = {
 									delete teams[users[body.username].alliance].grades[a];
 								}
 							}
+							teams[users[body.username].alliance].membres.splice(teams[users[body.username].alliance].membres.indexOf(body.username));
 							users[body.username].alliance=null;
 							res.writeHead(200);
 							res.end();

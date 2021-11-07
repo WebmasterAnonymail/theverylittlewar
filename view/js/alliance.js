@@ -212,7 +212,7 @@ function post_getuser_action(){
 				members_autocomplete_list.innerText="";
 				members_list=document.getElementById("members_list");
 				members_list.innerHTML="";
-				for(membre of team.membres){
+				for(let membre of team.membres){
 					let member_element=document.createElement("option");
 					member_element.innerHTML=membre;
 					members_autocomplete_list.appendChild(member_element);
@@ -230,6 +230,59 @@ function post_getuser_action(){
 					
 					line.appendChild(cell2);
 					members_list.appendChild(line);
+				}
+				if(has_team_permission("finance")){
+					let list_donnation_ask=document.getElementById("list_donnation_ask");
+					list_donnation_ask.innerHTML="";
+					for(let requete in team.requetes_ressources){
+						let line=document.createElement("tr");
+						let cellJ=document.createElement("td");
+						cellJ.innerText=team.requetes_ressources[requete].who;
+						line.appendChild(cellJ);
+						for(let a of ressources){
+							let cellR=document.createElement("td");
+							cellR.innerText=affichageRessources(team.requetes_ressources[requete][a]);
+							line.appendChild(cellR);
+						}
+						let cellA1=document.createElement("td");
+						let button_action1=document.createElement("img");
+						button_action1.classList.add("button");
+						button_action1.src="../image/boutons/valider.png";
+						button_action1.addEventListener("click",function(){
+							use_api("POST","teams",{"action":"accept_donnation","donnation_id":requete},true,function(xhr){
+								if(xhr.status==200){
+									act_user();
+								}else if(xhr.status==402){
+									alert("L'alliance n'a pas assez de ressources");
+								}else if(xhr.status==410){
+									alert("Le joueur n'est plus dans l'alliance");
+								}else{
+									alert("ERROR in accepting donnation : code "+xhr.status);
+								}
+							});
+						});
+						cellA1.appendChild(button_action1);
+						line.appendChild(cellA1);
+						let cellA2=document.createElement("td");
+						let button_action2=document.createElement("img");
+						button_action2.classList.add("button");
+						button_action2.src="../image/boutons/annuler.png";
+						button_action2.addEventListener("click",function(){
+							use_api("POST","teams",{"action":"reject_donnation","donnation_id":requete},true,function(xhr){
+								if(xhr.status==200){
+									act_user();
+								}else{
+									alert("ERROR in rejecting donnation : code "+xhr.status);
+								}
+							});
+						});
+						cellA2.appendChild(button_action2);
+						line.appendChild(cellA2);
+						list_donnation_ask.appendChild(line);
+					}
+					document.getElementById("demandes").style.display="table";
+				}else{
+					document.getElementById("demandes").style.display="none";
 				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
@@ -381,6 +434,22 @@ window.onload=()=>{
 				alert("Vous n'avez pas assez de ressources");
 			}else{
 				alert("ERROR in giving at team : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("demander").addEventListener("click",function(){
+		let datas={"action":"ask_donnation"};
+		for(let a of ressources){
+			datas[a]=document.getElementById("finances_"+a).valueAsNumber;
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				for(let a of ressources){
+					document.getElementById("finances_"+a).value="";
+				}
+				act_user();
+			}else{
+				alert("ERROR in asking donnation at team : code "+xhr.status);
 			}
 		});
 	});

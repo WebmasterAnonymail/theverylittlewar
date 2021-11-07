@@ -147,9 +147,9 @@ module.exports = {
 		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
-			switch(body.action){
-				case "give":
-					if(teams[users[body.username].alliance]){
+			if(teams[users[body.username].alliance]){
+				switch(body.action){
+					case "give":
 						let OK=true;
 						for(let a of md.ressources){
 							if(typeof(body[a])=="number"){
@@ -187,12 +187,97 @@ module.exports = {
 							res.write("Bad values");
 							res.end();
 						}
-					}else{
-						res.writeHead(400);
-						res.write("You have no team");
-						res.end();
-					}
-					break;
+						break;
+					case "ask_donnation":
+						let OK1=true;
+						for(let a of md.ressources){
+							if(typeof(body[a])=="number"){
+								if(body[a]<0){
+									OK1=false;
+								}
+							}else{
+								if(body[a]==null){
+									body[a]=0;
+								}else{
+									OK1=false;
+								}
+							}
+						}
+						if(OK1){
+							let at_push={"who":body.username};
+							for(let b of md.ressources){
+								at_push[b]=body[b];
+							}
+							teams[users[body.username].alliance].requetes_ressources.push(at_push);
+							res.writeHead(200);
+							res.end();
+						}else{
+							res.writeHead(400);
+							res.write("Bad values");
+							res.end();
+						}
+						break;
+					case "accept_donnation":
+						if(md.has_team_permission(body.username,"finance")){
+							if(body.donnation_id<teams[users[body.username].alliance].requetes_ressources.length){
+								let OK2=true;
+								for(let a of md.ressources){
+									if(teams[users[body.username].alliance].requetes_ressources[body.donnation_id][a]>teams[users[body.username].alliance].ressources[a]){
+										OK2=false;
+									}
+								}
+								if(OK2){
+									if(teams[users[body.username].alliance].membres.indexOf(teams[users[body.username].alliance].requetes_ressources[body.donnation_id].who)<0){
+										res.writeHead(410);
+										res.write("User left the team");
+										res.end();
+									}else{
+										for(let b of md.ressources){
+											users[teams[users[body.username].alliance].requetes_ressources[body.donnation_id].who].ressources[b]+=teams[users[body.username].alliance].requetes_ressources[body.donnation_id][b];
+											teams[users[body.username].alliance].ressources[b]-=teams[users[body.username].alliance].requetes_ressources[body.donnation_id][b];
+										}
+										teams[users[body.username].alliance].requetes_ressources.splice(body.donnation_id,1);
+										res.writeHead(200);
+										res.end();
+									}
+								}else{
+									res.writeHead(402);
+									res.write("No enough ressources");
+									res.end();
+								}
+							}else{
+								res.writeHead(404);
+								res.write("Donnastion ask not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+					case "reject_donnation":
+						if(md.has_team_permission(body.username,"finance")){
+							if(body.donnation_id<teams[users[body.username].alliance].requetes_ressources){
+								teams[users[body.username].alliance].requetes_ressources.splice(body.donnation_id,1);
+								res.writeHead(200);
+								res.end();
+							}else{
+								res.writeHead(404);
+								res.write("Donnastion ask not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+				}
+			}else{
+				res.writeHead(400);
+				res.write("You have no team");
+				res.end();
 			}
 		}else{
 			res.writeHead(401);
