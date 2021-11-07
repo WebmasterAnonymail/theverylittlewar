@@ -9,6 +9,17 @@ module.exports.atomes=[
 	"soufre",
 	"chlore"
 ];
+module.exports.ressources=[
+	"carbone",
+	"oxygene",
+	"azote",
+	"iode",
+	"brome",
+	"hydrogene",
+	"soufre",
+	"chlore",
+	"energie"
+];
 module.exports.medailles=[
 	"def",
 	"atk",
@@ -87,7 +98,7 @@ module.exports.bb_code=function(texte){
 	res=res.replaceAll("<","&lt;");
 	res=res.replaceAll(">","&gt;");
 	res=res.replaceAll("\n","<br>");
-	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*)\[\/\1\]/;
+	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*?)\[\/\1\]/;
 	let oldres="";
 	do{
 		oldres=res;
@@ -98,10 +109,10 @@ module.exports.bb_code=function(texte){
 		oldres=res;
 		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
 	}while(oldres!=res);
-	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/img\]/;
+	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\]/;
 	do{
 		oldres=res;
-		res=res.replace(imgbalise,"<img src='$1'>$5</a>");
+		res=res.replace(imgbalise,"<img src='$1'>");
 	}while(oldres!=res);
 	return res;
 }

@@ -204,7 +204,7 @@ module.exports = {
 							}
 						}else{
 							res.writeHead(400);
-							res.write("Team not exist");
+							res.write("You have no team");
 							res.end();
 						}
 					}else{
@@ -240,7 +240,7 @@ module.exports = {
 							}
 						}else{
 							res.writeHead(400);
-							res.write("Team not exist");
+							res.write("You have no team");
 							res.end();
 						}
 					}else{
@@ -269,7 +269,7 @@ module.exports = {
 							}
 						}else{
 							res.writeHead(400);
-							res.write("Team not exist");
+							res.write("You have no team");
 							res.end();
 						}
 					}else{
@@ -316,7 +316,7 @@ module.exports = {
 					}
 					break;
 				case "leave_team":
-					if(users[body.username].alliance){
+					if(team[users[body.username].alliance]){
 						if(teams[users[body.username].alliance].chef==body.username){
 							res.writeHead(403);
 							res.write("You are the chief");
@@ -332,7 +332,8 @@ module.exports = {
 							res.end();
 						}
 					}else{
-						res.writeHead(304);
+						res.writeHead(400);
+						res.write("You have no team");
 						res.end();
 					}
 					break;

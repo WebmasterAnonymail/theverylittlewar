@@ -1,6 +1,17 @@
 var team=null;
-var popups=["membres","change_description"];
+var popups=["membres","change_description","finances"];
 var block_description_geting=false;
+var ressources=[
+	"carbone",
+	"oxygene",
+	"azote",
+	"iode",
+	"brome",
+	"hydrogene",
+	"soufre",
+	"chlore",
+	"energie"
+];
 function popup_open_close(at_open=null){
 	document.getElementById("popup_mask").style.display="none";
 	for(a of popups){
@@ -17,7 +28,7 @@ function bb_code(texte){
 	res=res.replaceAll("<","&lt;");
 	res=res.replaceAll(">","&gt;");
 	res=res.replaceAll("\n","<br>");
-	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*)\[\/\1\]/;
+	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*?)\[\/\1\]/;
 	let oldres="";
 	do{
 		oldres=res;
@@ -28,10 +39,10 @@ function bb_code(texte){
 		oldres=res;
 		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
 	}while(oldres!=res);
-	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/img\]/;
+	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\]/;
 	do{
 		oldres=res;
-		res=res.replace(imgbalise,"<img src='$1'>$5</a>");
+		res=res.replace(imgbalise,"<img src='$1'>");
 	}while(oldres!=res);
 	return res;
 }
@@ -56,6 +67,10 @@ function post_getuser_action(){
 		use_api("GET","teams",{"mode":"detailed"},false,function(xhr){
 			if(xhr.status==200){
 				team=xhr.response;
+				document.getElementById("preview_energie").innerText=affichageRessources(team.ressources.energie);
+				for(let a of atomes){
+					document.getElementById("preview_"+a).innerText=affichageRessources(team.ressources[a]);
+				}
 				if(team.description){
 					document.getElementById("description").innerHTML=bb_code(team.description);
 					if(!block_description_geting){
@@ -143,6 +158,9 @@ function post_getuser_action(){
 				finance_text.innerText="Finances";
 				finance_text.classList.add("button_labeled_label");
 				finance_button.appendChild(finance_text);
+				finance_button.addEventListener("click",function(){
+					popup_open_close("finances");
+				});
 				document.getElementById("actions").appendChild(finance_button);
 				if(team.chef==username){
 					let delete_button=document.createElement("div");
@@ -275,7 +293,7 @@ window.onload=()=>{
 			if(xhr.status==204){
 				act_user()
 			}else if(xhr.status==402){
-				alert("Pas assez de ressoources");
+				alert("Pas assez de ressources");
 			}else if(xhr.status==400){
 				alert("Veuillez entrer un nom");
 			}else{
@@ -345,6 +363,24 @@ window.onload=()=>{
 		use_api("PATCH","teams",datas,true,function(xhr){
 			if(xhr.status!=200){
 				alert("ERROR in editing description : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("donner").addEventListener("click",function(){
+		let datas={"action":"give"};
+		for(let a of ressources){
+			datas[a]=document.getElementById("finances_"+a).valueAsNumber;
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				for(let a of ressources){
+					document.getElementById("finances_"+a).value="";
+				}
+				act_user();
+			}else if(xhr.status==402){
+				alert("Vous n'avez pas assez de ressources");
+			}else{
+				alert("ERROR in giving at team : code "+xhr.status);
 			}
 		});
 	});

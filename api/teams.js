@@ -130,7 +130,66 @@ module.exports = {
 						}
 					}else{
 						res.writeHead(400);
-						res.write("Team not exist");
+						res.write("You have no team");
+						res.end();
+					}
+					break;
+			}
+		}else{
+			res.writeHead(401);
+			res.write("Not connected");
+			res.end();
+		}
+		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
+	},
+	POST:(req,res,body)=>{
+		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
+		if(checkmodule.usercheck(body.username,body.token)){
+			switch(body.action){
+				case "give":
+					if(teams[users[body.username].alliance]){
+						let OK=true;
+						for(let a of md.ressources){
+							if(typeof(body[a])=="number"){
+								if(body[a]<0){
+									OK=false;
+								}
+							}else{
+								if(body[a]==null){
+									body[a]=0;
+								}else{
+									OK=false;
+								}
+							}
+						}
+						if(OK){
+							for(let b of md.ressources){
+								if(body[b]>users[body.username].ressources[b]){
+									OK=false;
+								}
+							}
+							if(OK){
+								for(let c of md.ressources){
+									users[body.username].ressources[c]-=body[c];
+									teams[users[body.username].alliance].ressources[c]+=body[c];
+									res.writeHead(200);
+									res.end();
+								}
+							}else{
+								res.writeHead(402);
+								res.write("No enough ressources");
+								res.end();
+							}
+						}else{
+							res.writeHead(400);
+							res.write("Bad values");
+							res.end();
+						}
+					}else{
+						res.writeHead(400);
+						res.write("You have no team");
 						res.end();
 					}
 					break;
