@@ -24,12 +24,12 @@
 			<fieldset id="inviter">
 				<legend>Inviter</legend>
 				<input type="search" placeholder="Joueur" id="joueur_a_inviter" list="user_autocomplete_list">
-				<img src="../image/boutons/plus.png" class="button" id="bouton_inviter">
+				<img src="../image/equipe/inviter.png" class="button" id="bouton_inviter">
 			</fieldset>
 			<fieldset id="expulser">
 				<legend>Explulser</legend>
 				<input type="search" placeholder="Joueur" id="joueur_a_expulser" list="members_autocomplete_list">
-				<img src="../image/boutons/moins.png" class="button" id="bouton_expulser">
+				<img src="../image/equipe/expulser.png" class="button" id="bouton_expulser">
 			</fieldset>
 			<fieldset id="transferer">
 				<legend>Tranf&eacute;rer la propori&eacute;t&eacute;</legend>
@@ -38,7 +38,7 @@
 			</fieldset>
 		</div>
 		<div id="popup_change_description" class="fenetre" style="display:none;">
-			<textarea id="new_description"></textarea>
+			<textarea id="new_description" style="height:100px;"></textarea>
 		</div>
 		<div id="popup_finances" class="fenetre" style="display:none;">
 			<fieldset>
@@ -124,6 +124,66 @@
 					</tr>
 				</thead>
 				<tbody id="list_donnation_ask">
+				</tbody>
+			</table>
+		</div>
+		<div id="popup_grades" class="fenetre" style="display:none;">
+			<fieldset>
+				<legend>Ajouter un grade</legend>
+				<input id="nom_grade" type="text" placeholder="Nom du grade">
+				<br>
+				<input id="posseseur_grade" type="search" placeholder="Possesseur du grade" list="members_autocomplete_list">
+				<br>
+				<input id="perm_guerre_grade" type="checkbox">
+				<img src="../image/equipe/guerre.png" class="icon">
+				Permet de d&eacute;clarer et finir les guerres
+				<br>
+				<input id="perm_pacte_grade" type="checkbox">
+				<img src="../image/equipe/pacte.png" class="icon">
+				Permet de d&eacute;clarer et finir les pactes
+				<br>
+				<input id="perm_finance_grade" type="checkbox">
+				<img src="../image/equipe/finance.png" class="icon">
+				Permet de g&eacute;rer les ressources de l'alliance
+				<br>
+				<input id="perm_grades_grade" type="checkbox">
+				<img src="../image/equipe/grade.png" class="icon">
+				Permet de g&eacute;rer les grades
+				<blockquote>
+					<img src="../image/autre/danger.png" class="icon">
+					Cette permission permet de s'attribuer toutes les autres
+				</blockquote>
+				<input id="perm_inviter_grade" type="checkbox">
+				<img src="../image/equipe/inviter.png" class="icon">
+				Permet d'inviter des joueurs
+				<br>
+				<input id="perm_expulser_grade" type="checkbox">
+				<img src="../image/equipe/expulser.png" class="icon">
+				Permet d'expulser des joueurs
+				<br>
+				<input id="perm_description_grade" type="checkbox">
+				<img src="../image/equipe/description.png" class="icon">
+				Permet de modifier la description de l'alliance
+				<br>
+				<input id="valider_grade" type="button" value="Valider">
+			</fieldset>
+			<table>
+				<caption>Grades</caption>
+				<thead>
+					<tr>
+					<td>Grade</td>
+					<td>Joueur</td>
+					<td><img src="../image/equipe/guerre.png" class="icon"></td>
+					<td><img src="../image/equipe/pacte.png" class="icon"></td>
+					<td><img src="../image/equipe/finance.png" class="icon"></td>
+					<td><img src="../image/equipe/grade.png" class="icon"></td>
+					<td><img src="../image/equipe/inviter.png" class="icon"></td>
+					<td><img src="../image/equipe/expulser.png" class="icon"></td>
+					<td><img src="../image/equipe/description.png" class="icon"></td>
+					<td>Action</td>
+					</tr>
+				</thead>
+				<tbody id="list_grades">
 				</tbody>
 			</table>
 		</div>

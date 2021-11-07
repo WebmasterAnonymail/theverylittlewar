@@ -327,7 +327,7 @@ module.exports = {
 									delete teams[users[body.username].alliance].grades[a];
 								}
 							}
-							teams[users[body.username].alliance].membres.splice(teams[users[body.username].alliance].membres.indexOf(body.username));
+							teams[users[body.username].alliance].membres.splice(teams[users[body.username].alliance].membres.indexOf(body.username),1);
 							users[body.username].alliance=null;
 							res.writeHead(200);
 							res.end();

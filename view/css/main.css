@@ -126,6 +126,14 @@ ecl{
 	font-weight: bold;
 	font-style: italic;
 }
+fieldset{
+	border-radius: 10px;
+	background-image: url(../image/backgroung_card.jpg);
+}
+blockquote{
+	margin-block-start: 0px;
+	margin-block-end: 0px;
+}
 #topbar{
 	width: 100%;
 	height: 7.5%;

@@ -1,5 +1,5 @@
 var team=null;
-var popups=["membres","change_description","finances"];
+var popups=["membres","change_description","finances","grades"];
 var block_description_geting=false;
 var ressources=[
 	"carbone",
@@ -12,6 +12,15 @@ var ressources=[
 	"chlore",
 	"energie"
 ];
+var permissions=[
+	"guerre",
+	"pacte",
+	"finance",
+	"grades",
+	"inviter",
+	"expulser",
+	"description"
+]
 function popup_open_close(at_open=null){
 	document.getElementById("popup_mask").style.display="none";
 	for(a of popups){
@@ -89,6 +98,9 @@ function post_getuser_action(){
 					button_text.innerText="Grades";
 					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
+					action_button.addEventListener("click",function(){
+						popup_open_close("grades");
+					});
 					document.getElementById("actions").appendChild(action_button);
 				}
 				if(has_team_permission("description")){
@@ -166,7 +178,7 @@ function post_getuser_action(){
 					let delete_button=document.createElement("div");
 					delete_button.classList.add("button_labeled");
 					let delete_image=document.createElement("img");
-					delete_image.src="../image/equipe/supprimer.png";
+					delete_image.src="../image/autre/supprimer.png";
 					delete_image.classList.add("button_labeled_image");
 					delete_button.appendChild(delete_image);
 					let delete_text=document.createElement("span");
@@ -230,6 +242,49 @@ function post_getuser_action(){
 					
 					line.appendChild(cell2);
 					members_list.appendChild(line);
+				}
+				let list_grades=document.getElementById("list_grades");
+				list_grades.innerHTML="";
+				for(let grade in team.grades){
+					let line=document.createElement("tr");
+					let cellG=document.createElement("td");
+					cellG.innerText=grade;
+					line.appendChild(cellG);
+					let cellJ=document.createElement("td");
+					cellJ.innerText=team.grades[grade].posseseur;
+					line.appendChild(cellJ);
+					for(perm of permissions){
+						let cellP=document.createElement("td");
+						let permimage=document.createElement("img");
+						permimage.classList.add("icon");
+						if(team.grades[grade][perm]){
+							permimage.src="../image/boutons/valider.png";
+						}else{
+							permimage.src="../image/boutons/annuler.png";
+						}
+						cellP.appendChild(permimage);
+						line.appendChild(cellP);
+					}
+					let cellA=document.createElement("td");
+					let button_action=document.createElement("img");
+					button_action.classList.add("button");
+					button_action.src="../image/autre/supprimer.png";
+					button_action.addEventListener("click",function(){
+						let datas={
+							"action":"delete_grade",
+							"grade":grade,
+						};
+						use_api("PATCH","teams",datas,true,function(xhr){
+							if(xhr.status==200){
+								act_user();
+							}else{
+								alert("ERROR in deleting grade : code "+xhr.status);
+							}
+						});
+					});
+					cellA.appendChild(button_action);
+					line.appendChild(cellA);
+					list_grades.appendChild(line);
 				}
 				if(has_team_permission("finance")){
 					let list_donnation_ask=document.getElementById("list_donnation_ask");
@@ -450,6 +505,34 @@ window.onload=()=>{
 				act_user();
 			}else{
 				alert("ERROR in asking donnation at team : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("valider_grade").addEventListener("click",function(){
+		let datas={
+			"action":"add_grade",
+			"grade":document.getElementById("nom_grade").value,
+			"posseseur":document.getElementById("posseseur_grade").value
+		};
+		for(let a of permissions){
+			datas[a]=document.getElementById("perm_"+a+"_grade").checked;
+		}
+		use_api("PATCH","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				for(let a of permissions){
+					document.getElementById("nom_grade").value="";
+					document.getElementById("posseseur_grade").value="";
+					document.getElementById("perm_"+a+"_grade").checked=false;
+				}
+				act_user();
+			}else if(xhr.status==400){
+				alert("Entrez un nom de grade");
+			}else if(xhr.status==404){
+				alert("Le joueur n'est pas dans l'alliance");
+			}else if(xhr.status==409){
+				alert("Le grade existe deja");
+			}else{
+				alert("ERROR in adding grade : code "+xhr.status);
 			}
 		});
 	});

@@ -116,9 +116,9 @@ module.exports = {
 		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
-			switch(body.action){
-				case "change_description":
-					if(teams[users[body.username].alliance]){
+			if(teams[users[body.username].alliance]){
+				switch(body.action){
+					case "change_description":
 						if(md.has_team_permission(body.username,"description")){
 							teams[users[body.username].alliance].description=body.description;
 							res.writeHead(200);
@@ -128,12 +128,67 @@ module.exports = {
 							res.write("Forbidden");
 							res.end();
 						}
-					}else{
-						res.writeHead(400);
-						res.write("You have no team");
-						res.end();
-					}
-					break;
+						break;
+					case "add_grade":
+						if(md.has_team_permission(body.username,"grades")){
+							if(body.grade){
+								if(teams[users[body.username].alliance].membres.indexOf(body.posseseur)<0){
+									res.writeHead(404);
+									res.write("User is not in team");
+									res.end();
+								}else{
+									if(teams[users[body.username].alliance].grades[body.grade]){
+										res.writeHead(409);
+										res.write("Grade already exist");
+										res.end();
+									}else{
+										teams[users[body.username].alliance].grades[body.grade]={
+											"posseseur":body.posseseur,
+											"guerre":body.guerre,
+											"pacte":body.pacte,
+											"finance":body.finance,
+											"grades":body.grades,
+											"inviter":body.inviter,
+											"expulser":body.expulser,
+											"description":body.description,
+										}
+										res.writeHead(200);
+										res.end();
+									}
+								}
+							}else{
+								res.writeHead(400);
+								res.write("Please write the grade name");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+					case "delete_grade":
+						if(md.has_team_permission(body.username,"grades")){
+							if(teams[users[body.username].alliance].grades[body.grade]){
+								delete teams[users[body.username].alliance].grades[body.grade]
+								res.writeHead(200);
+								res.end();
+							}else{
+								res.writeHead(409);
+								res.write("Grade not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+				}
+			}else{
+				res.writeHead(400);
+				res.write("You have no team");
+				res.end();
 			}
 		}else{
 			res.writeHead(401);
