@@ -328,6 +328,86 @@ module.exports = {
 							res.end();
 						}
 						break;
+					case "new_pacte":
+						if(md.has_team_permission(body.username,"pacte")){
+							if(teams[body.pacte]){
+								if(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.pacte)<0){
+									teams[users[body.username].alliance].diplomatie.pactes.push(body.pacte);
+									res.writeHead(200);
+									res.end();
+								}else{
+									res.writeHead(409);
+									res.write("Pact already exist");
+									res.end();
+								}
+							}else{
+								res.writeHead(404);
+								res.write("Team not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+					case "delete_pacte":
+						if(md.has_team_permission(body.username,"pacte")){
+							if(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.pacte)<0){
+								res.writeHead(404);
+								res.write("Pact not exist");
+								res.end();
+							}else{
+								teams[users[body.username].alliance].diplomatie.pactes.splice(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.pacte),1);
+								res.writeHead(200);
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+					case "new_guerre":
+						if(md.has_team_permission(body.username,"guerre")){
+							if(teams[body.guerre]){
+								if(teams[users[body.username].alliance].diplomatie.guerres.indexOf(body.guerre)<0){
+									teams[users[body.username].alliance].diplomatie.guerres.push(body.guerre);
+									res.writeHead(200);
+									res.end();
+								}else{
+									res.writeHead(409);
+									res.write("War already exist");
+									res.end();
+								}
+							}else{
+								res.writeHead(404);
+								res.write("Team not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
+					case "delete_guerre":
+						if(md.has_team_permission(body.username,"guerre")){
+							if(teams[users[body.username].alliance].diplomatie.guerres.indexOf(body.guerre)<0){
+								res.writeHead(404);
+								res.write("War not exist");
+								res.end();
+							}else{
+								teams[users[body.username].alliance].diplomatie.guerres.splice(teams[users[body.username].alliance].diplomatie.guerres.indexOf(body.guerre),1);
+								res.writeHead(200);
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
 				}
 			}else{
 				res.writeHead(400);

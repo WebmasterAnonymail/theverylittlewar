@@ -1,5 +1,5 @@
 var team=null;
-var popups=["membres","change_description","finances","grades"];
+var popups=["membres","change_description","finances","grades","pactes","guerres"];
 var block_description_geting=false;
 var ressources=[
 	"carbone",
@@ -86,7 +86,9 @@ function post_getuser_action(){
 						document.getElementById("new_description").value=team.description;
 					}
 				}
+				//Actions
 				document.getElementById("actions").innerText="";
+				//Grades
 				if(has_team_permission("grades")){
 					let action_button=document.createElement("div");
 					action_button.classList.add("button_labeled");
@@ -103,6 +105,7 @@ function post_getuser_action(){
 					});
 					document.getElementById("actions").appendChild(action_button);
 				}
+				//Description
 				if(has_team_permission("description")){
 					let action_button=document.createElement("div");
 					action_button.classList.add("button_labeled");
@@ -120,6 +123,7 @@ function post_getuser_action(){
 					});
 					document.getElementById("actions").appendChild(action_button);
 				}
+				//Guerres
 				if(has_team_permission("guerre")){
 					let action_button=document.createElement("div");
 					action_button.classList.add("button_labeled");
@@ -131,8 +135,12 @@ function post_getuser_action(){
 					button_text.innerText="Guerres";
 					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
+					action_button.addEventListener("click",function(){
+						popup_open_close("guerres");
+					});
 					document.getElementById("actions").appendChild(action_button);
 				}
+				//Pactes
 				if(has_team_permission("pacte")){
 					let action_button=document.createElement("div");
 					action_button.classList.add("button_labeled");
@@ -144,8 +152,12 @@ function post_getuser_action(){
 					button_text.innerText="Pactes";
 					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
+					action_button.addEventListener("click",function(){
+						popup_open_close("pactes");
+					});
 					document.getElementById("actions").appendChild(action_button);
 				}
+				//Membres
 				let membres_button=document.createElement("div");
 				membres_button.classList.add("button_labeled");
 				let membres_image=document.createElement("img");
@@ -160,6 +172,7 @@ function post_getuser_action(){
 					popup_open_close("membres");
 				});
 				document.getElementById("actions").appendChild(membres_button);
+				//Finances
 				let finance_button=document.createElement("div");
 				finance_button.classList.add("button_labeled");
 				let finance_image=document.createElement("img");
@@ -174,6 +187,7 @@ function post_getuser_action(){
 					popup_open_close("finances");
 				});
 				document.getElementById("actions").appendChild(finance_button);
+				//Quitter / Supprimer
 				if(team.chef==username){
 					let delete_button=document.createElement("div");
 					delete_button.classList.add("button_labeled");
@@ -210,16 +224,21 @@ function post_getuser_action(){
 					document.getElementById("actions").appendChild(leave_button);
 					document.getElementById("transferer").style.display="none";
 				}
+				//Membres (interne)
+				//Inviter
 				if(has_team_permission("inviter")){
 					document.getElementById("inviter").style.display="block";
 				}else{
 					document.getElementById("inviter").style.display="none";
 				}
+				//Expulser
 				if(has_team_permission("expulser")){
 					document.getElementById("expulser").style.display="block";
 				}else{
 					document.getElementById("expulser").style.display="none";
 				}
+				//Actualisation des listes
+				//Utilisateurs
 				let members_autocomplete_list=document.getElementById("members_autocomplete_list");
 				members_autocomplete_list.innerText="";
 				members_list=document.getElementById("members_list");
@@ -243,6 +262,7 @@ function post_getuser_action(){
 					line.appendChild(cell2);
 					members_list.appendChild(line);
 				}
+				//Grades
 				let list_grades=document.getElementById("list_grades");
 				list_grades.innerHTML="";
 				for(let grade in team.grades){
@@ -286,6 +306,7 @@ function post_getuser_action(){
 					line.appendChild(cellA);
 					list_grades.appendChild(line);
 				}
+				//Demandes de ressources
 				if(has_team_permission("finance")){
 					let list_donnation_ask=document.getElementById("list_donnation_ask");
 					list_donnation_ask.innerHTML="";
@@ -338,6 +359,64 @@ function post_getuser_action(){
 					document.getElementById("demandes").style.display="table";
 				}else{
 					document.getElementById("demandes").style.display="none";
+				}
+				//Pactes
+				let pactes_list=document.getElementById("pactes_list");
+				pactes_list.innerHTML="";
+				for(pacte of team.diplomatie.pactes){
+					let line=document.createElement("tr");
+					let cellP=document.createElement("td");
+					cellP.innerText=pacte;
+					line.appendChild(cellP);
+					let cellA=document.createElement("td");
+					let button_action=document.createElement("img");
+					button_action.classList.add("button");
+					button_action.src="../image/autre/supprimer.png";
+					button_action.addEventListener("click",function(){
+						datas={
+							"action":"delete_pacte",
+							"pacte":pacte
+						}
+						use_api("POST","teams",datas,true,function(xhr){
+							if(xhr.status==200){
+								act_user();
+							}else{
+								alert("ERROR in deleting pact : code "+xhr.status);
+							}
+						});
+					});
+					cellA.appendChild(button_action);
+					line.appendChild(cellA);
+					pactes_list.appendChild(line)
+				}
+				//Guerres
+				let guerres_list=document.getElementById("guerres_list");
+				guerres_list.innerHTML="";
+				for(guerre of team.diplomatie.guerres){
+					let line=document.createElement("tr");
+					let cellP=document.createElement("td");
+					cellP.innerText=guerre;
+					line.appendChild(cellP);
+					let cellA=document.createElement("td");
+					let button_action=document.createElement("img");
+					button_action.classList.add("button");
+					button_action.src="../image/autre/supprimer.png";
+					button_action.addEventListener("click",function(){
+						datas={
+							"action":"delete_guerre",
+							"guerre":guerre
+						}
+						use_api("POST","teams",datas,true,function(xhr){
+							if(xhr.status==200){
+								act_user();
+							}else{
+								alert("ERROR in deleting war : code "+xhr.status);
+							}
+						});
+					});
+					cellA.appendChild(button_action);
+					line.appendChild(cellA);
+					guerres_list.appendChild(line)
 				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
@@ -440,6 +519,8 @@ window.onload=()=>{
 			if(xhr.status==200){
 				document.getElementById("joueur_a_expulser").value="";
 				act_user();
+			}else if(xhr.status==403){
+				alert("Ce joueur est le chef : vous ne pouvez pas l'expulser");
 			}else if(xhr.status==404){
 				alert("Ce joueur n'est pas dans l'alliance ou n'existe pas");
 			}else{
@@ -533,6 +614,42 @@ window.onload=()=>{
 				alert("Le grade existe deja");
 			}else{
 				alert("ERROR in adding grade : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("new_pacte_bouton").addEventListener("click",function(){
+		datas={
+			"action":"new_pacte",
+			"pacte":document.getElementById("new_pacte_alliance").value
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("new_pacte_alliance").value="";
+				act_user();
+			}else if(xhr.status==404){
+				alert("L'alliance n'existe pas");
+			}else if(xhr.status==409){
+				alert("Le pacte existe deja");
+			}else{
+				alert("ERROR in adding pact : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("new_guerre_bouton").addEventListener("click",function(){
+		datas={
+			"action":"new_guerre",
+			"guerre":document.getElementById("new_guerre_alliance").value
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("new_guerre_alliance").value="";
+				act_user();
+			}else if(xhr.status==404){
+				alert("L'alliance n'existe pas");
+			}else if(xhr.status==409){
+				alert("La guerre existe deja");
+			}else{
+				alert("ERROR in adding war : code "+xhr.status);
 			}
 		});
 	});
