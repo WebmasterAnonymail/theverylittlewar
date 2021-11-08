@@ -37,13 +37,13 @@ function bb_code(texte){
 	res=res.replaceAll("<","&lt;");
 	res=res.replaceAll(">","&gt;");
 	res=res.replaceAll("\n","<br>");
-	let unibalises=/\[([biuspq]|sup|sub|big|small)\](.*?)\[\/\1\]/;
+	let unibalises=/\[([biuspq]|sup|sub|big|small|rainbow|ec|eo|en|ei|ebr|eh|es|ecl)\](.*?)\[\/\1\]/;
 	let oldres="";
 	do{
 		oldres=res;
 		res=res.replace(unibalises,"<$1>$2</$1>");
 	}while(oldres!=res);
-	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*)\[\/url\]/;
+	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*?)\[\/url\]/;
 	do{
 		oldres=res;
 		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
@@ -199,6 +199,9 @@ function post_getuser_action(){
 					delete_text.innerText="Supprimer l'alliance";
 					delete_text.classList.add("button_labeled_label");
 					delete_button.appendChild(delete_text);
+					delete_button.addEventListener("click",function(){
+						
+					})
 					document.getElementById("actions").appendChild(delete_button);
 					document.getElementById("transferer").style.display="block";
 				}else{
