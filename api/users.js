@@ -93,8 +93,6 @@ module.exports = {
 				res.write("{error:\"Already used\"}");
 				res.end();
 			}else{
-				let px=undefined;
-				let py=undefined;
 				data[body.username]={
 					"password":body.password,
 					"ressources":{
@@ -159,13 +157,13 @@ module.exports = {
 					},
 					"invitations":[],
 					"raports":[],
-					"positionX":px,
-					"positionY":py,
+					"positionX":null,
+					"positionY":null,
 					"messagesPerso":[],
 					"alliance":null,
 					"description":null,
 					"permission":[],
-					"actif":true,
+					"actif":false,
 					"lastUserCheck":Date.now()
 				};
 				res.writeHead(204);

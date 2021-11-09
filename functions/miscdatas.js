@@ -66,6 +66,8 @@ module.exports.points_batiments={
 	"booster":3,
 	"protecteur":2
 };
+module.exports.map_posX=[0,1,0,2,1,0,3,2,1,0,4,3,2,1,0,4,3,2,1,4,3,2,4,3,4];
+module.exports.map_posY=[0,0,1,0,1,2,0,1,2,3,0,1,2,3,4,1,2,3,4,2,3,4,3,4,4];
 module.exports.power_atome=function(utilisateur,molecule,atome){
 	let result=Math.max(1,Math.asin(utilisateur.molecules[molecule][this.atomes[atome]]/200)/Math.PI*2000);
 	result*=1+(utilisateur.batiments[this.batiment_augmentateurs[atome]]/100);
