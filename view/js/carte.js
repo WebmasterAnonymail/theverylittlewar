@@ -11,6 +11,7 @@ function post_getuser_action(){
 				elem.style.top=(64*data.y)+"px";
 				elem.style.left=(64*data.x)+"px";
 				elem.src="../image/carte/"+data.size+".png";
+				elem.style.backgroundColor=data.color+"40";
 				document.getElementById("map_ground").appendChild(elem);
 			}
 		}else{

@@ -36,7 +36,9 @@ module.exports = {
 			case "list":
 				let response=[];
 				for(let a in teams){
-					response.push(a);
+					if(a!="NONETEAM"){
+						response.push(a);
+					}
 				}
 				res.writeHead(200,{'Content-Type':'application/json'});
 				res.write(JSON.stringify(response));
@@ -87,7 +89,8 @@ module.exports = {
 								"pactes":[],
 								"guerres":[]
 							},
-							"requetes_ressources":[]
+							"requetes_ressources":[],
+							"color":"#c0c0c0"
 						}
 						users[body.username].alliance=body.name_team;
 						users[body.username].ressources.energie-=100000;
