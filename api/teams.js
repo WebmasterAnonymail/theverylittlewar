@@ -129,6 +129,24 @@ module.exports = {
 							res.end();
 						}
 						break;
+					case "change_color":
+						if(md.has_team_permission(body.username,"description")){
+							hexacolor=/^#[0-9a-fA-F]{6}$/;
+							if(hexacolor.test(body.color)){
+								teams[users[body.username].alliance].color=body.color;
+								res.writeHead(200);
+								res.end();
+							}else{
+								res.writeHead(400);
+								res.write("Not a color");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
 					case "add_grade":
 						if(md.has_team_permission(body.username,"grades")){
 							if(body.grade){

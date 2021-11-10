@@ -89,6 +89,7 @@ function post_getuser_action(){
 					document.getElementById("description").innerHTML=bb_code(team.description);
 					if(!block_description_geting){
 						document.getElementById("new_description").value=team.description;
+						document.getElementById("new_color").value=team.color;
 					}
 				}
 				//Actions
@@ -562,6 +563,17 @@ window.onload=()=>{
 		use_api("PATCH","teams",datas,true,function(xhr){
 			if(xhr.status!=200){
 				alert("ERROR in editing description : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("new_color").addEventListener("change",function(){
+		datas={
+			"action":"change_color",
+			"color":document.getElementById("new_color").value
+		}
+		use_api("PATCH","teams",datas,true,function(xhr){
+			if(xhr.status!=200){
+				alert("ERROR in editing color : code "+xhr.status);
 			}
 		});
 	});
