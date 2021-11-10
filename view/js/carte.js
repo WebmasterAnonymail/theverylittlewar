@@ -1,15 +1,23 @@
 //scrollTo = scroll = met le point sélectioné en haut a gauche
 //scrollBy = défile des valeurs indiqués
-window.onload=()=>{
-	for(y=0;y<25;y++){
-		for(x=0;x<25;x++){
-			let case_elem=document.createElement("img");
-			case_elem.classList.add("case");
-			case_elem.id="c"+x+","+y;
-			case_elem.style.top=(64*y)+"px";
-			case_elem.style.left=(64*x)+"px";
-			case_elem.src="../image/carte/1.png";
-			document.getElementById("map_ground").appendChild(case_elem);
+function post_getuser_action(){
+	use_api("GET","map",{},false,function(xhr){
+		if(xhr.status==200){
+			document.getElementById("map_ground").innerHTML="";
+			for(data of xhr.response){
+				let elem=document.createElement("img");
+				elem.classList.add("case");
+				elem.id="c"+data.x+","+data.y;
+				elem.style.top=(64*data.y)+"px";
+				elem.style.left=(64*data.x)+"px";
+				elem.src="../image/carte/"+data.size+".png";
+				document.getElementById("map_ground").appendChild(elem);
+			}
+		}else{
+			alert("ERROR in getting map : code "+api_xhr.status);
 		}
-	}
+	});
+}
+window.onload=()=>{
+
 }

@@ -38,17 +38,17 @@ module.exports = {
 							MDS.map.progress++;
 						}
 						let team_map_datas=MDS.map.in_teams_progress[users[body.username].alliance];
-						users[body.username].positionX=md.map_posX[team_map_datas.progress]+team_map_datas.Xpos*25;
-						users[body.username].positionY=md.map_posY[team_map_datas.progress]+team_map_datas.Ypos*25;
+						users[body.username].positionX=md.map_posX[team_map_datas.progress]+team_map_datas.Xpos*5;
+						users[body.username].positionY=md.map_posY[team_map_datas.progress]+team_map_datas.Ypos*5;
 						MDS.map.in_teams_progress[users[body.username].alliance].progress++;
 					}else{
 						CellPX=0;
 						CellPY=0;
 						if(MDS.map.in_teams_progress.NONETEAM>=25){
 							if(MDS.map.in_teams_progress.NONETEAM>=50){
-								CellPY=25;
+								CellPY=5;
 							}else{
-								CellPX=25;
+								CellPX=5;
 							}
 						}
 						users[body.username].positionX=md.map_posX[MDS.map.in_teams_progress.NONETEAM%25]+CellPX;
