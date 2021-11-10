@@ -12,7 +12,10 @@ module.exports = {
 			if(users[user].actif){
 				let size=0;
 				size+=Number(Boolean(users[user].alliance));
+				size+=Number(users[user].points.total>100);
 				size+=Number(users[user].points.total>500);
+				size+=Number(Boolean(users[user].molecules[0]||users[user].molecules[1]||users[user].molecules[2]||users[user].molecules[3]||users[user].molecules[4]));
+				size+=Number(Boolean(users[user].molecules[0]&&users[user].molecules[1]&&users[user].molecules[2]&&users[user].molecules[3]&&users[user].molecules[4]));
 				team=users[user].alliance||"NONETEAM";
 				res.push({
 					"x":users[user].positionX,
