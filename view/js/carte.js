@@ -1,5 +1,5 @@
-//scrollTo = scroll = met le point sélectioné en haut a gauche
-//scrollBy = défile des valeurs indiqués
+//scrollTo = scroll = met le point sÃ©lectionÃ© en haut a gauche
+//scrollBy = dÃ©file des valeurs indiquÃ©s
 function post_getuser_action(){
 	use_api("GET","map",{},false,function(xhr){
 		if(xhr.status==200){
@@ -12,6 +12,9 @@ function post_getuser_action(){
 				elem.style.left=(64*data.x)+"px";
 				elem.src="../image/carte/"+data.size+".png";
 				elem.style.backgroundColor=data.color+"40";
+				if(data.user==username){
+					elem.style.borderStyle="solid";
+				}
 				document.getElementById("map_ground").appendChild(elem);
 			}
 		}else{
