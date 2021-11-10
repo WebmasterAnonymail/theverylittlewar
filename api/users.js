@@ -128,7 +128,7 @@ module.exports = {
 						"destruction":[4,4,4]
 					},
 					"points":{
-						"batmients":0,
+						"batiments":0,
 						"defense":0,
 						"attaque":0,
 						"molecules_crees":0,
@@ -136,7 +136,8 @@ module.exports = {
 						"pertes_combat":0,
 						"destruction":0,
 						"pillage":0,
-						"combats":0
+						"combats":0,
+						"total":0
 					},
 					"PV_batiments":{
 						"generateur":0,

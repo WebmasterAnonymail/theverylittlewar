@@ -291,7 +291,7 @@ blockquote{
 	border:2px outset #808080;
 	border-radius: 5px;
 	padding:5px;
-	/* clip: rect(0 100 100 10); */
+	box-sizing: border-box;
 	background-color:#ffffff;
 	box-shadow:5px 5px 10px 0px #404040;
 	z-index:1000;
