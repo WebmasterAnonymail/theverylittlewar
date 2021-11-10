@@ -83,6 +83,7 @@ module.exports={
 					}
 				}
 			}
+			users[user].points.total=users[user].points.batiments;
 			users[user].lastUserCheck=Date.now();
 			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}
