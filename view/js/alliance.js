@@ -31,35 +31,6 @@ function popup_open_close(at_open=null){
 		document.getElementById("popup_mask").style.display="block";
 	}
 }
-function bb_code(texte){
-	let res=texte;
-	res=res.replaceAll("&","&amp;");
-	res=res.replaceAll("<","&lt;");
-	res=res.replaceAll(">","&gt;");
-	res=res.replaceAll("\n","<br>");
-	let unibalises=/\[([biuspq]|sup|sub|big|small|rainbow|ec|eo|en|ei|ebr|eh|es|ecl)\](.*?)\[\/\1\]/;
-	let oldres="";
-	do{
-		oldres=res;
-		res=res.replace(unibalises,"<$1>$2</$1>");
-	}while(oldres!=res);
-	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*?)\[\/url\]/;
-	do{
-		oldres=res;
-		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
-	}while(oldres!=res);
-	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\]/;
-	do{
-		oldres=res;
-		res=res.replace(imgbalise,"<img src='$1'>");
-	}while(oldres!=res);
-	let colorbalise=/\[color=(#[0-9A-F]{6}|black|grey|silver|white|maroon|olive|green|teal|navy|purple|red|yellow|lime|aqua|blue|fuchsia)\](.*?)\[\/color\]/;
-	do{
-		oldres=res;
-		res=res.replace(colorbalise,"<span style='color: $1;'>$2</span>");
-	}while(oldres!=res);
-	return res;
-}
 function has_team_permission(permission){
 	let res=false;
 	if(team.chef==username){

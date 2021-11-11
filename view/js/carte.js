@@ -65,6 +65,12 @@ function post_getuser_action(){
 								popup_open_close();
 							}
 							document.getElementById("user_last_connexion").innerText="Il y a "+affichageTemps(Date.now()-xhr.response.lastUserCheck);
+							if(xhr.response.description){
+								document.getElementById("user_description").innerHTML=bb_code(xhr.response.victoires);
+							}else{
+								document.getElementById("user_description").innerHTML="";
+							}
+							
 							popup_open_close("user");
 						}else{
 							alert("ERROR in getting user : code "+api_xhr.status);

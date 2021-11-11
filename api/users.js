@@ -33,7 +33,6 @@ module.exports = {
 				if(data[body.user]){
 					let response={
 						"points":data[body.user].points,
-						"medailles":data[body.user].medailles,
 						"positionX":data[body.user].positionX,
 						"positionY":data[body.user].positionY,
 						"alliance":data[body.user].alliance,
