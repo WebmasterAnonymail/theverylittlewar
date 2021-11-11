@@ -9,7 +9,49 @@
 		<script src="../js/carte.js"></script>
 	</head>
 	<body>
+		<div id="popup_mask" style="display: none;"></div>
+		<div id="popup_user" class="fenetre" style="display:none;">
+			<div class="ressource">
+				<img src="../image/autre/username.png" class="icon_ressource"/>
+				<span class="text_ressource" id="user_name">Bidule</span>
+			</div>
+			<br/>
+			<div class="ressource" id="team_link" style="cursor:pointer;">
+				<img src="../image/lieux/alliance.png" class="icon_ressource"/>
+				<span class="text_ressource" id="user_team">Aucune</span>
+			</div>
+			<br/>
+			<div class="ressource">
+				<img src="../image/ressources/points.png" class="icon_ressource"/>
+				<span class="text_ressource" id="user_points">0</span>
+			</div>
+			<br/>
+			<div class="ressource">
+				<img src="../image/ressources/victoires.png" class="icon_ressource"/>
+				<span class="text_ressource" id="user_victory">0</span>
+			</div>
+			<br/>
+			<div class="ressource" id="postion_link" style="cursor:pointer;">
+				<img src="../image/lieux/carte.png" class="icon_ressource"/>
+				<span class="text_ressource" id="user_position">Aucune</span>
+			</div>
+			<br/>
+			<div class="ressource">
+				<img src="../image/autre/calendrier.png" class="icon_ressource"/>
+				<span class="text_ressource" id="user_last_connexion">Jamais</span>
+			</div>
+			<br/>
+			<fieldset>
+				<legend>Description</legend>
+				<div id="user_description"></div>
+			</fieldset>
+		</div>
 		<div id="map_ground">
+		</div>
+		<div id="preview">
+			Nom : <span id="preview_user">Aucun</span><br/>
+			Alliance : <span id="preview_team">X</span><br/>
+			Points : <span id="preview_points">X</span><br/>
 		</div>
 	</body>
 </html>

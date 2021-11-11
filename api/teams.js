@@ -45,10 +45,19 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
-				if(data[body.team]){
+				if(teams[body.team]){
 					let response={
-						
+						"membres":teams[body.user].membres,
+						"chef":teams[body.user].chef,
+						"grades":teams[body.user].grades,
+						"description":teams[body.user].description,
+						"diplomatie":teams[body.user].diplomatie,
+						"victoires":teams[body.user].ressources.victoires,
+						"color":teams[body.user].color
 					}
+					res.writeHead(200,{'Content-Type':'application/json'});
+					res.write(JSON.stringify(response));
+					res.end();
 				}else{
 					res.writeHead(404);
 					res.write("Team not found");
@@ -69,9 +78,9 @@ module.exports = {
 				}else{
 					if(users[body.username].ressources.energie>=100000){
 						teams[body.name_team]={
-							membres:[body.username],
-							chef:body.username,
-							grades:{},
+							"membres":[body.username],
+							"chef":body.username,
+							"grades":{},
 							"ressources":{
 								"energie":0,
 								"carbone":0,

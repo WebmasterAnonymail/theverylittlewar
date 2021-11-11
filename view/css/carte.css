@@ -4,15 +4,20 @@
 	border: 1px solid #000000;
 	height: 75%;
 	width: auto;
-	white-space: nowrap;
-	line-height: 0px;
 	box-sizing: border-box;
 	position: relative;
 }
+#preview{
+	padding: 10px;
+}
 .case{
+	box-sizing: border-box;
 	height: 64px;
 	width: 64px;
 	display: inline-block;
-	border: 1px dotted #000000;
+	border: 1px solid #000000;
 	position: absolute;
+}
+.case.selected{
+	border-color: #ff0000;
 }

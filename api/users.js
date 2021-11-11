@@ -32,16 +32,20 @@ module.exports = {
 			case "one":
 				if(data[body.user]){
 					let response={
-						"points":data[body.username].points,
-						"medailles":data[body.username].medailles,
-						"positionX":data[body.username].positionX,
-						"positionY":data[body.username].positionY,
-						"alliance":data[body.username].alliance,
-						"description":data[body.username].description,
-						"victoires":data[body.username].ressources.victoires,
-						"permission":data[body.username].permission,
-						"actif":data[body.username].actif
+						"points":data[body.user].points,
+						"medailles":data[body.user].medailles,
+						"positionX":data[body.user].positionX,
+						"positionY":data[body.user].positionY,
+						"alliance":data[body.user].alliance,
+						"description":data[body.user].description,
+						"victoires":data[body.user].ressources.victoires,
+						"permission":data[body.user].permission,
+						"actif":data[body.user].actif,
+						"lastUserCheck":data[body.user].lastUserCheck
 					}
+					res.writeHead(200,{'Content-Type':'application/json'});
+					res.write(JSON.stringify(response));
+					res.end();
 				}else{
 					res.writeHead(404);
 					res.write("User not found");

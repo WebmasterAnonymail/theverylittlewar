@@ -13,7 +13,7 @@ module.exports = {
 				let size=0;
 				size+=Number(Boolean(users[user].alliance));
 				size+=Number(users[user].points.total>100);
-				size+=Number(users[user].points.total>500);
+				size+=Number(users[user].points.total>1000);
 				size+=Number(Boolean(users[user].molecules[0]||users[user].molecules[1]||users[user].molecules[2]||users[user].molecules[3]||users[user].molecules[4]));
 				size+=Number(Boolean(users[user].molecules[0]&&users[user].molecules[1]&&users[user].molecules[2]&&users[user].molecules[3]&&users[user].molecules[4]));
 				team=users[user].alliance||"NONETEAM";
@@ -22,7 +22,9 @@ module.exports = {
 					"y":users[user].positionY,
 					"color":teams[team].color,
 					"size":size,
-					"user":user
+					"user":user,
+					"team":team,
+					"points":users[user].points.total
 				});
 			}
 		}
