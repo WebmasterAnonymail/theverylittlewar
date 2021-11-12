@@ -1,16 +1,14 @@
-<!DOCTYPE html>
 <html>
 	<head>
 		<title>The Very Little War</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="../css/main.css">
-		<link rel="stylesheet" href="../css/carte.css">
+		<link rel="stylesheet" href="../css/userteam.css">
 		<script src="../js/main.js"></script>
-		<script src="../js/carte.js"></script>
+		<script src="../js/userteam.js"></script>
 	</head>
 	<body>
-		<div id="popup_mask" style="display: none;"></div>
-		<div id="popup_user" class="fenetre" style="display:none;">
+		<div id="preview_user" class="alternate_body">
 			<div class="ressource">
 				<img src="../image/autre/username.png" class="icon_ressource"/>
 				<span class="text_ressource" id="user_name">Bidule</span>
@@ -31,7 +29,7 @@
 				<span class="text_ressource" id="user_victory">0</span>
 			</div>
 			<br/>
-			<div class="ressource" id="postion_link" style="cursor:pointer;">
+			<div class="ressource">
 				<img src="../image/lieux/carte.png" class="icon_ressource"/>
 				<span class="text_ressource" id="user_position">Aucune</span>
 			</div>
@@ -60,15 +58,59 @@
 				<div id="user_description"></div>
 			</fieldset>
 		</div>
-		<div id="popup_actionframe" class="fenetre" style="display:none;">
-			<iframe src="userteam.html" style="height:500px;"></iframe>
+		<div id="preview_team" class="alternate_body">
+			<div class="ressource" id="team_name_outer">
+				<img src="../image/lieux/alliance.png" class="icon_ressource"/>
+				<span class="text_ressource" id="team_name">Bidule</span>
+			</div>
+			<br/>
+			<div class="ressource">
+				<img src="../image/ressources/points.png" class="icon_ressource"/>
+				<span class="text_ressource" id="team_points">0</span>
+			</div>
+			<br/>
+			<div class="ressource">
+				<img src="../image/ressources/sommepoints.png" class="icon_ressource"/>
+				<span class="text_ressource" id="team_somme">0</span>
+			</div>
+			<br/>
+			<div class="ressource">
+				<img src="../image/ressources/victoires.png" class="icon_ressource"/>
+				<span class="text_ressource" id="team_victory">0</span>
+			</div>
+			<br/>
+			<div class="ressource" id="chief_link" style="cursor:pointer;">
+				<img src="../image/equipe/chef.png" class="icon_ressource"/>
+				<span class="text_ressource" id="team_chief">0</span>
+			</div>
+			<br/>
+			<table>
+				<caption>Membres</caption>
+				<thead>
+					<tr>
+						<td>Joueur</td>
+						<td>Grades</td>
+					</tr>
+				</thead>
+				<tbody id="team_members_list">
+				</tbody>
+			</table>
+			<div id="team_actions">
+				<div class="button_labeled" id="team_button_attaquer">
+					<img src="../image/actions/combat.png" class="button_labeled_image">
+					<span class="button_labeled_label">Attaquer</span>
+				</div>
+			</div>
+			<fieldset>
+				<legend>Description</legend>
+				<div id="team_description"></div>
+			</fieldset>
 		</div>
-		<div id="map_ground">
+		<div id="user_attaquer" class="alternate_body">
+			<input type="search" id="user_attaquer_target" placeholder="Cible" list="user_autocomplete_list">
 		</div>
-		<div id="preview">
-			Nom : <span id="preview_user">Aucun</span><br/>
-			Alliance : <span id="preview_team">X</span><br/>
-			Points : <span id="preview_points">X</span><br/>
+		<div id="team_attaquer" class="alternate_body">
+			<input type="search" id="team_attaquer_target" placeholder="Cible" list="team_autocomplete_list">
 		</div>
 	</body>
 </html>

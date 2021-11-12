@@ -3,18 +3,6 @@ body{
 	width: unset;
 	height: unset;
 }
-table{
-	width: 100%;
-	border-collapse: collapse;
-	border-spacing: 0px;
-	text-align: center;
-}
-thead{
-	background-color: #e0e0e0;
-}
-td{
-	border: 1px solid #606060;
-}
 #actions{
 	display: flex;
 	flex-wrap: wrap;

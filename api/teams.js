@@ -45,15 +45,25 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
+				let sum=0;
+				let nb_membres=0;
 				if(teams[body.team]){
+					for(let a of teams[body.team].membres){
+						if(users[a].actif){
+							sum+=users[a].points.total;
+							nb_membres++;
+						}
+					}
 					let response={
-						"membres":teams[body.user].membres,
-						"chef":teams[body.user].chef,
-						"grades":teams[body.user].grades,
-						"description":teams[body.user].description,
-						"diplomatie":teams[body.user].diplomatie,
-						"victoires":teams[body.user].ressources.victoires,
-						"color":teams[body.user].color
+						"membres":teams[body.team].membres,
+						"chef":teams[body.team].chef,
+						"grades":teams[body.team].grades,
+						"description":teams[body.team].description,
+						"diplomatie":teams[body.team].diplomatie,
+						"victoires":teams[body.team].ressources.victoires,
+						"color":teams[body.team].color,
+						"somme":sum,
+						"moyenne":sum/nb_membres
 					}
 					res.writeHead(200,{'Content-Type':'application/json'});
 					res.write(JSON.stringify(response));

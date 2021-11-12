@@ -150,6 +150,18 @@ blockquote{
 	margin-block-start: 0px;
 	margin-block-end: 0px;
 }
+table{
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	text-align: center;
+}
+thead{
+	background-color: #e0e0e0;
+}
+td{
+	border: 1px solid #606060;
+}
 #topbar{
 	width: 100%;
 	height: 7.5%;

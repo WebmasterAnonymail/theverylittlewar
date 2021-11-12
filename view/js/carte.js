@@ -1,6 +1,6 @@
 //scrollTo = scroll = met le point sélectioné en haut a gauche
 //scrollBy = défile des valeurs indiqués
-var popups=["user"];
+var popups=["actionframe"];
 var selectedPreviewX=null;
 var selectedPreviewY=null;
 var selectedPreview=false;
@@ -46,36 +46,8 @@ function post_getuser_action(){
 					selectedPreviewY=data.y;
 				});
 				elem.addEventListener("click",function(){
-					use_api("GET","users",{"mode":"one","user":data.user},false,function(xhr){
-						if(xhr.status==200){
-							document.getElementById("user_name").innerText=data.user;
-							if(xhr.response.alliance){
-								document.getElementById("user_team").innerText=xhr.response.alliance;
-							}else{
-								document.getElementById("user_team").innerText="Aucune";
-								document.getElementById("team_link").onclick=function(){
-									
-								}
-							}
-							document.getElementById("user_points").innerText=xhr.response.points.total;
-							document.getElementById("user_victory").innerText=xhr.response.victoires;
-							document.getElementById("user_position").innerText=data.x+";"+data.y;
-							document.getElementById("postion_link").onclick=function(){
-								document.getElementById("map_ground").scrollTo(64*data.x,64*data.y);
-								popup_open_close();
-							}
-							document.getElementById("user_last_connexion").innerText="Il y a "+affichageTemps(Date.now()-xhr.response.lastUserCheck);
-							if(xhr.response.description){
-								document.getElementById("user_description").innerHTML=bb_code(xhr.response.victoires);
-							}else{
-								document.getElementById("user_description").innerHTML="";
-							}
-							
-							popup_open_close("user");
-						}else{
-							alert("ERROR in getting user : code "+api_xhr.status);
-						}
-					});
+					popup_open_close("actionframe");
+					frames[0].view_user(data.user);
 				});
 				document.getElementById("map_ground").appendChild(elem);
 			}

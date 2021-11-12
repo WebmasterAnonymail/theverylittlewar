@@ -238,7 +238,6 @@ function post_getuser_action(){
 						img.src="../image/equipe/chef.png";
 						cell2.appendChild(img);
 					}
-					
 					line.appendChild(cell2);
 					members_list.appendChild(line);
 				}
