@@ -21,6 +21,9 @@ input:invalid{
 .new_mol_number{
 	width: 95%;
 }
+td{
+	border: 0px none;
+}
 table{
 	width: 100%;
 }

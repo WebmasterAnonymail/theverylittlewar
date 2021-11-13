@@ -17,7 +17,216 @@ module.exports={
 						events[a]=null;
 						break;
 					case "combat":
-						//le plus dur =]
+						let atkant=users[events[a].atk];
+						let defant=users[events[a].def];
+						if(atkant&&defant){
+							let mol_used_by_atkant=[];
+							let defmols=[];
+							let atkmols=[];
+							for(let b=0;b<5;b++){
+								if(defant.molecules[b]&&defant.molecules[b].number){
+									defmols.push({
+										"number":defant.molecules[b].number,
+										"deg":md.power_atome(defant,b,0),
+										"PV":md.power_atome(defant,b,4),
+										"molid":b
+									});
+								}
+								if(atkant.molecules[b]&&events[a].mols[b]>0){
+									atkmols.push({
+										"number":events[a].mols[b],
+										"deg":md.power_atome(atkant,b,1),
+										"PV":md.power_atome(atkant,b,4),
+										"molid":b
+									});
+									mol_used_by_atkant.push(b);
+								}
+							}
+							do{
+								//calcul des dégats a infliger
+								let totdef=0;
+								for(let g=0;g<defmols.length;g++){
+									totdef+=defmols[g].deg*defmols[g].number;
+								}
+								users[events[a].def].points.defense+=totdef;
+								let totatk=0;
+								for(let h=0;h<atkmols.length;h++){
+									totatk+=atkmols[h].deg*atkmols[h].number;
+								}
+								users[events[a].atk].points.attaque+=totatk;
+								//oblitération des classes
+								for(let i=0;i<defmols.length;i++){
+									if(defmols[i].PV*defmols[i].number>totatk){
+										defmols[i].number-=totatk/defmols[i].PV;
+										users[events[a].def].points.pertes_combat+=totatk/defmols[i].PV;
+										totatk=0;
+									}else{
+										users[events[a].def].points.pertes_combat+=defmols[i].number;
+										totatk-=defmols[i].PV*defmols[i].number;
+										defmols[i].number=0;
+									}
+								}
+								for(let i=0;i<atkmols.length;i++){
+									if(atkmols[i].PV*atkmols[i].number>totdef){
+										atkmols[i].number-=totdef/atkmols[i].PV;
+										users[events[a].atk].points.pertes_combat+=totdef/atkmols[i].PV;
+										totdef=0;
+									}else{
+										users[events[a].atk].points.pertes_combat+=atkmols[i].number;
+										totdef-=atkmols[i].PV*atkmols[i].number;
+										atkmols[i].number=0;
+									}
+								}
+								//élimination des classe détruites entièrement
+								let d=0;
+								let templen1=atkmols.length;
+								for(let c=0;c<templen1;c++){
+									if(atkmols[d].number==0){
+										atkmols.splice(d,1);
+										d--;
+									}
+									d++;
+								}
+								let f=0;
+								let templen2=defmols.length;
+								for(let e=0;e<templen2;e++){
+									if(defmols[f].number==0){
+										defmols.splice(f,1);
+										f--;
+									}
+									f++;
+								}
+								//lorsqu'il ne reste rien
+							}while(defmols.length>0&&atkmols.length>0);
+							for(let b=0;b<5;b++){
+								if(users[events[a].def].molecules[b]){
+									users[events[a].def].molecules.number=0;
+									for(let c of defmols){
+										if(c.molid==b){
+											users[events[a].def].molecules.number+=c.number;
+										}
+									}
+								}
+							}
+							///NOT ERRORS
+							if(defmols.length==0&&atkmols.length==0){
+								//égalité
+								for(let b of mol_used_by_atkant){
+									users[events[a].atk].molecules_en_utilisation[b]--;
+								}
+								let atk_report={
+									"readed":false,
+									"type":"combat",
+									"result":"Egalite",
+									"pillage":[0,0,0,0,0,0,0,0],
+									"destruction":[0,0,0,0],
+									"mol_restantes":[]
+								}
+								let def_report={
+									"readed":false,
+									"type":"combat",
+									"result":"Egalite",
+									"pillage":[0,0,0,0,0,0,0,0],
+									"destruction":[0,0,0,0],
+									"mol_restantes":[]
+								}
+								users[events[a].atk].raports.push(atk_report);
+								users[events[a].def].raports.push(def_report);
+							}else if(defmols.length==0){
+								//victoire d'atk
+								///DESTRUCTION/PILLAGE
+								let atk_report={
+									"readed":false,
+									"type":"combat",
+									"result":"Victoire",
+									"pillage":[0,0,0,0,0,0,0,0]/**TEMP*/,
+									"destruction":[0,0,0,0]/**TEMP*/,
+									"mol_restantes":[]
+								}
+								let def_report={
+									"readed":false,
+									"type":"combat",
+									"result":"Defaite",
+									"pillage":[0,0,0,0,0,0,0,0]/**TEMP*/,
+									"destruction":[0,0,0,0]/**TEMP*/,
+									"mol_restantes":[]
+								}
+								for(let b of atkmols){
+									let mol={};
+									for(let c of md.atomes){
+										mol[c]=users[events[a].atk].molecules[b.molid][c];
+									}
+									mol.number=b.number;
+									atk_report.mol_restantes.push(mol);
+									def_report.mol_restantes.push(mol);
+								}
+								users[events[a].atk].raports.push(atk_report);
+								users[events[a].def].raports.push(def_report);
+								//Evenement de retour
+								let return_event={
+									"type":"return",
+									"time":0,
+									"username":events[a].atk,
+									"used_mols":mol_used_by_atkant,
+									"rest_mols":[]
+								}
+								let dx=users[events[a].atk].positionX-users[events[a].def].positionX;
+								let dy=users[events[a].atk].positionY-users[events[a].def].positionY;
+								for(let b of atkmols){
+									return_event.rest_mols.push({
+										"molid":b.molid,
+										"number":b.number
+									});
+									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(users[events[a].atk],b.molid,7));
+								}
+								events.push(return_event);
+							}else if(atkmols.length==0){
+								//victoire de def
+								for(let b of mol_used_by_atkant){
+									users[events[a].atk].molecules_en_utilisation[b]--;
+								}
+								let atk_report={
+									"readed":false,
+									"type":"combat",
+									"result":"Defaite",
+									"pillage":[0,0,0,0,0,0,0,0],
+									"destruction":[0,0,0,0],
+									"mol_restantes":[]
+								}
+								let def_report={
+									"readed":false,
+									"type":"combat",
+									"result":"Victoire",
+									"pillage":[0,0,0,0,0,0,0,0],
+									"destruction":[0,0,0,0],
+									"mol_restantes":[]
+								}
+								for(let b of defmols){
+									let mol=users[events[a].def].molecules[b.molid];
+									mol.number=b.number;
+									atk_report.mol_restantes.push(mol);
+									def_report.mol_restantes.push(mol);
+								}
+								users[events[a].atk].raports.push(atk_report);
+								users[events[a].def].raports.push(def_report);
+							}
+							events[a]=null;
+						}else{
+							events[a]=null;
+						}
+						break;
+					case "return":
+						if(users[[events[a].username]]){
+							for(let b of events[a].used_mols){
+								users[events[a].username].molecules_en_utilisation[b]--;
+							}
+							for(let b of events[a].rest_mols){
+								users[events[a].username].molecules[b.molid].number+=b.number;
+							}
+							events[a]=null;
+						}else{
+							events[a]=null;
+						}
 						break;
 					case "molecule":
 						if(users[events[a].username]){
@@ -35,9 +244,6 @@ module.exports={
 						}
 						break;
 					case "espionnage":
-						
-						break;
-					case "return":
 						
 						break;
 					case "send":

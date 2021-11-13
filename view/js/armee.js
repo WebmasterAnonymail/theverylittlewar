@@ -1,15 +1,4 @@
-var atomes=[
-	"carbone",
-	"oxygene",
-	"azote",
-	"iode",
-	"brome",
-	"hydrogene",
-	"soufre",
-	"chlore"
-];
 var create_mol_id=null;
-var initiales=["C","O","N","I","Br","H","S","Cl"];
 function post_getuser_action(){
 	for(let a=0;a<5;a++){
 		let mol=user.molecules[a];
@@ -111,6 +100,8 @@ window.onload=function(event){
 			use_api("DELETE","molecules",{"mol_id":a},false,function(xhr){
 				if(xhr.status==200){
 					act_user();
+				}else if(xhr.status==403){
+					alert("Vous ne pouvez pas supprimer une molécule en combat");
 				}else{
 					alert("ERROR in deleting molecule : code "+xhr.status);
 				}

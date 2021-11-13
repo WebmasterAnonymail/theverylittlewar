@@ -75,6 +75,24 @@ module.exports = {
 									});
 								}
 								break;
+							case "combat":
+								if(event.def==body.username||event.atk==body.username){
+									response.push({
+										"time":event.time,
+										"def":event.def,
+										"atk":event.atk,
+										"type":"combat"
+									});
+								}
+								break;
+							case "return":
+								if(event.username==body.username){
+									response.push({
+										"time":event.time,
+										"type":"return"
+									});
+								}
+								break;
 						}
 					}
 					res.writeHead(200,{'Content-Type':'application/json'});
@@ -149,6 +167,7 @@ module.exports = {
 						"protecteur":0
 					},
 					"molecules":[null,null,null,null,null],
+					"molecules_en_utilisation":[0,0,0,0,0],
 					"medailles":{
 						"def":-1,
 						"atk":-1,

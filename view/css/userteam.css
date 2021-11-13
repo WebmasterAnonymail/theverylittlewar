@@ -3,3 +3,13 @@
 	flex-wrap: nowrap;
 	justify-content: space-between;
 }
+.formule{
+	display: inline-block;
+	background-color: #c0c0c0;
+	padding: 5px;
+	border-radius: 5px;
+	border: 2.5px outset #808080;
+}
+.formule:hover{
+	border: 2.5px inset #808080;
+}

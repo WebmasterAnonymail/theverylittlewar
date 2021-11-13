@@ -31,8 +31,8 @@ module.exports = {
 					(users[body.username].molecules[body.mol_id].chlore*body.mol_number>users[body.username].ressources.chlore)||
 					(energy_cost*body.mol_number>users[body.username].ressources.energie)
 					){
-						res.writeHead(402,{'Content-Type':'application/json'});
-						res.write("{error:\"Not enough ressources\"}");
+						res.writeHead(402);
+						res.write("Not enough ressources");
 						res.end();
 					}else{
 						let existing_mol_event=-1;
@@ -66,23 +66,23 @@ module.exports = {
 						users[body.username].ressources.soufre-=users[body.username].molecules[body.mol_id].soufre*body.mol_number;
 						users[body.username].ressources.chlore-=users[body.username].molecules[body.mol_id].chlore*body.mol_number;
 						users[body.username].points.molecules_crees+=body.mol_number;
-						res.writeHead(200,{'Content-Type':'application/json'});
-						res.write("{status:\"DONE\"}");
+						res.writeHead(200);
+						res.write("DONE");
 						res.end();
 					}
 				}else{
-					res.writeHead(406,{'Content-Type':'application/json'});
-					res.write("{error:\"Null value\"}");
+					res.writeHead(406);
+					res.write("Null value");
 					res.end();
 				}
 			}else{
-				res.writeHead(400,{'Content-Type':'application/json'});
-				res.write("{error:\"Molecule not exist\"}");
+				res.writeHead(400);
+				res.write("Molecule not exist");
 				res.end();
 			}
 		}else{
-			res.writeHead(401,{'Content-Type':'application/json'});
-			res.write("{error:\"Not connected\"}");
+			res.writeHead(401);
+			res.write("Not connected");
 			res.end();
 		}
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
@@ -93,7 +93,7 @@ module.exports = {
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]==null){
 				if(10**(body.mol_id+1)>users[body.username].ressources.energie){
-					res.writeHead(402,{'Content-Type':'application/json'});
+					res.writeHead(402);
 					res.end();
 				}else{
 					let ok=true;
@@ -117,22 +117,22 @@ module.exports = {
 							"number":0
 						};
 						users[body.username].ressources.energie-=10**(body.mol_id+1);
-						res.writeHead(200,{'Content-Type':'application/json'});
+						res.writeHead(200);
 						res.end();
 					}else{
-						res.writeHead(406,{'Content-Type':'application/json'});
-						res.write("{error:\"Atoms number have to be integer between 0 and 200\"}");
+						res.writeHead(406);
+						res.write("Atoms number have to be integer between 0 and 200");
 						res.end();
 					}
 				}
 			}else{
-				res.writeHead(409,{'Content-Type':'application/json'});
-				res.write("{error:\"Molecule already exist\"}");
+				res.writeHead(409);
+				res.write("Molecule already exist");
 				res.end();
 			}
 		}else{
-			res.writeHead(401,{'Content-Type':'application/json'});
-			res.write("{error:\"Not connected\"}");
+			res.writeHead(401);
+			res.write("Not connected");
 			res.end();
 		}
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
@@ -142,27 +142,33 @@ module.exports = {
 		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			if(users[body.username].molecules[body.mol_id]){
-				users[body.username].molecules[body.mol_id]=null;
-				let b=0;
-				for(let a=0;a<events.length;a++){
-					if(events[b].type=="molecule"
-					&&events[b].username==body.username
-					&&events[b].molecule==body.mol_id){
-						events.splice(b,1);
-						b--
+				if(users[body.username].molecules_en_utilisation[body.mol_id]>0){
+					res.writeHead(403);
+					res.write("You can't delete a molecule in battle");
+					res.end();
+				}else{
+					users[body.username].molecules[body.mol_id]=null;
+					let b=0;
+					for(let a=0;a<events.length;a++){
+						if(events[b].type=="molecule"
+						&&events[b].username==body.username
+						&&events[b].molecule==body.mol_id){
+							events.splice(b,1);
+							b--
+						}
+						b++;
 					}
-					b++;
+					res.writeHead(200);
+					res.end();
 				}
-				res.writeHead(200,{'Content-Type':'application/json'});
-				res.end();
 			}else{
-				res.writeHead(409,{'Content-Type':'application/json'});
-				res.write("{error:\"Molecule not exist\"}");
+				res.writeHead(409);
+				res.write("Molecule not exist");
 				res.end();
 			}
 		}else{
-			res.writeHead(401,{'Content-Type':'application/json'});
-			res.write("{error:\"Not connected\"}");
+			res.writeHead(401);
+			res.write("Not connected");
 			res.end();
 		}
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));

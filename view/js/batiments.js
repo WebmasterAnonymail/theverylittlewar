@@ -1,13 +1,3 @@
-var atomes=[
-	"carbone",
-	"oxygene",
-	"azote",
-	"iode",
-	"brome",
-	"hydrogene",
-	"soufre",
-	"chlore"
-];
 var batiments_list=[
 	"generateur",
 	"producteur",

@@ -11,6 +11,7 @@ var atomes=[
 	"soufre",
 	"chlore"
 ];
+var initiales=["C","O","N","I","Br","H","S","Cl"];
 function bb_code(texte){
 	let res=texte;
 	res=res.replaceAll("&","&amp;");
@@ -138,6 +139,26 @@ function act_preview(){
 						molecule.style.marginLeft="10px";
 						molecule.innerHTML="Mol&eacute;cule "+(event.molecule+1)+" : "+event.number+" restantes";
 						notif.appendChild(molecule);
+						break;
+					case "combat":
+						let icon3=document.createElement("img");
+						icon3.classList.add("icon");
+						icon3.src="image/actions/combat.png";
+						notif.appendChild(icon3);
+						let beligerants=document.createElement("span");
+						beligerants.style.marginLeft="10px";
+						beligerants.innerText=event.atk+" vs "+event.def;
+						notif.appendChild(beligerants);
+						break;
+					case "return":
+						let icon4=document.createElement("img");
+						icon4.classList.add("icon");
+						icon4.src="image/actions/retour.png";
+						notif.appendChild(icon4);
+						let txt=document.createElement("span");
+						txt.style.marginLeft="10px";
+						txt.innerText="Retour d'attaque";
+						notif.appendChild(txt);
 						break;
 				}
 				time=document.createElement("span");
