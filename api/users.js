@@ -368,6 +368,11 @@ module.exports = {
 					res.writeHead(200);
 					res.end();
 					break;
+				case "read_report":
+					users[body.username].raports[body.report].readed=true;
+					res.writeHead(200);
+					res.end();
+					break;
 			}
 		}else{
 			res.writeHead(401);

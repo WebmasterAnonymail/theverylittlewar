@@ -1,5 +1,16 @@
 var checkbox_list=[];
 var selected_reports=[];
+var popups=["combat"];
+function popup_open_close(at_open=null){
+	document.getElementById("popup_mask").style.display="none";
+	for(a of popups){
+		document.getElementById("popup_"+a).style.display="none";
+	}
+	if(at_open){
+		document.getElementById("popup_"+at_open).style.display="block";
+		document.getElementById("popup_mask").style.display="block";
+	}
+}
 function actualize_checkbox_list(){
 	let checked_number=0;
 	selected_reports=[];
@@ -71,9 +82,45 @@ function post_getuser_action(){
 			});
 			ev.stopPropagation();
 		});
+		if(!user.raports[a].readed){
+			line.style.fontWeight="bold";
+		}
 		cellDelete.appendChild(imgDelete);
 		line.addEventListener("click",function(){
+			let datas={
+				"action":"read_report",
+				"report":Number(a)
+			}
+			use_api("PATCH","users",datas,true,function(xhr){
+				if(xhr.status==200){
+					act_user();
+				}else{
+					alert("ERROR in reading report : code "+xhr.status);
+				}
+			});
 			alert("IN DEV")
+			let title_cmb=document.getElementById("title_cmb");
+			title_cmb.innerText="";
+			let cmbimg=document.createElement("img");
+			cmbimg.src="../image/actions/combat.png";
+			cmbimg.classList.add("icon");
+			title_cmb.appendChild(cmbimg);
+			let atkspan=document.createElement("span");
+			atkspan.innerText=user.raports[a].atkant;
+			cmbimg.insertAdjacentElement("beforebegin",atkspan);
+			let defspan=document.createElement("span");
+			defspan.innerText=user.raports[a].defant;
+			cmbimg.insertAdjacentElement("afterend",defspan);
+			let winimg=document.createElement("img");
+			winimg.src="../image/ressources/victoires.png";
+			winimg.classList.add("icon");
+			if(user.raports[a].win=="atk"){
+				atkspan.insertAdjacentElement("beforebegin",winimg);
+			}
+			if(user.raports[a].win=="def"){
+				defspan.insertAdjacentElement("afterend",winimg);
+			}
+			popup_open_close("combat");
 		});
 		line.appendChild(cellDelete);
 		list.appendChild(line);
@@ -98,16 +145,19 @@ window.onload=()=>{
 		}
 	}
 	document.getElementById("delete_selected").addEventListener("click",function(){
-			let datas={
-				"action":"delete_report",
-				"reports":selected_reports
+		let datas={
+			"action":"delete_report",
+			"reports":selected_reports
+		}
+		use_api("PATCH","users",datas,true,function(xhr){
+			if(xhr.status==200){
+				act_user();
+			}else{
+				alert("ERROR in deleting reports : code "+xhr.status);
 			}
-			use_api("PATCH","users",datas,true,function(xhr){
-				if(xhr.status==200){
-					act_user();
-				}else{
-					alert("ERROR in deleting reports : code "+xhr.status);
-				}
-			});
 		});
+	});
+	document.getElementById("popup_mask").addEventListener("click",function(){
+		popup_open_close();
+	});
 }

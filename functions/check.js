@@ -123,6 +123,7 @@ module.exports={
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,
+									"win":null,
 									"time":events[a].time
 								}
 								let def_report={
@@ -134,6 +135,7 @@ module.exports={
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,
+									"win":null,
 									"time":events[a].time
 								}
 								users[events[a].atk].raports.push(atk_report);
@@ -150,6 +152,7 @@ module.exports={
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,
+									"win":"atk",
 									"time":events[a].time
 								}
 								let def_report={
@@ -161,6 +164,7 @@ module.exports={
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,
+									"win":"atk",
 									"time":events[a].time
 								}
 								for(let b of atkmols){
@@ -206,6 +210,7 @@ module.exports={
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,
+									"win":"def",
 									"time":events[a].time
 								}
 								let def_report={
@@ -217,6 +222,7 @@ module.exports={
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,
+									"win":"def",
 									"time":events[a].time
 								}
 								for(let b of defmols){
