@@ -359,6 +359,15 @@ module.exports = {
 						res.end();
 					}
 					break;
+				case "delete_report":
+					let retranche=0;
+					for(let a of body.reports){
+						users[body.username].raports.splice(a-retranche,1);
+						retranche++;
+					}
+					res.writeHead(200);
+					res.end();
+					break;
 			}
 		}else{
 			res.writeHead(401);

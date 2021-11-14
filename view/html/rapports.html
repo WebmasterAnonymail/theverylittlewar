@@ -4,8 +4,30 @@
 		<title>The Very Little War</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="../css/rapports.css">
+		<script src="../js/main.js"></script>
+		<script src="../js/rapports.js"></script>
 	</head>
 	<body>
-		<h2>A venir...</h2>
+		<table>
+			<caption><h3>Rapports</h3></caption>
+			<thead>
+				<tr>
+					<td><input type="checkbox" id="general_checkbox"></td>
+					<td>Type de rapport</td>
+					<td>Date / heure</td>
+					<td>Action</td>
+				</tr>
+			</thead>
+			<tbody id="reports_list"></tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3">Rapports sélectionnés</td>
+					<td>
+						<img src="../image/autre/supprimer.png" id="delete_selected" class="button"/>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
 	</body>
 </html>

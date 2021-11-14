@@ -120,7 +120,10 @@ module.exports={
 									"result":"Egalite",
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
-									"mol_restantes":[]
+									"mol_restantes":[],
+									"defant":events[a].def,
+									"atkant":events[a].atk,
+									"time":events[a].time
 								}
 								let def_report={
 									"readed":false,
@@ -128,7 +131,10 @@ module.exports={
 									"result":"Egalite",
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
-									"mol_restantes":[]
+									"mol_restantes":[],
+									"defant":events[a].def,
+									"atkant":events[a].atk,
+									"time":events[a].time
 								}
 								users[events[a].atk].raports.push(atk_report);
 								users[events[a].def].raports.push(def_report);
@@ -141,7 +147,10 @@ module.exports={
 									"result":"Victoire",
 									"pillage":[0,0,0,0,0,0,0,0]/**TEMP*/,
 									"destruction":[0,0,0,0]/**TEMP*/,
-									"mol_restantes":[]
+									"mol_restantes":[],
+									"defant":events[a].def,
+									"atkant":events[a].atk,
+									"time":events[a].time
 								}
 								let def_report={
 									"readed":false,
@@ -149,7 +158,10 @@ module.exports={
 									"result":"Defaite",
 									"pillage":[0,0,0,0,0,0,0,0]/**TEMP*/,
 									"destruction":[0,0,0,0]/**TEMP*/,
-									"mol_restantes":[]
+									"mol_restantes":[],
+									"defant":events[a].def,
+									"atkant":events[a].atk,
+									"time":events[a].time
 								}
 								for(let b of atkmols){
 									let mol={};
@@ -191,7 +203,10 @@ module.exports={
 									"result":"Defaite",
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
-									"mol_restantes":[]
+									"mol_restantes":[],
+									"defant":events[a].def,
+									"atkant":events[a].atk,
+									"time":events[a].time
 								}
 								let def_report={
 									"readed":false,
@@ -199,7 +214,10 @@ module.exports={
 									"result":"Victoire",
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
-									"mol_restantes":[]
+									"mol_restantes":[],
+									"defant":events[a].def,
+									"atkant":events[a].atk,
+									"time":events[a].time
 								}
 								for(let b of defmols){
 									let mol=users[events[a].def].molecules[b.molid];
