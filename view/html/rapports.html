@@ -11,16 +11,38 @@
 	<body>
 		<div id="popup_mask" style="display: none;"></div>
 		<div id="popup_combat" class="fenetre" style="display:none;">
+			<div id="title_cmb"></div>
+			<table id="restmols_table">
+				<caption>Molécules restantes pour le gagnant</caption>
+				<tbody>
+					<tr id="restmols"></tr>
+					<tr id="restmolsnumber"></tr>
+				</tbody>
+			</table>
 			<table>
-				<caption id="title_cmb">
-					<span id="atkeur">Machin</span>
-					<span id="defeur">Bidule</span>
-				</caption>
-				<thead>
+				<caption>Pillage</caption>
+				<tbody>
 					<tr>
-						
+						<td><img class="icon" src="../image/ressources/carbone.png"></td>
+						<td><img class="icon" src="../image/ressources/oxygene.png"></td>
+						<td><img class="icon" src="../image/ressources/azote.png"></td>
+						<td><img class="icon" src="../image/ressources/iode.png"></td>
+						<td><img class="icon" src="../image/ressources/brome.png"></td>
+						<td><img class="icon" src="../image/ressources/hydrogene.png"></td>
+						<td><img class="icon" src="../image/ressources/soufre.png"></td>
+						<td><img class="icon" src="../image/ressources/chlore.png"></td>
 					</tr>
-				</thead>
+					<tr id="restmolsnumber">
+						<td id="carbone_pillage"></td>
+						<td id="oxygene_pillage"></td>
+						<td id="azote_pillage"></td>
+						<td id="iode_pillage"></td>
+						<td id="brome_pillage"></td>
+						<td id="hydrogene_pillage"></td>
+						<td id="soufre_pillage"></td>
+						<td id="chlore_pillage"></td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 		<table>

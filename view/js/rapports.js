@@ -51,6 +51,9 @@ function post_getuser_action(){
 		selectBox.checked=selected_reports.indexOf(Number(a))>=0;
 		checkbox_list[a]=selectBox;
 		selectBox.onchange=actualize_checkbox_list;
+		selectBox.addEventListener("click",function(ev){
+			ev.stopPropagation();
+		});
 		cellCheck.appendChild(selectBox);
 		line.appendChild(cellCheck);
 		switch(user.raports[a].type){
@@ -98,7 +101,6 @@ function post_getuser_action(){
 					alert("ERROR in reading report : code "+xhr.status);
 				}
 			});
-			alert("IN DEV")
 			let title_cmb=document.getElementById("title_cmb");
 			title_cmb.innerText="";
 			let cmbimg=document.createElement("img");
@@ -119,6 +121,37 @@ function post_getuser_action(){
 			}
 			if(user.raports[a].win=="def"){
 				defspan.insertAdjacentElement("afterend",winimg);
+			}
+			let restmols=document.getElementById("restmols");
+			restmols.innerText="";
+			let restmolsnumber=document.getElementById("restmolsnumber");
+			restmolsnumber.innerText="";
+			if(user.raports[a].mol_restantes.length==0){
+				document.getElementById("restmols_table").style.display="none";
+			}else{
+				for(let c of user.raports[a].mol_restantes){
+					let formule="";
+					for(b in atomes){
+						if(c[atomes[b]]){
+							formule+="<e"+initiales[b].toLowerCase()+">";
+							formule+=initiales[b];
+							if(c[atomes[b]]!=1){
+								formule+="<sub>"+c[atomes[b]]+"</sub>";
+							}
+							formule+="</e"+initiales[b].toLowerCase()+">";
+						}
+					}
+					cellMol=document.createElement("td");
+					cellNum=document.createElement("td");
+					cellMol.innerHTML=formule;
+					cellNum.innerText=affichageRessources(c.number);
+					restmols.appendChild(cellMol);
+					restmolsnumber.appendChild(cellNum);
+				}
+				document.getElementById("restmols_table").style.display="table";
+			}
+			for(let b in atomes){
+				document.getElementById(atomes[b]+"_pillage").innerText=affichageRessources(user.raports[a].pillage[b]);
 			}
 			popup_open_close("combat");
 		});

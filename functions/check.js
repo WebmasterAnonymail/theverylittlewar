@@ -77,6 +77,9 @@ module.exports={
 										atkmols[i].number=0;
 									}
 								}
+								//élimination des points d'atk ou de def qui n'ont pas servis
+								users[events[a].def].points.defense-=totdef;
+								users[events[a].atk].points.attaque-=totatk;
 								//élimination des classe détruites entièrement
 								let d=0;
 								let templen1=atkmols.length;
@@ -108,12 +111,12 @@ module.exports={
 									}
 								}
 							}
-							///NOT ERRORS
 							if(defmols.length==0&&atkmols.length==0){
 								//égalité
 								for(let b of mol_used_by_atkant){
 									users[events[a].atk].molecules_en_utilisation[b]--;
 								}
+								//Rapports
 								let atk_report={
 									"readed":false,
 									"type":"combat",
@@ -142,12 +145,50 @@ module.exports={
 								users[events[a].def].raports.push(def_report);
 							}else if(defmols.length==0){
 								//victoire d'atk
-								///DESTRUCTION/PILLAGE
+								///DESTRUCTION
+								
+								//Pillage
+								let pillage_log=[0,0,0,0,0,0,0,0];
+								let a_piller=0;
+								for(let b of atkmols){
+									a_piller+=md.power_atome(atkant,b.molid,6)*b.number;
+								}
+								rest_atomes=[true,true,true,true,true,true,true,true];
+								rest_atome=8;
+								temp_rest_atome=8;
+								do{
+									restpillage=0;
+									if(rest_atome>0){
+										for(let b=0;b<8;b++){
+											if(rest_atomes[b]){
+												let pillatome=a_piller*users[events[a].atk].QG.pillage[b]/4/rest_atome;
+												if(users[events[a].def].ressources[md.atomes[b]]>pillatome){
+													users[events[a].def].ressources[md.atomes[b]]-=pillatome;
+													users[events[a].atk].ressources[md.atomes[b]]+=pillatome;
+													users[events[a].atk].points.pillage+=pillatome;
+													pillage_log[b]+=pillatome;
+												}else{
+													pillatome-=users[events[a].def].ressources[md.atomes[b]];
+													users[events[a].atk].ressources[md.atomes[b]]+=users[events[a].def].ressources[md.atomes[b]];
+													users[events[a].atk].points.pillage+=users[events[a].def].ressources[md.atomes[b]]
+													pillage_log[b]+=users[events[a].def].ressources[md.atomes[b]];
+													users[events[a].def].ressources[md.atomes[b]]=0;
+													rest_atomes[b]=false;
+													temp_rest_atome--;
+													restpillage+=pillatome;
+												}
+											}
+										}
+									}
+									rest_atome=temp_rest_atome;
+									a_piller=restpillage;
+								}while(restpillage>0);
+								//Rapports
 								let atk_report={
 									"readed":false,
 									"type":"combat",
 									"result":"Victoire",
-									"pillage":[0,0,0,0,0,0,0,0]/**TEMP*/,
+									"pillage":pillage_log,
 									"destruction":[0,0,0,0]/**TEMP*/,
 									"mol_restantes":[],
 									"defant":events[a].def,
@@ -159,7 +200,7 @@ module.exports={
 									"readed":false,
 									"type":"combat",
 									"result":"Defaite",
-									"pillage":[0,0,0,0,0,0,0,0]/**TEMP*/,
+									"pillage":pillage_log,
 									"destruction":[0,0,0,0]/**TEMP*/,
 									"mol_restantes":[],
 									"defant":events[a].def,
@@ -201,6 +242,7 @@ module.exports={
 								for(let b of mol_used_by_atkant){
 									users[events[a].atk].molecules_en_utilisation[b]--;
 								}
+								//Rapports
 								let atk_report={
 									"readed":false,
 									"type":"combat",
