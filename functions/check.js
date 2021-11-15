@@ -103,10 +103,11 @@ module.exports={
 							}while(defmols.length>0&&atkmols.length>0);
 							for(let b=0;b<5;b++){
 								if(users[events[a].def].molecules[b]){
-									users[events[a].def].molecules.number=0;
+									users[events[a].def].molecules[b].number=0;
+									console.log()
 									for(let c of defmols){
 										if(c.molid==b){
-											users[events[a].def].molecules.number+=c.number;
+											users[events[a].def].molecules[b].number+=c.number;
 										}
 									}
 								}
