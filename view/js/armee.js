@@ -107,5 +107,14 @@ window.onload=function(event){
 				}
 			});
 		});
+		document.getElementById("new_mol"+a+"_number").addEventListener("change",function(event){
+			let prix_mol=0;
+			for(let b of atomes){
+				prix_mol+=user.molecules[a][b];
+			}
+			prix_mol**=1.5;
+			prix_mol/=10;
+			document.getElementById("prix_new_mol"+a).innerText=affichageRessources(prix_mol*document.getElementById("new_mol"+a+"_number").valueAsNumber);
+		});
 	}
 }

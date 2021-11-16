@@ -104,7 +104,6 @@ module.exports={
 							for(let b=0;b<5;b++){
 								if(users[events[a].def].molecules[b]){
 									users[events[a].def].molecules[b].number=0;
-									console.log()
 									for(let c of defmols){
 										if(c.molid==b){
 											users[events[a].def].molecules[b].number+=c.number;
