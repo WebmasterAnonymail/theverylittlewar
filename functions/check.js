@@ -12,6 +12,13 @@ module.exports={
 						if(users[events[a].username]){
 							users[events[a].username].batiments[events[a].batiment]++;
 							users[events[a].username].points.batiments+=md.points_batiments[events[a].batiment];
+							if(md.batiment_pveurs.indexOf(events[a].batiment)>=0){
+								if(events[a].batiment=="protecteur"){
+									users[events[a].username].PV_batiments.protecteur=10**(users[events[a].username].batiments.protecteur/20)*10*users[events[a].username].batiments.protecteur;
+								}else{
+									users[events[a].username].PV_batiments[events[a].batiment]=10**(users[events[a].username].batiments[events[a].batiment]/20)*1000;
+								}
+							}
 							users[events[a].username].batiment_en_amelioration.splice(users[events[a].username].batiment_en_amelioration.indexOf(events[a].batiment),1);
 						}
 						events[a]=null;
@@ -145,8 +152,13 @@ module.exports={
 								users[events[a].def].raports.push(def_report);
 							}else if(defmols.length==0){
 								//victoire d'atk
-								///DESTRUCTION
-								
+								//Destruction
+								let destruction_log=[0,0,0,0];
+								let a_detruire=0;
+								for(let b of atkmols){
+									a_detruire+=md.power_atome(atkant,b.molid,5)*b.number;
+								}
+								///DEVLOP HERE
 								//Pillage
 								let pillage_log=[0,0,0,0,0,0,0,0];
 								let a_piller=0;
@@ -189,7 +201,7 @@ module.exports={
 									"type":"combat",
 									"result":"Victoire",
 									"pillage":pillage_log,
-									"destruction":[0,0,0,0]/**TEMP*/,
+									"destruction":destruction_log,
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,
@@ -201,7 +213,7 @@ module.exports={
 									"type":"combat",
 									"result":"Defaite",
 									"pillage":pillage_log,
-									"destruction":[0,0,0,0]/**TEMP*/,
+									"destruction":destruction_log,
 									"mol_restantes":[],
 									"defant":events[a].def,
 									"atkant":events[a].atk,

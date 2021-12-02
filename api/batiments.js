@@ -22,7 +22,6 @@ module.exports = {
 								};
 								users[body.username].batiment_en_amelioration.push("generateur");
 								users[body.username].ressources.energie-=(10**(users[body.username].batiments.generateur/15)*100);
-								users[body.username].points.batiments+=1;
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
@@ -53,7 +52,6 @@ module.exports = {
 								for(a of md.atomes){
 									users[body.username].ressources[a]-=10**(users[body.username].batiments.producteur/15)*10;
 								}
-								users[body.username].points.batiments+=1;
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
@@ -85,7 +83,6 @@ module.exports = {
 								for(a of md.atomes){
 									users[body.username].ressources[a]-=10**(users[body.username].batiments.stockage/15)*10;
 								}
-								users[body.username].points.batiments+=1;
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
@@ -103,7 +100,6 @@ module.exports = {
 									"batiment":"protecteur",
 								};
 								users[body.username].batiment_en_amelioration.push("protecteur");
-								users[body.username].points.batiments+=5;
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
@@ -123,7 +119,6 @@ module.exports = {
 									};
 									users[body.username].batiment_en_amelioration.push(body.batiment);
 									users[body.username].ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(users[body.username].batiments[body.batiment]+1)**3;
-									users[body.username].points.batiments+=3;
 									events.push(event_amel);
 									res.writeHead(200,{'Content-Type':'application/json'});
 									res.end();

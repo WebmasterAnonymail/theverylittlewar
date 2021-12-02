@@ -30,6 +30,20 @@ module.exports.medailles=[
 	"pil",
 	"cmb"
 ];
+module.exports.batiments=[
+	"generateur",
+	"producteur",
+	"stockage",
+	"forteresse",
+	"ionisateur",
+	"lieur",
+	"stabilisateur",
+	"champdeforce",
+	"usinedexplosif",
+	"condenseur",
+	"booster",
+	"protecteur"
+];
 module.exports.batiment_augmentateurs=[
 	"forteresse",
 	"ionisateur",
@@ -39,6 +53,12 @@ module.exports.batiment_augmentateurs=[
 	"usinedexplosif",
 	"condenseur",
 	"booster"
+];
+module.exports.batiment_pveurs=[
+	"generateur",
+	"producteur",
+	"stockage",
+	"protecteur"
 ];
 module.exports.seuils_medailes=[1,2,5,10,20,50,100,200,500,1000];
 module.exports.multiplacateur_medailles=[1000,1000,100,50,50,1000,1000,1];
@@ -64,7 +84,7 @@ module.exports.points_batiments={
 	"usinedexplosif":3,
 	"condenseur":3,
 	"booster":3,
-	"protecteur":2
+	"protecteur":5
 };
 module.exports.map_posX=[0,1,0,2,1,0,3,2,1,0,4,3,2,1,0,4,3,2,1,4,3,2,4,3,4];
 module.exports.map_posY=[0,0,1,0,1,2,0,1,2,3,0,1,2,3,4,1,2,3,4,2,3,4,3,4,4];

@@ -1,27 +1,3 @@
-var batiments_list=[
-	"generateur",
-	"producteur",
-	"stockage",
-	"forteresse",
-	"ionisateur",
-	"champdeforce",
-	"booster",
-	"usinedexplosif",
-	"condenseur",
-	"lieur",
-	"stabilisateur",
-	"protecteur"
-];
-var batiment_augmentateurs=[
-	"forteresse",
-	"ionisateur",
-	"lieur",
-	"stabilisateur",
-	"champdeforce",
-	"usinedexplosif",
-	"condenseur",
-	"booster"
-];
 var production_QG=new Array(8)
 var production_QG_rest=0
 var pillage_QG=new Array(8)
@@ -36,7 +12,7 @@ function act_QG(patch=true){
 		document.getElementById("QG_pillage_rest").innerHTML=pillage_QG_rest;
 	}
 	for(let a=0;a<3;a++){
-		document.getElementById("QG_destruction_"+batiments_list[a]).innerHTML=destruction_QG[a]*25+"%";
+		document.getElementById("QG_destruction_"+batiments[a]).innerHTML=destruction_QG[a]*25+"%";
 		document.getElementById("QG_destruction_rest").innerHTML=destruction_QG_rest;
 	}
 	if(patch){
@@ -91,7 +67,7 @@ window.onload=()=>{
 		})
 	}
 	for(let a=0;a<3;a++){
-		document.getElementById("QG_button_moins_destruction_"+batiments_list[a]).addEventListener("click",()=>{
+		document.getElementById("QG_button_moins_destruction_"+batiments[a]).addEventListener("click",()=>{
 			if(destruction_QG[a]>1){
 				destruction_QG[a]-=1
 				destruction_QG_rest+=1
@@ -100,7 +76,7 @@ window.onload=()=>{
 		})
 	}
 	for(let a=0;a<3;a++){
-		document.getElementById("QG_button_plus_destruction_"+batiments_list[a]).addEventListener("click",()=>{
+		document.getElementById("QG_button_plus_destruction_"+batiments[a]).addEventListener("click",()=>{
 			if(destruction_QG_rest>0){
 				destruction_QG[a]+=1
 				destruction_QG_rest-=1
@@ -108,9 +84,9 @@ window.onload=()=>{
 			act_QG();
 		})
 	}
-	for(let a in batiments_list){
-		document.getElementById(batiments_list[a]+"_bouton").addEventListener("click",function(event){
-			use_api("POST","batiments",{"batiment":batiments_list[a]},true,function(xhr){
+	for(let a in batiments){
+		document.getElementById(batiments[a]+"_bouton").addEventListener("click",function(event){
+			use_api("POST","batiments",{"batiment":batiments[a]},true,function(xhr){
 				if(xhr.status==200){
 					act_user();
 				}else if(xhr.status==402){
@@ -138,7 +114,7 @@ function post_getuser_action(){
 	for(let a=0;a<3;a++){
 		destruction_QG_rest+=4-destruction_QG[a];
 	}
-	for(let a of batiments_list){
+	for(let a of batiments){
 		document.getElementById(a+"_niveau").innerText=user.batiments[a];
 		if(a=="protecteur"){
 			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
@@ -171,6 +147,17 @@ function post_getuser_action(){
 			document.getElementById(a+"_bouton").value="En amelioration au niveau "+(user.batiments[a]+1);
 			document.getElementById(a+"_bouton").disabled=true;
 		}
+	}
+	for(a of batiment_pveurs){
+		let total_pv=0;
+		if(a=="protecteur"){
+			total_pv=10**(user.batiments.protecteur/20)*10*user.batiments.protecteur;
+		}else{
+			total_pv=10**(user.batiments[a]/20)*1000;
+		}
+		let pourcent=Math.round(user.PV_batiments[a]/total_pv*1000)/10;
+		document.getElementById(a+"_pv").style.backgroundImage="linear-gradient(90deg, green "+pourcent+"%,#ffffff "+(pourcent+1)+"%)";
+		document.getElementById(a+"_pv").innerText=affichageRessources(user.PV_batiments[a])+"/"+affichageRessources(total_pv)+" ("+pourcent+"%)";
 	}
 	act_QG(false);
 }

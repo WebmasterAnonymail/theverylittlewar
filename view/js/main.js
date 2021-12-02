@@ -11,6 +11,36 @@ var atomes=[
 	"soufre",
 	"chlore"
 ];
+var batiments=[
+	"generateur",
+	"producteur",
+	"stockage",
+	"forteresse",
+	"ionisateur",
+	"champdeforce",
+	"booster",
+	"usinedexplosif",
+	"condenseur",
+	"lieur",
+	"stabilisateur",
+	"protecteur"
+];
+var batiment_augmentateurs=[
+	"forteresse",
+	"ionisateur",
+	"lieur",
+	"stabilisateur",
+	"champdeforce",
+	"usinedexplosif",
+	"condenseur",
+	"booster"
+];
+var batiment_pveurs=[
+	"generateur",
+	"producteur",
+	"stockage",
+	"protecteur"
+];
 var initiales=["C","O","N","I","Br","H","S","Cl"];
 function bb_code(texte){
 	let res=texte;
