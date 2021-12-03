@@ -5,7 +5,7 @@ const handler=require('./mainHandler.js');
 const httpServer=http.createServer(handler.http);
 const wsServer=new ws.Server({server:httpServer});
 console.log("Démarage");
-httpServer.listen(process.env.app_port||8000);
+httpServer.listen(process.env.app_port||process.env.PORT||process.env.port||8000);
 wsServer.on("connection",handler.ws);
 //	fs.writeFileSync(process.env.storage_root+"","{}");
 if(process.env.reset_files=="yes"){
