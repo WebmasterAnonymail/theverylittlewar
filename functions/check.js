@@ -153,12 +153,59 @@ module.exports={
 							}else if(defmols.length==0){
 								//victoire d'atk
 								//Destruction
-								let destruction_log=[0,0,0,0];
+								let destruction_log=[0,0,0];
 								let a_detruire=0;
 								for(let b of atkmols){
 									a_detruire+=md.power_atome(atkant,b.molid,5)*b.number;
 								}
-								///DEVLOP HERE
+								rest_batiments=[true,true,true];
+								rest_batiment=3;
+								temp_rest_batiment=3;
+								do{
+									if(users[events[a].def].batiments.protecteur>0){
+										let absorbed_by_protector=users[events[a].def].batiments.protecteur*a_detruire/100;
+										a_detruire-=absorbed_by_protector;
+										if(absorbed_by_protector<users[events[a].def].PV_batiments.protecteur){
+											users[events[a].def].PV_batiments.protecteur-=absorbed_by_protector;
+											users[events[a].atk].points.destruction+=absorbed_by_protector;
+										}else{
+											users[events[a].atk].points.destruction+=users[events[a].def].PV_batiments.protecteur;
+											absorbed_by_protector-=users[events[a].def].PV_batiments.protecteur;
+											users[events[a].def].PV_batiments.protecteur=0;
+											users[events[a].def].batiments.protecteur--;
+											users[events[a].def].PV_batiments.protecteur=10**(users[events[a].def].batiments.protecteur/20)*10*users[events[a].def].batiments.protecteur;
+											users[events[a].def].points.batiments-=5;
+											a_detruire+=absorbed_by_protector;
+										}
+									}
+									let restdestruction=0;
+									if(rest_batiment>0){
+										for(let b=0;b<3;b++){
+											if(rest_batiments[b]){
+												let destrbatiment=a_detruire*users[events[a].atk].QG.destruction[b]/4/rest_batiment;
+												if(users[events[a].def].PV_batiments[md.batiments[b]]>destrbatiment){
+													users[events[a].def].PV_batiments[md.batiments[b]]-=destrbatiment;
+													users[events[a].atk].points.destruction+=destrbatiment;
+													destruction_log[b]+=destrbatiment/(10**(users[events[a].def].batiments[md.batiments[b]]/20)*1000);
+												}else{
+													destrbatiment-=users[events[a].def].PV_batiments[md.batiments[b]];
+													users[events[a].atk].points.destruction+=users[events[a].def].PV_batiments[md.batiments[b]];
+													destruction_log[b]=Math.floor(destruction_log[b])+1;
+													users[events[a].def].batiments[md.batiments[b]]--;
+													users[events[a].def].points.batiments-=1;
+													users[events[a].def].PV_batiments[md.batiments[b]]=10**(users[events[a].def].batiments[md.batiments[b]]/20)*1000;
+													if(users[events[a].def].batiments[md.batiments[b]]==0){
+														rest_batiments[b]=false;
+														temp_rest_batiment--;
+													}
+													restdestruction+=destrbatiment;
+												}
+											}
+										}
+									}
+									rest_batiment=temp_rest_batiment;
+									a_detruire=restdestruction;
+								}while(a_detruire>0);
 								//Pillage
 								let pillage_log=[0,0,0,0,0,0,0,0];
 								let a_piller=0;
@@ -169,7 +216,7 @@ module.exports={
 								rest_atome=8;
 								temp_rest_atome=8;
 								do{
-									restpillage=0;
+									let restpillage=0;
 									if(rest_atome>0){
 										for(let b=0;b<8;b++){
 											if(rest_atomes[b]){
@@ -182,7 +229,7 @@ module.exports={
 												}else{
 													pillatome-=users[events[a].def].ressources[md.atomes[b]];
 													users[events[a].atk].ressources[md.atomes[b]]+=users[events[a].def].ressources[md.atomes[b]];
-													users[events[a].atk].points.pillage+=users[events[a].def].ressources[md.atomes[b]]
+													users[events[a].atk].points.pillage+=users[events[a].def].ressources[md.atomes[b]];
 													pillage_log[b]+=users[events[a].def].ressources[md.atomes[b]];
 													users[events[a].def].ressources[md.atomes[b]]=0;
 													rest_atomes[b]=false;
@@ -194,7 +241,7 @@ module.exports={
 									}
 									rest_atome=temp_rest_atome;
 									a_piller=restpillage;
-								}while(restpillage>0);
+								}while(a_piller>0);
 								//Rapports
 								let atk_report={
 									"readed":false,
