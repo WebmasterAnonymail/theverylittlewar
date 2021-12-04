@@ -7,10 +7,11 @@ module.exports = {
 		
 	},
 	PUT:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let users=checkmodule.usercheck(body.username,body.token);
 		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
 		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		if(checkmodule.usercheck(body.username,body.token)){
+		if(users){
+			let user=users[body.username];
 			switch(body.action){
 				case "attaquer_user":
 					if(users[body.target]){
@@ -22,8 +23,8 @@ module.exports = {
 										body["mol"+a]=0;
 									}
 									if(typeof body["mol"+a]=="number"){
-										if(users[body.username].molecules[a]){
-											if(body["mol"+a]>users[body.username].molecules[a].number){
+										if(user.molecules[a]){
+											if(body["mol"+a]>user.molecules[a].number){
 												OK1=false;
 											}
 										}else{
@@ -36,8 +37,8 @@ module.exports = {
 									}
 								}
 								if(OK1){
-									let dx=users[body.target].positionX-users[body.username].positionX;
-									let dy=users[body.target].positionY-users[body.username].positionY;
+									let dx=users[body.target].positionX-user.positionX;
+									let dy=users[body.target].positionY-user.positionY;
 									event_cmb={
 										"def":body.target,
 										"atk":body.username,
@@ -47,13 +48,13 @@ module.exports = {
 									};
 									for(let a=0;a<5;a++){
 										if(body["mol"+a]>0){
-											users[body.username].molecules_en_utilisation[a]+=1;
-											users[body.username].molecules[a].number-=body["mol"+a];
+											user.molecules_en_utilisation[a]+=1;
+											user.molecules[a].number-=body["mol"+a];
 											event_cmb.mols[a]=body["mol"+a];
-											event_cmb.time=Math.max(event_cmb.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(users[body.username],a,7));
+											event_cmb.time=Math.max(event_cmb.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(user,a,7));
 										}
 									}
-									users[body.username].points.combats++;
+									user.points.combats++;
 									events.push(event_cmb);
 									res.writeHead(200,{'Content-Type':'application/json'});
 									res.end();
@@ -79,12 +80,12 @@ module.exports = {
 					}
 					break;
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	}

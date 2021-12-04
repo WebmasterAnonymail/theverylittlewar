@@ -77,16 +77,17 @@ module.exports = {
 		}
 	},
 	PUT:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let users=checkmodule.usercheck(body.username,body.token);
 		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-		if(checkmodule.usercheck(body.username,body.token)){
+		if(users){
+			let user=users[body.username];
 			if(body.name_team){
 				if(teams[body.name_team]){
 					res.writeHead(409);
 					res.write("Already used");
 					res.end();
 				}else{
-					if(users[body.username].ressources.energie>=100000){
+					if(user.ressources.energie>=100000){
 						teams[body.name_team]={
 							"membres":[body.username],
 							"chef":body.username,
@@ -111,8 +112,8 @@ module.exports = {
 							"requetes_ressources":[],
 							"color":"#c0c0c0"
 						}
-						users[body.username].alliance=body.name_team;
-						users[body.username].ressources.energie-=100000;
+						user.alliance=body.name_team;
+						user.ressources.energie-=100000;
 						res.writeHead(204);
 						res.end();
 					}else{
@@ -126,23 +127,24 @@ module.exports = {
 				res.write("Please give an team name");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	},
 	PATCH:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let users=checkmodule.usercheck(body.username,body.token);
 		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-		if(checkmodule.usercheck(body.username,body.token)){
-			if(teams[users[body.username].alliance]){
+		if(users){
+			let user=users[body.username];
+			if(teams[user.alliance]){
 				switch(body.action){
 					case "change_description":
 						if(md.has_team_permission(body.username,"description")){
-							teams[users[body.username].alliance].description=body.description;
+							teams[user.alliance].description=body.description;
 							res.writeHead(200);
 							res.end();
 						}else{
@@ -155,7 +157,7 @@ module.exports = {
 						if(md.has_team_permission(body.username,"description")){
 							hexacolor=/^#[0-9a-fA-F]{6}$/;
 							if(hexacolor.test(body.color)){
-								teams[users[body.username].alliance].color=body.color;
+								teams[user.alliance].color=body.color;
 								res.writeHead(200);
 								res.end();
 							}else{
@@ -172,17 +174,17 @@ module.exports = {
 					case "add_grade":
 						if(md.has_team_permission(body.username,"grades")){
 							if(body.grade){
-								if(teams[users[body.username].alliance].membres.indexOf(body.posseseur)<0){
+								if(teams[user.alliance].membres.indexOf(body.posseseur)<0){
 									res.writeHead(404);
 									res.write("User is not in team");
 									res.end();
 								}else{
-									if(teams[users[body.username].alliance].grades[body.grade]){
+									if(teams[user.alliance].grades[body.grade]){
 										res.writeHead(409);
 										res.write("Grade already exist");
 										res.end();
 									}else{
-										teams[users[body.username].alliance].grades[body.grade]={
+										teams[user.alliance].grades[body.grade]={
 											"posseseur":body.posseseur,
 											"guerre":body.guerre,
 											"pacte":body.pacte,
@@ -209,8 +211,8 @@ module.exports = {
 						break;
 					case "delete_grade":
 						if(md.has_team_permission(body.username,"grades")){
-							if(teams[users[body.username].alliance].grades[body.grade]){
-								delete teams[users[body.username].alliance].grades[body.grade]
+							if(teams[user.alliance].grades[body.grade]){
+								delete teams[user.alliance].grades[body.grade]
 								res.writeHead(200);
 								res.end();
 							}else{
@@ -230,19 +232,20 @@ module.exports = {
 				res.write("You have no team");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	},
 	POST:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let users=checkmodule.usercheck(body.username,body.token)
 		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-		if(checkmodule.usercheck(body.username,body.token)){
-			if(teams[users[body.username].alliance]){
+		if(users){
+			let user=users[body.username];
+			if(teams[user.alliance]){
 				switch(body.action){
 					case "give":
 						let OK=true;
@@ -261,14 +264,14 @@ module.exports = {
 						}
 						if(OK){
 							for(let b of md.ressources){
-								if(body[b]>users[body.username].ressources[b]){
+								if(body[b]>user.ressources[b]){
 									OK=false;
 								}
 							}
 							if(OK){
 								for(let c of md.ressources){
-									users[body.username].ressources[c]-=body[c];
-									teams[users[body.username].alliance].ressources[c]+=body[c];
+									user.ressources[c]-=body[c];
+									teams[user.alliance].ressources[c]+=body[c];
 									res.writeHead(200);
 									res.end();
 								}
@@ -303,7 +306,7 @@ module.exports = {
 							for(let b of md.ressources){
 								at_push[b]=body[b];
 							}
-							teams[users[body.username].alliance].requetes_ressources.push(at_push);
+							teams[user.alliance].requetes_ressources.push(at_push);
 							res.writeHead(200);
 							res.end();
 						}else{
@@ -314,24 +317,24 @@ module.exports = {
 						break;
 					case "accept_donnation":
 						if(md.has_team_permission(body.username,"finance")){
-							if(body.donnation_id<teams[users[body.username].alliance].requetes_ressources.length){
+							if(body.donnation_id<teams[user.alliance].requetes_ressources.length){
 								let OK2=true;
 								for(let a of md.ressources){
-									if(teams[users[body.username].alliance].requetes_ressources[body.donnation_id][a]>teams[users[body.username].alliance].ressources[a]){
+									if(teams[user.alliance].requetes_ressources[body.donnation_id][a]>teams[user.alliance].ressources[a]){
 										OK2=false;
 									}
 								}
 								if(OK2){
-									if(teams[users[body.username].alliance].membres.indexOf(teams[users[body.username].alliance].requetes_ressources[body.donnation_id].who)<0){
+									if(teams[user.alliance].membres.indexOf(teams[user.alliance].requetes_ressources[body.donnation_id].who)<0){
 										res.writeHead(410);
 										res.write("User left the team");
 										res.end();
 									}else{
 										for(let b of md.ressources){
-											users[teams[users[body.username].alliance].requetes_ressources[body.donnation_id].who].ressources[b]+=teams[users[body.username].alliance].requetes_ressources[body.donnation_id][b];
-											teams[users[body.username].alliance].ressources[b]-=teams[users[body.username].alliance].requetes_ressources[body.donnation_id][b];
+											users[teams[user.alliance].requetes_ressources[body.donnation_id].who].ressources[b]+=teams[user.alliance].requetes_ressources[body.donnation_id][b];
+											teams[user.alliance].ressources[b]-=teams[user.alliance].requetes_ressources[body.donnation_id][b];
 										}
-										teams[users[body.username].alliance].requetes_ressources.splice(body.donnation_id,1);
+										teams[user.alliance].requetes_ressources.splice(body.donnation_id,1);
 										res.writeHead(200);
 										res.end();
 									}
@@ -353,8 +356,8 @@ module.exports = {
 						break;
 					case "reject_donnation":
 						if(md.has_team_permission(body.username,"finance")){
-							if(body.donnation_id<teams[users[body.username].alliance].requetes_ressources){
-								teams[users[body.username].alliance].requetes_ressources.splice(body.donnation_id,1);
+							if(body.donnation_id<teams[user.alliance].requetes_ressources){
+								teams[user.alliance].requetes_ressources.splice(body.donnation_id,1);
 								res.writeHead(200);
 								res.end();
 							}else{
@@ -371,8 +374,8 @@ module.exports = {
 					case "new_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
 							if(teams[body.pacte]){
-								if(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.pacte)<0){
-									teams[users[body.username].alliance].diplomatie.pactes.push(body.pacte);
+								if(teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
+									teams[user.alliance].diplomatie.pactes.push(body.pacte);
 									res.writeHead(200);
 									res.end();
 								}else{
@@ -393,12 +396,12 @@ module.exports = {
 						break;
 					case "delete_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
-							if(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.pacte)<0){
+							if(teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
 								res.writeHead(404);
 								res.write("Pact not exist");
 								res.end();
 							}else{
-								teams[users[body.username].alliance].diplomatie.pactes.splice(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.pacte),1);
+								teams[user.alliance].diplomatie.pactes.splice(teams[user.alliance].diplomatie.pactes.indexOf(body.pacte),1);
 								res.writeHead(200);
 								res.end();
 							}
@@ -411,8 +414,8 @@ module.exports = {
 					case "new_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
 							if(teams[body.guerre]){
-								if(teams[users[body.username].alliance].diplomatie.guerres.indexOf(body.guerre)<0){
-									teams[users[body.username].alliance].diplomatie.guerres.push(body.guerre);
+								if(teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
+									teams[user.alliance].diplomatie.guerres.push(body.guerre);
 									res.writeHead(200);
 									res.end();
 								}else{
@@ -433,12 +436,12 @@ module.exports = {
 						break;
 					case "delete_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
-							if(teams[users[body.username].alliance].diplomatie.guerres.indexOf(body.guerre)<0){
+							if(teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
 								res.writeHead(404);
 								res.write("War not exist");
 								res.end();
 							}else{
-								teams[users[body.username].alliance].diplomatie.guerres.splice(teams[users[body.username].alliance].diplomatie.guerres.indexOf(body.guerre),1);
+								teams[user.alliance].diplomatie.guerres.splice(teams[user.alliance].diplomatie.guerres.indexOf(body.guerre),1);
 								res.writeHead(200);
 								res.end();
 							}
@@ -452,20 +455,20 @@ module.exports = {
 						if(md.has_team_permission(body.username,"finance")){
 							let OK3=true;
 							for(let a of md.ressources){
-								if(body[a]>teams[users[body.username].alliance].ressources[a]){
+								if(body[a]>teams[user.alliance].ressources[a]){
 									OK3=false;
 								}
 							}
 							if(OK3){
 								if(teams[body.target]){
-									if(teams[users[body.username].alliance].diplomatie.pactes.indexOf(body.target)<0){
+									if(teams[user.alliance].diplomatie.pactes.indexOf(body.target)<0){
 										res.writeHead(409);
 										res.write("You need to have a pact with the team");
 										res.end();
 									}else{
 										for(let b of md.ressources){
 											teams[body.target].ressources[b]+=body[b];
-											teams[users[body.username].alliance].ressources[b]-=body[b];
+											teams[user.alliance].ressources[b]-=body[b];
 										}
 										res.writeHead(200);
 										res.end();
@@ -492,12 +495,12 @@ module.exports = {
 				res.write("You have no team");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	}
 }

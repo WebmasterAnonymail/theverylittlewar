@@ -4,24 +4,25 @@ const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'batiments',
 	POST:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let users=checkmodule.usercheck(body.username,body.token);
 		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		if(checkmodule.usercheck(body.username,body.token)){
-			if(users[body.username].batiments[body.batiment]!==undefined){
-				if(users[body.username].batiment_en_amelioration.indexOf(body.batiment)<0){
+		if(users){
+			let user=users[body.username];
+			if(user.batiments[body.batiment]!==undefined){
+				if(user.batiment_en_amelioration.indexOf(body.batiment)<0){
 					switch(body.batiment){
 						case "generateur":
 							if(
-							users[body.username].ressources.energie>=(10**(users[body.username].batiments.generateur/15)*100)
+							user.ressources.energie>=(10**(user.batiments.generateur/15)*100)
 							){
 								event_amel={
 									"username":body.username,
-									"time":new Date().getTime()+(Math.log2(users[body.username].batiments.generateur+1)*10*(60*1000)),
+									"time":new Date().getTime()+(Math.log2(user.batiments.generateur+1)*10*(60*1000)),
 									"type":"amelioration",
 									"batiment":"generateur",
 								};
-								users[body.username].batiment_en_amelioration.push("generateur");
-								users[body.username].ressources.energie-=(10**(users[body.username].batiments.generateur/15)*100);
+								user.batiment_en_amelioration.push("generateur");
+								user.ressources.energie-=(10**(user.batiments.generateur/15)*100);
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
@@ -33,24 +34,24 @@ module.exports = {
 							break;
 						case "producteur":
 							if(
-							users[body.username].ressources.carbone>=10**(users[body.username].batiments.producteur/15)*10&&
-							users[body.username].ressources.oxygene>=10**(users[body.username].batiments.producteur/15)*10&&
-							users[body.username].ressources.azote>=10**(users[body.username].batiments.producteur/15)*10&&
-							users[body.username].ressources.iode>=10**(users[body.username].batiments.producteur/15)*10&&
-							users[body.username].ressources.brome>=10**(users[body.username].batiments.producteur/15)*10&&
-							users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.producteur/15)*10&&
-							users[body.username].ressources.soufre>=10**(users[body.username].batiments.producteur/15)*10&&
-							users[body.username].ressources.chlore>=10**(users[body.username].batiments.producteur/15)*10
+							user.ressources.carbone>=10**(user.batiments.producteur/15)*10&&
+							user.ressources.oxygene>=10**(user.batiments.producteur/15)*10&&
+							user.ressources.azote>=10**(user.batiments.producteur/15)*10&&
+							user.ressources.iode>=10**(user.batiments.producteur/15)*10&&
+							user.ressources.brome>=10**(user.batiments.producteur/15)*10&&
+							user.ressources.hydrogene>=10**(user.batiments.producteur/15)*10&&
+							user.ressources.soufre>=10**(user.batiments.producteur/15)*10&&
+							user.ressources.chlore>=10**(user.batiments.producteur/15)*10
 							){
 								event_amel={
 									"username":body.username,
-									"time":new Date().getTime()+(Math.log2(users[body.username].batiments.producteur+1)*10*(60*1000)),
+									"time":new Date().getTime()+(Math.log2(user.batiments.producteur+1)*10*(60*1000)),
 									"type":"amelioration",
 									"batiment":"producteur",
 								};
-								users[body.username].batiment_en_amelioration.push("producteur");
+								user.batiment_en_amelioration.push("producteur");
 								for(a of md.atomes){
-									users[body.username].ressources[a]-=10**(users[body.username].batiments.producteur/15)*10;
+									user.ressources[a]-=10**(user.batiments.producteur/15)*10;
 								}
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
@@ -62,26 +63,26 @@ module.exports = {
 							break;
 						case "stockage":
 							if(
-							users[body.username].ressources.energie>=10**(users[body.username].batiments.stockage/15)*100
-							&&users[body.username].ressources.carbone>=10**(users[body.username].batiments.stockage/15)*10
-							&&users[body.username].ressources.oxygene>=10**(users[body.username].batiments.stockage/15)*10
-							&&users[body.username].ressources.azote>=10**(users[body.username].batiments.stockage/15)*10
-							&&users[body.username].ressources.iode>=10**(users[body.username].batiments.stockage/15)*10
-							&&users[body.username].ressources.brome>=10**(users[body.username].batiments.stockage/15)*10
-							&&users[body.username].ressources.hydrogene>=10**(users[body.username].batiments.stockage/15)*10
-							&&users[body.username].ressources.soufre>=10**(users[body.username].batiments.stockage/15)*10
-							&&users[body.username].ressources.chlore>=10**(users[body.username].batiments.stockage/15)*10
+							user.ressources.energie>=10**(user.batiments.stockage/15)*100
+							&&user.ressources.carbone>=10**(user.batiments.stockage/15)*10
+							&&user.ressources.oxygene>=10**(user.batiments.stockage/15)*10
+							&&user.ressources.azote>=10**(user.batiments.stockage/15)*10
+							&&user.ressources.iode>=10**(user.batiments.stockage/15)*10
+							&&user.ressources.brome>=10**(user.batiments.stockage/15)*10
+							&&user.ressources.hydrogene>=10**(user.batiments.stockage/15)*10
+							&&user.ressources.soufre>=10**(user.batiments.stockage/15)*10
+							&&user.ressources.chlore>=10**(user.batiments.stockage/15)*10
 							){
 								event_amel={
 									"username":body.username,
-									"time":new Date().getTime()+(Math.log2(users[body.username].batiments.stockage+1)*10*(60*1000)),
+									"time":new Date().getTime()+(Math.log2(user.batiments.stockage+1)*10*(60*1000)),
 									"type":"amelioration",
 									"batiment":"stockage",
 								};
-								users[body.username].batiment_en_amelioration.push("stockage");
-								users[body.username].ressources.energie-=10**(users[body.username].batiments.stockage/15)*100;
+								user.batiment_en_amelioration.push("stockage");
+								user.ressources.energie-=10**(user.batiments.stockage/15)*100;
 								for(a of md.atomes){
-									users[body.username].ressources[a]-=10**(users[body.username].batiments.stockage/15)*10;
+									user.ressources[a]-=10**(user.batiments.stockage/15)*10;
 								}
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
@@ -92,14 +93,14 @@ module.exports = {
 							}
 							break;
 						case "protecteur":
-							if(users[body.username].batiments.protecteur<100){
+							if(user.batiments.protecteur<100){
 								event_amel={
 									"username":body.username,
-									"time":new Date().getTime()+Math.sin(Math.PI*(users[body.username].batiments.protecteur+1)/200)*5*(60*60*1000),
+									"time":new Date().getTime()+Math.sin(Math.PI*(user.batiments.protecteur+1)/200)*5*(60*60*1000),
 									"type":"amelioration",
 									"batiment":"protecteur",
 								};
-								users[body.username].batiment_en_amelioration.push("protecteur");
+								user.batiment_en_amelioration.push("protecteur");
 								events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
@@ -109,16 +110,16 @@ module.exports = {
 							}
 							break;
 						default:
-							if(users[body.username].batiments[body.batiment]<100){
-								if(users[body.username].ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]>=(users[body.username].batiments[body.batiment]+1)**3){
+							if(user.batiments[body.batiment]<100){
+								if(user.ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]>=(user.batiments[body.batiment]+1)**3){
 									event_amel={
 										"username":body.username,
-										"time":new Date().getTime()+(Math.sqrt(users[body.username].batiments[body.batiment]+1)*10*(60*1000)),
+										"time":new Date().getTime()+(Math.sqrt(user.batiments[body.batiment]+1)*10*(60*1000)),
 										"type":"amelioration",
 										"batiment":body.batiment,
 									};
-									users[body.username].batiment_en_amelioration.push(body.batiment);
-									users[body.username].ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(users[body.username].batiments[body.batiment]+1)**3;
+									user.batiment_en_amelioration.push(body.batiment);
+									user.ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(user.batiments[body.batiment]+1)**3;
 									events.push(event_amel);
 									res.writeHead(200,{'Content-Type':'application/json'});
 									res.end();
@@ -142,17 +143,18 @@ module.exports = {
 				res.write("{error:\"no batiment named '"+body.batiment+"'\"");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401,{'Content-Type':'application/json'});
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	PATCH:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-		if(checkmodule.usercheck(body.username,body.token)){
+		let users=checkmodule.usercheck(body.username,body.token);
+		if(users){
+			let user=users[body.username];
 			let check=true;
 			for(let a of ["production","pillage","destruction"]){
 				if(body[a] instanceof Array){
@@ -186,7 +188,7 @@ module.exports = {
 				}
 			}
 			if(check){
-				users[body.username].QG={
+				user.QG={
 					"production":body.production,
 					"pillage":body.pillage,
 					"destruction":body.destruction
@@ -198,11 +200,11 @@ module.exports = {
 				res.write("{error:\"Not valid input\"}");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401,{'Content-Type':'application/json'});
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 	}
 }

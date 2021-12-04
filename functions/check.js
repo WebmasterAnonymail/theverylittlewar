@@ -1,5 +1,5 @@
 const fs=require("fs");
-const md=require("../functions/miscdatas.js")
+const md=require("./miscdatas.js")
 module.exports={
 	eventcheck:function(){
 		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
@@ -55,20 +55,20 @@ module.exports={
 								for(let g=0;g<defmols.length;g++){
 									totdef+=defmols[g].deg*defmols[g].number;
 								}
-								users[events[a].def].points.defense+=totdef;
+								defant.points.defense+=totdef;
 								let totatk=0;
 								for(let h=0;h<atkmols.length;h++){
 									totatk+=atkmols[h].deg*atkmols[h].number;
 								}
-								users[events[a].atk].points.attaque+=totatk;
+								atkant.points.attaque+=totatk;
 								//oblitération des classes
 								for(let i=0;i<defmols.length;i++){
 									if(defmols[i].PV*defmols[i].number>totatk){
 										defmols[i].number-=totatk/defmols[i].PV;
-										users[events[a].def].points.pertes_combat+=totatk/defmols[i].PV;
+										defant.points.pertes_combat+=totatk/defmols[i].PV;
 										totatk=0;
 									}else{
-										users[events[a].def].points.pertes_combat+=defmols[i].number;
+										defant.points.pertes_combat+=defmols[i].number;
 										totatk-=defmols[i].PV*defmols[i].number;
 										defmols[i].number=0;
 									}
@@ -76,17 +76,17 @@ module.exports={
 								for(let i=0;i<atkmols.length;i++){
 									if(atkmols[i].PV*atkmols[i].number>totdef){
 										atkmols[i].number-=totdef/atkmols[i].PV;
-										users[events[a].atk].points.pertes_combat+=totdef/atkmols[i].PV;
+										atkant.points.pertes_combat+=totdef/atkmols[i].PV;
 										totdef=0;
 									}else{
-										users[events[a].atk].points.pertes_combat+=atkmols[i].number;
+										atkant.points.pertes_combat+=atkmols[i].number;
 										totdef-=atkmols[i].PV*atkmols[i].number;
 										atkmols[i].number=0;
 									}
 								}
 								//élimination des points d'atk ou de def qui n'ont pas servis
-								users[events[a].def].points.defense-=totdef;
-								users[events[a].atk].points.attaque-=totatk;
+								defant.points.defense-=totdef;
+								atkant.points.attaque-=totatk;
 								//élimination des classe détruites entièrement
 								let d=0;
 								let templen1=atkmols.length;
@@ -109,11 +109,11 @@ module.exports={
 								//lorsqu'il ne reste rien
 							}while(defmols.length>0&&atkmols.length>0);
 							for(let b=0;b<5;b++){
-								if(users[events[a].def].molecules[b]){
-									users[events[a].def].molecules[b].number=0;
+								if(defant.molecules[b]){
+									defant.molecules[b].number=0;
 									for(let c of defmols){
 										if(c.molid==b){
-											users[events[a].def].molecules[b].number+=c.number;
+											defant.molecules[b].number+=c.number;
 										}
 									}
 								}
@@ -121,7 +121,7 @@ module.exports={
 							if(defmols.length==0&&atkmols.length==0){
 								//égalité
 								for(let b of mol_used_by_atkant){
-									users[events[a].atk].molecules_en_utilisation[b]--;
+									atkant.molecules_en_utilisation[b]--;
 								}
 								//Rapports
 								let atk_report={
@@ -148,8 +148,8 @@ module.exports={
 									"win":null,
 									"time":events[a].time
 								}
-								users[events[a].atk].raports.push(atk_report);
-								users[events[a].def].raports.push(def_report);
+								atkant.raports.push(atk_report);
+								defant.raports.push(def_report);
 							}else if(defmols.length==0){
 								//victoire d'atk
 								//Destruction
@@ -162,19 +162,19 @@ module.exports={
 								rest_batiment=3;
 								temp_rest_batiment=3;
 								do{
-									if(users[events[a].def].batiments.protecteur>0){
-										let absorbed_by_protector=users[events[a].def].batiments.protecteur*a_detruire/100;
+									if(defant.batiments.protecteur>0){
+										let absorbed_by_protector=defant.batiments.protecteur*a_detruire/100;
 										a_detruire-=absorbed_by_protector;
-										if(absorbed_by_protector<users[events[a].def].PV_batiments.protecteur){
-											users[events[a].def].PV_batiments.protecteur-=absorbed_by_protector;
-											users[events[a].atk].points.destruction+=absorbed_by_protector;
+										if(absorbed_by_protector<defant.PV_batiments.protecteur){
+											defant.PV_batiments.protecteur-=absorbed_by_protector;
+											atkant.points.destruction+=absorbed_by_protector;
 										}else{
-											users[events[a].atk].points.destruction+=users[events[a].def].PV_batiments.protecteur;
-											absorbed_by_protector-=users[events[a].def].PV_batiments.protecteur;
-											users[events[a].def].PV_batiments.protecteur=0;
-											users[events[a].def].batiments.protecteur--;
-											users[events[a].def].PV_batiments.protecteur=10**(users[events[a].def].batiments.protecteur/20)*10*users[events[a].def].batiments.protecteur;
-											users[events[a].def].points.batiments-=5;
+											atkant.points.destruction+=defant.PV_batiments.protecteur;
+											absorbed_by_protector-=defant.PV_batiments.protecteur;
+											defant.PV_batiments.protecteur=0;
+											defant.batiments.protecteur--;
+											defant.PV_batiments.protecteur=10**(defant.batiments.protecteur/20)*10*defant.batiments.protecteur;
+											defant.points.batiments-=5;
 											a_detruire+=absorbed_by_protector;
 										}
 									}
@@ -182,19 +182,19 @@ module.exports={
 									if(rest_batiment>0){
 										for(let b=0;b<3;b++){
 											if(rest_batiments[b]){
-												let destrbatiment=a_detruire*users[events[a].atk].QG.destruction[b]/4/rest_batiment;
-												if(users[events[a].def].PV_batiments[md.batiments[b]]>destrbatiment){
-													users[events[a].def].PV_batiments[md.batiments[b]]-=destrbatiment;
-													users[events[a].atk].points.destruction+=destrbatiment;
-													destruction_log[b]+=destrbatiment/(10**(users[events[a].def].batiments[md.batiments[b]]/20)*1000);
+												let destrbatiment=a_detruire*atkant.QG.destruction[b]/4/rest_batiment;
+												if(defant.PV_batiments[md.batiments[b]]>destrbatiment){
+													defant.PV_batiments[md.batiments[b]]-=destrbatiment;
+													atkant.points.destruction+=destrbatiment;
+													destruction_log[b]+=destrbatiment/(10**(defant.batiments[md.batiments[b]]/20)*1000);
 												}else{
-													destrbatiment-=users[events[a].def].PV_batiments[md.batiments[b]];
-													users[events[a].atk].points.destruction+=users[events[a].def].PV_batiments[md.batiments[b]];
+													destrbatiment-=defant.PV_batiments[md.batiments[b]];
+													atkant.points.destruction+=defant.PV_batiments[md.batiments[b]];
 													destruction_log[b]=Math.floor(destruction_log[b])+1;
-													users[events[a].def].batiments[md.batiments[b]]--;
-													users[events[a].def].points.batiments-=1;
-													users[events[a].def].PV_batiments[md.batiments[b]]=10**(users[events[a].def].batiments[md.batiments[b]]/20)*1000;
-													if(users[events[a].def].batiments[md.batiments[b]]==0){
+													defant.batiments[md.batiments[b]]--;
+													defant.points.batiments-=1;
+													defant.PV_batiments[md.batiments[b]]=10**(defant.batiments[md.batiments[b]]/20)*1000;
+													if(defant.batiments[md.batiments[b]]==0){
 														rest_batiments[b]=false;
 														temp_rest_batiment--;
 													}
@@ -220,18 +220,18 @@ module.exports={
 									if(rest_atome>0){
 										for(let b=0;b<8;b++){
 											if(rest_atomes[b]){
-												let pillatome=a_piller*users[events[a].atk].QG.pillage[b]/4/rest_atome;
-												if(users[events[a].def].ressources[md.atomes[b]]>pillatome){
-													users[events[a].def].ressources[md.atomes[b]]-=pillatome;
-													users[events[a].atk].ressources[md.atomes[b]]+=pillatome;
-													users[events[a].atk].points.pillage+=pillatome;
+												let pillatome=a_piller*atkant.QG.pillage[b]/4/rest_atome;
+												if(defant.ressources[md.atomes[b]]>pillatome){
+													defant.ressources[md.atomes[b]]-=pillatome;
+													atkant.ressources[md.atomes[b]]+=pillatome;
+													atkant.points.pillage+=pillatome;
 													pillage_log[b]+=pillatome;
 												}else{
-													pillatome-=users[events[a].def].ressources[md.atomes[b]];
-													users[events[a].atk].ressources[md.atomes[b]]+=users[events[a].def].ressources[md.atomes[b]];
-													users[events[a].atk].points.pillage+=users[events[a].def].ressources[md.atomes[b]];
-													pillage_log[b]+=users[events[a].def].ressources[md.atomes[b]];
-													users[events[a].def].ressources[md.atomes[b]]=0;
+													pillatome-=defant.ressources[md.atomes[b]];
+													atkant.ressources[md.atomes[b]]+=defant.ressources[md.atomes[b]];
+													atkant.points.pillage+=defant.ressources[md.atomes[b]];
+													pillage_log[b]+=defant.ressources[md.atomes[b]];
+													defant.ressources[md.atomes[b]]=0;
 													rest_atomes[b]=false;
 													temp_rest_atome--;
 													restpillage+=pillatome;
@@ -270,14 +270,14 @@ module.exports={
 								for(let b of atkmols){
 									let mol={};
 									for(let c of md.atomes){
-										mol[c]=users[events[a].atk].molecules[b.molid][c];
+										mol[c]=atkant.molecules[b.molid][c];
 									}
 									mol.number=b.number;
 									atk_report.mol_restantes.push(mol);
 									def_report.mol_restantes.push(mol);
 								}
-								users[events[a].atk].raports.push(atk_report);
-								users[events[a].def].raports.push(def_report);
+								atkant.raports.push(atk_report);
+								defant.raports.push(def_report);
 								//Evenement de retour
 								let return_event={
 									"type":"return",
@@ -286,20 +286,20 @@ module.exports={
 									"used_mols":mol_used_by_atkant,
 									"rest_mols":[]
 								}
-								let dx=users[events[a].atk].positionX-users[events[a].def].positionX;
-								let dy=users[events[a].atk].positionY-users[events[a].def].positionY;
+								let dx=atkant.positionX-defant.positionX;
+								let dy=atkant.positionY-defant.positionY;
 								for(let b of atkmols){
 									return_event.rest_mols.push({
 										"molid":b.molid,
 										"number":b.number
 									});
-									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(users[events[a].atk],b.molid,7));
+									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(atkant,b.molid,7));
 								}
 								events.push(return_event);
 							}else if(atkmols.length==0){
 								//victoire de def
 								for(let b of mol_used_by_atkant){
-									users[events[a].atk].molecules_en_utilisation[b]--;
+									atkant.molecules_en_utilisation[b]--;
 								}
 								//Rapports
 								let atk_report={
@@ -327,13 +327,13 @@ module.exports={
 									"time":events[a].time
 								}
 								for(let b of defmols){
-									let mol=users[events[a].def].molecules[b.molid];
+									let mol=defant.molecules[b.molid];
 									mol.number=b.number;
 									atk_report.mol_restantes.push(mol);
 									def_report.mol_restantes.push(mol);
 								}
-								users[events[a].atk].raports.push(atk_report);
-								users[events[a].def].raports.push(def_report);
+								atkant.raports.push(atk_report);
+								defant.raports.push(def_report);
 							}
 							events[a]=null;
 						}else{
@@ -354,16 +354,17 @@ module.exports={
 						}
 						break;
 					case "molecule":
-						if(users[events[a].username]){
+						let user=users[events[a].username];
+						if(user){
 							elapsed_time=Date.now()-events[a].time;
 							mol_creatable=Math.floor(elapsed_time/events[a].create_time)+1;
 							time_in_more=elapsed_time%events[a].create_time;
 							if(events[a].rest_mols>mol_creatable){
 								events[a].rest_mols-=mol_creatable;
 								events[a].time=Date.now()+events[a].create_time-time_in_more;
-								users[events[a].username].molecules[events[a].molecule].number+=mol_creatable;
+								user.molecules[events[a].molecule].number+=mol_creatable;
 							}else{
-								users[events[a].username].molecules[events[a].molecule].number+=events[a].rest_mols;
+								user.molecules[events[a].molecule].number+=events[a].rest_mols;
 								events[a]=null;
 							}
 						}
@@ -389,7 +390,7 @@ module.exports={
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
-	usercheck:function(user,token){
+	usercheck:function(user,token=null){
 		let connections=JSON.parse(fs.readFileSync(process.env.storage_root+"connections.json"))
 		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
 		if(users[user]){
@@ -417,7 +418,10 @@ module.exports={
 			users[user].points.total=users[user].points.batiments;
 			users[user].lastUserCheck=Date.now();
 			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+			if(connections[token]==user){
+				return(users);
+			}
 		}
-		return (connections[token]==user)&&(connections[token]!=undefined)&&(users[user]);
+		return false;
 	}
 }
