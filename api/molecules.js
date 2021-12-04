@@ -4,32 +4,33 @@ const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'molecules',
 	POST:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"))
-		if(checkmodule.usercheck(body.username,body.token)){
-			if(users[body.username].molecules[body.mol_id]){
+		let users=checkmodule.usercheck(body.username,body.token)
+		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
+		if(users){
+			let user=users[body.username];
+			if(user.molecules[body.mol_id]){
 				if((typeof(body.mol_number)=="number")&&(body.mol_number!=0)){
 					let energy_cost=0;
-					energy_cost+=users[body.username].molecules[body.mol_id].carbone;
-					energy_cost+=users[body.username].molecules[body.mol_id].oxygene;
-					energy_cost+=users[body.username].molecules[body.mol_id].azote;
-					energy_cost+=users[body.username].molecules[body.mol_id].iode;
-					energy_cost+=users[body.username].molecules[body.mol_id].brome;
-					energy_cost+=users[body.username].molecules[body.mol_id].hydrogene;
-					energy_cost+=users[body.username].molecules[body.mol_id].soufre;
-					energy_cost+=users[body.username].molecules[body.mol_id].chlore;
+					energy_cost+=user.molecules[body.mol_id].carbone;
+					energy_cost+=user.molecules[body.mol_id].oxygene;
+					energy_cost+=user.molecules[body.mol_id].azote;
+					energy_cost+=user.molecules[body.mol_id].iode;
+					energy_cost+=user.molecules[body.mol_id].brome;
+					energy_cost+=user.molecules[body.mol_id].hydrogene;
+					energy_cost+=user.molecules[body.mol_id].soufre;
+					energy_cost+=user.molecules[body.mol_id].chlore;
 					energy_cost**=1.5;
 					energy_cost/=10;
 					if(
-					(users[body.username].molecules[body.mol_id].carbone*body.mol_number>users[body.username].ressources.carbone)||
-					(users[body.username].molecules[body.mol_id].oxygene*body.mol_number>users[body.username].ressources.oxygene)||
-					(users[body.username].molecules[body.mol_id].azote*body.mol_number>users[body.username].ressources.azote)||
-					(users[body.username].molecules[body.mol_id].iode*body.mol_number>users[body.username].ressources.iode)||
-					(users[body.username].molecules[body.mol_id].brome*body.mol_number>users[body.username].ressources.brome)||
-					(users[body.username].molecules[body.mol_id].hydrogene*body.mol_number>users[body.username].ressources.hydrogene)||
-					(users[body.username].molecules[body.mol_id].soufre*body.mol_number>users[body.username].ressources.soufre)||
-					(users[body.username].molecules[body.mol_id].chlore*body.mol_number>users[body.username].ressources.chlore)||
-					(energy_cost*body.mol_number>users[body.username].ressources.energie)
+					(user.molecules[body.mol_id].carbone*body.mol_number>user.ressources.carbone)||
+					(user.molecules[body.mol_id].oxygene*body.mol_number>user.ressources.oxygene)||
+					(user.molecules[body.mol_id].azote*body.mol_number>user.ressources.azote)||
+					(user.molecules[body.mol_id].iode*body.mol_number>user.ressources.iode)||
+					(user.molecules[body.mol_id].brome*body.mol_number>user.ressources.brome)||
+					(user.molecules[body.mol_id].hydrogene*body.mol_number>user.ressources.hydrogene)||
+					(user.molecules[body.mol_id].soufre*body.mol_number>user.ressources.soufre)||
+					(user.molecules[body.mol_id].chlore*body.mol_number>user.ressources.chlore)||
+					(energy_cost*body.mol_number>user.ressources.energie)
 					){
 						res.writeHead(402);
 						res.write("Not enough ressources");
@@ -46,26 +47,26 @@ module.exports = {
 						if(existing_mol_event<0){
 							event_mol={
 								"username":body.username,
-								"time":Date.now()+(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2),
+								"time":Date.now()+(1000*60*60)/md.power_atome(user,body.mol_id,2),
 								"type":"molecule",
 								"molecule":body.mol_id,
 								"rest_mols":body.mol_number,
-								"create_time":(1000*60*60)/md.power_atome(users[body.username],body.mol_id,2)
+								"create_time":(1000*60*60)/md.power_atome(user,body.mol_id,2)
 							};
 							events.push(event_mol);
 						}else{
 							events[existing_mol_event].rest_mols+=body.mol_number;
 						}
-						users[body.username].ressources.energie-=energy_cost*body.mol_number;
-						users[body.username].ressources.carbone-=users[body.username].molecules[body.mol_id].carbone*body.mol_number;
-						users[body.username].ressources.oxygene-=users[body.username].molecules[body.mol_id].oxygene*body.mol_number;
-						users[body.username].ressources.azote-=users[body.username].molecules[body.mol_id].azote*body.mol_number;
-						users[body.username].ressources.iode-=users[body.username].molecules[body.mol_id].iode*body.mol_number;
-						users[body.username].ressources.brome-=users[body.username].molecules[body.mol_id].brome*body.mol_number;
-						users[body.username].ressources.hydrogene-=users[body.username].molecules[body.mol_id].hydrogene*body.mol_number;
-						users[body.username].ressources.soufre-=users[body.username].molecules[body.mol_id].soufre*body.mol_number;
-						users[body.username].ressources.chlore-=users[body.username].molecules[body.mol_id].chlore*body.mol_number;
-						users[body.username].points.molecules_crees+=body.mol_number;
+						user.ressources.energie-=energy_cost*body.mol_number;
+						user.ressources.carbone-=user.molecules[body.mol_id].carbone*body.mol_number;
+						user.ressources.oxygene-=user.molecules[body.mol_id].oxygene*body.mol_number;
+						user.ressources.azote-=user.molecules[body.mol_id].azote*body.mol_number;
+						user.ressources.iode-=user.molecules[body.mol_id].iode*body.mol_number;
+						user.ressources.brome-=user.molecules[body.mol_id].brome*body.mol_number;
+						user.ressources.hydrogene-=user.molecules[body.mol_id].hydrogene*body.mol_number;
+						user.ressources.soufre-=user.molecules[body.mol_id].soufre*body.mol_number;
+						user.ressources.chlore-=user.molecules[body.mol_id].chlore*body.mol_number;
+						user.points.molecules_crees+=body.mol_number;
 						res.writeHead(200);
 						res.write("DONE");
 						res.end();
@@ -80,19 +81,20 @@ module.exports = {
 				res.write("Molecule not exist");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	PUT:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
-		if(checkmodule.usercheck(body.username,body.token)){
-			if(users[body.username].molecules[body.mol_id]==null){
-				if(10**(body.mol_id+1)>users[body.username].ressources.energie){
+		let users=checkmodule.usercheck(body.username,body.token);
+		if(users){
+			let user=users[body.username];
+			if(user.molecules[body.mol_id]==null){
+				if(10**(body.mol_id+1)>user.ressources.energie){
 					res.writeHead(402);
 					res.end();
 				}else{
@@ -105,7 +107,7 @@ module.exports = {
 						}
 					}
 					if(ok){
-						users[body.username].molecules[body.mol_id]={
+						user.molecules[body.mol_id]={
 							"carbone":Number(body.carbone),
 							"oxygene":Number(body.oxygene),
 							"azote":Number(body.azote),
@@ -116,7 +118,7 @@ module.exports = {
 							"chlore":Number(body.chlore),
 							"number":0
 						};
-						users[body.username].ressources.energie-=10**(body.mol_id+1);
+						user.ressources.energie-=10**(body.mol_id+1);
 						res.writeHead(200);
 						res.end();
 					}else{
@@ -130,24 +132,25 @@ module.exports = {
 				res.write("Molecule already exist");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 	},
 	DELETE:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
+		let users=checkmodule.usercheck(body.username,body.token);
 		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		if(checkmodule.usercheck(body.username,body.token)){
-			if(users[body.username].molecules[body.mol_id]){
-				if(users[body.username].molecules_en_utilisation[body.mol_id]>0){
+		if(users){
+			let user=users[body.username];
+			if(user.molecules[body.mol_id]){
+				if(user.molecules_en_utilisation[body.mol_id]>0){
 					res.writeHead(403);
 					res.write("You can't delete a molecule in battle");
 					res.end();
 				}else{
-					users[body.username].molecules[body.mol_id]=null;
+					user.molecules[body.mol_id]=null;
 					let b=0;
 					for(let a=0;a<events.length;a++){
 						if(events[b].type=="molecule"
@@ -166,12 +169,12 @@ module.exports = {
 				res.write("Molecule not exist");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	}
 }
