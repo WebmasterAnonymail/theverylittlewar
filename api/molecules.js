@@ -1,13 +1,10 @@
-const fs=require("fs");
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'molecules',
 	POST:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token)
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		if(users){
-			let user=users[body.username];
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			if(user.molecules[body.mol_id]){
 				if((typeof(body.mol_number)=="number")&&(body.mol_number!=0)){
 					let energy_cost=0;
@@ -37,10 +34,10 @@ module.exports = {
 						res.end();
 					}else{
 						let existing_mol_event=-1;
-						for(let a in events){
-							if(events[a].type=="molecule"
-							&&events[a].username==body.username
-							&&events[a].molecule==body.mol_id){
+						for(let a in dbs.events){
+							if(dbs.events[a].type=="molecule"
+							&&dbs.events[a].username==body.username
+							&&dbs.events[a].molecule==body.mol_id){
 								existing_mol_event=a;
 							}
 						}
@@ -53,9 +50,9 @@ module.exports = {
 								"rest_mols":body.mol_number,
 								"create_time":(1000*60*60)/md.power_atome(user,body.mol_id,2)
 							};
-							events.push(event_mol);
+							dbs.events.push(event_mol);
 						}else{
-							events[existing_mol_event].rest_mols+=body.mol_number;
+							dbs.events[existing_mol_event].rest_mols+=body.mol_number;
 						}
 						user.ressources.energie-=energy_cost*body.mol_number;
 						user.ressources.carbone-=user.molecules[body.mol_id].carbone*body.mol_number;
@@ -81,18 +78,15 @@ module.exports = {
 				res.write("Molecule not exist");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	PUT:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token);
-		if(users){
-			let user=users[body.username];
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			if(user.molecules[body.mol_id]==null){
 				if(10**(body.mol_id+1)>user.ressources.energie){
 					res.writeHead(402);
@@ -132,7 +126,6 @@ module.exports = {
 				res.write("Molecule already exist");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
@@ -140,10 +133,8 @@ module.exports = {
 		}
 	},
 	DELETE:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token);
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		if(users){
-			let user=users[body.username];
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			if(user.molecules[body.mol_id]){
 				if(user.molecules_en_utilisation[body.mol_id]>0){
 					res.writeHead(403);
@@ -152,11 +143,11 @@ module.exports = {
 				}else{
 					user.molecules[body.mol_id]=null;
 					let b=0;
-					for(let a=0;a<events.length;a++){
-						if(events[b].type=="molecule"
-						&&events[b].username==body.username
-						&&events[b].molecule==body.mol_id){
-							events.splice(b,1);
+					for(let a=0;a<dbs.events.length;a++){
+						if(dbs.events[b].type=="molecule"
+						&&dbs.events[b].username==body.username
+						&&dbs.events[b].molecule==body.mol_id){
+							dbs.events.splice(b,1);
 							b--
 						}
 						b++;
@@ -169,12 +160,10 @@ module.exports = {
 				res.write("Molecule not exist");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	}
 }

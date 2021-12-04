@@ -1,18 +1,13 @@
-//var bodydServer=nano("http://webmaster31anonymail:rns2F2kcXR@couchdb.cloudno.de:5984/theverylittlewar")
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
-const fs=require("fs");
 module.exports = {
 	name:'users',
 	GET:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
 		switch(body.mode){
 			case "detailed":
 				if(checkmodule.usercheck(body.username,body.token)){
 						res.writeHead(200,{'Content-Type':'application/json'});
-						data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-						res.write(JSON.stringify(data[body.username]));
+						res.write(JSON.stringify(dbs.users[body.username]));
 						res.end();
 				}else{
 					res.writeHead(401);
@@ -22,7 +17,7 @@ module.exports = {
 				break;
 			case "list":
 				let response=[];
-				for(let a in data){
+				for(let a in dbs.users){
 					response.push(a);
 				}
 				res.writeHead(200,{'Content-Type':'application/json'});
@@ -30,17 +25,17 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
-				if(data[body.user]){
+				if(dbs.users[body.user]){
 					let response={
-						"points":data[body.user].points,
-						"positionX":data[body.user].positionX,
-						"positionY":data[body.user].positionY,
-						"alliance":data[body.user].alliance,
-						"description":data[body.user].description,
-						"victoires":data[body.user].ressources.victoires,
-						"permission":data[body.user].permission,
-						"actif":data[body.user].actif,
-						"lastUserCheck":data[body.user].lastUserCheck
+						"points":dbs.users[body.user].points,
+						"positionX":dbs.users[body.user].positionX,
+						"positionY":dbs.users[body.user].positionY,
+						"alliance":dbs.users[body.user].alliance,
+						"description":dbs.users[body.user].description,
+						"victoires":dbs.users[body.user].ressources.victoires,
+						"permission":dbs.users[body.user].permission,
+						"actif":dbs.users[body.user].actif,
+						"lastUserCheck":dbs.users[body.user].lastUserCheck
 					}
 					res.writeHead(200,{'Content-Type':'application/json'});
 					res.write(JSON.stringify(response));
@@ -54,7 +49,7 @@ module.exports = {
 			case "events":
 				if(checkmodule.usercheck(body.username,body.token)){
 					let response=[];
-					for(let event of events){
+					for(let event of dbs.events){
 						switch(event.type){
 							case "amelioration":
 								if(event.username==body.username){
@@ -107,14 +102,13 @@ module.exports = {
 		}
 	},
 	PUT:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		if(body.username&&body.password){
-			if(data[body.username]){
+			if(dbs.users[body.username]){
 				res.writeHead(409,{'Content-Type':'application/json'});
 				res.write("{error:\"Already used\"}");
 				res.end();
 			}else{
-				data[body.username]={
+				dbs.users[body.username]={
 					"password":body.password,
 					"ressources":{
 						"energie":500,
@@ -197,20 +191,17 @@ module.exports = {
 			res.write("Aucun nom d'utilisateur ou aucun mot de passe");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(data));
 	},
 	PATCH:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
 		if(checkmodule.usercheck(body.username,body.token)){
 			switch(body.action){
 				case "add_invit":
-					if(users[body.target]){
-						let invite_team=users[body.username].alliance;
-						if(teams[invite_team]){
-							if(users[body.target].invitations.indexOf(invite_team)<0){
+					if(dbs.users[body.target]){
+						let invite_team=dbs.users[body.username].alliance;
+						if(dbs.teams[invite_team]){
+							if(dbs.users[body.target].invitations.indexOf(invite_team)<0){
 								if(md.has_team_permission(body.username,"inviter")){
-									users[body.target].invitations.push(invite_team);
+									dbs.users[body.target].invitations.push(invite_team);
 									res.writeHead(200);
 									res.end();
 								}else{
@@ -235,17 +226,17 @@ module.exports = {
 					}
 					break;
 				case "expel_user":
-					if(users[body.target]){
-						if(teams[users[body.username].alliance]){
-							if(teams[users[body.username].alliance].membres.indexOf(body.target)<0){
+					if(dbs.users[body.target]){
+						if(dbs.teams[dbs.users[body.username].alliance]){
+							if(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.target)<0){
 								res.writeHead(404);
 								res.write("Target user not in team");
 								res.end();
 							}else{
-								if(body.target!=teams[users[body.username].alliance].chef){
+								if(body.target!=dbs.teams[dbs.users[body.username].alliance].chef){
 									if(md.has_team_permission(body.username,"expulser")){
-										teams[users[body.username].alliance].membres.splice(teams[users[body.username].alliance].membres.indexOf(body.target),1);
-										users[body.target].alliance=null;
+										dbs.teams[dbs.users[body.username].alliance].membres.splice(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.target),1);
+										dbs.users[body.target].alliance=null;
 										res.writeHead(200);
 										res.end();
 									}else{
@@ -271,15 +262,15 @@ module.exports = {
 					}
 					break;
 				case "transfer_team":
-					if(users[body.target]){
-						if(teams[users[body.username].alliance]){
-							if(teams[users[body.username].alliance].membres.indexOf(body.target)<0){
+					if(dbs.users[body.target]){
+						if(dbs.teams[dbs.users[body.username].alliance]){
+							if(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.target)<0){
 								res.writeHead(404);
 								res.write("Target user not in team");
 								res.end();
 							}else{
-								if(body.username==teams[users[body.username].alliance].chef){
-									teams[users[body.username].alliance].chef=body.target;
+								if(body.username==dbs.teams[dbs.users[body.username].alliance].chef){
+									dbs.teams[dbs.users[body.username].alliance].chef=body.target;
 									res.writeHead(200);
 									res.end();
 								}else{
@@ -300,16 +291,16 @@ module.exports = {
 					}
 					break;
 				case "accept_invit":
-					if(users[body.username].invitations.indexOf(body.invit)<0){
+					if(dbs.users[body.username].invitations.indexOf(body.invit)<0){
 						res.writeHead(404);
 						res.write("Invit not exist");
 						res.end();
 					}else{
-						if(teams[body.invit]){
-							if(teams[body.invit].membres.length<25){
-								users[body.username].alliance=body.invit;
-								teams[body.invit].membres.push(body.username);
-								users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
+						if(dbs.teams[body.invit]){
+							if(dbs.teams[body.invit].membres.length<25){
+								dbs.users[body.username].alliance=body.invit;
+								dbs.teams[body.invit].membres.push(body.username);
+								dbs.users[body.username].invitations.splice(dbs.users[body.username].invitations.indexOf(body.invit),1);
 								res.writeHead(200);
 								res.end();
 							}else{
@@ -318,7 +309,7 @@ module.exports = {
 								res.end();
 							}
 						}else{
-							users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
+							dbs.users[body.username].invitations.splice(dbs.users[body.username].invitations.indexOf(body.invit),1);
 							res.writeHead(410);
 							res.write("The team not exist more");
 							res.end();
@@ -326,30 +317,30 @@ module.exports = {
 					}
 					break;
 				case "decline_invit":
-					if(users[body.username].invitations.indexOf(body.invit)<0){
+					if(dbs.users[body.username].invitations.indexOf(body.invit)<0){
 						res.writeHead(404);
 						res.write("Invit not exist");
 						res.end();
 					}else{
-						users[body.username].invitations.splice(users[body.username].invitations.indexOf(body.invit),1);
+						dbs.users[body.username].invitations.splice(dbs.users[body.username].invitations.indexOf(body.invit),1);
 						res.writeHead(200);
 						res.end();
 					}
 					break;
 				case "leave_team":
-					if(teams[users[body.username].alliance]){
-						if(teams[users[body.username].alliance].chef==body.username){
+					if(dbs.teams[dbs.users[body.username].alliance]){
+						if(dbs.teams[dbs.users[body.username].alliance].chef==body.username){
 							res.writeHead(403);
 							res.write("You are the chief");
 							res.end();
 						}else{
-							for(let a in teams[users[body.username].alliance].grades){
-								if(teams[users[body.username].alliance].grades[a].posseseur==body.username){
-									delete teams[users[body.username].alliance].grades[a];
+							for(let a in dbs.teams[dbs.users[body.username].alliance].grades){
+								if(dbs.teams[dbs.users[body.username].alliance].grades[a].posseseur==body.username){
+									delete dbs.teams[dbs.users[body.username].alliance].grades[a];
 								}
 							}
-							teams[users[body.username].alliance].membres.splice(teams[users[body.username].alliance].membres.indexOf(body.username),1);
-							users[body.username].alliance=null;
+							dbs.teams[dbs.users[body.username].alliance].membres.splice(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.username),1);
+							dbs.users[body.username].alliance=null;
 							res.writeHead(200);
 							res.end();
 						}
@@ -362,14 +353,14 @@ module.exports = {
 				case "delete_report":
 					let retranche=0;
 					for(let a of body.reports){
-						users[body.username].raports.splice(a-retranche,1);
+						dbs.users[body.username].raports.splice(a-retranche,1);
 						retranche++;
 					}
 					res.writeHead(200);
 					res.end();
 					break;
 				case "read_report":
-					users[body.username].raports[body.report].readed=true;
+					dbs.users[body.username].raports[body.report].readed=true;
 					res.writeHead(200);
 					res.end();
 					break;
@@ -379,11 +370,8 @@ module.exports = {
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
-		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	},
 	DELETE:(req,res,body)=>{
-		let data=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(data));
+		
 	}
 }

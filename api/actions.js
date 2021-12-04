@@ -1,22 +1,18 @@
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
-const fs=require("fs");
 module.exports = {
 	name:'actions',
 	GET:(req,res,body)=>{
 		
 	},
 	PUT:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token);
-		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		if(users){
-			let user=users[body.username];
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			switch(body.action){
 				case "attaquer_user":
-					if(users[body.target]){
+					if(dbs.users[body.target]){
 						if(body.target!=body.username){
-							if(users[body.target].actif){
+							if(dbs.users[body.target].actif){
 								let OK1=true;
 								for(let a=0;a<5;a++){
 									if(body["mol"+a]==null){
@@ -37,8 +33,8 @@ module.exports = {
 									}
 								}
 								if(OK1){
-									let dx=users[body.target].positionX-user.positionX;
-									let dy=users[body.target].positionY-user.positionY;
+									let dx=dbs.users[body.target].positionX-user.positionX;
+									let dy=dbs.users[body.target].positionY-user.positionY;
 									event_cmb={
 										"def":body.target,
 										"atk":body.username,
@@ -55,7 +51,7 @@ module.exports = {
 										}
 									}
 									user.points.combats++;
-									events.push(event_cmb);
+									dbs.events.push(event_cmb);
 									res.writeHead(200,{'Content-Type':'application/json'});
 									res.end();
 								}else{
@@ -80,13 +76,10 @@ module.exports = {
 					}
 					break;
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
-		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	}
 }

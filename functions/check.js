@@ -1,31 +1,28 @@
-const fs=require("fs");
 const md=require("./miscdatas.js")
 module.exports={
 	eventcheck:function(){
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
 		let a_suprimer=[];
-		for(let a in events){
-			if(events[a].time<Date.now()){
-				switch(events[a].type){
+		for(let a in dbs.events){
+			if(dbs.events[a].time<Date.now()){
+				switch(dbs.events[a].type){
 					case "amelioration":
-						if(users[events[a].username]){
-							users[events[a].username].batiments[events[a].batiment]++;
-							users[events[a].username].points.batiments+=md.points_batiments[events[a].batiment];
-							if(md.batiment_pveurs.indexOf(events[a].batiment)>=0){
-								if(events[a].batiment=="protecteur"){
-									users[events[a].username].PV_batiments.protecteur=10**(users[events[a].username].batiments.protecteur/20)*10*users[events[a].username].batiments.protecteur;
+						if(dbs.users[dbs.events[a].username]){
+							dbs.users[dbs.events[a].username].batiments[dbs.events[a].batiment]++;
+							dbs.users[dbs.events[a].username].points.batiments+=md.points_batiments[dbs.events[a].batiment];
+							if(md.batiment_pveurs.indexOf(dbs.events[a].batiment)>=0){
+								if(dbs.events[a].batiment=="protecteur"){
+									dbs.users[dbs.events[a].username].PV_batiments.protecteur=10**(dbs.users[dbs.events[a].username].batiments.protecteur/20)*10*dbs.users[dbs.events[a].username].batiments.protecteur;
 								}else{
-									users[events[a].username].PV_batiments[events[a].batiment]=10**(users[events[a].username].batiments[events[a].batiment]/20)*1000;
+									dbs.users[dbs.events[a].username].PV_batiments[dbs.events[a].batiment]=10**(dbs.users[dbs.events[a].username].batiments[dbs.events[a].batiment]/20)*1000;
 								}
 							}
-							users[events[a].username].batiment_en_amelioration.splice(users[events[a].username].batiment_en_amelioration.indexOf(events[a].batiment),1);
+							dbs.users[dbs.events[a].username].batiment_en_amelioration.splice(dbs.users[dbs.events[a].username].batiment_en_amelioration.indexOf(dbs.events[a].batiment),1);
 						}
-						events[a]=null;
+						dbs.events[a]=null;
 						break;
 					case "combat":
-						let atkant=users[events[a].atk];
-						let defant=users[events[a].def];
+						let atkant=dbs.users[dbs.events[a].atk];
+						let defant=dbs.users[dbs.events[a].def];
 						if(atkant&&defant){
 							let mol_used_by_atkant=[];
 							let defmols=[];
@@ -39,9 +36,9 @@ module.exports={
 										"molid":b
 									});
 								}
-								if(atkant.molecules[b]&&events[a].mols[b]>0){
+								if(atkant.molecules[b]&&dbs.events[a].mols[b]>0){
 									atkmols.push({
-										"number":events[a].mols[b],
+										"number":dbs.events[a].mols[b],
 										"deg":md.power_atome(atkant,b,1),
 										"PV":md.power_atome(atkant,b,4),
 										"molid":b
@@ -131,10 +128,10 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
-									"defant":events[a].def,
-									"atkant":events[a].atk,
+									"defant":dbs.events[a].def,
+									"atkant":dbs.events[a].atk,
 									"win":null,
-									"time":events[a].time
+									"time":dbs.events[a].time
 								}
 								let def_report={
 									"readed":false,
@@ -143,10 +140,10 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
-									"defant":events[a].def,
-									"atkant":events[a].atk,
+									"defant":dbs.events[a].def,
+									"atkant":dbs.events[a].atk,
 									"win":null,
-									"time":events[a].time
+									"time":dbs.events[a].time
 								}
 								atkant.raports.push(atk_report);
 								defant.raports.push(def_report);
@@ -250,10 +247,10 @@ module.exports={
 									"pillage":pillage_log,
 									"destruction":destruction_log,
 									"mol_restantes":[],
-									"defant":events[a].def,
-									"atkant":events[a].atk,
+									"defant":dbs.events[a].def,
+									"atkant":dbs.events[a].atk,
 									"win":"atk",
-									"time":events[a].time
+									"time":dbs.events[a].time
 								}
 								let def_report={
 									"readed":false,
@@ -262,10 +259,10 @@ module.exports={
 									"pillage":pillage_log,
 									"destruction":destruction_log,
 									"mol_restantes":[],
-									"defant":events[a].def,
-									"atkant":events[a].atk,
+									"defant":dbs.events[a].def,
+									"atkant":dbs.events[a].atk,
 									"win":"atk",
-									"time":events[a].time
+									"time":dbs.events[a].time
 								}
 								for(let b of atkmols){
 									let mol={};
@@ -282,7 +279,7 @@ module.exports={
 								let return_event={
 									"type":"return",
 									"time":0,
-									"username":events[a].atk,
+									"username":dbs.events[a].atk,
 									"used_mols":mol_used_by_atkant,
 									"rest_mols":[]
 								}
@@ -295,7 +292,7 @@ module.exports={
 									});
 									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(atkant,b.molid,7));
 								}
-								events.push(return_event);
+								dbs.events.push(return_event);
 							}else if(atkmols.length==0){
 								//victoire de def
 								for(let b of mol_used_by_atkant){
@@ -309,10 +306,10 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
-									"defant":events[a].def,
-									"atkant":events[a].atk,
+									"defant":dbs.events[a].def,
+									"atkant":dbs.events[a].atk,
 									"win":"def",
-									"time":events[a].time
+									"time":dbs.events[a].time
 								}
 								let def_report={
 									"readed":false,
@@ -321,10 +318,10 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
-									"defant":events[a].def,
-									"atkant":events[a].atk,
+									"defant":dbs.events[a].def,
+									"atkant":dbs.events[a].atk,
 									"win":"def",
-									"time":events[a].time
+									"time":dbs.events[a].time
 								}
 								for(let b of defmols){
 									let mol=defant.molecules[b.molid];
@@ -335,37 +332,37 @@ module.exports={
 								atkant.raports.push(atk_report);
 								defant.raports.push(def_report);
 							}
-							events[a]=null;
+							dbs.events[a]=null;
 						}else{
-							events[a]=null;
+							dbs.events[a]=null;
 						}
 						break;
 					case "return":
-						if(users[[events[a].username]]){
-							for(let b of events[a].used_mols){
-								users[events[a].username].molecules_en_utilisation[b]--;
+						if(dbs.users[[dbs.events[a].username]]){
+							for(let b of dbs.events[a].used_mols){
+								dbs.users[dbs.events[a].username].molecules_en_utilisation[b]--;
 							}
-							for(let b of events[a].rest_mols){
-								users[events[a].username].molecules[b.molid].number+=b.number;
+							for(let b of dbs.events[a].rest_mols){
+								dbs.users[dbs.events[a].username].molecules[b.molid].number+=b.number;
 							}
-							events[a]=null;
+							dbs.events[a]=null;
 						}else{
-							events[a]=null;
+							dbs.events[a]=null;
 						}
 						break;
 					case "molecule":
-						let user=users[events[a].username];
+						let user=dbs.users[dbs.events[a].username];
 						if(user){
-							elapsed_time=Date.now()-events[a].time;
-							mol_creatable=Math.floor(elapsed_time/events[a].create_time)+1;
-							time_in_more=elapsed_time%events[a].create_time;
-							if(events[a].rest_mols>mol_creatable){
-								events[a].rest_mols-=mol_creatable;
-								events[a].time=Date.now()+events[a].create_time-time_in_more;
-								user.molecules[events[a].molecule].number+=mol_creatable;
+							elapsed_time=Date.now()-dbs.events[a].time;
+							mol_creatable=Math.floor(elapsed_time/dbs.events[a].create_time)+1;
+							time_in_more=elapsed_time%dbs.events[a].create_time;
+							if(dbs.events[a].rest_mols>mol_creatable){
+								dbs.events[a].rest_mols-=mol_creatable;
+								dbs.events[a].time=Date.now()+dbs.events[a].create_time-time_in_more;
+								user.molecules[dbs.events[a].molecule].number+=mol_creatable;
 							}else{
-								user.molecules[events[a].molecule].number+=events[a].rest_mols;
-								events[a]=null;
+								user.molecules[dbs.events[a].molecule].number+=dbs.events[a].rest_mols;
+								dbs.events[a]=null;
 							}
 						}
 						break;
@@ -379,47 +376,42 @@ module.exports={
 			}
 		}
 		let b=0;
-		let l=events.length;
+		let l=dbs.events.length;
 		for(let a=0;a<l;a++){
-			if(events[b]==null){
-				events.splice(b,1);
+			if(dbs.events[b]==null){
+				dbs.events.splice(b,1);
 				b--;
 			}
 			b++;
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
-		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	usercheck:function(user,token=null){
-		let connections=JSON.parse(fs.readFileSync(process.env.storage_root+"connections.json"))
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
-		if(users[user]){
-			let tempEcoule=Date.now()-users[user].lastUserCheck;
+		if(dbs.users[user]){
+			let tempEcoule=Date.now()-dbs.users[user].lastUserCheck;
 			for(let a in md.atomes){
-				users[user].ressources[md.atomes[a]]+=(10**(users[user].batiments.producteur/15)*10)*(users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
-				users[user].ressources[md.atomes[a]]=Math.min(10**(users[user].batiments.stockage/15)*100*(users[user].QG.production[a]/4),users[user].ressources[md.atomes[a]]);
+				dbs.users[user].ressources[md.atomes[a]]+=(10**(dbs.users[user].batiments.producteur/15)*10)*(dbs.users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
+				dbs.users[user].ressources[md.atomes[a]]=Math.min(10**(dbs.users[user].batiments.stockage/15)*100*(dbs.users[user].QG.production[a]/4),dbs.users[user].ressources[md.atomes[a]]);
 			}
-			users[user].ressources["energie"]+=(10**(users[user].batiments.generateur/15)*100)*(tempEcoule/(1000*60*60));
-			users[user].ressources["energie"]=Math.min(10**(users[user].batiments.stockage/15)*1000,users[user].ressources["energie"]);
+			dbs.users[user].ressources["energie"]+=(10**(dbs.users[user].batiments.generateur/15)*100)*(tempEcoule/(1000*60*60));
+			dbs.users[user].ressources["energie"]=Math.min(10**(dbs.users[user].batiments.stockage/15)*1000,dbs.users[user].ressources["energie"]);
 			for(let a=0;a<5;a++){
-				if(users[user].molecules[a]){
-					let old_mol=users[user].molecules[a].number;
-					users[user].molecules[a].number/=2**((tempEcoule/(1000*60))/md.power_atome(users[user],a,3));
-					users[user].points.pertes_temps+=old_mol-users[user].molecules[a].number;
+				if(dbs.users[user].molecules[a]){
+					let old_mol=dbs.users[user].molecules[a].number;
+					dbs.users[user].molecules[a].number/=2**((tempEcoule/(1000*60))/md.power_atome(dbs.users[user],a,3));
+					dbs.users[user].points.pertes_temps+=old_mol-dbs.users[user].molecules[a].number;
 				}
 			}
 			for(let a in md.medailles){
 				for(let b=0;b<10;b++){
-					if(users[user].points[md.points_medailles[a]]>=md.multiplacateur_medailles[a]*md.seuils_medailes[b]){
-						users[user].medailles[md.medailles[a]]=b;
+					if(dbs.users[user].points[md.points_medailles[a]]>=md.multiplacateur_medailles[a]*md.seuils_medailes[b]){
+						dbs.users[user].medailles[md.medailles[a]]=b;
 					}
 				}
 			}
-			users[user].points.total=users[user].points.batiments;
-			users[user].lastUserCheck=Date.now();
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
-			if(connections[token]==user){
-				return(users);
+			dbs.users[user].points.total=dbs.users[user].points.batiments;
+			dbs.users[user].lastUserCheck=Date.now();
+			if(dbs.connections[token]==user){
+				return(dbs.users);
 			}
 		}
 		return false;

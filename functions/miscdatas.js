@@ -1,4 +1,3 @@
-const fs=require("fs");
 module.exports.atomes=[
 	"carbone",
 	"oxygene",
@@ -98,10 +97,8 @@ module.exports.power_atome=function(utilisateur,molecule,atome){
 	return result;
 }
 module.exports.has_team_permission=function(username,permission){
-	let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-	let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-	let user=users[username];
-	let team=teams[user.alliance]
+	let user=dbs.users[username];
+	let team=dbs.teams[user.alliance]
 	let res=false;
 	if(team.chef==username){
 		res=true;

@@ -1,26 +1,22 @@
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
-const fs=require("fs");
 module.exports = {
 	name:'teams',
 	GET:(req,res,body)=>{
-		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"));
-		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
 		switch(body.mode){
 			case "detailed":
 				if(checkmodule.usercheck(body.username,body.token)){
-					if(users[body.username].alliance){
-						let data=teams[users[body.username].alliance];
+					if(dbs.users[body.username].alliance){
+						let data=dbs.teams[dbs.users[body.username].alliance];
 						if(data){
 							res.writeHead(200,{'Content-Type':'application/json'});
 							res.write(JSON.stringify(data));
 							res.end();
 						}else{
-							users.alliance=null;
+							dbs.users.alliance=null;
 							res.writeHead(410);
 							res.write("Team not exist more");
 							res.end();
-							fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 						}
 					}else{
 						res.writeHead(404);
@@ -35,7 +31,7 @@ module.exports = {
 				break;
 			case "list":
 				let response=[];
-				for(let a in teams){
+				for(let a in dbs.teams){
 					if(a!="NONETEAM"){
 						response.push(a);
 					}
@@ -47,21 +43,21 @@ module.exports = {
 			case "one":
 				let sum=0;
 				let nb_membres=0;
-				if(teams[body.team]){
-					for(let a of teams[body.team].membres){
-						if(users[a].actif){
-							sum+=users[a].points.total;
+				if(dbs.teams[body.team]){
+					for(let a of dbs.teams[body.team].membres){
+						if(dbs.users[a].actif){
+							sum+=dbs.users[a].points.total;
 							nb_membres++;
 						}
 					}
 					let response={
-						"membres":teams[body.team].membres,
-						"chef":teams[body.team].chef,
-						"grades":teams[body.team].grades,
-						"description":teams[body.team].description,
-						"diplomatie":teams[body.team].diplomatie,
-						"victoires":teams[body.team].ressources.victoires,
-						"color":teams[body.team].color,
+						"membres":dbs.teams[body.team].membres,
+						"chef":dbs.teams[body.team].chef,
+						"grades":dbs.teams[body.team].grades,
+						"description":dbs.teams[body.team].description,
+						"diplomatie":dbs.teams[body.team].diplomatie,
+						"victoires":dbs.teams[body.team].ressources.victoires,
+						"color":dbs.teams[body.team].color,
 						"somme":sum,
 						"moyenne":sum/nb_membres
 					}
@@ -77,18 +73,16 @@ module.exports = {
 		}
 	},
 	PUT:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token);
-		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-		if(users){
-			let user=users[body.username];
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			if(body.name_team){
-				if(teams[body.name_team]){
+				if(dbs.teams[body.name_team]){
 					res.writeHead(409);
 					res.write("Already used");
 					res.end();
 				}else{
 					if(user.ressources.energie>=100000){
-						teams[body.name_team]={
+						dbs.teams[body.name_team]={
 							"membres":[body.username],
 							"chef":body.username,
 							"grades":{},
@@ -127,24 +121,20 @@ module.exports = {
 				res.write("Please give an team name");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	},
 	PATCH:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token);
-		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-		if(users){
-			let user=users[body.username];
-			if(teams[user.alliance]){
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
+			if(dbs.teams[user.alliance]){
 				switch(body.action){
 					case "change_description":
 						if(md.has_team_permission(body.username,"description")){
-							teams[user.alliance].description=body.description;
+							dbs.teams[user.alliance].description=body.description;
 							res.writeHead(200);
 							res.end();
 						}else{
@@ -157,7 +147,7 @@ module.exports = {
 						if(md.has_team_permission(body.username,"description")){
 							hexacolor=/^#[0-9a-fA-F]{6}$/;
 							if(hexacolor.test(body.color)){
-								teams[user.alliance].color=body.color;
+								dbs.teams[user.alliance].color=body.color;
 								res.writeHead(200);
 								res.end();
 							}else{
@@ -174,17 +164,17 @@ module.exports = {
 					case "add_grade":
 						if(md.has_team_permission(body.username,"grades")){
 							if(body.grade){
-								if(teams[user.alliance].membres.indexOf(body.posseseur)<0){
+								if(dbs.teams[user.alliance].membres.indexOf(body.posseseur)<0){
 									res.writeHead(404);
 									res.write("User is not in team");
 									res.end();
 								}else{
-									if(teams[user.alliance].grades[body.grade]){
+									if(dbs.teams[user.alliance].grades[body.grade]){
 										res.writeHead(409);
 										res.write("Grade already exist");
 										res.end();
 									}else{
-										teams[user.alliance].grades[body.grade]={
+										dbs.teams[user.alliance].grades[body.grade]={
 											"posseseur":body.posseseur,
 											"guerre":body.guerre,
 											"pacte":body.pacte,
@@ -211,8 +201,8 @@ module.exports = {
 						break;
 					case "delete_grade":
 						if(md.has_team_permission(body.username,"grades")){
-							if(teams[user.alliance].grades[body.grade]){
-								delete teams[user.alliance].grades[body.grade]
+							if(dbs.teams[user.alliance].grades[body.grade]){
+								delete dbs.teams[user.alliance].grades[body.grade]
 								res.writeHead(200);
 								res.end();
 							}else{
@@ -232,20 +222,16 @@ module.exports = {
 				res.write("You have no team");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	},
 	POST:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token)
-		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
-		if(users){
-			let user=users[body.username];
-			if(teams[user.alliance]){
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
+			if(dbs.teams[user.alliance]){
 				switch(body.action){
 					case "give":
 						let OK=true;
@@ -271,7 +257,7 @@ module.exports = {
 							if(OK){
 								for(let c of md.ressources){
 									user.ressources[c]-=body[c];
-									teams[user.alliance].ressources[c]+=body[c];
+									dbs.teams[user.alliance].ressources[c]+=body[c];
 									res.writeHead(200);
 									res.end();
 								}
@@ -306,7 +292,7 @@ module.exports = {
 							for(let b of md.ressources){
 								at_push[b]=body[b];
 							}
-							teams[user.alliance].requetes_ressources.push(at_push);
+							dbs.teams[user.alliance].requetes_ressources.push(at_push);
 							res.writeHead(200);
 							res.end();
 						}else{
@@ -317,24 +303,24 @@ module.exports = {
 						break;
 					case "accept_donnation":
 						if(md.has_team_permission(body.username,"finance")){
-							if(body.donnation_id<teams[user.alliance].requetes_ressources.length){
+							if(body.donnation_id<dbs.teams[user.alliance].requetes_ressources.length){
 								let OK2=true;
 								for(let a of md.ressources){
-									if(teams[user.alliance].requetes_ressources[body.donnation_id][a]>teams[user.alliance].ressources[a]){
+									if(dbs.teams[user.alliance].requetes_ressources[body.donnation_id][a]>dbs.teams[user.alliance].ressources[a]){
 										OK2=false;
 									}
 								}
 								if(OK2){
-									if(teams[user.alliance].membres.indexOf(teams[user.alliance].requetes_ressources[body.donnation_id].who)<0){
+									if(dbs.teams[user.alliance].membres.indexOf(dbs.teams[user.alliance].requetes_ressources[body.donnation_id].who)<0){
 										res.writeHead(410);
 										res.write("User left the team");
 										res.end();
 									}else{
 										for(let b of md.ressources){
-											users[teams[user.alliance].requetes_ressources[body.donnation_id].who].ressources[b]+=teams[user.alliance].requetes_ressources[body.donnation_id][b];
-											teams[user.alliance].ressources[b]-=teams[user.alliance].requetes_ressources[body.donnation_id][b];
+											dbs.users[dbs.teams[user.alliance].requetes_ressources[body.donnation_id].who].ressources[b]+=dbs.teams[user.alliance].requetes_ressources[body.donnation_id][b];
+											dbs.teams[user.alliance].ressources[b]-=dbs.teams[user.alliance].requetes_ressources[body.donnation_id][b];
 										}
-										teams[user.alliance].requetes_ressources.splice(body.donnation_id,1);
+										dbs.teams[user.alliance].requetes_ressources.splice(body.donnation_id,1);
 										res.writeHead(200);
 										res.end();
 									}
@@ -356,8 +342,8 @@ module.exports = {
 						break;
 					case "reject_donnation":
 						if(md.has_team_permission(body.username,"finance")){
-							if(body.donnation_id<teams[user.alliance].requetes_ressources){
-								teams[user.alliance].requetes_ressources.splice(body.donnation_id,1);
+							if(body.donnation_id<dbs.teams[user.alliance].requetes_ressources){
+								dbs.teams[user.alliance].requetes_ressources.splice(body.donnation_id,1);
 								res.writeHead(200);
 								res.end();
 							}else{
@@ -373,9 +359,9 @@ module.exports = {
 						break;
 					case "new_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
-							if(teams[body.pacte]){
-								if(teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
-									teams[user.alliance].diplomatie.pactes.push(body.pacte);
+							if(dbs.teams[body.pacte]){
+								if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
+									dbs.teams[user.alliance].diplomatie.pactes.push(body.pacte);
 									res.writeHead(200);
 									res.end();
 								}else{
@@ -396,12 +382,12 @@ module.exports = {
 						break;
 					case "delete_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
-							if(teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
+							if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
 								res.writeHead(404);
 								res.write("Pact not exist");
 								res.end();
 							}else{
-								teams[user.alliance].diplomatie.pactes.splice(teams[user.alliance].diplomatie.pactes.indexOf(body.pacte),1);
+								dbs.teams[user.alliance].diplomatie.pactes.splice(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte),1);
 								res.writeHead(200);
 								res.end();
 							}
@@ -413,9 +399,9 @@ module.exports = {
 						break;
 					case "new_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
-							if(teams[body.guerre]){
-								if(teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
-									teams[user.alliance].diplomatie.guerres.push(body.guerre);
+							if(dbs.teams[body.guerre]){
+								if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
+									dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
 									res.writeHead(200);
 									res.end();
 								}else{
@@ -436,12 +422,12 @@ module.exports = {
 						break;
 					case "delete_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
-							if(teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
+							if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
 								res.writeHead(404);
 								res.write("War not exist");
 								res.end();
 							}else{
-								teams[user.alliance].diplomatie.guerres.splice(teams[user.alliance].diplomatie.guerres.indexOf(body.guerre),1);
+								dbs.teams[user.alliance].diplomatie.guerres.splice(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre),1);
 								res.writeHead(200);
 								res.end();
 							}
@@ -455,20 +441,20 @@ module.exports = {
 						if(md.has_team_permission(body.username,"finance")){
 							let OK3=true;
 							for(let a of md.ressources){
-								if(body[a]>teams[user.alliance].ressources[a]){
+								if(body[a]>dbs.teams[user.alliance].ressources[a]){
 									OK3=false;
 								}
 							}
 							if(OK3){
-								if(teams[body.target]){
-									if(teams[user.alliance].diplomatie.pactes.indexOf(body.target)<0){
+								if(dbs.teams[body.target]){
+									if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.target)<0){
 										res.writeHead(409);
 										res.write("You need to have a pact with the team");
 										res.end();
 									}else{
 										for(let b of md.ressources){
-											teams[body.target].ressources[b]+=body[b];
-											teams[user.alliance].ressources[b]-=body[b];
+											dbs.teams[body.target].ressources[b]+=body[b];
+											dbs.teams[user.alliance].ressources[b]-=body[b];
 										}
 										res.writeHead(200);
 										res.end();
@@ -495,12 +481,10 @@ module.exports = {
 				res.write("You have no team");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401);
 			res.write("Not connected");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"teams.json",JSON.stringify(teams));
 	}
 }

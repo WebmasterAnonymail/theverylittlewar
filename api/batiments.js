@@ -1,13 +1,10 @@
-const fs=require("fs");
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js")
 module.exports = {
 	name:'batiments',
 	POST:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token);
-		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
-		if(users){
-			let user=users[body.username];
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			if(user.batiments[body.batiment]!==undefined){
 				if(user.batiment_en_amelioration.indexOf(body.batiment)<0){
 					switch(body.batiment){
@@ -23,7 +20,7 @@ module.exports = {
 								};
 								user.batiment_en_amelioration.push("generateur");
 								user.ressources.energie-=(10**(user.batiments.generateur/15)*100);
-								events.push(event_amel);
+								dbs.events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
 							}else{
@@ -53,7 +50,7 @@ module.exports = {
 								for(a of md.atomes){
 									user.ressources[a]-=10**(user.batiments.producteur/15)*10;
 								}
-								events.push(event_amel);
+								dbs.events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
 							}else{
@@ -84,7 +81,7 @@ module.exports = {
 								for(a of md.atomes){
 									user.ressources[a]-=10**(user.batiments.stockage/15)*10;
 								}
-								events.push(event_amel);
+								dbs.events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
 							}else{
@@ -101,7 +98,7 @@ module.exports = {
 									"batiment":"protecteur",
 								};
 								user.batiment_en_amelioration.push("protecteur");
-								events.push(event_amel);
+								dbs.events.push(event_amel);
 								res.writeHead(200,{'Content-Type':'application/json'});
 								res.end();
 							}else{
@@ -120,7 +117,7 @@ module.exports = {
 									};
 									user.batiment_en_amelioration.push(body.batiment);
 									user.ressources[md.atomes[md.batiment_augmentateurs.indexOf(body.batiment)]]-=(user.batiments[body.batiment]+1)**3;
-									events.push(event_amel);
+									dbs.events.push(event_amel);
 									res.writeHead(200,{'Content-Type':'application/json'});
 									res.end();
 								}else{
@@ -143,18 +140,15 @@ module.exports = {
 				res.write("{error:\"no batiment named '"+body.batiment+"'\"");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401,{'Content-Type':'application/json'});
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	PATCH:(req,res,body)=>{
-		let users=checkmodule.usercheck(body.username,body.token);
-		if(users){
-			let user=users[body.username];
+		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			let check=true;
 			for(let a of ["production","pillage","destruction"]){
 				if(body[a] instanceof Array){
@@ -200,7 +194,6 @@ module.exports = {
 				res.write("{error:\"Not valid input\"}");
 				res.end();
 			}
-			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401,{'Content-Type':'application/json'});
 			res.write("{error:\"Not connected\"}");
