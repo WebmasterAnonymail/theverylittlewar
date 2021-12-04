@@ -11,7 +11,7 @@ module.exports = {
 		let teams=JSON.parse(fs.readFileSync(process.env.storage_root+"teams.json"));
 		let events=JSON.parse(fs.readFileSync(process.env.storage_root+"events.json"));
 		if(users){
-			user=users[body.username];
+			let user=users[body.username];
 			switch(body.action){
 				case "attaquer_user":
 					if(users[body.target]){
