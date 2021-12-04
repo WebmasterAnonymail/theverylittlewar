@@ -185,17 +185,18 @@ module.exports={
 													atkant.points.destruction+=destrbatiment;
 													destruction_log[b]+=destrbatiment/(10**(defant.batiments[md.batiments[b]]/20)*1000);
 												}else{
-													destrbatiment-=defant.PV_batiments[md.batiments[b]];
-													atkant.points.destruction+=defant.PV_batiments[md.batiments[b]];
-													destruction_log[b]=Math.floor(destruction_log[b])+1;
-													defant.batiments[md.batiments[b]]--;
-													defant.points.batiments-=1;
-													defant.PV_batiments[md.batiments[b]]=10**(defant.batiments[md.batiments[b]]/20)*1000;
 													if(defant.batiments[md.batiments[b]]==0){
 														rest_batiments[b]=false;
 														temp_rest_batiment--;
+													}else{
+														destrbatiment-=defant.PV_batiments[md.batiments[b]];
+														atkant.points.destruction+=defant.PV_batiments[md.batiments[b]];
+														destruction_log[b]=Math.floor(destruction_log[b])+1;
+														defant.batiments[md.batiments[b]]--;
+														defant.points.batiments-=1;
+														defant.PV_batiments[md.batiments[b]]=10**(defant.batiments[md.batiments[b]]/20)*1000;
+														restdestruction+=destrbatiment;
 													}
-													restdestruction+=destrbatiment;
 												}
 											}
 										}
