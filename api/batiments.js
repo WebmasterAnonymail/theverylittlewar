@@ -143,12 +143,12 @@ module.exports = {
 				res.write("{error:\"no batiment named '"+body.batiment+"'\"");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401,{'Content-Type':'application/json'});
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
 	PATCH:(req,res,body)=>{
@@ -200,11 +200,11 @@ module.exports = {
 				res.write("{error:\"Not valid input\"}");
 				res.end();
 			}
+			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		}else{
 			res.writeHead(401,{'Content-Type':'application/json'});
 			res.write("{error:\"Not connected\"}");
 			res.end();
 		}
-		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 	}
 }
