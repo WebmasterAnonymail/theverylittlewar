@@ -389,7 +389,7 @@ module.exports={
 		fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
 		fs.writeFileSync(process.env.storage_root+"events.json",JSON.stringify(events));
 	},
-	usercheck:function(user,token){
+	usercheck:function(user,token=null){
 		let connections=JSON.parse(fs.readFileSync(process.env.storage_root+"connections.json"))
 		let users=JSON.parse(fs.readFileSync(process.env.storage_root+"users.json"))
 		if(users[user]){
@@ -417,7 +417,10 @@ module.exports={
 			users[user].points.total=users[user].points.batiments;
 			users[user].lastUserCheck=Date.now();
 			fs.writeFileSync(process.env.storage_root+"users.json",JSON.stringify(users));
+			if(connections[token]==user){
+				return(users);
+			}
 		}
-		return (connections[token]==user)&&(connections[token]!=undefined)&&(users[user]);
+		return false;
 	}
 }
