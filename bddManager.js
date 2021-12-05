@@ -27,7 +27,7 @@ function doHttpRequest(method,host,path,data,callback=(()=>{})){
 			if(res.statusCode==200){
 				callback(data);
 			}else{
-				console.error(res.statusCode)
+				console.error(res.statusCode);
 			}
 		});
 	});
@@ -40,7 +40,7 @@ function doHttpRequest(method,host,path,data,callback=(()=>{})){
 function requestDB(dbname){
 	doHttpRequest("GET","jsonblob.com","/api/jsonBlob/"+dblocation[dbname],"",data=>{
 		dbs[dbname]=JSON.parse(data);
-		console.debug("["+dbname+"] : GOT")
+		console.debug("["+dbname+"] : GOT");
 	});
 }
 function updateDB(dbname){
@@ -58,5 +58,5 @@ module.exports=function(){
 		for(a in dbs){
 			updateDB(a);
 		}
-	},5000)
+	},10000)
 }
