@@ -155,9 +155,9 @@ module.exports = {
 						"total":0
 					},
 					"PV_batiments":{
-						"generateur":0,
-						"producteur":0,
-						"stockage":0,
+						"generateur":1000,
+						"producteur":1000,
+						"stockage":1000,
 						"protecteur":0
 					},
 					"molecules":[null,null,null,null,null],
