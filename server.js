@@ -9,10 +9,3 @@ console.log("Démarage");
 httpServer.listen(process.env.app_port||process.env.PORT||process.env.port||8000);
 wsServer.on("connection",handler.ws);
 bddManager();
-//	fs.writeFileSync(process.env.storage_root+"","{}");
-if(process.env.reset_files=="yes"){
-	fs.writeFileSync(process.env.storage_root+"events.json","[]");
-	fs.writeFileSync(process.env.storage_root+"users.json","{}");
-	fs.writeFileSync(process.env.storage_root+"teams.json","{}");
-	fs.writeFileSync(process.env.storage_root+"connections.json","{}");
-}
