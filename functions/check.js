@@ -402,14 +402,15 @@ module.exports={
 					dbs.users[user].points.pertes_temps+=old_mol-dbs.users[user].molecules[a].number;
 				}
 			}
+			dbs.users[user].points.total=dbs.users[user].points.batiments;
 			for(let a in md.medailles){
 				for(let b=0;b<10;b++){
 					if(dbs.users[user].points[md.points_medailles[a]]>=md.multiplacateur_medailles[a]*md.seuils_medailes[b]){
 						dbs.users[user].medailles[md.medailles[a]]=b;
 					}
 				}
+				dbs.users[user].points.total+=dbs.users[user].points[md.points_medailles[a]]/md.multiplacateur_medailles[a]/10;
 			}
-			dbs.users[user].points.total=dbs.users[user].points.batiments;
 			dbs.users[user].lastUserCheck=Date.now();
 			if(dbs.connections[token]==user){
 				return(dbs.users);

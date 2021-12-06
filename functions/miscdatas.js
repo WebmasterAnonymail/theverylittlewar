@@ -60,7 +60,7 @@ module.exports.batiment_pveurs=[
 	"protecteur"
 ];
 module.exports.seuils_medailes=[1,2,5,10,20,50,100,200,500,1000];
-module.exports.multiplacateur_medailles=[1000,1000,100,50,50,1000,1000,1];
+module.exports.multiplacateur_medailles=[10000,10000,100,50,50,10000,10000,1];
 module.exports.points_medailles=[
 	"defense",
 	"attaque",
