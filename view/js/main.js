@@ -137,7 +137,7 @@ function act_preview(){
 				document.getElementById("preview_"+a).innerText=affichageRessources(xhr.response.ressources[a]);
 				document.getElementById("preview_"+a).title=Math.floor(xhr.response.ressources[a]);
 			}
-			document.getElementById("preview_points").innerText=xhr.response.points.total;
+			document.getElementById("preview_points").innerText=Math.floor(xhr.response.points.total);
 		}else{
 			alert("ERROR in getting user : code "+xhr.status);
 		}

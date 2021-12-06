@@ -36,7 +36,7 @@ function post_getuser_action(){
 					}else{
 						document.getElementById("preview_team").innerText=data.team;
 					}
-					document.getElementById("preview_points").innerText=data.points;
+					document.getElementById("preview_points").innerText=Math.floor(data.points);
 					if(selectedPreview){
 						document.getElementById("c"+selectedPreviewX+","+selectedPreviewY).classList.remove("selected");
 					}
