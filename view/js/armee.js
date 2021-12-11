@@ -51,6 +51,19 @@ window.onload=function(event){
 			}
 		});
 		document.forms.create_mol_form.reset();
+		for(let a of atomes){
+			let res="1";
+			if(a=="azote"){
+				res+=" mol/h"
+			}
+			if(a=="iode"){
+				res="1min (demi vie)"
+			}
+			if(a=="chlore"){
+				res+=" case/h"
+			}
+			document.getElementById(a+"_effet").innerText=res;
+		}
 		create_mol_id=null;
 		document.getElementById("create_mol_popup").style.display="none";
 	});
@@ -60,13 +73,13 @@ window.onload=function(event){
 		document.getElementById("create_mol_popup").style.display="none";
 	});
 	for(let a of atomes){
-		document.forms.create_mol_form[a].addEventListener("change",function(){
-			let res=affichageRessources(Math.max(1,Math.asin(create_mol_form[a].valueAsNumber/200)/Math.PI*2000));
+		document.forms.create_mol_form[a].addEventListener("input",function(){
+			let res=affichageRessources(Math.max(1,Math.asin((create_mol_form[a].valueAsNumber||0)/200)/Math.PI*2000));
 			if(a=="azote"){
 				res+=" mol/h"
 			}
 			if(a=="iode"){
-				res=affichageTemps(Math.max(1,Math.asin(create_mol_form[a].valueAsNumber/200)/Math.PI*2000)*60000)+"(demi vie)"
+				res=affichageTemps(Math.max(1,Math.asin((create_mol_form[a].valueAsNumber||0)/200)/Math.PI*2000)*60000)+"(demi vie)"
 			}
 			if(a=="chlore"){
 				res+=" case/h"
@@ -107,14 +120,14 @@ window.onload=function(event){
 				}
 			});
 		});
-		document.getElementById("new_mol"+a+"_number").addEventListener("change",function(event){
+		document.getElementById("new_mol"+a+"_number").addEventListener("input",function(event){
 			let prix_mol=0;
 			for(let b of atomes){
 				prix_mol+=user.molecules[a][b];
 			}
 			prix_mol**=1.5;
 			prix_mol/=10;
-			document.getElementById("prix_new_mol"+a).innerText=affichageRessources(prix_mol*document.getElementById("new_mol"+a+"_number").valueAsNumber);
+			document.getElementById("prix_new_mol"+a).innerText=affichageRessources(prix_mol*(document.getElementById("new_mol"+a+"_number").valueAsNumber||0));
 		});
 	}
 }

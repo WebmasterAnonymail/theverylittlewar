@@ -6,6 +6,11 @@
 	font-family: "BigTitle";
 	src: url("../font/Title.ttf") format("truetype");
 }
+@property --rainbow-main-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
 @keyframes rainbow{
 	0% {color: hsl(0deg 100% 50%)}
 	17% {color: hsl(60deg 100% 50%)}
@@ -14,6 +19,15 @@
 	67% {color: hsl(240deg 100% 50%)}
 	83% {color: hsl(300deg 100% 50%)}
 	100% {color: hsl(360deg 100% 50%)}
+}
+@keyframes suprarainbow{
+	0% {--rainbow-main-angle: 0deg}
+	17% {--rainbow-main-angle: 60deg}
+	33% {--rainbow-main-angle: 120deg}
+	50% {--rainbow-main-angle: 180deg}
+	67% {--rainbow-main-angle: 240deg}
+	83% {--rainbow-main-angle: 300deg}
+	100% {--rainbow-main-angle: 360deg}
 }
 /* @media (max-width:750px){ */
 	/* #small_content{ */
@@ -33,10 +47,16 @@
 		height: 90%;
 	}
 }
-:root{
+*{
+	--rainbow-main-angle: 0deg;
 	--argent-color: #cecece;
 	--or-color: #d9a710;
 	--platine-color: #faf0c5;
+	animation-name: suprarainbow;
+	animation-duration: 2500ms;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
 }
 iframe{
 	height: 100%;
@@ -141,6 +161,17 @@ rainbow{
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 	animation-direction: normal;
+}
+suprarainbow{
+	background-image: linear-gradient(90deg,
+		hsl(calc(var(--rainbow-main-angle0)+0deg) 100% 50%),
+		hsl(calc(var(--rainbow-main-angle)+60deg) 100% 50%),
+		hsl(calc(var(--rainbow-main-angle)+120deg) 100% 50%),
+		hsl(calc(var(--rainbow-main-angle)+180deg) 100% 50%),
+		hsl(calc(var(--rainbow-main-angle)+240deg) 100% 50%),
+		hsl(calc(var(--rainbow-main-angle)+300deg) 100% 50%),
+		hsl(calc(var(--rainbow-main-angle)+360deg) 100% 50%)
+	);
 }
 fieldset{
 	border-radius: 10px;
