@@ -6,11 +6,6 @@
 	font-family: "BigTitle";
 	src: url("../font/Title.ttf") format("truetype");
 }
-@property --rainbow-main-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
 @keyframes rainbow{
 	0% {color: hsl(0deg 100% 50%)}
 	17% {color: hsl(60deg 100% 50%)}
@@ -161,17 +156,6 @@ rainbow{
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 	animation-direction: normal;
-}
-suprarainbow{
-	background-image: linear-gradient(90deg,
-		hsl(calc(var(--rainbow-main-angle0)+0deg) 100% 50%),
-		hsl(calc(var(--rainbow-main-angle)+60deg) 100% 50%),
-		hsl(calc(var(--rainbow-main-angle)+120deg) 100% 50%),
-		hsl(calc(var(--rainbow-main-angle)+180deg) 100% 50%),
-		hsl(calc(var(--rainbow-main-angle)+240deg) 100% 50%),
-		hsl(calc(var(--rainbow-main-angle)+300deg) 100% 50%),
-		hsl(calc(var(--rainbow-main-angle)+360deg) 100% 50%)
-	);
 }
 fieldset{
 	border-radius: 10px;
