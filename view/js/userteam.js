@@ -23,7 +23,7 @@ function view_user(user){
 				document.getElementById("user_team").innerText="Aucune";
 				document.getElementById("team_link").onclick=null;
 			}
-			document.getElementById("user_points").innerText=xhr.response.points.total;
+			document.getElementById("user_points").innerText=Math.floor(xhr.response.points.total);
 			document.getElementById("user_victory").innerText=xhr.response.victoires;
 			document.getElementById("user_position").innerText=xhr.response.positionX+";"+xhr.response.positionY;
 			document.getElementById("user_last_connexion").innerText="Il y a "+affichageTemps(Date.now()-xhr.response.lastUserCheck);
@@ -43,8 +43,8 @@ function view_team(team){
 	use_api("GET","teams",{"mode":"one","team":team},false,function(xhr){
 		if(xhr.status==200){
 			document.getElementById("team_name").innerText=team;
-			document.getElementById("team_points").innerText=xhr.response.moyenne;
-			document.getElementById("team_somme").innerText=xhr.response.somme;
+			document.getElementById("team_points").innerText=Math.floor(xhr.response.moyenne);
+			document.getElementById("team_somme").innerText=Math.floor(xhr.response.somme);
 			document.getElementById("team_victory").innerText=xhr.response.victoires;
 			document.getElementById("team_chief").innerText=xhr.response.chef;
 			document.getElementById("chief_link").onclick=function(){
