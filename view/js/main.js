@@ -207,7 +207,7 @@ function act_preview(){
 			alert("ERROR in getting user's events : code "+xhr.status);
 		}
 	});
-	setTimeout(act_preview,2500)
+	setTimeout(act_preview,100)
 }
 function use_api(method,api,data,in_body,callback){
 	let api_xhr=new XMLHttpRequest();
@@ -238,50 +238,38 @@ function use_api(method,api,data,in_body,callback){
 	});
 }
 window.addEventListener("load",function(ev){
-	let check_connect_xhr=new XMLHttpRequest();
-	let at_send=new URLSearchParams();
-	at_send.append("token",localStorage.getItem("token"));
-	check_connect_xhr.open("GET","/api/v1/connect?"+at_send.toString());
-	check_connect_xhr.responseType="json";
-	check_connect_xhr.send();
-	check_connect_xhr.addEventListener("readystatechange",function(ev){
-		if(check_connect_xhr.readyState==check_connect_xhr.DONE){
-			if(check_connect_xhr.response.connected){
-				username=check_connect_xhr.response.username;
-				if(/(^\/$)|(\/main.html$)/.test(document.location.pathname)){
-					document.getElementById("popup_mask").addEventListener("click",(ev)=>{
-						document.getElementById("popup_mask").style.display="none";
-						document.getElementById(opened_popup_id).setAttribute("open","no");
-					});
-					document.getElementById("notifbar").addEventListener("click",(ev)=>{
-						document.getElementById("notifbar").setAttribute("open","yes");
-						document.getElementById("popup_mask").style.display="block";
-						opened_popup_id="notifbar";
-					});
-					act_preview();
-				}else{
-					if(window.parent!=window.top){
-						setInterval(function(){
-							use_api("GET","users",{"mode":"detailed"},false,function(xhr){
-								if(xhr.status==200){
-									user=xhr.response;
-									if(window.post_getuser_action){
-										post_getuser_action();
-									}
-								}else{
-									alert("ERROR in getting user : code "+xhr.status);
-								}
-							});
-						},1000);
+	if(/(^\/$)|(\/main.html$)/.test(document.location.pathname)){
+		let check_connect_xhr=new XMLHttpRequest();
+		let at_send=new URLSearchParams();
+		at_send.append("token",localStorage.getItem("token"));
+		check_connect_xhr.open("GET","/api/v1/connect?"+at_send.toString());
+		check_connect_xhr.responseType="json";
+		check_connect_xhr.send();
+		check_connect_xhr.addEventListener("readystatechange",function(ev){
+			if(check_connect_xhr.readyState==check_connect_xhr.DONE){
+				if(check_connect_xhr.response.connected){
+					username=check_connect_xhr.response.username;
+					for(a=0;a<9;a++){
+						frames[a].username=check_connect_xhr.response.username;
 					}
-				}
-			}else{
-				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){
+					if(/(^\/$)|(\/main.html$)/.test(document.location.pathname)){
+						document.getElementById("popup_mask").addEventListener("click",(ev)=>{
+							document.getElementById("popup_mask").style.display="none";
+							document.getElementById(opened_popup_id).setAttribute("open","no");
+						});
+						document.getElementById("notifbar").addEventListener("click",(ev)=>{
+							document.getElementById("notifbar").setAttribute("open","yes");
+							document.getElementById("popup_mask").style.display="block";
+							opened_popup_id="notifbar";
+						});
+						act_preview();
+					}
+				}else{
 					document.location.replace("html/accueil.html");
 				}
 			}
-		}
-	});
+		});
+	}
 	let list_users_xhr=new XMLHttpRequest();
 	let at_send2=new URLSearchParams();
 	at_send2.append("mode","list");
@@ -318,6 +306,31 @@ window.addEventListener("load",function(ev){
 			document.body.appendChild(team_autocomplete_list);
 		}
 	});
+	if(window.parent!=window.top){
+		let check_connect_xhr=new XMLHttpRequest();
+		let at_send=new URLSearchParams();
+		at_send.append("token",localStorage.getItem("token"));
+		check_connect_xhr.open("GET","/api/v1/connect?"+at_send.toString());
+		check_connect_xhr.responseType="json";
+		check_connect_xhr.send();
+		check_connect_xhr.addEventListener("readystatechange",function(ev){
+			if(check_connect_xhr.readyState==check_connect_xhr.DONE){
+				username=check_connect_xhr.response.username;
+			}
+		});
+		setInterval(function(){
+			use_api("GET","users",{"mode":"detailed"},false,function(xhr){
+				if(xhr.status==200){
+					user=xhr.response;
+					if(window.post_getuser_action){
+						post_getuser_action();
+					}
+				}else{
+					alert("ERROR in getting user : code "+xhr.status);
+				}
+			});
+		},1000);
+	}
 })
 function open_iframe(iframeid){
 	let iframe=document.getElementById("iframe"+iframeid);
