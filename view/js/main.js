@@ -269,43 +269,47 @@ window.addEventListener("load",function(ev){
 				}
 			}
 		});
+		let list_users_xhr=new XMLHttpRequest();
+		let at_send2=new URLSearchParams();
+		at_send2.append("mode","list");
+		list_users_xhr.open("GET","/api/v1/users?"+at_send2.toString());
+		list_users_xhr.responseType="json";
+		list_users_xhr.send();
+		list_users_xhr.addEventListener("readystatechange",function(ev){
+			if(list_users_xhr.readyState==list_users_xhr.DONE){
+				for(a=0;a<9;a++){
+					let user_autocomplete_list=frames[a].document.createElement("datalist");
+					user_autocomplete_list.id="user_autocomplete_list";
+					for(let a of list_users_xhr.response){
+						let user_element=frames[a].document.createElement("option");
+						user_element.innerHTML=a;
+						user_autocomplete_list.appendChild(user_element);
+					}
+					frames[a].document.body.appendChild(user_autocomplete_list);
+				}
+			}
+		});
+		let list_teams_xhr=new XMLHttpRequest();
+		let at_send3=new URLSearchParams();
+		at_send3.append("mode","list");
+		list_teams_xhr.open("GET","/api/v1/teams?"+at_send3.toString());
+		list_teams_xhr.responseType="json";
+		list_teams_xhr.send();
+		list_teams_xhr.addEventListener("readystatechange",function(ev){
+			if(list_teams_xhr.readyState==list_teams_xhr.DONE){
+				for(a=0;a<9;a++){
+					let team_autocomplete_list=frames[a].document.createElement("datalist");
+					team_autocomplete_list.id="team_autocomplete_list";
+					for(let a of list_teams_xhr.response){
+						let team_element=frames[a].document.createElement("option");
+						team_element.innerHTML=a;
+						team_autocomplete_list.appendChild(team_element);
+					}
+					frames[a].document.body.appendChild(team_autocomplete_list);
+				}
+			}
+		});
 	}
-	let list_users_xhr=new XMLHttpRequest();
-	let at_send2=new URLSearchParams();
-	at_send2.append("mode","list");
-	list_users_xhr.open("GET","/api/v1/users?"+at_send2.toString());
-	list_users_xhr.responseType="json";
-	list_users_xhr.send();
-	list_users_xhr.addEventListener("readystatechange",function(ev){
-		if(list_users_xhr.readyState==list_users_xhr.DONE){
-			let user_autocomplete_list=document.createElement("datalist");
-			user_autocomplete_list.id="user_autocomplete_list";
-			for(let a of list_users_xhr.response){
-				let user_element=document.createElement("option");
-				user_element.innerHTML=a;
-				user_autocomplete_list.appendChild(user_element);
-			}
-			document.body.appendChild(user_autocomplete_list);
-		}
-	});
-	let list_teams_xhr=new XMLHttpRequest();
-	let at_send3=new URLSearchParams();
-	at_send3.append("mode","list");
-	list_teams_xhr.open("GET","/api/v1/teams?"+at_send3.toString());
-	list_teams_xhr.responseType="json";
-	list_teams_xhr.send();
-	list_teams_xhr.addEventListener("readystatechange",function(ev){
-		if(list_teams_xhr.readyState==list_teams_xhr.DONE){
-			let team_autocomplete_list=document.createElement("datalist");
-			team_autocomplete_list.id="team_autocomplete_list";
-			for(let a of list_teams_xhr.response){
-				let team_element=document.createElement("option");
-				team_element.innerHTML=a;
-				team_autocomplete_list.appendChild(team_element);
-			}
-			document.body.appendChild(team_autocomplete_list);
-		}
-	});
 	if(window.parent!=window.top){
 		let check_connect_xhr=new XMLHttpRequest();
 		let at_send=new URLSearchParams();
@@ -330,6 +334,42 @@ window.addEventListener("load",function(ev){
 				}
 			});
 		},1000);
+		let list_users_xhr=new XMLHttpRequest();
+		let at_send2=new URLSearchParams();
+		at_send2.append("mode","list");
+		list_users_xhr.open("GET","/api/v1/users?"+at_send2.toString());
+		list_users_xhr.responseType="json";
+		list_users_xhr.send();
+		list_users_xhr.addEventListener("readystatechange",function(ev){
+			if(list_users_xhr.readyState==list_users_xhr.DONE){
+				let user_autocomplete_list=document.createElement("datalist");
+				user_autocomplete_list.id="user_autocomplete_list";
+				for(let a of list_users_xhr.response){
+					let user_element=document.createElement("option");
+					user_element.innerHTML=a;
+					user_autocomplete_list.appendChild(user_element);
+				}
+				document.body.appendChild(user_autocomplete_list);
+			}
+		});
+		let list_teams_xhr=new XMLHttpRequest();
+		let at_send3=new URLSearchParams();
+		at_send3.append("mode","list");
+		list_teams_xhr.open("GET","/api/v1/teams?"+at_send3.toString());
+		list_teams_xhr.responseType="json";
+		list_teams_xhr.send();
+		list_teams_xhr.addEventListener("readystatechange",function(ev){
+			if(list_teams_xhr.readyState==list_teams_xhr.DONE){
+				let team_autocomplete_list=document.createElement("datalist");
+				team_autocomplete_list.id="team_autocomplete_list";
+				for(let a of list_teams_xhr.response){
+					let team_element=document.createElement("option");
+					team_element.innerHTML=a;
+					team_autocomplete_list.appendChild(team_element);
+				}
+				document.body.appendChild(team_autocomplete_list);
+			}
+		});
 	}
 })
 function open_iframe(iframeid){
