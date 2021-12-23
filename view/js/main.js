@@ -277,15 +277,15 @@ window.addEventListener("load",function(ev){
 		list_users_xhr.send();
 		list_users_xhr.addEventListener("readystatechange",function(ev){
 			if(list_users_xhr.readyState==list_users_xhr.DONE){
-				for(a=0;a<9;a++){
-					let user_autocomplete_list=frames[a].document.createElement("datalist");
+				for(b=0;b<9;b++){
+					let user_autocomplete_list=frames[b].document.createElement("datalist");
 					user_autocomplete_list.id="user_autocomplete_list";
 					for(let a of list_users_xhr.response){
-						let user_element=frames[a].document.createElement("option");
+						let user_element=frames[b].document.createElement("option");
 						user_element.innerHTML=a;
 						user_autocomplete_list.appendChild(user_element);
 					}
-					frames[a].document.body.appendChild(user_autocomplete_list);
+					frames[b].document.body.appendChild(user_autocomplete_list);
 				}
 			}
 		});
@@ -297,15 +297,15 @@ window.addEventListener("load",function(ev){
 		list_teams_xhr.send();
 		list_teams_xhr.addEventListener("readystatechange",function(ev){
 			if(list_teams_xhr.readyState==list_teams_xhr.DONE){
-				for(a=0;a<9;a++){
-					let team_autocomplete_list=frames[a].document.createElement("datalist");
+				for(b=0;b<9;b++){
+					let team_autocomplete_list=frames[b].document.createElement("datalist");
 					team_autocomplete_list.id="team_autocomplete_list";
 					for(let a of list_teams_xhr.response){
-						let team_element=frames[a].document.createElement("option");
+						let team_element=frames[b].document.createElement("option");
 						team_element.innerHTML=a;
 						team_autocomplete_list.appendChild(team_element);
 					}
-					frames[a].document.body.appendChild(team_autocomplete_list);
+					frames[b].document.body.appendChild(team_autocomplete_list);
 				}
 			}
 		});
