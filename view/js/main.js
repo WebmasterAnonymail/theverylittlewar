@@ -207,7 +207,7 @@ function act_preview(){
 			alert("ERROR in getting user's events : code "+xhr.status);
 		}
 	});
-	setTimeout(act_preview,100)
+	setTimeout(act_preview,1000)
 }
 function use_api(method,api,data,in_body,callback){
 	let api_xhr=new XMLHttpRequest();
