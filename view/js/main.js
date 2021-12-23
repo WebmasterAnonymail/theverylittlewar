@@ -138,6 +138,12 @@ function act_preview(){
 				document.getElementById("preview_"+a).title=Math.floor(xhr.response.ressources[a]);
 			}
 			document.getElementById("preview_points").innerText=Math.floor(xhr.response.points.total);
+			for(a=0;a<9;a++){
+				frames[a].user=xhr.response;
+				if(frames[a].post_getuser_action){
+					frames[a].post_getuser_action();
+				}
+			}
 		}else{
 			alert("ERROR in getting user : code "+xhr.status);
 		}
@@ -203,28 +209,6 @@ function act_preview(){
 	});
 	setTimeout(act_preview,2500)
 }
-function act_user(){
-	let api_xhr=new XMLHttpRequest();
-	let at_send=new URLSearchParams();
-	at_send.append("mode","detailed");
-	at_send.append("token",localStorage.getItem("token"));
-	at_send.append("username",username);
-	api_xhr.open("GET","/api/v1/users?"+at_send.toString());
-	api_xhr.responseType="json";
-	api_xhr.send();
-	api_xhr.addEventListener("readystatechange",function(ev){
-		if(api_xhr.readyState==api_xhr.DONE){
-			if(api_xhr.status==200){
-				user=api_xhr.response;
-				if(window.post_getuser_action){
-					post_getuser_action();
-				}
-			}else{
-				alert("ERROR in getting user : code "+api_xhr.status);
-			}
-		}
-	});
-}
 function use_api(method,api,data,in_body,callback){
 	let api_xhr=new XMLHttpRequest();
 	if(in_body){
@@ -274,11 +258,22 @@ window.addEventListener("load",function(ev){
 						document.getElementById("popup_mask").style.display="block";
 						opened_popup_id="notifbar";
 					});
-					
 					act_preview();
 				}else{
-					act_user();
-					setInterval(act_user,10000)
+					if(window.parent!=window.top){
+						setInterval(function(){
+							use_api("GET","users",{"mode":"detailed"},false,function(xhr){
+								if(xhr.status==200){
+									user=xhr.response;
+									if(window.post_getuser_action){
+										post_getuser_action();
+									}
+								}else{
+									alert("ERROR in getting user : code "+xhr.status);
+								}
+							});
+						},1000);
+					}
 				}
 			}else{
 				if(/(^\/$)|(main.html$)/.test(document.location.pathname)){
