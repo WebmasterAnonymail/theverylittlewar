@@ -12,7 +12,7 @@ module.exports = {
 							if(
 							user.ressources.energie>=(10**(user.batiments.generateur/15)*100)
 							){
-								event_amel={
+								let event_amel={
 									"username":body.username,
 									"time":new Date().getTime()+(Math.log2(user.batiments.generateur+1)*10*(60*1000)),
 									"type":"amelioration",

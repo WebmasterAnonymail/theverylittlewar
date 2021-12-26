@@ -88,7 +88,7 @@ window.onload=()=>{
 		document.getElementById(batiments[a]+"_bouton").addEventListener("click",function(event){
 			use_api("POST","batiments",{"batiment":batiments[a]},true,function(xhr){
 				if(xhr.status==200){
-					act_user();
+					window.top.act_preview();
 				}else if(xhr.status==402){
 					alert("Pas assez de ressources")
 				}else if(xhr.status==409){

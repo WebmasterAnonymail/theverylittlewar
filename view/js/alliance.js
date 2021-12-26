@@ -195,7 +195,7 @@ function post_getuser_action(){
 					leave_button.addEventListener("click",function(){
 						use_api("PATCH","users",{"action":"leave_team"},true,function(xhr){
 							if(xhr.status==200){
-								act_user();
+								window.top.act_preview();
 							}else{
 								alert("ERROR in leaving team : code "+xhr.status);
 							}
@@ -275,7 +275,7 @@ function post_getuser_action(){
 						};
 						use_api("PATCH","teams",datas,true,function(xhr){
 							if(xhr.status==200){
-								act_user();
+								window.top.act_preview();
 							}else{
 								alert("ERROR in deleting grade : code "+xhr.status);
 							}
@@ -306,7 +306,7 @@ function post_getuser_action(){
 						button_action1.addEventListener("click",function(){
 							use_api("POST","teams",{"action":"accept_donnation","donnation_id":requete},true,function(xhr){
 								if(xhr.status==200){
-									act_user();
+									window.top.act_preview();
 								}else if(xhr.status==402){
 									alert("L'alliance n'a pas assez de ressources");
 								}else if(xhr.status==410){
@@ -325,7 +325,7 @@ function post_getuser_action(){
 						button_action2.addEventListener("click",function(){
 							use_api("POST","teams",{"action":"reject_donnation","donnation_id":requete},true,function(xhr){
 								if(xhr.status==200){
-									act_user();
+									window.top.act_preview();
 								}else{
 									alert("ERROR in rejecting donnation : code "+xhr.status);
 								}
@@ -360,7 +360,7 @@ function post_getuser_action(){
 						}
 						use_api("POST","teams",datas,true,function(xhr){
 							if(xhr.status==200){
-								act_user();
+								window.top.act_preview();
 							}else{
 								alert("ERROR in deleting pact : code "+xhr.status);
 							}
@@ -389,7 +389,7 @@ function post_getuser_action(){
 						}
 						use_api("POST","teams",datas,true,function(xhr){
 							if(xhr.status==200){
-								act_user();
+								window.top.act_preview();
 							}else{
 								alert("ERROR in deleting war : code "+xhr.status);
 							}
@@ -401,7 +401,7 @@ function post_getuser_action(){
 				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
-				act_user();
+				window.top.act_preview();
 			}else{
 				alert("ERROR in getting team : code "+xhr.status);
 			}
@@ -420,12 +420,12 @@ function post_getuser_action(){
 			accept_button.addEventListener("click",function(){
 				use_api("PATCH","users",{"action":"accept_invit","invit":invit},true,function(xhr){
 					if(xhr.status==200){
-						act_user();
+						window.top.act_preview();
 					}else if(xhr.status==507){
 						alert("Equipe complete (limite a 25 membres)");
 					}else if(xhr.status==410){
 						alert("L'equipe n'existe plus");
-						act_user();
+						window.top.act_preview();
 					}else{
 						alert("ERROR in accepting invit : code "+xhr.status);
 					}
@@ -438,7 +438,7 @@ function post_getuser_action(){
 			decline_button.addEventListener("click",function(){
 				use_api("PATCH","users",{"action":"decline_invit","invit":invit},true,function(xhr){
 					if(xhr.status==200){
-						act_user();
+						window.top.act_preview();
 					}else{
 						alert("ERROR in declining invit : code "+xhr.status);
 					}
@@ -459,7 +459,7 @@ window.onload=()=>{
 		}
 		use_api("PUT","teams",data,true,function(xhr){
 			if(xhr.status==204){
-				act_user()
+				window.top.act_preview()
 			}else if(xhr.status==402){
 				alert("Pas assez de ressources");
 			}else if(xhr.status==400){
@@ -472,7 +472,7 @@ window.onload=()=>{
 	document.getElementById("popup_mask").addEventListener("click",function(){
 		popup_open_close();
 		block_description_geting=false;
-		act_user();
+		window.top.act_preview();
 	});
 	document.getElementById("bouton_inviter").addEventListener("click",function(){
 		let datas={
@@ -499,7 +499,7 @@ window.onload=()=>{
 		use_api("PATCH","users",datas,true,function(xhr){
 			if(xhr.status==200){
 				document.getElementById("joueur_a_expulser").value="";
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==403){
 				alert("Ce joueur est le chef : vous ne pouvez pas l'expulser");
 			}else if(xhr.status==404){
@@ -517,7 +517,7 @@ window.onload=()=>{
 		use_api("PATCH","users",datas,true,function(xhr){
 			if(xhr.status==200){
 				document.getElementById("joueur_a_transferer").value="";
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==404){
 				alert("Ce joueur n'est pas dans l'alliance ou n'existe pas");
 			}else{
@@ -557,7 +557,7 @@ window.onload=()=>{
 				for(let a of ressources){
 					document.getElementById("finances_"+a).value="";
 				}
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==402){
 				alert("Vous n'avez pas assez de ressources");
 			}else{
@@ -575,7 +575,7 @@ window.onload=()=>{
 				for(let a of ressources){
 					document.getElementById("finances_"+a).value="";
 				}
-				act_user();
+				window.top.act_preview();
 			}else{
 				alert("ERROR in asking donnation at team : code "+xhr.status);
 			}
@@ -595,7 +595,7 @@ window.onload=()=>{
 					document.getElementById("finances_"+a).value="";
 				}
 				document.getElementById("finances_alliance").value="";
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==402){
 				alert("L'alliance n'a pas assez de ressources");
 			}else if(xhr.status==404){
@@ -623,7 +623,7 @@ window.onload=()=>{
 					document.getElementById("posseseur_grade").value="";
 					document.getElementById("perm_"+a+"_grade").checked=false;
 				}
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==400){
 				alert("Entrez un nom de grade");
 			}else if(xhr.status==404){
@@ -643,7 +643,7 @@ window.onload=()=>{
 		use_api("POST","teams",datas,true,function(xhr){
 			if(xhr.status==200){
 				document.getElementById("new_pacte_alliance").value="";
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==404){
 				alert("L'alliance n'existe pas");
 			}else if(xhr.status==409){
@@ -661,7 +661,7 @@ window.onload=()=>{
 		use_api("POST","teams",datas,true,function(xhr){
 			if(xhr.status==200){
 				document.getElementById("new_guerre_alliance").value="";
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==404){
 				alert("L'alliance n'existe pas");
 			}else if(xhr.status==409){

@@ -78,7 +78,7 @@ function post_getuser_action(){
 			}
 			use_api("PATCH","users",datas,true,function(xhr){
 				if(xhr.status==200){
-					act_user();
+					window.top.act_preview();
 				}else{
 					alert("ERROR in deleting reports : code "+xhr.status);
 				}
@@ -96,7 +96,7 @@ function post_getuser_action(){
 			}
 			use_api("PATCH","users",datas,true,function(xhr){
 				if(xhr.status==200){
-					act_user();
+					window.top.act_preview();
 				}else{
 					alert("ERROR in reading report : code "+xhr.status);
 				}
@@ -150,6 +150,9 @@ function post_getuser_action(){
 				}
 				document.getElementById("restmols_table").style.display="table";
 			}
+			for(b=0;b<5;b++){
+				///WIP
+			}
 			for(let b in atomes){
 				document.getElementById(atomes[b]+"_pillage").innerText=affichageRessources(user.raports[a].pillage[b]);
 			}
@@ -184,7 +187,7 @@ window.onload=()=>{
 		}
 		use_api("PATCH","users",datas,true,function(xhr){
 			if(xhr.status==200){
-				act_user();
+				window.top.act_preview();
 			}else{
 				alert("ERROR in deleting reports : code "+xhr.status);
 			}

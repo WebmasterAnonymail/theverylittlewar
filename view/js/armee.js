@@ -43,7 +43,7 @@ window.onload=function(event){
 		mol_composition.mol_id=create_mol_id;
 		use_api("PUT","molecules",mol_composition,true,function(xhr){
 			if(xhr.status==200){
-				act_user();
+				window.top.act_preview();
 			}else if(xhr.status==402){
 				alert("Pas assez d'énergie");
 			}else{
@@ -99,7 +99,7 @@ window.onload=function(event){
 			}
 			use_api("POST","molecules",datas,true,function(xhr){
 				if(xhr.status==200){
-					act_user();
+					window.top.act_preview();
 				}else if(xhr.status==406){
 					alert("Veuillez preciser une valeur");
 				}else if(xhr.status==402){
@@ -112,7 +112,7 @@ window.onload=function(event){
 		document.getElementById("delete_mol"+a).addEventListener("click",function(event){
 			use_api("DELETE","molecules",{"mol_id":a},false,function(xhr){
 				if(xhr.status==200){
-					act_user();
+					window.top.act_preview();
 				}else if(xhr.status==403){
 					alert("Vous ne pouvez pas supprimer une molécule en combat");
 				}else{

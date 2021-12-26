@@ -35,7 +35,7 @@ module.exports = {
 								if(OK1){
 									let dx=dbs.users[body.target].positionX-user.positionX;
 									let dy=dbs.users[body.target].positionY-user.positionY;
-									event_cmb={
+									let event_cmb={
 										"def":body.target,
 										"atk":body.username,
 										"time":0,

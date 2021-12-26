@@ -15,9 +15,9 @@ module.exports=function(req,res){
 	if(url=="/"){
 		url="/main.html";
 	}
-	extension=url.substring(url.lastIndexOf('.')+1);
+	let extension=url.substring(url.lastIndexOf('.')+1);
 	try{
-		file=fs.readFileSync("view"+url);
+		let file=fs.readFileSync("view"+url);
 		res.writeHead(200,{'Content-Type':ext_types[extension]});
 		res.write(file);
 		res.end();

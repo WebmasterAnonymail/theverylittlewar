@@ -207,7 +207,6 @@ function act_preview(){
 			alert("ERROR in getting user's events : code "+xhr.status);
 		}
 	});
-	setTimeout(act_preview,1000)
 }
 function use_api(method,api,data,in_body,callback){
 	let api_xhr=new XMLHttpRequest();
@@ -263,6 +262,7 @@ window.addEventListener("load",function(ev){
 							opened_popup_id="notifbar";
 						});
 						act_preview();
+						setInterval(act_preview,1250)
 					}
 				}else{
 					document.location.replace("html/accueil.html");
@@ -333,7 +333,7 @@ window.addEventListener("load",function(ev){
 					alert("ERROR in getting user : code "+xhr.status);
 				}
 			});
-		},1000);
+		},1250);
 		let list_users_xhr=new XMLHttpRequest();
 		let at_send2=new URLSearchParams();
 		at_send2.append("mode","list");

@@ -24,7 +24,11 @@ module.exports={
 						let atkant=dbs.users[dbs.events[a].atk];
 						let defant=dbs.users[dbs.events[a].def];
 						if(atkant&&defant){
+							this.usercheck(dbs.events[a].atk);
+							this.usercheck(dbs.events[a].def);
 							let mol_used_by_atkant=[];
+							let old_defmols=defant.molecules.slice();
+							let old_atkmols=atkant.molecules.slice();
 							let defmols=[];
 							let atkmols=[];
 							for(let b=0;b<5;b++){
@@ -128,6 +132,8 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
+									"old_defmols":old_defmols,
+									"old_atkmols":old_atkmols,
 									"defant":dbs.events[a].def,
 									"atkant":dbs.events[a].atk,
 									"win":null,
@@ -140,6 +146,8 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
+									"old_defmols":old_defmols,
+									"old_atkmols":old_atkmols,
 									"defant":dbs.events[a].def,
 									"atkant":dbs.events[a].atk,
 									"win":null,
@@ -248,6 +256,8 @@ module.exports={
 									"pillage":pillage_log,
 									"destruction":destruction_log,
 									"mol_restantes":[],
+									"old_defmols":old_defmols,
+									"old_atkmols":old_atkmols,
 									"defant":dbs.events[a].def,
 									"atkant":dbs.events[a].atk,
 									"win":"atk",
@@ -260,6 +270,8 @@ module.exports={
 									"pillage":pillage_log,
 									"destruction":destruction_log,
 									"mol_restantes":[],
+									"old_defmols":old_defmols,
+									"old_atkmols":old_atkmols,
 									"defant":dbs.events[a].def,
 									"atkant":dbs.events[a].atk,
 									"win":"atk",
@@ -307,6 +319,8 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
+									"old_defmols":old_defmols,
+									"old_atkmols":old_atkmols,
 									"defant":dbs.events[a].def,
 									"atkant":dbs.events[a].atk,
 									"win":"def",
@@ -319,6 +333,8 @@ module.exports={
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
 									"mol_restantes":[],
+									"old_defmols":old_defmols,
+									"old_atkmols":old_atkmols,
 									"defant":dbs.events[a].def,
 									"atkant":dbs.events[a].atk,
 									"win":"def",
@@ -417,5 +433,21 @@ module.exports={
 			}
 		}
 		return false;
+	},
+	gamecheck:function(){
+		//Classement
+		let classement=[]
+		for(a in dbs.users){
+			if(dbs.users[a].actif){
+				classement.push({
+					user:a,
+					points:dbs.users[a].points
+				});
+			}
+		}
+		classement.sort(function(a,b){
+			return a.points.total-b.points.total;
+		});
+		dbs.MDS.classement=classement;
 	}
 }
