@@ -46,10 +46,13 @@ function post_getuser_action(){
 				let Eteam=document.createElement("td");
 				Eteam.innerText=data.team;
 				line.appendChild(Eteam);
+				let Epoints_bat=document.createElement("td");
+				Epoints_bat.innerText=Math.floor(data.points.batiments);
+				line.appendChild(Epoints_bat);
 				for(let a of points_medailles){
-					Epoint_spe=document.createElement("td");
-					Epoint_spe.innerText=affichageRessources(data.points[a]);
-					line.appendChild(Epoint_spe);
+					Epoints_spe=document.createElement("td");
+					Epoints_spe.innerText=affichageRessources(data.points[a]);
+					line.appendChild(Epoints_spe);
 				}
 				let Evictoires=document.createElement("td");
 				Evictoires.innerText=Math.floor(data.victoires);

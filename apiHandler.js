@@ -28,7 +28,6 @@ module.exports=function(req,res,body){
 			}
 			checkmodule.eventcheck();
 			checkmodule.gamecheck();
-			counter++;
 			try{
 				api[name][req.method](req,res,bodydatas);
 			}catch (error){

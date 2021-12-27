@@ -1,7 +1,7 @@
 thead th{
 	font-size: 15px;
 	font-weight: normal;
-	width: 7.5%
+	width: 6%
 }
 td{
 	border-left: 0px none;
@@ -13,8 +13,8 @@ table{
 	table-layout: fixed;
 }
 thead .bigcase{
-	width: 10%;
+	width: 15%;
 }
 thead .smallcase{
-	width: 5%;
+	width: 4%;
 }
