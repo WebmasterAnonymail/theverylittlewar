@@ -41,7 +41,7 @@ var batiment_pveurs=[
 	"stockage",
 	"protecteur"
 ];
-medailles=[
+var medailles=[
 	"def",
 	"atk",
 	"mol",
@@ -50,6 +50,16 @@ medailles=[
 	"des",
 	"pil",
 	"cmb"
+];
+var points_medailles=[
+	"defense",
+	"attaque",
+	"molecules_crees",
+	"pertes_temps",
+	"pertes_combat",
+	"destruction",
+	"pillage",
+	"combats"
 ];
 var initiales=["C","O","N","I","Br","H","S","Cl"];
 function bb_code(texte){

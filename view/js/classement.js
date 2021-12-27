@@ -46,6 +46,14 @@ function post_getuser_action(){
 				let Eteam=document.createElement("td");
 				Eteam.innerText=data.team;
 				line.appendChild(Eteam);
+				for(let a of points_medailles){
+					Epoint_spe=document.createElement("td");
+					Epoint_spe.innerText=affichageRessources(data.points[a]);
+					line.appendChild(Epoint_spe);
+				}
+				let Evictoires=document.createElement("td");
+				Evictoires.innerText=Math.floor(data.victoires);
+				line.appendChild(Evictoires);
 				document.getElementById("classement").appendChild(line);
 			}
 		}else{

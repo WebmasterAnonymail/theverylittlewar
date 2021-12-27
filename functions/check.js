@@ -442,6 +442,7 @@ module.exports={
 				classement.push({
 					user:a,
 					team:dbs.users[a].alliance,
+					victoires:dbs.users[a].ressources.victoires,
 					points:dbs.users[a].points
 				});
 			}
