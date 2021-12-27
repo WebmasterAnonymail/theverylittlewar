@@ -41,6 +41,16 @@ var batiment_pveurs=[
 	"stockage",
 	"protecteur"
 ];
+medailles=[
+	"def",
+	"atk",
+	"mol",
+	"tps",
+	"prt",
+	"des",
+	"pil",
+	"cmb"
+];
 var initiales=["C","O","N","I","Br","H","S","Cl"];
 function bb_code(texte){
 	let res=texte;

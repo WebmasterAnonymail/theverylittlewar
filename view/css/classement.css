@@ -1,0 +1,20 @@
+thead th{
+	font-size: 15px;
+	font-weight: normal;
+	width: 7.5%
+}
+td{
+	border-left: 0px none;
+	border-right: 0px none;
+}
+table{
+	width: auto;
+	margin: 10px;
+	table-layout: fixed;
+}
+thead .bigcase{
+	width: 10%;
+}
+thead .smallcase{
+	width: 5%;
+}

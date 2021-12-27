@@ -4,8 +4,74 @@
 		<title>The Very Little War</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="../css/classement.css">
+		<script src="../js/main.js"></script>
+		<script src="../js/classement.js"></script>
 	</head>
 	<body>
-		A venir...
+		<div id="popup_mask" style="display: none;"></div>
+		<div id="popup_actionframe" class="fenetre" style="display:none;">
+			<iframe src="userteam.html" style="height:625px;"></iframe>
+		</div>
+		<table>
+			<caption><h2>Classement</h2></caption>
+			<thead>
+				<tr>
+					<th scope="col" class="smallcase">
+					<img src="../image/lieux/classement.png" class="icon" class="smallcase"><br>
+					rang
+					</th>
+					<th scope="col" class="bigcase">
+					<img src="../image/autre/username.png" class="icon"><br>
+					joueur
+					</th>
+					<th scope="col">
+					<img src="../image/ressources/points.png" class="icon"><br>
+					points
+					</th>
+					<th scope="col" class="bigcase">
+					<img src="../image/lieux/alliance.png" class="icon"><br>
+					équipe
+					</th>
+					<th scope="col">
+					<img src="../image/propriete/def.png" class="icon"><br>
+					défense
+					</th>
+					<th scope="col">
+					<img src="../image/propriete/atk.png" class="icon"><br>
+					attaque
+					</th>
+					<th scope="col">
+					<img src="../image/armee/molecule.png" class="icon"><br>
+					production
+					</th>
+					<th scope="col">
+					<img src="../image/ressources/temps.png" class="icon"><br>
+					pertes (temps)
+					</th>
+					<th scope="col">
+					<img src="../image/armee/pertes.png" class="icon"><br>
+					pertes (combat)
+					</th>
+					<th scope="col">
+					<img src="../image/propriete/deg.png" class="icon"><br>
+					destruction
+					</th>
+					<th scope="col">
+					<img src="../image/propriete/pil.png" class="icon"><br>
+					pillage
+					</th>
+					<th scope="col">
+					<img src="../image/actions/combat.png" class="icon"><br>
+					combats
+					</th>
+					<th scope="col">
+					<img src="../image/ressources/victoires.png" class="icon"><br>
+					victoires
+					</th>
+				</tr>
+			</thead>
+			<tbody id="classement"></tbody>
+		</table>
 	</body>
 </html>

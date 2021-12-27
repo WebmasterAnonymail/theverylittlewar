@@ -95,7 +95,6 @@ body{
 	background-image: url("../image/background.png");
 	background-repeat: repeat;
 	width: 100%;
-	height: 100%;
 	margin: 0px;
 	font-size: 20px;
 }
@@ -174,7 +173,7 @@ table{
 thead{
 	background-color: #e0e0e0;
 }
-td{
+td,th{
 	border: 1px solid #606060;
 }
 #topbar{

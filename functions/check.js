@@ -441,6 +441,7 @@ module.exports={
 			if(dbs.users[a].actif){
 				classement.push({
 					user:a,
+					team:dbs.users[a].alliance,
 					points:dbs.users[a].points
 				});
 			}
