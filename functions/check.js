@@ -446,7 +446,7 @@ module.exports={
 			}
 		}
 		classement.sort(function(a,b){
-			return a.points.total-b.points.total;
+			return b.points.total-a.points.total;
 		});
 		dbs.MDS.classement=classement;
 	}

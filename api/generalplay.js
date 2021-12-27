@@ -1,7 +1,7 @@
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
 module.exports = {
-	name:'map',
+	name:'generalplay',
 	GET:(req,res,body)=>{
 		let result=[];
 		for(user in dbs.users){
@@ -26,6 +26,11 @@ module.exports = {
 		}
 		res.writeHead(200,{'Content-Type':'application/json'})
 		res.write(JSON.stringify(result));
+		res.end();
+	},
+	OPTIONS:(req,res,body)=>{
+		res.writeHead(200,{'Content-Type':'application/json'})
+		res.write(JSON.stringify(dbs.MDS.classement));
 		res.end();
 	}
 }

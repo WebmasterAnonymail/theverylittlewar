@@ -15,7 +15,7 @@ function popup_open_close(at_open=null){
 	}
 }
 function post_getuser_action(){
-	use_api("GET","map",{},false,function(xhr){
+	use_api("GET","generalplay",{},false,function(xhr){
 		if(xhr.status==200){
 			document.getElementById("map_ground").innerHTML="";
 			for(let data of xhr.response){

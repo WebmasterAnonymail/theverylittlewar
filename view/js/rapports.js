@@ -150,7 +150,7 @@ function post_getuser_action(){
 				}
 				document.getElementById("restmols_table").style.display="table";
 			}
-			for(b=0;b<5;b++){
+			for(let b=0;b<5;b++){
 				///WIP
 			}
 			for(let b in atomes){
