@@ -3,7 +3,6 @@ const checkmodule=require("./functions/check.js");
 const toSlice='/api/v1/';
 var api={};
 var files=fs.readdirSync('./api');
-counter=0;
 if(!files){
 	console.error('[Err] Aucun fichier d\'api chargé');
 }
@@ -28,10 +27,7 @@ module.exports=function(req,res,body){
 				bodydatas[key]=value;
 			}
 			checkmodule.eventcheck();
-			if(counter==5){
-				checkmodule.gamecheck();
-				counter=0;
-			}
+			checkmodule.gamecheck();
 			counter++;
 			try{
 				api[name][req.method](req,res,bodydatas);

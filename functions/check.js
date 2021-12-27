@@ -451,5 +451,93 @@ module.exports={
 			return b.points.total-a.points.total;
 		});
 		dbs.MDS.classement=classement;
+		//Réinitialisation mensuelle
+		if(Date.now()>new Date(dbs.MDS.actual_game.year,dbs.MDS.actual_game.month+1).getTime()){
+			dbs.MDS.actual_game.year=new Date().getFullYear();
+			dbs.MDS.actual_game.month=new Date().getMonth();
+			dbs.connections={};
+			for(a in dbs.users){
+				dbs.users[a].ressources={
+					"energie":500,
+					"carbone":50,
+					"oxygene":50,
+					"azote":50,
+					"iode":50,
+					"brome":50,
+					"hydrogene":50,
+					"soufre":50,
+					"chlore":50,
+					"victoires":users[a].ressources.victoires,
+				}
+				dbs.users[a].batiments={
+					"generateur":0,
+					"producteur":0,
+					"stockage":0,
+					"forteresse":0,
+					"ionisateur":0,
+					"lieur":0,
+					"stabilisateur":0,
+					"champdeforce":0,
+					"usinedexplosif":0,
+					"condenseur":0,
+					"booster":0,
+					"protecteur":0
+				}
+				dbs.users[a].batiment_en_amelioration=[];
+				dbs.users[a].points={
+					"batiments":0,
+					"defense":0,
+					"attaque":0,
+					"molecules_crees":0,
+					"pertes_temps":0,
+					"pertes_combat":0,
+					"destruction":0,
+					"pillage":0,
+					"combats":0,
+					"total":0
+				}
+				dbs.users[a].PV_batiments={
+					"generateur":1000,
+					"producteur":1000,
+					"stockage":1000,
+					"protecteur":0
+				}
+				dbs.users[a].molecules=[null,null,null,null,null];
+				dbs.users[a].molecules_en_utilisation=[0,0,0,0,0];
+				dbs.users[a].medailles={
+					"def":-1,
+					"atk":-1,
+					"mol":-1,
+					"tps":-1,
+					"prt":-1,
+					"des":-1,
+					"pil":-1,
+					"cmb":-1
+				}
+				dbs.users[a].raports=[];
+				dbs.users[a].positionX=null;
+				dbs.users[a].positionY=null;
+				dbs.users[a].actif=false;
+			}
+			for(a in dbs.team){
+				dbs.team[a].ressources={
+					"energie":0,
+					"carbone":0,
+					"oxygene":0,
+					"azote":0,
+					"iode":0,
+					"brome":0,
+					"hydrogene":0,
+					"soufre":0,
+					"chlore":0,
+					"victoires":dbs.team[a].ressources.victoires
+				}
+				dbs.team[a].requetes_ressources=[];
+			}
+			dbs.events=[];
+			dbs.connections={};
+			dbs.MDS.classement=[];
+			dbs.MDS.map={"in_teams_progress":{"NONETEAM":0},"progress":3};
+		}
 	}
 }
