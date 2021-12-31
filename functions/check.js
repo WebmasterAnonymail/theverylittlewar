@@ -472,7 +472,7 @@ module.exports={
 					"hydrogene":50,
 					"soufre":50,
 					"chlore":50,
-					"victoires":users[a].ressources.victoires,
+					"victoires":dbs.users[a].ressources.victoires,
 				}
 				dbs.users[a].batiments={
 					"generateur":0,
