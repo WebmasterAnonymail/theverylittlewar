@@ -455,8 +455,13 @@ module.exports={
 		if(Date.now()>new Date(dbs.MDS.actual_game.year,dbs.MDS.actual_game.month+1).getTime()){
 			dbs.MDS.actual_game.year=new Date().getFullYear();
 			dbs.MDS.actual_game.month=new Date().getMonth();
+			//Classement de victoire
+			for(let a=0;a<classement.length;a++){
+				dbs.users[dbs.MDS.classement[a].user].ressources.victoires+=50/(a+1)-2*a+50;
+			}
+			//Réinitialisation mensuelles
 			dbs.connections={};
-			for(a in dbs.users){
+			for(let a in dbs.users){
 				dbs.users[a].ressources={
 					"energie":500,
 					"carbone":50,
@@ -519,7 +524,7 @@ module.exports={
 				dbs.users[a].positionY=null;
 				dbs.users[a].actif=false;
 			}
-			for(a in dbs.team){
+			for(let a in dbs.team){
 				dbs.team[a].ressources={
 					"energie":0,
 					"carbone":0,
