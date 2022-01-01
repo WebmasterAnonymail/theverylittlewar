@@ -44,26 +44,29 @@ function act_forum(){
 		if(list_subject_elements.length<list_subjects.length){
 			for(let b=list_subject_elements.length;b<list_subjects.length;b++){
 				list_subject_elements[b]=document.createElement("div");
-				list_subject_elements[b].setAttribute("class","forum");
-				list_subject_elements[b].setAttribute("onclick","position=2;subject_id=0;act_forum();");
+				list_subject_elements[b].classList.add("forum");
+				list_subject_elements[b].onclick=function(){
+					position=2;
+					subject_id=0;
+					act_forum();
+				}
 				let _status=document.createElement("img");
-				_status.setAttribute("src","../image/forum/vide.png");
-				_status.setAttribute("class","status");
+				_status.src="../image/forum/vide.png";
+				_status.classList.add("status");
 				list_subject_elements[b].appendChild(_status);
 				let _name=document.createElement("span");
 				_name.innerText="";
-				_name.setAttribute("class","forum_name");
+				_name.classList.add("forum_name");
 				list_subject_elements[b].appendChild(_name)
 				document.getElementById("subjects_list").appendChild(list_subject_elements[b]);
 			}
-		}else if(list_subject_elements.length>list_subjects.length){
-			for(let c=list_subject_elements.length-1;c>list_subjects.length-1;c--){
-				document.getElementById("subjects_list").removeChild(list_subject_elements[c]);
-				list_subject_elements.splice(c,1)
-			}
 		}
 		for(let a=0;a<list_subject_elements.length;a++){
-			list_subject_elements[a].setAttribute("onclick","position=2;subject_id="+list_subjects[a].id+";act_forum();");
+			list_subject_elements[a].onclick=function(){
+				position=2;
+				subject_id=list_subjects[a].id;
+				act_forum();
+			}
 			list_subject_elements[a].children[1].innerText=list_subjects[a].name;
 			if(list_subjects[a].read){
 				if(list_subjects[a].own){
@@ -92,32 +95,32 @@ function act_forum(){
 		if(list_message_elements.length<list_messages.length){
 			for(let d=list_message_elements.length;d<list_messages.length;d++){
 				list_message_elements[d]=document.createElement("div");
-				list_message_elements[d].setAttribute("class","forum");
+				list_message_elements[d].classList.add("forum");
 				let _infos=document.createElement("div");
 				let _avatar=document.createElement("img");
-				_avatar.setAttribute("src","../image/users/icone.png");
-				_avatar.setAttribute("class","message_avatar");
+				_avatar.src="../image/users/icone.png";
+				_avatar.classList.add("message_avatar");
 				_infos.appendChild(_avatar);
 				let _textinfo=document.createElement("div");
-				_textinfo.setAttribute("class","message_textinfo");
+				_textinfo.classList.add("message_textinfo");
 				let _title=document.createElement("span");
-				_title.setAttribute("class","message_title")
+				_title.classList.add("message_title")
 				_title.innerText="";
 				_textinfo.appendChild(_title);
 				_textinfo.appendChild(document.createElement("br"));
 				let _username=document.createElement("span");
-				_username.setAttribute("class","message_username")
+				_username.classList.add("message_username")
 				_username.innerText="";
 				_textinfo.appendChild(_username);
 				_textinfo.appendChild(document.createElement("br"));
 				let _datetime=document.createElement("span");
-				_datetime.setAttribute("class","message_datetime");
+				_datetime.classList.add("message_datetime");
 				_datetime.innerText="";
 				_textinfo.appendChild(_datetime);
 				_infos.appendChild(_textinfo);
 				let _edit_button=document.createElement("img");
 				_edit_button.setAttribute("src","../image/forum/editer.png");
-				_edit_button.setAttribute("class","message_edit_button");
+				_edit_button.classList.add("message_edit_button");
 				_edit_button.setAttribute("onclick","is_edit=true;message_id=0;act_forum();");
 				_infos.appendChild(_edit_button);
 				list_message_elements[d].appendChild(_infos);
@@ -164,4 +167,20 @@ function act_forum(){
 		}
 		
 	}	
+}
+window.onload=(ev)=>{
+	document.getElementById("to_top_return").addEventListener("click",function(){
+		document.getElementById("messages_list").scrollTo({
+			top:0,
+			left:0,
+			behavior:'smooth'
+		});
+	});
+	document.getElementById("to_bottom_return").addEventListener("click",function(){
+		document.getElementById("messages_list").scrollTo({
+			top:document.getElementById("messages_list").scrollHeight,
+			left:0,
+			behavior:'smooth'
+		});
+	});
 }
