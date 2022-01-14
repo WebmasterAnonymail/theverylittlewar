@@ -32,6 +32,9 @@ module.exports={
 							let defmols=[];
 							let atkmols=[];
 							for(let b=0;b<5;b++){
+								if(old_atkmols[b]){
+									old_atkmols[b].number=dbs.events[a].mols[b];
+								}
 								if(defant.molecules[b]&&defant.molecules[b].number){
 									defmols.push({
 										"number":defant.molecules[b].number,

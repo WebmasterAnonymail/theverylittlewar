@@ -156,6 +156,9 @@ function post_getuser_action(){
 			for(let b in atomes){
 				document.getElementById(atomes[b]+"_pillage").innerText=affichageRessources(user.raports[a].pillage[b]);
 			}
+			for(let b=0;b<3;b++){
+				document.getElementById(batiment_pveurs[b]+"_destruction").innerText=Math.floor(user.raports[a].destruction[b])+" niveaux perdus, et "+Math.floor(user.raports[a].destruction[b]%1*100)+"%";
+			}
 			popup_open_close("combat");
 		});
 		line.appendChild(cellDelete);
