@@ -11,6 +11,23 @@ function popup_open_close(at_open=null){
 		document.getElementById("popup_mask").style.display="block";
 	}
 }
+function code_mol_to_html(mol){
+	let formule="Vide";
+	if(mol){
+		formule="";
+		for(let a in atomes){
+			if(mol[atomes[a]]){
+				formule+="<e"+initiales[a].toLowerCase()+">";
+				formule+=initiales[a];
+				if(mol[atomes[a]]!=1){
+					formule+="<sub>"+mol[atomes[a]]+"</sub>";
+				}
+				formule+="</e"+initiales[a].toLowerCase()+">";
+			}
+		}
+	}
+	return formule;
+}
 function actualize_checkbox_list(){
 	let checked_number=0;
 	selected_reports=[];
@@ -150,8 +167,27 @@ function post_getuser_action(){
 				}
 				document.getElementById("restmols_table").style.display="table";
 			}
+			document.getElementById("mols_def").innerText="";
+			document.getElementById("molsnumber_def").innerText="";
+			document.getElementById("mols_atk").innerText="";
+			document.getElementById("molsnumber_atk").innerText="";
 			for(let b=0;b<5;b++){
-				///WIP
+				let defmol=document.createElement("td");
+				defmol.innerHTML=code_mol_to_html(user.raports[a].old_defmols[b]);
+				document.getElementById("mols_def").appendChild(defmol);
+				let defmolnumber=document.createElement("td");
+				if(user.raports[a].old_defmols[b]){
+					defmolnumber.innerHTML=affichageRessources(user.raports[a].old_defmols[b].number);
+				}
+				document.getElementById("molsnumber_def").appendChild(defmolnumber);
+				let atkmol=document.createElement("td");
+				atkmol.innerHTML=code_mol_to_html(user.raports[a].old_atkmols[b]);
+				document.getElementById("mols_atk").appendChild(atkmol);
+				let atkmolnumber=document.createElement("td");
+				if(user.raports[a].old_atkmols[b]){
+					atkmolnumber.innerHTML=affichageRessources(user.raports[a].old_atkmols[b].number);
+				}
+				document.getElementById("molsnumber_atk").appendChild(atkmolnumber);
 			}
 			for(let b in atomes){
 				document.getElementById(atomes[b]+"_pillage").innerText=affichageRessources(user.raports[a].pillage[b]);
