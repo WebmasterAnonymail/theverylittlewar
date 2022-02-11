@@ -244,7 +244,7 @@ td,th{
 	display: inline-block;
 	vertical-align: middle;
 }
-.icon_ressource{
+.ressource>img{
 	border-radius: 16px;
 	height: 25px;
 	padding: 2.5px;
@@ -253,7 +253,7 @@ td,th{
 	vertical-align: middle;
 	overflow: visible;
 }
-.text_ressource{
+.ressource>span{
 	padding-right: 10px;
 }
 .fullscreen_image{
@@ -288,12 +288,12 @@ td,th{
 	display: inline-block;
 	background-image: url("../image/backgroung_card.jpg");
 }
-.button_labeled_image{
+.button_labeled>img{
 	width: 50px;
 	height: 50px;
 	vertical-align: middle;
 }
-.button_labeled_label{
+.button_labeled>span{
 	padding: 10px;
 }
 .rotated{
