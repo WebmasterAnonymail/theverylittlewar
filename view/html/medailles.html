@@ -4,8 +4,46 @@
 		<title>The Very Little War</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="../css/medailles.css">
+		<script src="../js/main.js"></script>
+		<script src="../js/medailles.js"></script>
 	</head>
 	<body>
-		<h2>A venir...</h2>
+		<details>
+			<summary>
+				<img src="../image/propriete/def.png">
+				Défenseur : 
+				<img id="def_img"/>
+				<span id="def_txt"></span>
+			</summary>
+			<p>Cette médaille est attribuée avec vos points de défenses, donnés lorsque vos molécules font des dégats aux adversaires vous attaquants<br>
+			Elle agmente votre défense</p>
+			Bonus actuel : <div class="ressource positive"><span id="def_actual"></span></div><br>
+			Points pour le niveau suivant : <span id="def_points"></span>
+		</details>
+		<details>
+			<summary>
+				<img src="../image/propriete/atk.png">
+				Attaquant : 
+				<img id="atk_img"/>
+				<span id="atk_txt"></span>
+			</summary>
+			<p>Cette médaille est attribuée avec vos points d'attaque, donnés lorsque vos molécules font des dégats aux adversaires lorque vous attaquez<br>
+			Elle augmente votre attaque</p>
+			Bonus actuel : <div class="ressource positive"><span id="atk_actual"></span></div><br>
+			Points pour le niveau suivant : <span id="atk_points"></span>
+		</details>
+		<details>
+			<summary>
+				<img src="../image/armee/molecule.png">
+				Chimiste : 
+				<img id="TP_img"/>
+				<span id="TP_txt"></span>
+			</summary>
+			<p>Cette médaille est attribuée lorque vous créez des molécules<br>
+			Elle diminue votre tyemps de production de molécule</p>
+			Bonus actuel : <div class="ressource positive"><span id="TP_actual"></span></div><br>
+			Points pour le niveau suivant : <span id="TP_points"></span>
+		</details>
 	</body>
 </html>

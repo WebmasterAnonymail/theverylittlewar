@@ -50,6 +50,7 @@ module.exports={
 										"PV":md.power_atome(atkant,b,4),
 										"molid":b
 									});
+									old_atkmols[b].number=dbs.events[a].mols[b]
 									mol_used_by_atkant.push(b);
 								}
 							}
