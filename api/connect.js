@@ -2,7 +2,7 @@ const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
 function generate_token(length=50){
 	let temp_token=""
-	for(a=0;a<length;a++){
+	for(let a=0;a<length;a++){
 		temp_token+=Number(Math.floor(Math.random()*36)).toString(36)
 	}
 	return temp_token
