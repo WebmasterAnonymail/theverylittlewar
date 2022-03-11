@@ -40,6 +40,7 @@ function doHttpRequest(method,host,path,data,callback=(()=>{})){
 function requestDB(dbname){
 	doHttpRequest("GET","jsonblob.com","/api/jsonBlob/"+dblocation[dbname],"",data=>{
 		dbs[dbname]=JSON.parse(data);
+		dbs_getting_progress++
 		console.debug("["+dbname+"] : GOT");
 	});
 }
@@ -49,6 +50,7 @@ function updateDB(dbname){
 module.exports=function(){
 	console.log("Getting databases");
 	global.dbs={};
+	global.dbs_getting_progress=0;
 	requestDB("users");
 	requestDB("teams");
 	requestDB("events");
@@ -59,9 +61,11 @@ module.exports=function(){
 			updateDB(a);
 		}
 	},10000)
-	setInterval(function(){
-		for(a in dbs){
-			fs.writeFileSync("/mnt/"+a+".json",JSON.stringify(dbs[a]));
-		}
-	},100000)
+	if(process.env.is_local=="true"){
+		setInterval(function(){
+			for(a in dbs){
+				fs.writeFileSync("/mnt/"+a+".json",JSON.stringify(dbs[a]));
+			}
+		},100000)
+	}
 }

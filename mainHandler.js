@@ -4,7 +4,10 @@ const apiHandler=require('./apiHandler.js');
 const staticHanlder=require("./staticHandler");
 const wsHanlder=require("./wsHanlder");
 module.exports.http=function(req,res){
-	if(req.url.startsWith(`/api/${apiVersion}/`)){
+	if(dbs_getting_progress<5){
+		res.writeHead(503,{});
+		res.end();
+	}else if(req.url.startsWith(`/api/${apiVersion}/`)){
 		let body=[]
 		req.on('data',function(chunk){
 			body.push(chunk);
