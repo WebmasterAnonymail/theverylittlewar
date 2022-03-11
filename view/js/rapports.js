@@ -97,7 +97,7 @@ function post_getuser_action(){
 				if(xhr.status==200){
 					window.top.act_preview();
 				}else{
-					alert("ERROR in deleting reports : code "+xhr.status);
+					console.error("ERROR in deleting reports : code "+xhr.status);
 				}
 			});
 			ev.stopPropagation();
@@ -115,7 +115,7 @@ function post_getuser_action(){
 				if(xhr.status==200){
 					window.top.act_preview();
 				}else{
-					alert("ERROR in reading report : code "+xhr.status);
+					console.error("ERROR in reading report : code "+xhr.status);
 				}
 			});
 			let title_cmb=document.getElementById("title_cmb");
@@ -228,7 +228,7 @@ window.onload=()=>{
 			if(xhr.status==200){
 				window.top.act_preview();
 			}else{
-				alert("ERROR in deleting reports : code "+xhr.status);
+				console.error("ERROR in deleting reports : code "+xhr.status);
 			}
 		});
 	});

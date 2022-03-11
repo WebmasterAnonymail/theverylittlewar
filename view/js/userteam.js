@@ -35,7 +35,7 @@ function view_user(user){
 			selectedUser=user;
 			select_body("preview_user");
 		}else{
-			alert("ERROR in getting user : code "+xhr.status);
+			console.error("ERROR in getting user : code "+xhr.status);
 		}
 	});
 }
@@ -76,7 +76,7 @@ function view_team(team){
 			selectedTeam=team;
 			select_body("preview_team");
 		}else{
-			alert("ERROR in getting team : code "+xhr.status);
+			console.error("ERROR in getting team : code "+xhr.status);
 		}
 	});
 }
@@ -154,7 +154,7 @@ window.onload=()=>{
 			}else if(xhr.status==402){
 				alert("Vous n'avez pas assez de molécule");
 			}else{
-				alert("ERROR in attaquing : code "+xhr.status);
+				console.error("ERROR in attaquing : code "+xhr.status);
 			}
 		})
 	});

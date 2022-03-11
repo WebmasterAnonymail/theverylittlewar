@@ -24,7 +24,7 @@ function act_QG(patch=true){
 			if(xhr.status==200){
 				
 			}else{
-				alert("ERROR in setting HQ params : code "+xhr.status);
+				console.error("ERROR in setting HQ params : code "+xhr.status);
 			}
 		});
 	}
@@ -90,11 +90,11 @@ window.onload=()=>{
 				if(xhr.status==200){
 					window.top.act_preview();
 				}else if(xhr.status==402){
-					alert("Pas assez de ressources")
+					Alert("Pas assez de ressources")
 				}else if(xhr.status==409){
-					alert("Deja en ameliration")
+					console.error("Deja en ameliration")
 				}else{
-					alert("ERROR in upgrading batiment : code "+xhr.status);
+					console.error("ERROR in upgrading batiment : code "+xhr.status);
 				}
 			});
 		})

@@ -163,9 +163,15 @@ function act_preview(){
 				if(frames[a].post_getuser_action){
 					frames[a].post_getuser_action();
 				}
+				if(frames[a][0]){
+					frames[a][0].user=xhr.response;
+					if(frames[a][0].post_getuser_action){
+						frames[a][0].post_getuser_action();
+					}
+				}
 			}
 		}else{
-			alert("ERROR in getting user : code "+xhr.status);
+			console.error("ERROR in getting user : code "+xhr.status);
 		}
 	});
 	use_api("GET","users",{"mode":"events"},false,function(xhr){
@@ -224,7 +230,7 @@ function act_preview(){
 				notifbar.appendChild(notif);
 			}
 		}else{
-			alert("ERROR in getting user's events : code "+xhr.status);
+			console.error("ERROR in getting user's events : code "+xhr.status);
 		}
 	});
 }
@@ -270,6 +276,9 @@ window.addEventListener("load",function(ev){
 					username=check_connect_xhr.response.username;
 					for(a=0;a<9;a++){
 						frames[a].username=check_connect_xhr.response.username;
+						if(frames[a][0]){
+							frames[a][0].username=check_connect_xhr.response.username;
+						}
 					}
 					if(/(^\/$)|(\/main.html$)/.test(document.location.pathname)){
 						document.getElementById("popup_mask").addEventListener("click",(ev)=>{
@@ -306,6 +315,16 @@ window.addEventListener("load",function(ev){
 						user_autocomplete_list.appendChild(user_element);
 					}
 					frames[b].document.body.appendChild(user_autocomplete_list);
+					if(frames[b][0]){
+						let user_autocomplete_list=frames[b][0].document.createElement("datalist");
+						user_autocomplete_list.id="user_autocomplete_list";
+						for(let a of list_users_xhr.response){
+							let user_element=frames[b][0].document.createElement("option");
+							user_element.innerHTML=a;
+							user_autocomplete_list.appendChild(user_element);
+						}
+						frames[b][0].document.body.appendChild(user_autocomplete_list);
+					}
 				}
 			}
 		});
@@ -326,68 +345,17 @@ window.addEventListener("load",function(ev){
 						team_autocomplete_list.appendChild(team_element);
 					}
 					frames[b].document.body.appendChild(team_autocomplete_list);
-				}
-			}
-		});
-	}
-	if(window.parent!=window.top){
-		let check_connect_xhr=new XMLHttpRequest();
-		let at_send=new URLSearchParams();
-		at_send.append("token",localStorage.getItem("token"));
-		check_connect_xhr.open("GET","/api/v1/connect?"+at_send.toString());
-		check_connect_xhr.responseType="json";
-		check_connect_xhr.send();
-		check_connect_xhr.addEventListener("readystatechange",function(ev){
-			if(check_connect_xhr.readyState==check_connect_xhr.DONE){
-				username=check_connect_xhr.response.username;
-			}
-		});
-		setInterval(function(){
-			use_api("GET","users",{"mode":"detailed"},false,function(xhr){
-				if(xhr.status==200){
-					user=xhr.response;
-					if(window.post_getuser_action){
-						post_getuser_action();
+					if(frames[b][0]){
+						let team_autocomplete_list=frames[b][0].document.createElement("datalist");
+						team_autocomplete_list.id="team_autocomplete_list";
+						for(let a of list_teams_xhr.response){
+							let team_element=frames[b][0].document.createElement("option");
+							team_element.innerHTML=a;
+							team_autocomplete_list.appendChild(team_element);
+						}
+						frames[b][0].document.body.appendChild(team_autocomplete_list);
 					}
-				}else{
-					alert("ERROR in getting user : code "+xhr.status);
 				}
-			});
-		},1250);
-		let list_users_xhr=new XMLHttpRequest();
-		let at_send2=new URLSearchParams();
-		at_send2.append("mode","list");
-		list_users_xhr.open("GET","/api/v1/users?"+at_send2.toString());
-		list_users_xhr.responseType="json";
-		list_users_xhr.send();
-		list_users_xhr.addEventListener("readystatechange",function(ev){
-			if(list_users_xhr.readyState==list_users_xhr.DONE){
-				let user_autocomplete_list=document.createElement("datalist");
-				user_autocomplete_list.id="user_autocomplete_list";
-				for(let a of list_users_xhr.response){
-					let user_element=document.createElement("option");
-					user_element.innerHTML=a;
-					user_autocomplete_list.appendChild(user_element);
-				}
-				document.body.appendChild(user_autocomplete_list);
-			}
-		});
-		let list_teams_xhr=new XMLHttpRequest();
-		let at_send3=new URLSearchParams();
-		at_send3.append("mode","list");
-		list_teams_xhr.open("GET","/api/v1/teams?"+at_send3.toString());
-		list_teams_xhr.responseType="json";
-		list_teams_xhr.send();
-		list_teams_xhr.addEventListener("readystatechange",function(ev){
-			if(list_teams_xhr.readyState==list_teams_xhr.DONE){
-				let team_autocomplete_list=document.createElement("datalist");
-				team_autocomplete_list.id="team_autocomplete_list";
-				for(let a of list_teams_xhr.response){
-					let team_element=document.createElement("option");
-					team_element.innerHTML=a;
-					team_autocomplete_list.appendChild(team_element);
-				}
-				document.body.appendChild(team_autocomplete_list);
 			}
 		});
 	}

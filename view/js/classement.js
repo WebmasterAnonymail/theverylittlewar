@@ -60,7 +60,7 @@ function post_getuser_action(){
 				document.getElementById("classement").appendChild(line);
 			}
 		}else{
-			alert("ERROR in getting classemnt : code "+xhr.status);
+			console.error("ERROR in getting classemnt : code "+xhr.status);
 		}
 	});
 }

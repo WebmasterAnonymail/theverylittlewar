@@ -59,4 +59,9 @@ module.exports=function(){
 			updateDB(a);
 		}
 	},10000)
+	setInterval(function(){
+		for(a in dbs){
+			fs.writeFileSync("/mnt/"+a+".json",JSON.stringify(dbs[a]));
+		}
+	},100000)
 }

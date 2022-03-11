@@ -52,7 +52,7 @@ function post_getuser_action(){
 				document.getElementById("map_ground").appendChild(elem);
 			}
 		}else{
-			alert("ERROR in getting map : code "+xhr.status);
+			console.error("ERROR in getting map : code "+xhr.status);
 		}
 	});
 }

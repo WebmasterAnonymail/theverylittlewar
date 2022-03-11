@@ -130,7 +130,7 @@ window.onload=function(event){
 						document.getElementById("res_file_fs").style.display="none";
 					}
 				}else{
-					alert("ERROR "+xhr.status)
+					console.error("ERROR "+xhr.status)
 				}
 			}
 		});

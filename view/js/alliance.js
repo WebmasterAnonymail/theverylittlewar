@@ -197,7 +197,7 @@ function post_getuser_action(){
 							if(xhr.status==200){
 								window.top.act_preview();
 							}else{
-								alert("ERROR in leaving team : code "+xhr.status);
+								console.error("ERROR in leaving team : code "+xhr.status);
 							}
 						});
 					});
@@ -277,7 +277,7 @@ function post_getuser_action(){
 							if(xhr.status==200){
 								window.top.act_preview();
 							}else{
-								alert("ERROR in deleting grade : code "+xhr.status);
+								console.error("ERROR in deleting grade : code "+xhr.status);
 							}
 						});
 					});
@@ -312,7 +312,7 @@ function post_getuser_action(){
 								}else if(xhr.status==410){
 									alert("Le joueur n'est plus dans l'alliance");
 								}else{
-									alert("ERROR in accepting donnation : code "+xhr.status);
+									console.error("ERROR in accepting donnation : code "+xhr.status);
 								}
 							});
 						});
@@ -327,7 +327,7 @@ function post_getuser_action(){
 								if(xhr.status==200){
 									window.top.act_preview();
 								}else{
-									alert("ERROR in rejecting donnation : code "+xhr.status);
+									console.error("ERROR in rejecting donnation : code "+xhr.status);
 								}
 							});
 						});
@@ -362,7 +362,7 @@ function post_getuser_action(){
 							if(xhr.status==200){
 								window.top.act_preview();
 							}else{
-								alert("ERROR in deleting pact : code "+xhr.status);
+								console.error("ERROR in deleting pact : code "+xhr.status);
 							}
 						});
 					});
@@ -391,7 +391,7 @@ function post_getuser_action(){
 							if(xhr.status==200){
 								window.top.act_preview();
 							}else{
-								alert("ERROR in deleting war : code "+xhr.status);
+								console.error("ERROR in deleting war : code "+xhr.status);
 							}
 						});
 					});
@@ -403,7 +403,7 @@ function post_getuser_action(){
 				alert("L'alliance a ete supprimee");
 				window.top.act_preview();
 			}else{
-				alert("ERROR in getting team : code "+xhr.status);
+				console.error("ERROR in getting team : code "+xhr.status);
 			}
 		});
 	}else{
@@ -427,7 +427,7 @@ function post_getuser_action(){
 						alert("L'equipe n'existe plus");
 						window.top.act_preview();
 					}else{
-						alert("ERROR in accepting invit : code "+xhr.status);
+						console.error("ERROR in accepting invit : code "+xhr.status);
 					}
 				});
 			});
@@ -440,7 +440,7 @@ function post_getuser_action(){
 					if(xhr.status==200){
 						window.top.act_preview();
 					}else{
-						alert("ERROR in declining invit : code "+xhr.status);
+						console.error("ERROR in declining invit : code "+xhr.status);
 					}
 				});
 			});
@@ -465,7 +465,7 @@ window.onload=()=>{
 			}else if(xhr.status==400){
 				alert("Veuillez entrer un nom");
 			}else{
-				alert("ERROR in creating team : code "+xhr.status);
+				console.error("ERROR in creating team : code "+xhr.status);
 			}
 		});
 	});
@@ -487,7 +487,7 @@ window.onload=()=>{
 			}else if(xhr.status==404){
 				alert("Ce joueur n'existe pas");
 			}else{
-				alert("ERROR in inviting user : code "+xhr.status);
+				console.error("ERROR in inviting user : code "+xhr.status);
 			}
 		});
 	});
@@ -505,7 +505,7 @@ window.onload=()=>{
 			}else if(xhr.status==404){
 				alert("Ce joueur n'est pas dans l'alliance ou n'existe pas");
 			}else{
-				alert("ERROR in expeling user : code "+xhr.status);
+				console.error("ERROR in expeling user : code "+xhr.status);
 			}
 		});
 	});
@@ -521,7 +521,7 @@ window.onload=()=>{
 			}else if(xhr.status==404){
 				alert("Ce joueur n'est pas dans l'alliance ou n'existe pas");
 			}else{
-				alert("ERROR in transfering team : code "+xhr.status);
+				console.error("ERROR in transfering team : code "+xhr.status);
 			}
 		});
 	});
@@ -532,7 +532,7 @@ window.onload=()=>{
 		}
 		use_api("PATCH","teams",datas,true,function(xhr){
 			if(xhr.status!=200){
-				alert("ERROR in editing description : code "+xhr.status);
+				console.error("ERROR in editing description : code "+xhr.status);
 			}
 		});
 	});
@@ -543,7 +543,7 @@ window.onload=()=>{
 		}
 		use_api("PATCH","teams",datas,true,function(xhr){
 			if(xhr.status!=200){
-				alert("ERROR in editing color : code "+xhr.status);
+				console.error("ERROR in editing color : code "+xhr.status);
 			}
 		});
 	});
@@ -561,7 +561,7 @@ window.onload=()=>{
 			}else if(xhr.status==402){
 				alert("Vous n'avez pas assez de ressources");
 			}else{
-				alert("ERROR in giving at team : code "+xhr.status);
+				console.error("ERROR in giving at team : code "+xhr.status);
 			}
 		});
 	});
@@ -577,7 +577,7 @@ window.onload=()=>{
 				}
 				window.top.act_preview();
 			}else{
-				alert("ERROR in asking donnation at team : code "+xhr.status);
+				console.error("ERROR in asking donnation at team : code "+xhr.status);
 			}
 		});
 	});
@@ -603,7 +603,7 @@ window.onload=()=>{
 			}else if(xhr.status==409){
 				alert("Vous devez avoir un pacte avec l'alliance cible");
 			}else{
-				alert("ERROR in transfering : code "+xhr.status);
+				console.error("ERROR in transfering : code "+xhr.status);
 			}
 		});
 	});
@@ -631,7 +631,7 @@ window.onload=()=>{
 			}else if(xhr.status==409){
 				alert("Le grade existe deja");
 			}else{
-				alert("ERROR in adding grade : code "+xhr.status);
+				console.error("ERROR in adding grade : code "+xhr.status);
 			}
 		});
 	});
@@ -649,7 +649,7 @@ window.onload=()=>{
 			}else if(xhr.status==409){
 				alert("Le pacte existe deja");
 			}else{
-				alert("ERROR in adding pact : code "+xhr.status);
+				console.error("ERROR in adding pact : code "+xhr.status);
 			}
 		});
 	});
@@ -667,7 +667,7 @@ window.onload=()=>{
 			}else if(xhr.status==409){
 				alert("La guerre existe deja");
 			}else{
-				alert("ERROR in adding war : code "+xhr.status);
+				console.error("ERROR in adding war : code "+xhr.status);
 			}
 		});
 	});

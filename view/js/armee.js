@@ -45,9 +45,9 @@ window.onload=function(event){
 			if(xhr.status==200){
 				window.top.act_preview();
 			}else if(xhr.status==402){
-				alert("Pas assez d'énergie");
+				console.error("Pas assez d'énergie");
 			}else{
-				alert("ERROR in creating molecule : code "+xhr.status);
+				console.error("ERROR in creating molecule : code "+xhr.status);
 			}
 		});
 		document.forms.create_mol_form.reset();
@@ -101,11 +101,11 @@ window.onload=function(event){
 				if(xhr.status==200){
 					window.top.act_preview();
 				}else if(xhr.status==406){
-					alert("Veuillez preciser une valeur");
+					console.error("Veuillez preciser une valeur");
 				}else if(xhr.status==402){
-					alert("Pas assez de ressources");
+					console.error("Pas assez de ressources");
 				}else{
-					alert("ERROR in producting molecule : code "+xhr.status);
+					console.error("ERROR in producting molecule : code "+xhr.status);
 				}
 			});
 		});
@@ -114,9 +114,9 @@ window.onload=function(event){
 				if(xhr.status==200){
 					window.top.act_preview();
 				}else if(xhr.status==403){
-					alert("Vous ne pouvez pas supprimer une molécule en combat");
+					console.error("Vous ne pouvez pas supprimer une molécule en combat");
 				}else{
-					alert("ERROR in deleting molecule : code "+xhr.status);
+					console.error("ERROR in deleting molecule : code "+xhr.status);
 				}
 			});
 		});
