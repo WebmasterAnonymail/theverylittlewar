@@ -90,9 +90,9 @@ window.onload=()=>{
 				if(xhr.status==200){
 					window.top.act_preview();
 				}else if(xhr.status==402){
-					Alert("Pas assez de ressources")
+					alert("Pas assez de ressources")
 				}else if(xhr.status==409){
-					console.error("Deja en ameliration")
+					alert("Deja en ameliration")
 				}else{
 					console.error("ERROR in upgrading batiment : code "+xhr.status);
 				}
