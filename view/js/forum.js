@@ -8,12 +8,42 @@ var list_subject_elements=[];
 var list_messages=[];
 var list_message_elements=[];
 class subject{
-	constructor(_id,_name,_read=false,_own=false){
+	constructor(_id,_name,_read=false,_owner=""){
 		this.id=_id;
 		this.name=_name;
 		this.read=_read;
-		this.own=_own;
+		this.own=_owner==username;
+		this.owner=_owner;
 	}
+	make_element(){
+		this.element=document.createElement("div");
+		this.element.classList.add("forum");
+		this.element.onclick=function(){
+			position=2;
+			subject_id=this.id;
+			act_forum();
+		}
+		let _status=document.createElement("img");
+		_status.src="../image/forum/vide.png";
+		_status.classList.add("status");
+		this.element.appendChild(_status);
+		let _name=document.createElement("span");
+		_name.innerText="";
+		_name.classList.add("forum_name");
+		this.element.appendChild(_name)
+		document.getElementById("subjects_list").appendChild(this.element);
+		this.element.children[1].innerText=this.name;
+		if(this.read){
+			if(this.own){
+				this.element.children[0].src="../image/forum/exclamation.png";
+			}else{
+				this.element.children[0].src="../image/forum/question.png";
+			}
+		}else{
+			this.element.children[0].src="../image/forum/vide.png";
+		}
+	}
+	
 }
 class message{
 	constructor(_id,_title,_author,_author_avatar,_date,_content,_own){
@@ -43,9 +73,9 @@ function act_forum(){
 		//précédament : un test
 		if(list_subject_elements.length<list_subjects.length){
 			for(let b=list_subject_elements.length;b<list_subjects.length;b++){
-				list_subject_elements[b]=document.createElement("div");
-				list_subject_elements[b].classList.add("forum");
-				list_subject_elements[b].onclick=function(){
+				this.element=document.createElement("div");
+				this.element.classList.add("forum");
+				this.element.onclick=function(){
 					position=2;
 					subject_id=0;
 					act_forum();
@@ -53,12 +83,12 @@ function act_forum(){
 				let _status=document.createElement("img");
 				_status.src="../image/forum/vide.png";
 				_status.classList.add("status");
-				list_subject_elements[b].appendChild(_status);
+				this.element.appendChild(_status);
 				let _name=document.createElement("span");
 				_name.innerText="";
 				_name.classList.add("forum_name");
-				list_subject_elements[b].appendChild(_name)
-				document.getElementById("subjects_list").appendChild(list_subject_elements[b]);
+				this.element.appendChild(_name)
+				document.getElementById("subjects_list").appendChild(this.element);
 			}
 		}
 		for(let a=0;a<list_subject_elements.length;a++){
