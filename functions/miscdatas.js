@@ -60,7 +60,7 @@ module.exports.batiment_pveurs=[
 	"protecteur"
 ];
 module.exports.seuils_medailes=[1,2,5,10,20,50,100,200,500,1000];
-module.exports.multiplacateur_medailles=[10000,10000,100,50,50,10000,10000,1];
+module.exports.multiplacateur_medailles=[10000,10000,100,50,50,10000,10000,10];
 module.exports.points_medailles=[
 	"defense",
 	"attaque",
@@ -91,7 +91,7 @@ module.exports.power_atome=function(utilisateur,molecule,atome){
 	let result=Math.max(1,Math.asin(utilisateur.molecules[molecule][this.atomes[atome]]/200)/Math.PI*2000);
 	result*=1+(utilisateur.batiments[this.batiment_augmentateurs[atome]]/100);
 	if(this.medailles[atome]>=0){
-		result*=1+(utilisateur.medailles[this.medailles[atome]]/10);
+		result*=1+((utilisateur.medailles[this.medailles[atome]]+1)/10);
 	}
 	//dupli
 	return result;

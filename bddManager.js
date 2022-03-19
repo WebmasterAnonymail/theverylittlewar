@@ -60,7 +60,7 @@ module.exports=function(){
 		for(a in dbs){
 			updateDB(a);
 		}
-	},10000)
+	},20000)
 	if(process.env.is_local=="true"){
 		setInterval(function(){
 			for(a in dbs){

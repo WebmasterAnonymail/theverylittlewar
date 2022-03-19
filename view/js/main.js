@@ -61,6 +61,28 @@ var points_medailles=[
 	"pillage",
 	"combats"
 ];
+var medailles=[
+	"def",
+	"atk",
+	"mol",
+	"tps",
+	"prt",
+	"des",
+	"pil",
+	"cmb"
+];
+var points_medailles=[
+	"defense",
+	"attaque",
+	"molecules_crees",
+	"pertes_temps",
+	"pertes_combat",
+	"destruction",
+	"pillage",
+	"combats"
+];
+var seuils_medailes=[1,2,5,10,20,50,100,200,500,1000];
+var multiplacateur_medailles=[10000,10000,100,50,50,10000,10000,10];
 var initiales=["C","O","N","I","Br","H","S","Cl"];
 function bb_code(texte){
 	let res=texte;
