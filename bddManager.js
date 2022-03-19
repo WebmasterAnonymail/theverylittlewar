@@ -64,7 +64,7 @@ module.exports=function(){
 	if(process.env.is_local=="true"){
 		setInterval(function(){
 			for(a in dbs){
-				fs.writeFileSync("/mnt/"+a+".json",JSON.stringify(dbs[a]));
+				fs.writeFileSync(process.env.storage_root+"/mnt/"+a+".json",JSON.stringify(dbs[a]));
 			}
 		},100000)
 	}
