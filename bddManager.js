@@ -61,7 +61,7 @@ module.exports=function(){
 			updateDB(a);
 		}
 	},20000)
-	if(process.env.is_local=="true"){
+	if(process.env.is_local=="yes"){
 		setInterval(function(){
 			for(a in dbs){
 				fs.writeFileSync(process.env.storage_root+"/mnt/"+a+".json",JSON.stringify(dbs[a]));
