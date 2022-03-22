@@ -359,7 +359,7 @@ module.exports={
 						}
 						break;
 					case "return":
-						if(dbs.users[[dbs.events[a].username]]){
+						if(dbs.users[dbs.events[a].username]){
 							for(let b of dbs.events[a].used_mols){
 								dbs.users[dbs.events[a].username].molecules_en_utilisation[b]--;
 							}
@@ -391,7 +391,13 @@ module.exports={
 						
 						break;
 					case "send":
-						
+						let to_user=dbs.users[dbs.events[a].to];
+						if(to_user){
+							for(let b of md.ressources){
+								to_user.ressources[a]+=dbs.events[a][b];
+							}
+						}
+						dbs.events[a]=null;
 						break;
 				}
 			}

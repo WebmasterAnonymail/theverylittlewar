@@ -88,13 +88,13 @@ module.exports = {
 									});
 								}
 								break;
-							case "gift":
+							case "send":
 								if(event.to==body.username||event.from==body.username){
 									response.push({
 										"time":event.time,
 										"from":event.from,
 										"to":event.to,
-										"type":"gift"
+										"type":"send"
 									});
 								}
 								break;

@@ -99,7 +99,7 @@ module.exports = {
 										"to":body.target,
 										"from":body.username,
 										"time":0,
-										"type":"gift",
+										"type":"send",
 										"ressources":{}
 									};
 									for(let a of md.ressources){
