@@ -88,6 +88,16 @@ module.exports = {
 									});
 								}
 								break;
+							case "gift":
+								if(event.to==body.username||event.from==body.username){
+									response.push({
+										"time":event.time,
+										"from":event.from,
+										"to":event.to,
+										"type":"gift"
+									});
+								}
+								break;
 						}
 					}
 					res.writeHead(200,{'Content-Type':'application/json'});

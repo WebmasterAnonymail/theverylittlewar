@@ -75,6 +75,63 @@ module.exports = {
 						res.end();
 					}
 					break;
+				case "donner_user":
+					if(dbs.users[body.target]){
+						if(body.target!=body.username){
+							if(dbs.users[body.target].actif){
+								let OK1=true;
+								for(let a of md.ressources){
+									if(body[a]==null){
+										body[a]=0;
+									}
+									if(typeof body[a]=="number"){
+										if(body[a]>user.ressources[a]){
+											OK1=false;
+										}
+									}else{
+										OK1=false;
+									}
+								}
+								if(OK1){
+									let dx=dbs.users[body.target].positionX-user.positionX;
+									let dy=dbs.users[body.target].positionY-user.positionY;
+									let event_gft={
+										"to":body.target,
+										"from":body.username,
+										"time":0,
+										"type":"gift",
+										"ressources":{}
+									};
+									for(let a of md.ressources){
+										user.ressources[a]-=body[a];
+										event_gft.ressources[a]=body[a];
+									}
+									event_gft.time=Date.now()+Math.hypot(dx,dy)*60*1000;
+									user.points.combats++;
+									dbs.events.push(event_gft);
+									res.writeHead(200,{'Content-Type':'application/json'});
+									res.end();
+								}else{
+									res.writeHead(402);
+									res.write("You dont have enough ressources");
+									res.end();
+								}
+							}else{
+								res.writeHead(403);
+								res.write("You cannot give to an inactive user");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("You cannot give to yourself");
+							res.end();
+						}
+					}else{
+						res.writeHead(404);
+						res.write("User not exist");
+						res.end();
+					}
+					break;
 			}
 		}else{
 			res.writeHead(401);
