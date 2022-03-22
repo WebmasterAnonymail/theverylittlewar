@@ -529,6 +529,7 @@ module.exports={
 				dbs.users[a].actif=false;
 			}
 			for(let a in dbs.team){
+				console.log(dbs.team[a])
 				dbs.team[a].ressources={
 					"energie":0,
 					"carbone":0,
@@ -542,6 +543,7 @@ module.exports={
 					"victoires":dbs.team[a].ressources.victoires
 				}
 				dbs.team[a].requetes_ressources=[];
+				console.log(dbs.team[a])
 			}
 			dbs.events=[];
 			dbs.connections={};
