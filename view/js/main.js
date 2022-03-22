@@ -11,6 +11,17 @@ var atomes=[
 	"soufre",
 	"chlore"
 ];
+var ressources=[
+	"carbone",
+	"oxygene",
+	"azote",
+	"iode",
+	"brome",
+	"hydrogene",
+	"soufre",
+	"chlore",
+	"energie"
+];
 var batiments=[
 	"generateur",
 	"producteur",

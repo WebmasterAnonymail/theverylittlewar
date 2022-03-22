@@ -168,7 +168,7 @@ window.onload=()=>{
 			"target":document.getElementById("donner_target").value
 		}
 		for(let a of ressources){
-			datas[a]=document.getElementById("finances_"+a).valueAsNumber;
+			datas[a]=document.getElementById("donner_"+a).valueAsNumber;
 		}
 		use_api("PUT","actions",datas,true,function(xhr){
 			if(xhr.status==200){
