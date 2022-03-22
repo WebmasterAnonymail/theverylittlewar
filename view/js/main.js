@@ -313,7 +313,7 @@ window.addEventListener("load",function(ev){
 							opened_popup_id="notifbar";
 						});
 						act_preview();
-						setInterval(act_preview,1250)
+						setInterval(act_preview,1500)
 					}
 				}else{
 					document.location.replace("html/accueil.html");
