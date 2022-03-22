@@ -42,16 +42,16 @@
 			<br/>
 			<div id="user_actions">
 				<div class="button_labeled" id="user_button_attaquer">
-					<img src="../image/actions/combat.png" class="button_labeled_image">
-					<span class="button_labeled_label">Attaquer</span>
+					<img src="../image/actions/combat.png">
+					<span>Attaquer</span>
 				</div>
 				<div class="button_labeled" id="user_button_espionner">
-					<img src="../image/actions/esp.png" class="button_labeled_image">
-					<span class="button_labeled_label">Espionner</span>
+					<img src="../image/actions/esp.png">
+					<span>Espionner</span>
 				</div>
 				<div class="button_labeled" id="user_button_donner">
-					<img src="../image/actions/don.png" class="button_labeled_image">
-					<span class="button_labeled_label">Donner</span>
+					<img src="../image/actions/don.png">
+					<span>Donner</span>
 				</div>
 			</div>
 			<fieldset>
@@ -98,8 +98,8 @@
 			</table>
 			<div id="team_actions">
 				<div class="button_labeled" id="team_button_attaquer">
-					<img src="../image/actions/combat.png" class="button_labeled_image">
-					<span class="button_labeled_label">Attaquer</span>
+					<img src="../image/actions/combat.png">
+					<span>Attaquer</span>
 				</div>
 			</div>
 			<fieldset>
@@ -140,10 +140,40 @@
 				<input type="button" id="attaquer_mol4_max" value="max">
 				<br/>
 				<div class="button_labeled" id="attaquer_button">
-					<img src="../image/actions/combat.png" class="button_labeled_image">
-					<span class="button_labeled_label">Attaquer</span>
+					<img src="../image/actions/combat.png">
+					<span>Attaquer</span>
 				</div>
 			</fieldset>
 		</div>
+		<div id="donner" class="alternate_body">
+			<fieldset>
+				<legend>
+					Donner a un joueur
+				</legend>
+				<input type="search" id="donner_target" placeholder="Cible" list="user_autocomplete_list">
+				<br/>
+				<img src="../image/ressources/energie.png" class="icon">
+				<input id="donner_energie" type="number" placeholder="Energie" min="0"><br>
+				<img src="../image/ressources/carbone.png" class="icon">
+				<input id="donner_carbone" type="number" placeholder="Carbone" min="0"><br>
+				<img src="../image/ressources/oxygene.png" class="icon">
+				<input id="donner_oxygene" type="number" placeholder="Oxyg&egrave;ne" min="0"><br>
+				<img src="../image/ressources/azote.png" class="icon">
+				<input id="donner_azote" type="number" placeholder="Azote" min="0"><br>
+				<img src="../image/ressources/iode.png" class="icon">
+				<input id="donner_iode" type="number" placeholder="Iode" min="0"><br>
+				<img src="../image/ressources/brome.png" class="icon">
+				<input id="donner_brome" type="number" placeholder="Brome" min="0"><br>
+				<img src="../image/ressources/hydrogene.png" class="icon">
+				<input id="donner_hydrogene" type="number" placeholder="Hydrog&egrave;ne" min="0"><br>
+				<img src="../image/ressources/soufre.png" class="icon">
+				<input id="donner_soufre" type="number" placeholder="Soufre" min="0"><br>
+				<img src="../image/ressources/chlore.png" class="icon">
+				<input id="donner_chlore" type="number" placeholder="Chlore" min="0"><br>
+				<div class="button_labeled" id="donner_button">
+					<img src="../image/actions/don.png">
+					<span>Donner</span>
+				</div>
+			</fieldset>
 	</body>
 </html>

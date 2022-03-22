@@ -10,7 +10,7 @@ function post_getuser_action(){
 		}
 		document.getElementById(medailles[a]+"_actual").innerText=(user.medailles[medailles[a]]+1)*10+"%";
 		if(user.medailles[medailles[a]]<9){
-			document.getElementById(medailles[a]+"_points").innerText=user.points[points_medailles[a]]+"/"+(seuils_medailes[user.medailles[medailles[a]]+1]*multiplacateur_medailles[a])
+			document.getElementById(medailles[a]+"_points").innerText=affichageRessources(user.points[points_medailles[a]])+"/"+affichageRessources(seuils_medailes[user.medailles[medailles[a]]+1]*multiplacateur_medailles[a])
 		}else{
 			document.getElementById(medailles[a]+"_points").innerText="Médaille maximum !"
 		}

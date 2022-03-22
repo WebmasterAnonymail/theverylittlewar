@@ -1,4 +1,4 @@
-var bodys=["preview_user","preview_team","attaquer"];
+var bodys=["preview_user","preview_team","attaquer","donner"];
 var selectedUser=null;
 var selectedTeam=null;
 function select_body(body=null){
@@ -24,7 +24,7 @@ function view_user(user){
 				document.getElementById("team_link").onclick=null;
 			}
 			document.getElementById("user_points").innerText=Math.floor(xhr.response.points.total);
-			document.getElementById("user_victory").innerText=xhr.response.victoires;
+			document.getElementById("user_victory").innerText=Math.floor(xhr.response.victoires);
 			document.getElementById("user_position").innerText=xhr.response.positionX+";"+xhr.response.positionY;
 			document.getElementById("user_last_connexion").innerText="Il y a "+affichageTemps(Date.now()-xhr.response.lastUserCheck);
 			if(xhr.response.description){
@@ -118,6 +118,10 @@ window.onload=()=>{
 		document.getElementById("attaquer_what").onchange();
 		document.getElementById("attaquer_target").value=selectedTeam;
 	});
+	document.getElementById("user_button_donner").addEventListener("click",function(){
+		select_body("donner");
+		document.getElementById("donner_target").value=selectedUser;
+	});
 	for(let a=0;a<5;a++){
 		document.getElementById("attaquer_mol"+a+"_max").addEventListener("click",function(){
 			document.getElementById("attaquer_mol"+a).value=document.getElementById("attaquer_mol"+a).getAttribute("max");
@@ -155,6 +159,31 @@ window.onload=()=>{
 				alert("Vous n'avez pas assez de molécule");
 			}else{
 				console.error("ERROR in attaquing : code "+xhr.status);
+			}
+		})
+	});
+	document.getElementById("donner_button").addEventListener("click",function(){
+		datas={
+			"action":"donner",
+			"target":document.getElementById("donner_target").value
+		}
+		for(let a of ressources){
+			datas[a]=document.getElementById("finances_"+a).valueAsNumber;
+		}
+		use_api("PUT","actions",datas,true,function(xhr){
+			if(xhr.status==200){
+				for(let a of ressources){
+					document.getElementById("finances_"+a).value="";
+				}
+				window.parent.popup_open_close();
+			}else if(xhr.status==404){
+				alert("L'utilisateur n'existe pas");
+			}else if(xhr.status==403){
+				alert("Vous ne pouvez pas donner a cet utilisateur");
+			}else if(xhr.status==402){
+				alert("Vous n'avez pas assez de ressources");
+			}else{
+				console.error("ERROR in giving : code "+xhr.status);
 			}
 		})
 	});
