@@ -255,6 +255,16 @@ function act_preview(){
 						txt.innerText="Retour d'attaque";
 						notif.appendChild(txt);
 						break;
+					case "send":
+						let icon5=document.createElement("img");
+						icon5.classList.add("icon");
+						icon5.src="image/actions/don.png";
+						notif.appendChild(icon5);
+						let don=document.createElement("span");
+						don.style.marginLeft="10px";
+						don.innerText="De : "+event.from+". À : "+event.to;
+						notif.appendChild(don);
+						break;
 				}
 				time=document.createElement("span");
 				time.classList.add("notif_time");

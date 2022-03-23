@@ -173,7 +173,7 @@ window.onload=()=>{
 		use_api("PUT","actions",datas,true,function(xhr){
 			if(xhr.status==200){
 				for(let a of ressources){
-					document.getElementById("finances_"+a).value="";
+					document.getElementById("donner_"+a).value="";
 				}
 				window.parent.popup_open_close();
 			}else if(xhr.status==404){

@@ -75,7 +75,8 @@ module.exports = {
 						res.end();
 					}
 					break;
-				case "donner_user":
+				case "donner":
+					console.log("ok")
 					if(dbs.users[body.target]){
 						if(body.target!=body.username){
 							if(dbs.users[body.target].actif){
