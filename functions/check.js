@@ -394,7 +394,7 @@ module.exports={
 						let to_user=dbs.users[dbs.events[a].to];
 						if(to_user){
 							for(let b of md.ressources){
-								to_user.ressources[b]+=dbs.events[a][b];
+								to_user.ressources[b]+=dbs.events[a].ressources[b];
 							}
 						}
 						dbs.events[a]=null;
