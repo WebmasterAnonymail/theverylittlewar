@@ -27,8 +27,8 @@ module.exports={
 							this.usercheck(dbs.events[a].atk);
 							this.usercheck(dbs.events[a].def);
 							let mol_used_by_atkant=[];
-							let old_defmols=defant.molecules.slice();
-							let old_atkmols=atkant.molecules.slice();
+							let old_defmols=JSON.parse(JSON.stringify(defant.molecules));
+							let old_atkmols=JSON.parse(JSON.stringify(atkant.molecules));
 							let defmols=[];
 							let atkmols=[];
 							for(let b=0;b<5;b++){
