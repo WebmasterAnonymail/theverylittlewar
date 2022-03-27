@@ -13,7 +13,7 @@
 		<div id="popup_actionframe" class="fenetre" style="display:none;">
 			<iframe src="userteam.html" style="height:625px;"></iframe>
 		</div>
-		<table>
+		<table id="actual_table">
 			<caption><h2>Classement</h2></caption>
 			<thead>
 				<tr>
@@ -75,7 +75,39 @@
 					</th>
 				</tr>
 			</thead>
-			<tbody id="classement"></tbody>
+			<tbody id="actual_classement"></tbody>
+		</table>
+		<table id="teams_table" style="display:none;">
+			<caption><h2>Classement des équipes</h2></caption>
+			<thead>
+				<tr>
+					<th scope="col" class="smallcase">
+					<img src="../image/lieux/classement.png" class="icon" class="smallcase"><br>
+					rang
+					</th>
+					<th scope="col" class="bigcase">
+					<img src="../image/autre/post-it.png" class="icon"><br>
+					nom
+					</th>
+					<th scope="col">
+					<img src="../image/lieux/alliance.png" class="icon"><br>
+					membres
+					</th>
+					<th scope="col">
+					<img src="../image/ressources/sommepoints.png" class="icon"><br>
+					somme des points
+					</th>
+					<th scope="col">
+					<img src="../image/ressources/points.png" class="icon"><br>
+					points
+					</th>
+					<th scope="col">
+					<img src="../image/ressources/victoires.png" class="icon"><br>
+					victoires
+					</th>
+				</tr>
+			</thead>
+			<tbody id="teams_classement"></tbody>
 		</table>
 		<div id="buttons">
 			<div class="button_labeled" id="actual_button">
@@ -99,7 +131,7 @@
 				<img src="../image/autre/agenda.png">
 				<span>Archives</span>
 			</div>
-			<div class="button_labeled" id="unarchives_button">
+			<div class="button_labeled" id="unarchives_button" style="display:none">
 				<img src="../image/autre/cahier.png">
 				<span>Retour au classement</span>
 			</div>

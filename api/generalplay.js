@@ -29,8 +29,15 @@ module.exports = {
 		res.end();
 	},
 	OPTIONS:(req,res,body)=>{
-		res.writeHead(200,{'Content-Type':'application/json'})
-		res.write(JSON.stringify(dbs.MDS.classement));
+		if(body.classement=="actual"){
+			res.writeHead(200,{'Content-Type':'application/json'})
+			res.write(JSON.stringify(dbs.MDS.classement));
+		}else if(body.classement=="teams"){
+			res.writeHead(200,{'Content-Type':'application/json'})
+			res.write(JSON.stringify(dbs.MDS.classement_team));
+		}else{
+			res.writeHead(404)
+		}
 		res.end();
 	}
 }

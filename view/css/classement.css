@@ -1,8 +1,8 @@
 thead th{
 	font-size: 15px;
 	font-weight: normal;
-	width: 6%
 }
+
 td{
 	border-left: 0px none;
 	border-right: 0px none;
@@ -12,11 +12,23 @@ table{
 	margin: 10px;
 	table-layout: fixed;
 }
-thead .bigcase{
+#actual_table thead th{
+	width: 6%
+}
+#actual_table thead .bigcase{
 	width: 15%;
 }
-thead .smallcase{
+#actual_table thead .smallcase{
 	width: 4%;
+}
+#teams_table thead th{
+	width: 13%
+}
+#teams_table thead .bigcase{
+	width: 42%;
+}
+#teams_table thead .smallcase{
+	width: 6%;
 }
 #buttons{
 	position: fixed;

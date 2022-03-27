@@ -476,6 +476,7 @@ module.exports={
 					team:a,
 					victoires:dbs.teams[a].ressources.victoires,
 					somme:sum,
+					membres:nb_membres,
 					moyenne:sum/nb_membres
 				});
 			}
@@ -491,6 +492,9 @@ module.exports={
 			//Classement de victoire
 			for(let a=0;a<classement.length;a++){
 				dbs.users[dbs.MDS.classement[a].user].ressources.victoires+=50/(a+1)-2*a+50;
+			}
+			for(let a=0;a<classement_team.length;a++){
+				dbs.teams[dbs.MDS.classement_team[a].teams].ressources.victoires+=50/(a+1)-2*a+50;
 			}
 			//Réinitialisation mensuelles
 			dbs.connections={};
