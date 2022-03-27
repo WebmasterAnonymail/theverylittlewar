@@ -342,3 +342,10 @@ td,th{
 .alternate_body[used="yes"]{
 	display: block;
 }
+.rainbow{
+	animation-name: rainbow;
+	animation-duration: 2500ms;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+}

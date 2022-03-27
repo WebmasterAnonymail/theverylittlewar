@@ -18,3 +18,10 @@ thead .bigcase{
 thead .smallcase{
 	width: 4%;
 }
+#buttons{
+	position: fixed;
+	bottom: 0px;
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+}

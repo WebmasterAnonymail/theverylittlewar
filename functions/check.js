@@ -447,7 +447,7 @@ module.exports={
 	gamecheck:function(){
 		//Classement
 		let classement=[]
-		for(a in dbs.users){
+		for(let a in dbs.users){
 			if(dbs.users[a].actif){
 				classement.push({
 					user:a,
@@ -461,6 +461,27 @@ module.exports={
 			return b.points.total-a.points.total;
 		});
 		dbs.MDS.classement=classement;
+		let classement_team=[]
+		for(let a in dbs.teams){
+			let sum=0;
+			let nb_membres=0;
+			for(let a of dbs.teams[a].membres){
+				if(dbs.users[a].actif){
+					sum+=dbs.users[a].points.total;
+					nb_membres++;
+				}
+			}
+			classement_team.push({
+				team:a,
+				victoires:dbs.teams[a].ressources.victoires,
+				somme:sum,
+				moyenne:sum/nb_membres
+			});
+		}
+		classement_team.sort(function(a,b){
+			return b.points.total-a.points.total;
+		});
+		dbs.MDS.classement_team=classement_team;
 		//Réinitialisation mensuelle
 		if(Date.now()>new Date(dbs.MDS.actual_game.year,dbs.MDS.actual_game.month+1).getTime()){
 			dbs.MDS.actual_game.year=new Date().getFullYear();
