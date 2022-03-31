@@ -1,5 +1,5 @@
 var popups=["actionframe"];
-var classements=["actual","teams"];
+var classements=["actual","teams","general"];
 var selected_classement="actual";
 function popup_open_close(at_open=null){
 	document.getElementById("popup_mask").style.display="none";
@@ -84,7 +84,7 @@ function post_getuser_action(){
 				for(let rank in xhr.response){
 					let data=xhr.response[rank];
 					let line=document.createElement("tr");
-					if(data.team==user.alliance){
+					if(data.user==username){
 						line.style.borderColor="#0000ff";
 					}
 					let Eclassement=document.createElement("td");
@@ -126,6 +126,59 @@ function post_getuser_action(){
 				console.error("ERROR in getting classement : code "+xhr.status);
 			}
 		});
+	}else if(selected_classement=="general"){
+		use_api("OPTIONS","generalplay",{classement:"general"},false,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("general_classement").innerHTML="";
+				for(let rank in xhr.response){
+					let data=xhr.response[rank];
+					let line=document.createElement("tr");
+					if(data.team==user.alliance){
+						line.style.borderColor="#0000ff";
+					}
+					let Eclassement=document.createElement("td");
+					Eclassement.innerText=Number(rank)+1;
+					switch(rank){
+						case "0":
+							Eclassement.style.backgroundColor="var(--platine-color)";
+							break;
+						case "1":
+							Eclassement.style.backgroundColor="var(--or-color)";
+							break;
+						case "2":
+							Eclassement.style.backgroundColor="var(--argent-color)";
+							break;
+					}
+					line.appendChild(Eclassement);
+					let Euser=document.createElement("td");
+					Euser.innerText=data.user;
+					Euser.addEventListener("click",function(){
+						popup_open_close("actionframe");
+						frames[0].view_user(data.user);
+					});
+					line.appendChild(Euser);
+					let Eteam=document.createElement("td");
+					Eteam.innerText=data.team;
+					Eteam.addEventListener("click",function(){
+						popup_open_close("actionframe");
+						frames[0].view_team(data.team);
+					});
+					line.appendChild(Eteam);
+					let Epoints=document.createElement("td");
+					Epoints.innerText=Math.floor(data.points);
+					line.appendChild(Epoints);
+					let Evictoires=document.createElement("td");
+					Evictoires.innerText=Math.floor(data.victoires);
+					line.appendChild(Evictoires);
+					if(!data.actif){
+						line.style.backgroundColor="#e0e0e0";
+					}
+					document.getElementById("general_classement").appendChild(line);
+				}
+			}else{
+				console.error("ERROR in getting classement : code "+xhr.status);
+			}
+		});
 	}
 }
 window.onload=()=>{
@@ -137,5 +190,8 @@ window.onload=()=>{
 	});
 	document.getElementById("teams_button").addEventListener("click",function(){
 		select_classement("teams");
+	});
+	document.getElementById("general_button").addEventListener("click",function(){
+		select_classement("general");
 	});
 }
