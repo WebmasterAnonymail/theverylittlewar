@@ -55,10 +55,12 @@ function post_getuser_action(){
 					line.appendChild(Epoints);
 					let Eteam=document.createElement("td");
 					Eteam.innerText=data.team;
-					Eteam.addEventListener("click",function(){
-						popup_open_close("actionframe");
-						frames[0].view_team(data.team);
-					});
+					if(data.team){
+						Eteam.addEventListener("click",function(){
+							popup_open_close("actionframe");
+							frames[0].view_team(data.team);
+						});
+					}
 					line.appendChild(Eteam);
 					let Epoints_bat=document.createElement("td");
 					Epoints_bat.innerText=Math.floor(data.points.batiments);
