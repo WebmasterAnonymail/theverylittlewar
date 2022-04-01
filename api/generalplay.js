@@ -35,6 +35,22 @@ module.exports = {
 		}else if(body.classement=="teams"){
 			res.writeHead(200,{'Content-Type':'application/json'})
 			res.write(JSON.stringify(dbs.MDS.classement_team));
+		}else if(body.classement=="general"){
+			let classement_ge=[]
+			for(let a in dbs.users){
+				classement_ge.push({
+					user:a,
+					team:dbs.users[a].alliance,
+					actif:dbs.users[a].actif,
+					victoires:dbs.users[a].ressources.victoires,
+					points:dbs.users[a].points.total
+				});
+			}
+			classement_ge.sort(function(a,b){
+				return b.victoires-a.victoires;
+			});
+			res.writeHead(200,{'Content-Type':'application/json'})
+			res.write(JSON.stringify(classement_ge));
 		}else{
 			res.writeHead(404)
 		}
