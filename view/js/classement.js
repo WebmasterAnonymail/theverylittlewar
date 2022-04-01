@@ -86,7 +86,7 @@ function post_getuser_action(){
 				for(let rank in xhr.response){
 					let data=xhr.response[rank];
 					let line=document.createElement("tr");
-					if(data.user==username){
+					if(data.team==user.team){
 						line.style.borderColor="#0000ff";
 					}
 					let Eclassement=document.createElement("td");
@@ -135,7 +135,7 @@ function post_getuser_action(){
 				for(let rank in xhr.response){
 					let data=xhr.response[rank];
 					let line=document.createElement("tr");
-					if(data.team==user.alliance){
+					if(data.user==username){
 						line.style.borderColor="#0000ff";
 					}
 					let Eclassement=document.createElement("td");
