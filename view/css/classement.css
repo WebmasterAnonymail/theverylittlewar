@@ -8,9 +8,12 @@ td{
 	border-right: 0px none;
 }
 table{
-	width: auto;
-	margin: 10px;
+	width: 98%;
+	margin: 1%;
 	table-layout: fixed;
+}
+thead .smallcase{
+	width: 4% !important;
 }
 #actual_table thead th{
 	width: 6%
@@ -18,17 +21,17 @@ table{
 #actual_table thead .bigcase{
 	width: 15%;
 }
-#actual_table thead .smallcase{
-	width: 4%;
-}
 #teams_table thead th{
-	width: 13%
+	width: 14%
 }
 #teams_table thead .bigcase{
-	width: 42%;
+	width: 40%;
 }
-#teams_table thead .smallcase{
-	width: 6%;
+#general_table thead th{
+	width: 11%
+}
+#general_table thead .bigcase{
+	width: 37%;
 }
 #buttons{
 	position: fixed;

@@ -472,13 +472,15 @@ module.exports={
 						nb_membres++;
 					}
 				}
-				classement_team.push({
-					team:a,
-					victoires:dbs.teams[a].ressources.victoires,
-					somme:sum,
-					membres:nb_membres,
-					moyenne:sum/nb_membres
-				});
+				if(nb_membres>0){
+					classement_team.push({
+						team:a,
+						victoires:dbs.teams[a].ressources.victoires,
+						somme:sum,
+						membres:nb_membres,
+						moyenne:sum/nb_membres
+					});
+				}
 			}
 		}
 		classement_team.sort(function(a,b){
