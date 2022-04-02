@@ -561,22 +561,22 @@ module.exports={
 				dbs.users[a].positionY=null;
 				dbs.users[a].actif=false;
 			}
-			for(let a in dbs.team){
-				console.log(dbs.team[a])
-				dbs.team[a].ressources={
-					"energie":0,
-					"carbone":0,
-					"oxygene":0,
-					"azote":0,
-					"iode":0,
-					"brome":0,
-					"hydrogene":0,
-					"soufre":0,
-					"chlore":0,
-					"victoires":dbs.team[a].ressources.victoires
+			for(let a in dbs.teams){
+				if(a!="NONETEAM"){
+					dbs.teams[a].ressources={
+						"energie":0,
+						"carbone":0,
+						"oxygene":0,
+						"azote":0,
+						"iode":0,
+						"brome":0,
+						"hydrogene":0,
+						"soufre":0,
+						"chlore":0,
+						"victoires":dbs.teams[a].ressources.victoires
+					}
+					dbs.teams[a].requetes_ressources=[];
 				}
-				dbs.team[a].requetes_ressources=[];
-				console.log(dbs.team[a])
 			}
 			dbs.events=[];
 			dbs.connections={};

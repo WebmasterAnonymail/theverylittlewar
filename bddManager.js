@@ -67,7 +67,6 @@ module.exports=function(){
 			for(a in dbs){
 				fs.writeFileSync(process.env.storage_root+"/mnt/"+a+".json",JSON.stringify(dbs[a]));
 			}
-			console.log("SAVED");
 		},100000)
 	}
 }
