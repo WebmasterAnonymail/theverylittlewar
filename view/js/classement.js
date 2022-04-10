@@ -1,5 +1,5 @@
 var popups=["actionframe"];
-var classements=["actual","teams","general"];
+var classements=["actual","teams","general","general_teams"];
 var selected_classement="actual";
 function popup_open_close(at_open=null){
 	document.getElementById("popup_mask").style.display="none";
@@ -107,7 +107,7 @@ function post_getuser_action(){
 					Eteam.innerText=data.team;
 					Eteam.addEventListener("click",function(){
 						popup_open_close("actionframe");
-						frames[0].view_user(data.team);
+						frames[0].view_team(data.team);
 					});
 					line.appendChild(Eteam);
 					let Emembres=document.createElement("td");
@@ -161,10 +161,12 @@ function post_getuser_action(){
 					line.appendChild(Euser);
 					let Eteam=document.createElement("td");
 					Eteam.innerText=data.team;
-					Eteam.addEventListener("click",function(){
-						popup_open_close("actionframe");
-						frames[0].view_team(data.team);
-					});
+					if(data.team){
+						Eteam.addEventListener("click",function(){
+							popup_open_close("actionframe");
+							frames[0].view_team(data.team);
+						});
+					}
 					line.appendChild(Eteam);
 					let Epoints=document.createElement("td");
 					Epoints.innerText=Math.floor(data.points);
@@ -176,6 +178,57 @@ function post_getuser_action(){
 						line.style.backgroundColor="#e0e0e0";
 					}
 					document.getElementById("general_classement").appendChild(line);
+				}
+			}else{
+				console.error("ERROR in getting classement : code "+xhr.status);
+			}
+		});
+	}else if(selected_classement=="general_teams"){
+		use_api("OPTIONS","generalplay",{classement:"general_teams"},false,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("general_teams_classement").innerHTML="";
+				for(let rank in xhr.response){
+					let data=xhr.response[rank];
+					let line=document.createElement("tr");
+					if(data.user==username){
+						line.style.borderColor="#0000ff";
+					}
+					let Eclassement=document.createElement("td");
+					Eclassement.innerText=Number(rank)+1;
+					switch(rank){
+						case "0":
+							Eclassement.style.backgroundColor="var(--platine-color)";
+							break;
+						case "1":
+							Eclassement.style.backgroundColor="var(--or-color)";
+							break;
+						case "2":
+							Eclassement.style.backgroundColor="var(--argent-color)";
+							break;
+					}
+					line.appendChild(Eclassement);
+					let Eteam=document.createElement("td");
+					Eteam.innerText=data.team;
+					if(data.team){
+						Eteam.addEventListener("click",function(){
+							popup_open_close("actionframe");
+							frames[0].view_team(data.team);
+						});
+					}
+					line.appendChild(Eteam);
+					let Emembres=document.createElement("td");
+					Emembres.innerText=data.membres;
+					line.appendChild(Emembres);
+					let Epoints=document.createElement("td");
+					Epoints.innerText=Math.floor(data.moyenne);
+					line.appendChild(Epoints);
+					let Evictoires=document.createElement("td");
+					Evictoires.innerText=Math.floor(data.victoires);
+					line.appendChild(Evictoires);
+					if(!data.actif){
+						line.style.backgroundColor="#e0e0e0";
+					}
+					document.getElementById("general_teams_classement").appendChild(line);
 				}
 			}else{
 				console.error("ERROR in getting classement : code "+xhr.status);
@@ -195,5 +248,8 @@ window.onload=()=>{
 	});
 	document.getElementById("general_button").addEventListener("click",function(){
 		select_classement("general");
+	});
+	document.getElementById("general_teams_button").addEventListener("click",function(){
+		select_classement("general_teams");
 	});
 }

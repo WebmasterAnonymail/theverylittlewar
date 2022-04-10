@@ -51,6 +51,32 @@ module.exports = {
 			});
 			res.writeHead(200,{'Content-Type':'application/json'})
 			res.write(JSON.stringify(classement_ge));
+		}else if(body.classement=="general_teams"){
+			let classement_ge=[]
+			for(let a in dbs.teams){
+				if(a!="NONETEAM"){
+					let sum=0;
+					let nb_membres=0;
+					for(let b of dbs.teams[a].membres){
+						if(dbs.users[b].actif){
+							sum+=dbs.users[b].points.total;
+							nb_membres++;
+						}
+					}
+					classement_ge.push({
+						team:a,
+						actif:nb_membres>0,
+						victoires:dbs.teams[a].ressources.victoires,
+						membres:dbs.teams[a].membres.length,
+						moyenne:sum/nb_membres
+					});
+				}
+			}
+			classement_ge.sort(function(a,b){
+				return b.victoires-a.victoires;
+			});
+			res.writeHead(200,{'Content-Type':'application/json'})
+			res.write(JSON.stringify(classement_ge));
 		}else{
 			res.writeHead(404)
 		}

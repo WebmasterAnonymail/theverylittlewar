@@ -117,7 +117,7 @@ function bb_code(texte){
 		oldres=res;
 		res=res.replace(imgbalise,"<img src='$1'>");
 	}while(oldres!=res);
-	let colorbalise=/\[color=(#[0-9A-F]{6}|black|grey|silver|white|maroon|olive|green|teal|navy|purple|red|yellow|lime|aqua|blue|fuchsia)\](.*?)\[\/color\]/;
+	let colorbalise=/\[color=(#[0-9A-Fa-f]{6}|black|grey|silver|white|maroon|olive|green|teal|navy|purple|red|yellow|lime|aqua|blue|fuchsia)\](.*?)\[\/color\]/;
 	do{
 		oldres=res;
 		res=res.replace(colorbalise,"<span style='color: $1;'>$2</span>");

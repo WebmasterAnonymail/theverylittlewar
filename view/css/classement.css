@@ -33,6 +33,12 @@ thead .smallcase{
 #general_table thead .bigcase{
 	width: 37%;
 }
+#general_teams_table thead th{
+	width: 11%
+}
+#general_teams_table thead .bigcase{
+	width: 37%;
+}
 #buttons{
 	position: fixed;
 	bottom: 0px;
