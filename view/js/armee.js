@@ -4,6 +4,8 @@ function post_getuser_action(){
 		let mol=user.molecules[a];
 		if(mol){
 			let formule="";
+			let prix_mol=0;
+			let maxmol=+Infinity;
 			for(b in atomes){
 				if(user.molecules[a][atomes[b]]){
 					formule+="<e"+initiales[b].toLowerCase()+">";
@@ -12,15 +14,22 @@ function post_getuser_action(){
 						formule+="<sub>"+user.molecules[a][atomes[b]]+"</sub>";
 					}
 					formule+="</e"+initiales[b].toLowerCase()+">";
+					maxmol=Math.min(maxmol,user.ressources[atomes[b]]/user.molecules[a][atomes[b]]);
+					prix_mol+=user.molecules[a][atomes[b]];
 				}
 			}
+			prix_mol**=1.5;
+			prix_mol/=10;
+			maxmol=Math.min(maxmol,user.ressources.energie/prix_mol);
 			document.getElementById("formule"+a).innerHTML=formule;
 			document.getElementById("number_mol"+a).innerText=affichageRessources(user.molecules[a].number);
+			document.getElementById("new_mol"+a+"_number").setAttribute("max",maxmol);
 			document.getElementById("prix_mol"+a).style.display="none";
 			document.getElementById("create_mol"+a).style.display="none";
 			document.getElementById("delete_mol"+a).style.display="inline-block";
 			document.getElementById("new_mol"+a).style.display="inline-block";
 			document.getElementById("new_mol"+a+"_number").style.display="inline-block";
+			document.getElementById("max_mol"+a+"_button").style.display="inline-block";
 			document.getElementById("prix_new_mol"+a).style.display="inline-block";
 		}else{
 			document.getElementById("formule"+a).innerHTML="Vide";
@@ -30,6 +39,7 @@ function post_getuser_action(){
 			document.getElementById("delete_mol"+a).style.display="none";
 			document.getElementById("new_mol"+a).style.display="none";
 			document.getElementById("new_mol"+a+"_number").style.display="none";
+			document.getElementById("max_mol"+a+"_button").style.display="none";
 			document.getElementById("prix_new_mol"+a).style.display="none";
 		}
 	}
