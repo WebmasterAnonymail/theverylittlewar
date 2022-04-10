@@ -139,5 +139,8 @@ window.onload=function(event){
 			prix_mol/=10;
 			document.getElementById("prix_new_mol"+a).innerText=affichageRessources(prix_mol*(document.getElementById("new_mol"+a+"_number").valueAsNumber||0));
 		});
+		document.getElementById("max_mol"+a+"_button").addEventListener("click",function(event){
+			document.getElementById("new_mol"+a+"_number").valueAsNumber=Math.floor(Number(document.getElementById("new_mol"+a+"_number").max)*200)/200;
+		});
 	}
 }
