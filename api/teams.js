@@ -1,5 +1,24 @@
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
+function calc_earning_team_war(winer,loser){
+	let win_pts=0
+	for(let a of winer.membres){
+		if(dbs.users[a].actif){
+			checkmodule.usercheck(a)
+			win_pts+=dbs.users[a].points.total;
+		}
+	}
+	let los_pts=0
+	for(let a of loser.membres){
+		if(dbs.users[a].actif){
+			checkmodule.usercheck(a)
+			los_pts+=dbs.users[a].points.total;
+		}
+	}
+	const max_transfer_rate=0.5
+	let rate=max_transfer_rate/(1+Math.exp(50*(win_pts-los_pts)))//lorsque los a + pts que win, la f(x) croit (50 ajustable)
+	return rate*los_pts
+}
 module.exports = {
 	name:'teams',
 	GET:(req,res,body)=>{

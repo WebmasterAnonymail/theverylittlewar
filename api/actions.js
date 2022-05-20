@@ -132,6 +132,15 @@ module.exports = {
 						res.end();
 					}
 					break;
+				case "attaquer_team":
+					if(dbs.teams[body.target]){
+						console.log("ok")
+					}else{
+						res.writeHead(404);
+						res.write("Team not exist");
+						res.end();
+					}
+					break;
 			}
 		}else{
 			res.writeHead(401);
