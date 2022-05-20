@@ -435,7 +435,7 @@ module.exports={
 						dbs.users[user].medailles[md.medailles[a]]=b;
 					}
 				}
-				dbs.users[user].points.total+=dbs.users[user].points[md.points_medailles[a]]/md.multiplacateur_medailles[a]/10;
+				dbs.users[user].points.total+=Math.log(dbs.users[user].points[md.points_medailles[a]]/md.multiplacateur_medailles[a]+1)*15;
 			}
 			dbs.users[user].lastUserCheck=Date.now();
 			if(dbs.connections[token]==user){
