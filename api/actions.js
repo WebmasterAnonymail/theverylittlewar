@@ -134,7 +134,50 @@ module.exports = {
 					break;
 				case "attaquer_team":
 					if(dbs.teams[body.target]){
-						console.log("ok")
+						if(body.target!=user.alliance){
+							if(user.alliance){
+								if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.target)!=-1){
+									let OK1=true;
+									for(let a=0;a<5;a++){
+										if(body["mol"+a]==null){
+											body["mol"+a]=0;
+										}
+										if(typeof body["mol"+a]=="number"){
+											if(user.molecules[a]){
+												if(body["mol"+a]>user.molecules[a].number){
+													OK1=false;
+												}
+											}else{
+												if(body["mol"+a]>0){
+													OK1=false;
+												}
+											}
+										}else{
+											OK1=false;
+										}
+									}
+									if(OK1){
+										console.log("ok")
+									}else{
+										res.writeHead(402);
+										res.write("You dont have enough molecules");
+										res.end();
+									}
+								}else{
+									res.writeHead(409);
+									res.write("You must be in war with the target");
+									res.end();
+								}
+							}else{
+								res.writeHead(409);
+								res.write("You must have a team");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("You cannot attack your own team");
+							res.end();
+						}
 					}else{
 						res.writeHead(404);
 						res.write("Team not exist");
