@@ -91,6 +91,8 @@ window.onload=()=>{
 					window.top.act_preview();
 				}else if(xhr.status==402){
 					alert("Pas assez de ressources")
+				}else if(xhr.status==403){
+					alert("Niveau max")
 				}else if(xhr.status==409){
 					alert("Deja en amelioration")
 				}else{
@@ -118,7 +120,11 @@ function post_getuser_action(){
 		document.getElementById(a+"_niveau").innerText=user.batiments[a];
 		if(a=="protecteur"){
 			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
-			document.getElementById(a+"_temps").innerText=affichageTemps(Math.sin(Math.PI*(user.batiments.protecteur+1)/200)*5*(60*60*1000));
+			if(user.batiments[a]<100){
+				document.getElementById(a+"_temps").innerText=affichageTemps(Math.sin(Math.PI*(user.batiments.protecteur+1)/200)*5*(60*60*1000));
+			}else{
+				document.getElementById(a+"_temps").innerText="LEVEL MAX";
+			}
 		}else if(a=="stockage"){
 			document.getElementById(a+"_effet").innerText=affichageRessources(10**(user.batiments.stockage/15)*1000);
 			document.getElementById(a+"_ressources").innerText=affichageRessources(10**(user.batiments.stockage/15)*10);
@@ -137,12 +143,22 @@ function post_getuser_action(){
 			document.getElementById(a+"_amelioration").innerText=affichageRessources((10**((user.batiments.producteur+1)/15)-10**(user.batiments.producteur/15))*10)+"/h";
 		}else{
 			document.getElementById(a+"_effet").innerText=user.batiments[a]+"%";
-			document.getElementById(a+"_ressources").innerText=affichageRessources((user.batiments[a]+1)**3);
-			document.getElementById(a+"_temps").innerText=affichageTemps(Math.sqrt(user.batiments[a]+1)*10*(60*1000));
+			if(user.batiments[a]<100){
+				document.getElementById(a+"_ressources").innerText=affichageRessources((user.batiments[a]+1)**3);
+				document.getElementById(a+"_temps").innerText=affichageTemps(Math.sqrt(user.batiments[a]+1)*10*(60*1000));
+			}else{
+				document.getElementById(a+"_ressources").innerText="LEVEL MAX";
+				document.getElementById(a+"_temps").innerText="LEVEL MAX";
+			}
 		}
 		if(user.batiment_en_amelioration.indexOf(a)<0){
-			document.getElementById(a+"_bouton").value="Améliorer au niveau "+(user.batiments[a]+1);
-			document.getElementById(a+"_bouton").disabled=false;
+			if((batiment_augmentateurs.indexOf(a)<0&&a!="protecteur")||user.batiments[a]<100){
+				document.getElementById(a+"_bouton").value="Améliorer au niveau "+(user.batiments[a]+1);
+				document.getElementById(a+"_bouton").disabled=false;
+			}else{
+				document.getElementById(a+"_bouton").value="Niveau maximum";
+				document.getElementById(a+"_bouton").disabled=true;
+			}
 		}else{
 			document.getElementById(a+"_bouton").value="En amélioration au niveau "+(user.batiments[a]+1);
 			document.getElementById(a+"_bouton").disabled=true;

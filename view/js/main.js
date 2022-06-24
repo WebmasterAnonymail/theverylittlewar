@@ -323,19 +323,17 @@ window.addEventListener("load",function(ev){
 							frames[a][0].username=check_connect_xhr.response.username;
 						}
 					}
-					if(/(^\/$)|(\/main.html$)/.test(document.location.pathname)){
-						document.getElementById("popup_mask").addEventListener("click",(ev)=>{
-							document.getElementById("popup_mask").style.display="none";
-							document.getElementById(opened_popup_id).setAttribute("open","no");
-						});
-						document.getElementById("notifbar").addEventListener("click",(ev)=>{
-							document.getElementById("notifbar").setAttribute("open","yes");
-							document.getElementById("popup_mask").style.display="block";
-							opened_popup_id="notifbar";
-						});
-						act_preview();
-						setInterval(act_preview,1500)
-					}
+					document.getElementById("popup_mask").addEventListener("click",(ev)=>{
+						document.getElementById("popup_mask").style.display="none";
+						document.getElementById(opened_popup_id).setAttribute("open","no");
+					});
+					document.getElementById("notifbar").addEventListener("click",(ev)=>{
+						document.getElementById("notifbar").setAttribute("open","yes");
+						document.getElementById("popup_mask").style.display="block";
+						opened_popup_id="notifbar";
+					});
+					act_preview();
+					setInterval(act_preview,1500)
 				}else{
 					document.location.replace("html/accueil.html");
 				}

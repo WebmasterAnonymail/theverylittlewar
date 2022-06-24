@@ -200,6 +200,10 @@ td,th{
 	position: fixed;
 	top: 250px;
 }
+#manage_user_button{
+	position: fixed;
+	top: 525px;
+}
 #notifbar{
 	position: fixed;
 	top: 0px;
