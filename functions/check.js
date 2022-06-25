@@ -578,6 +578,8 @@ module.exports={
 						"victoires":dbs.teams[a].ressources.victoires
 					}
 					dbs.teams[a].requetes_ressources=[];
+					dbs.teams[a].diplomatie.war_status=[];
+					dbs.teams[a].diplomatie.point_allowance=0;
 				}
 			}
 			dbs.events=[];
