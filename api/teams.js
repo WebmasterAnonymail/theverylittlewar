@@ -1,6 +1,6 @@
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
-function calc_earning_team_war(winer,loser){
+function calc_max_earning_team_war(winer,loser){
 	let win_pts=0
 	for(let a of winer.membres){
 		if(dbs.users[a].actif){
@@ -15,7 +15,7 @@ function calc_earning_team_war(winer,loser){
 			los_pts+=dbs.users[a].points.total;
 		}
 	}
-	const max_transfer_rate=0.5
+	const max_transfer_rate=0.4
 	let rate=max_transfer_rate/(1+Math.exp(50*(win_pts-los_pts)))//lorsque los a + pts que win, la f(x) croit (50 ajustable)
 	return rate*los_pts
 }
@@ -120,7 +120,9 @@ module.exports = {
 							"description":null,
 							"diplomatie":{
 								"pactes":[],
-								"guerres":[]
+								"guerres":[],
+								"war_status":[],
+								"point_allowance":0
 							},
 							"requetes_ressources":[],
 							"color":"#c0c0c0"
