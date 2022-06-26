@@ -15,7 +15,7 @@ function calc_max_earning_team_war(winer,loser){
 			los_pts+=dbs.users[a].points.total;
 		}
 	}
-	const max_transfer_rate=0.3
+	const max_transfer_rate=0.2
 	let rate=max_transfer_rate/(1+Math.exp((win_pts-los_pts)/50))//lorsque los a + pts que win, la f(x) croit (50 ajustable)
 	return rate*los_pts
 }
