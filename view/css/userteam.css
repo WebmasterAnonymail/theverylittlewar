@@ -7,6 +7,9 @@
 	width: 100px;
 	height: 100px;
 	float: right;
+	margin: 5px;
+	border: 1px solid #000000;
+	border-radius: 5px;
 }
 .formule{
 	display: inline-block;
