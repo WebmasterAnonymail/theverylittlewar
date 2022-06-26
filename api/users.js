@@ -394,7 +394,9 @@ module.exports = {
 					let datas=Buffer.from(body.data,'base64');
 					let ext=md.images_mime_types[body.mime_type];
 					if(ext){
-						fs.rmSync("view/image/users/"+user.image_profil);
+						if(user.image_profil!="defaut.png"){
+							fs.rmSync("view/image/users/"+user.image_profil);
+						}
 						fs.writeFileSync("view/image/users/"+body.username+"."+ext,datas);
 						user.image_profil=body.username+"."+ext;
 						res.writeHead(200);
