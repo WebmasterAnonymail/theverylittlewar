@@ -381,6 +381,18 @@ module.exports = {
 			res.end();
 		}
 	},
+	POST:(req,res,body)=>{
+		if(checkmodule.usercheck(body.username,body.token)){
+			switch(body.action){
+				case "add_invit":
+					break;
+			}
+		}else{
+			res.writeHead(401);
+			res.write("Not connected");
+			res.end();
+		}
+	},
 	DELETE:(req,res,body)=>{
 		
 	}
