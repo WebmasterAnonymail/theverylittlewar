@@ -73,7 +73,7 @@ window.onload=function(ev){
 			use_api("POST","users",{"action":"change_image","mime_type":mime_type,"data":selected_image[1]},true,function(xhr){
 				if(xhr.status==200){
 					document.getElementById("preview_image").src="../image/users/"+xhr.response.url;
-				}else if(xhr.status==405){
+				}else if(xhr.status==406){
 					alert("Format non accepté");
 				}else{
 					console.error("ERROR in changing image : code "+xhr.status);

@@ -27,6 +27,7 @@ function view_user(user){
 			document.getElementById("user_victory").innerText=Math.floor(xhr.response.victoires);
 			document.getElementById("user_position").innerText=xhr.response.positionX+";"+xhr.response.positionY;
 			document.getElementById("user_last_connexion").innerText="Il y a "+affichageTemps(Date.now()-xhr.response.lastUserCheck);
+			document.getElementById("user_image_profil").src="../image/users/"+xhr.response.image_profil;
 			if(xhr.response.description){
 				document.getElementById("user_description").innerHTML=bb_code(xhr.response.description);
 			}else{

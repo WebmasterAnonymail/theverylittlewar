@@ -3,6 +3,11 @@
 	flex-wrap: nowrap;
 	justify-content: space-between;
 }
+#user_image_profil{
+	width: 100px;
+	height: 100px;
+	float: right;
+}
 .formule{
 	display: inline-block;
 	background-color: #c0c0c0;
