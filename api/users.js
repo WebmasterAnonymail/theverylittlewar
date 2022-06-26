@@ -1,5 +1,6 @@
 const checkmodule=require("../functions/check.js");
 const md=require("../functions/miscdatas.js");
+const fs=require("fs");
 module.exports = {
 	name:'users',
 	GET:(req,res,body)=>{
@@ -35,6 +36,7 @@ module.exports = {
 						"victoires":dbs.users[body.user].ressources.victoires,
 						"permission":dbs.users[body.user].permission,
 						"actif":dbs.users[body.user].actif,
+						"image_profil":dbs.users[body.user].image_profil,
 						"lastUserCheck":dbs.users[body.user].lastUserCheck
 					}
 					res.writeHead(200,{'Content-Type':'application/json'});
@@ -182,6 +184,7 @@ module.exports = {
 						"pil":-1,
 						"cmb":-1
 					},
+					"image_profil":"defaut.png",
 					"invitations":[],
 					"raports":[],
 					"positionX":null,
@@ -383,8 +386,25 @@ module.exports = {
 	},
 	POST:(req,res,body)=>{
 		if(checkmodule.usercheck(body.username,body.token)){
+			let user=dbs.users[body.username];
 			switch(body.action){
-				case "add_invit":
+				case "change_description":
+					break;
+				case "change_image":
+					let datas=Buffer.from(body.data,'base64');
+					let ext=md.images_mime_types[body.mime_type];
+					if(ext){
+						fs.rmSync("view/image/users/"+user.image_profil);
+						fs.writeFileSync("view/image/users/"+body.username+"."+ext,datas);
+						user.image_profil=body.username+"."+ext;
+						res.writeHead(200);
+						res.write('{"url":"'+user.image_profil+'"}');
+						res.end();
+					}else{
+						res.writeHead(406);
+						res.write("Not accepted");
+						res.end();
+					}
 					break;
 			}
 		}else{

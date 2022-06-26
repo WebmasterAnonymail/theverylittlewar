@@ -6,6 +6,9 @@ const ext_types={
 	"svg":"image/svg+xml",
 	"png":"image/png",
 	"jpg":"image/jpeg",
+	"gif":"image/gif",
+	"bmp":"image/bmp",
+	"webp":"image/webp",
 	"ico":"image/x-icon",
 	"gif":"image/gif",
 	"ttf":"font/ttf"
