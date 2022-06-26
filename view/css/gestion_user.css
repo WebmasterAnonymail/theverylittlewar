@@ -10,3 +10,7 @@ fieldset{
 	display: inline-block;
 	width: 375px;
 }
+textarea{
+	width: 100%;
+	resize: vertical;
+}

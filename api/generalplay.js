@@ -68,7 +68,7 @@ module.exports = {
 						actif:nb_membres>0,
 						victoires:dbs.teams[a].ressources.victoires,
 						membres:dbs.teams[a].membres.length,
-						moyenne:sum/nb_membres
+						moyenne:(sum+dbs.teams[a].diplomatie.point_allowance)/nb_membres
 					});
 				}
 			}

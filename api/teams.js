@@ -78,7 +78,8 @@ module.exports = {
 						"victoires":dbs.teams[body.team].ressources.victoires,
 						"color":dbs.teams[body.team].color,
 						"somme":sum,
-						"moyenne":sum/nb_membres
+						"indemnite":dbs.teams[body.team].diplomatie.point_allowance,
+						"moyenne":(sum+dbs.teams[body.team].diplomatie.point_allowance)/nb_membres
 					}
 					res.writeHead(200,{'Content-Type':'application/json'});
 					res.write(JSON.stringify(response));

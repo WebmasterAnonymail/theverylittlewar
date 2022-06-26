@@ -116,6 +116,9 @@ function post_getuser_action(){
 					let Esomme=document.createElement("td");
 					Esomme.innerText=Math.floor(data.somme);
 					line.appendChild(Esomme);
+					let Eindemnite=document.createElement("td");
+					Eindemnite.innerText=Math.floor(data.indemnite);
+					line.appendChild(Eindemnite);
 					let Epoints=document.createElement("td");
 					Epoints.innerText=Math.floor(data.moyenne);
 					line.appendChild(Epoints);

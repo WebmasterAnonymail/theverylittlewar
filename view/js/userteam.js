@@ -44,8 +44,9 @@ function view_team(team){
 		if(xhr.status==200){
 			document.getElementById("team_name").innerText=team;
 			document.getElementById("team_points").innerText=Math.floor(xhr.response.moyenne);
+			document.getElementById("team_indemnite").innerText=Math.floor(xhr.response.indemnite);
 			document.getElementById("team_somme").innerText=Math.floor(xhr.response.somme);
-			document.getElementById("team_victory").innerText=xhr.response.victoires;
+			document.getElementById("team_victory").innerText=Math.floor(xhr.response.victoires);
 			document.getElementById("team_chief").innerText=xhr.response.chef;
 			document.getElementById("chief_link").onclick=function(){
 				view_user(xhr.response.chef);

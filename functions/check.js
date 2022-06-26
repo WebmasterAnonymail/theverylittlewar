@@ -477,8 +477,9 @@ module.exports={
 						team:a,
 						victoires:dbs.teams[a].ressources.victoires,
 						somme:sum,
+						indemnite:dbs.teams[a].diplomatie.point_allowance,
 						membres:nb_membres,
-						moyenne:sum/nb_membres
+						moyenne:(sum+dbs.teams[a].diplomatie.point_allowance)/nb_membres
 					});
 				}
 			}
