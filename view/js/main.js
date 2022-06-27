@@ -101,7 +101,7 @@ function bb_code(texte){
 	res=res.replaceAll("<","&lt;");
 	res=res.replaceAll(">","&gt;");
 	res=res.replaceAll("\n","<br>");
-	let unibalises=/\[([biuspq]|sup|sub|big|small|rainbow|ustable|ec|eo|en|ei|ebr|eh|es|ecl)\](.*?)\[\/\1\]/;
+	let unibalises=/\[([biuspq]|sup|sub|big|small|rainbow|unstable|ec|eo|en|ei|ebr|eh|es|ecl)\](.*?)\[\/\1\]/;
 	let oldres="";
 	do{
 		oldres=res;
