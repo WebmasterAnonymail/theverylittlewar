@@ -29,6 +29,35 @@ function use_api(method,api,data,in_body,callback){
 		}
 	});
 }
+function bb_code(texte){
+	let res=texte;
+	res=res.replaceAll("&","&amp;");
+	res=res.replaceAll("<","&lt;");
+	res=res.replaceAll(">","&gt;");
+	res=res.replaceAll("\n","<br>");
+	let unibalises=/\[([biuspq]|sup|sub|big|small|rainbow|ec|eo|en|ei|ebr|eh|es|ecl)\](.*?)\[\/\1\]/;
+	let oldres="";
+	do{
+		oldres=res;
+		res=res.replace(unibalises,"<$1>$2</$1>");
+	}while(oldres!=res);
+	let lienbalise=/\[url=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\](.*?)\[\/url\]/;
+	do{
+		oldres=res;
+		res=res.replace(lienbalise,"<a href='$1'>$5</a>");
+	}while(oldres!=res);
+	let imgbalise=/\[img=((https?:\/\/)?[-a-z0-9A-Z._](:[0-9]+)?([-a-z0-9A-Z._/#?&+%]+)?)\]/;
+	do{
+		oldres=res;
+		res=res.replace(imgbalise,"<img src='$1'>");
+	}while(oldres!=res);
+	let colorbalise=/\[color=(#[0-9A-Fa-f]{6}|black|grey|silver|white|maroon|olive|green|teal|navy|purple|red|yellow|lime|aqua|blue|fuchsia)\](.*?)\[\/color\]/;
+	do{
+		oldres=res;
+		res=res.replace(colorbalise,"<span style='color: $1;'>$2</span>");
+	}while(oldres!=res);
+	return res;
+}
 window.onload=function(ev){
 	let check_connect_xhr=new XMLHttpRequest();
 	let at_send=new URLSearchParams();
@@ -44,6 +73,7 @@ window.onload=function(ev){
 					if(xhr.status==200){
 						user=xhr.response;
 						document.getElementById("preview_image").src="../image/users/"+user.image_profil;
+						document.getElementById("new_description").value=user.description;
 					}else{
 						console.error("ERROR in getting user : code "+xhr.status);
 					}
@@ -52,9 +82,6 @@ window.onload=function(ev){
 				document.location.replace("html/accueil.html");
 			}
 		}
-	});
-	document.getElementById("new_descrition").addEventListener("change",function(ev){
-		
 	});
 	document.getElementById("new_image").addEventListener("input",function(ev){
 		let file=document.getElementById("new_image").files[0];
@@ -80,5 +107,18 @@ window.onload=function(ev){
 				}
 			});
 		}
+	});
+	document.getElementById("new_description").addEventListener("change",function(ev){
+		let datas={
+			"action":"change_description",
+			"description":document.getElementById("new_description").value
+		}
+		use_api("POST","users",datas,true,function(xhr){
+			if(xhr.status==200){
+				//do nothing
+			}else{
+				console.error("ERROR in changing description : code "+xhr.status);
+			}
+		});
 	});
 }

@@ -389,6 +389,9 @@ module.exports = {
 			let user=dbs.users[body.username];
 			switch(body.action){
 				case "change_description":
+					user.description=body.description;
+					res.writeHead(200);
+					res.end();
 					break;
 				case "change_image":
 					let datas=Buffer.from(body.data,'base64');
