@@ -7,13 +7,20 @@
 	src: url("../font/Title.ttf") format("truetype");
 }
 @keyframes rainbow{
-	0% {color: hsl(0deg 100% 50%)}
-	17% {color: hsl(60deg 100% 50%)}
-	33% {color: hsl(120deg 100% 50%)}
-	50% {color: hsl(180deg 100% 50%)}
-	67% {color: hsl(240deg 100% 50%)}
-	83% {color: hsl(300deg 100% 50%)}
-	100% {color: hsl(360deg 100% 50%)}
+	0% {color: hsl(0deg 100% 50%);}
+	17% {color: hsl(60deg 100% 50%);}
+	33% {color: hsl(120deg 100% 50%);}
+	50% {color: hsl(180deg 100% 50%);}
+	67% {color: hsl(240deg 100% 50%);}
+	83% {color: hsl(300deg 100% 50%);}
+	100% {color: hsl(360deg 100% 50%);}
+}
+@keyframes unstable{
+	0% {top: 2.5px; left: 0px;}
+	25% {left: -2.5px;}
+	50% {top: -2.5px;}
+	75% {left: 2.5px;}
+	100% {top: 2.5px; left: 0px;}
 }
 @keyframes suprarainbow{
 	0% {--rainbow-main-angle: 0deg}
@@ -155,6 +162,14 @@ rainbow{
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 	animation-direction: normal;
+}
+unstable{
+	position: relative;
+	animation-name: unstable;
+	animation-duration: 75ms;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
 fieldset{
 	border-radius: 10px;
