@@ -334,7 +334,11 @@ window.addEventListener("load",function(ev){
 						opened_popup_id="notifbar";
 					});
 					act_preview();
-					ws=new WebSocket("ws://"+document.location.host);
+					if(document.location.protocol=="http:"){
+						ws=new WebSocket("ws://"+document.location.host);
+					}else{
+						ws=new WebSocket("wss://"+document.location.host);
+					}
 					ws.onopen=function(ev){
 						ws.send("CON|"+localStorage.getItem("token"));
 					}
