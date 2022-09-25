@@ -2,8 +2,7 @@ let apiVersion='v1';
 const fs=require('fs');
 const apiHandler=require('./apiHandler.js');
 const staticHanlder=require("./staticHandler");
-const wsHanlder=require("./wsHanlder");
-module.exports.http=function(req,res){
+module.exports=function(req,res){
 	if(dbs_getting_progress<5){
 		res.writeHead(503,{});
 		res.end();
@@ -20,4 +19,3 @@ module.exports.http=function(req,res){
 		staticHanlder(req,res);
 	}
 }
-module.exports.ws=wsHanlder.connect;

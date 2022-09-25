@@ -1,4 +1,5 @@
 const md=require("./miscdatas.js")
+const wsm=require("./wsmanager.js");
 module.exports={
 	eventcheck:function(){
 		let a_suprimer=[];
@@ -18,14 +19,15 @@ module.exports={
 							}
 							dbs.users[dbs.events[a].username].batiment_en_amelioration.splice(dbs.users[dbs.events[a].username].batiment_en_amelioration.indexOf(dbs.events[a].batiment),1);
 						}
+						wsm.warn_userdatas(dbs.events[a].username);
 						dbs.events[a]=null;
 						break;
 					case "combat":
 						let atkant=dbs.users[dbs.events[a].atk];
 						let defant=dbs.users[dbs.events[a].def];
 						if(atkant&&defant){
-							this.usercheck(dbs.events[a].atk);
-							this.usercheck(dbs.events[a].def);
+							module.exports.usercheck(dbs.events[a].atk);
+							module.exports.usercheck(dbs.events[a].def);
 							let mol_used_by_atkant=[];
 							let old_defmols=JSON.parse(JSON.stringify(defant.molecules));
 							let old_atkmols=JSON.parse(JSON.stringify(atkant.molecules));
@@ -353,10 +355,10 @@ module.exports={
 								atkant.raports.push(atk_report);
 								defant.raports.push(def_report);
 							}
-							dbs.events[a]=null;
-						}else{
-							dbs.events[a]=null;
 						}
+						wsm.warn_userdatas(dbs.events[a].atk);
+						wsm.warn_userdatas(dbs.events[a].def);
+						dbs.events[a]=null;
 						break;
 					case "return":
 						if(dbs.users[dbs.events[a].username]){
@@ -366,10 +368,9 @@ module.exports={
 							for(let b of dbs.events[a].rest_mols){
 								dbs.users[dbs.events[a].username].molecules[b.molid].number+=b.number;
 							}
-							dbs.events[a]=null;
-						}else{
-							dbs.events[a]=null;
 						}
+						wsm.warn_userdatas(dbs.events[a].username);
+						dbs.events[a]=null;
 						break;
 					case "molecule":
 						let user=dbs.users[dbs.events[a].username];
@@ -381,8 +382,10 @@ module.exports={
 								dbs.events[a].rest_mols-=mol_creatable;
 								dbs.events[a].time=Date.now()+dbs.events[a].create_time-time_in_more;
 								user.molecules[dbs.events[a].molecule].number+=mol_creatable;
+								wsm.warn_userdatas(dbs.events[a].username);
 							}else{
 								user.molecules[dbs.events[a].molecule].number+=dbs.events[a].rest_mols;
+								wsm.warn_userdatas(dbs.events[a].username);
 								dbs.events[a]=null;
 							}
 						}
@@ -397,6 +400,8 @@ module.exports={
 								to_user.ressources[b]+=dbs.events[a].ressources[b];
 							}
 						}
+						wsm.warn_userdatas(dbs.events[a].to);
+						wsm.warn_userdatas(dbs.events[a].from);
 						dbs.events[a]=null;
 						break;
 				}

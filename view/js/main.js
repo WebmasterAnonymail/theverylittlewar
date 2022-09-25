@@ -1,6 +1,8 @@
 var opened_popup_id="";
 var username=null;
 var user=null;
+var ws=null;
+var wsok=false;
 var atomes=[
 	"carbone",
 	"oxygene",
@@ -181,6 +183,15 @@ function affichageRessources(num){
 	}
 	return Math.floor(num);
 }
+function inherit_userdatas(){
+	for(let a=0;a<frames.length;a++){
+		frames[a].user=user;
+		if(frames[a].post_getuser_action){
+			frames[a].post_getuser_action();
+		}
+		frames[a].inherit_userdatas();
+	}
+}
 function act_preview(){
 	use_api("GET","users",{"mode":"detailed"},false,function(xhr){
 		if(xhr.status==200){
@@ -191,18 +202,8 @@ function act_preview(){
 				document.getElementById("preview_"+a).title=Math.floor(xhr.response.ressources[a]);
 			}
 			document.getElementById("preview_points").innerText=Math.floor(xhr.response.points.total);
-			for(a=0;a<9;a++){
-				frames[a].user=xhr.response;
-				if(frames[a].post_getuser_action){
-					frames[a].post_getuser_action();
-				}
-				if(frames[a][0]){
-					frames[a][0].user=xhr.response;
-					if(frames[a][0].post_getuser_action){
-						frames[a][0].post_getuser_action();
-					}
-				}
-			}
+			user=xhr.response
+			inherit_userdatas();
 		}else{
 			console.error("ERROR in getting user : code "+xhr.status);
 		}
@@ -333,7 +334,40 @@ window.addEventListener("load",function(ev){
 						opened_popup_id="notifbar";
 					});
 					act_preview();
-					setInterval(act_preview,1500);
+					ws=new WebSocket("ws://"+document.location.host);
+					ws.onopen=function(ev){
+						ws.send("CON|"+localStorage.getItem("token"));
+					}
+					ws.onmessage=function(ev){
+						let datas=ev.data.split("|");
+						if(datas[0]=="ERR"){
+							console.error("WS ERROR : "+datas[1]);
+						}else{
+							if(wsok){
+								switch(datas[0]){
+									case "USR":
+										if(datas[1]=="UPDATED"){
+											act_preview();
+										}
+										break;
+									case "CLS":
+										if(datas[1]=="UPDATED"){
+											frames[7].post_getuser_action();
+											frames[3].post_getuser_action();
+										}
+										break;
+								}
+							}else{
+								if(datas[0]=="CON"&&datas[1]=="OK"){
+									wsok=true;
+								}
+							}
+						}
+					}
+					ws.onclose=function(){
+						wsok=false;
+					}
+//					DEBUG_previews=setInterval(act_preview,1500);
 				}else{
 					document.location.replace("html/accueil.html");
 				}

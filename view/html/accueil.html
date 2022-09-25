@@ -32,15 +32,19 @@
 			</fieldset>
 		</div>
 		<div id="connected">
-			Connect&eacute; au compte : <span id="preview_username"></span><br>
+			Connect&eacute; au compte : <span id="preview_username"></span><br/>
 			<input type="button" id="deconexion_button" value="Se deconnecter">
 		</div>
 		<hr/>
 		<div id="is_creator">
-		<a href="console.html"><input type="button" value="Console"/></a>
+		<a href="console.html"><input type="button" value="Console"/></a><br/>
+		<input type="text" id="admin_name" placeholder="Nom"/><input type="button" id="nominate_admin" value="Nommer administrateur"/>
 		</div>
-		<div id="is_administrator"></div>
-		<div id="is_moderator"></div>
+		<div id="is_administrator">
+		<input type="text" id="modo_name" placeholder="Nom"/><input type="button" id="nominate_modo" value="Nommer modérateur"/>
+		</div>
+		<div id="is_moderator">
+		</div>
 		<hr/>
 		<a href="credit.html">Crédits</a>
 		<a href="../main.html" class="link_button">
