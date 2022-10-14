@@ -3,6 +3,9 @@ var username=null;
 var user=null;
 var ws=null;
 var wsok=false;
+var eventsactual=[];
+var theorical_ressources=[0,0,0,0,0,0,0,0,0];
+var theorical_productions=[0,0,0,0,0,0,0,0,0];
 var atomes=[
 	"carbone",
 	"oxygene",
@@ -195,12 +198,15 @@ function inherit_userdatas(){
 function act_preview(){
 	use_api("GET","users",{"mode":"detailed"},false,function(xhr){
 		if(xhr.status==200){
-			document.getElementById("preview_energie").innerText=affichageRessources(xhr.response.ressources.energie);
-			document.getElementById("preview_energie").title=Math.floor(xhr.response.ressources.energie);
-			for(let a of atomes){
-				document.getElementById("preview_"+a).innerText=affichageRessources(xhr.response.ressources[a]);
-				document.getElementById("preview_"+a).title=Math.floor(xhr.response.ressources[a]);
+			for(let a=0;a<ressources.length;a++){
+				document.getElementById("preview_"+ressources[a]).innerText=affichageRessources(xhr.response.ressources[ressources[a]]);
+				document.getElementById("preview_"+ressources[a]).title=Math.floor(xhr.response.ressources[ressources[a]]);
+				theorical_ressources[a]=xhr.response.ressources[ressources[a]];
 			}
+			for(let a=0;a<8;a++){
+				theorical_productions[a]=(10**(xhr.response.batiments.generateur/15)*10)*(xhr.response.QG.production[a]/4)/(60*60)
+			}
+			theorical_productions[8]=(10**(xhr.response.batiments.generateur/15)*100)/(60*60)
 			document.getElementById("preview_points").innerText=Math.floor(xhr.response.points.total);
 			user=xhr.response
 			inherit_userdatas();
@@ -212,6 +218,7 @@ function act_preview(){
 		if(xhr.status==200){
 			let notifbar=document.getElementById("notifbar");
 			notifbar.innerText="";
+			eventsactual=[];
 			for(let event of xhr.response){
 				notif=document.createElement("div");
 				notif.classList.add("notif");
@@ -271,6 +278,7 @@ function act_preview(){
 				time.classList.add("notif_time");
 				time.innerText=affichageTemps(event.time-Date.now());
 				notif.appendChild(time);
+				eventsactual.push({"element":time,"time":event.time-Date.now()});
 				notifbar.appendChild(notif);
 			}
 		}else{
@@ -334,6 +342,13 @@ window.addEventListener("load",function(ev){
 						opened_popup_id="notifbar";
 					});
 					act_preview();
+					setInterval(function(){
+						for(let a=0;a<9;a++){
+							theorical_ressources[a]+=theorical_productions[a];
+							document.getElementById("preview_"+ressources[a]).innerText=affichageRessources(theorical_ressources[a]);
+							document.getElementById("preview_"+ressources[a]).title=Math.floor(theorical_ressources[a]);
+						}
+					},1000);
 					if(document.location.protocol=="http:"){
 						ws=new WebSocket("ws://"+document.location.host);
 					}else{

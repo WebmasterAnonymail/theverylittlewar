@@ -17,6 +17,7 @@ function select_classement(at_open){
 	}
 	document.getElementById(at_open+"_table").style.display="table";
 	selected_classement=at_open;
+	window.top.act_preview();
 }
 function post_getuser_action(){
 	if(selected_classement=="actual"){
