@@ -6,6 +6,7 @@ var wsok=false;
 var eventsactual=[];
 var theorical_ressources=[0,0,0,0,0,0,0,0,0];
 var theorical_productions=[0,0,0,0,0,0,0,0,0];
+var theorical_storages=[0,0,0,0,0,0,0,0,0];
 var atomes=[
 	"carbone",
 	"oxygene",
@@ -204,9 +205,11 @@ function act_preview(){
 				theorical_ressources[a]=xhr.response.ressources[ressources[a]];
 			}
 			for(let a=0;a<8;a++){
-				theorical_productions[a]=(10**(xhr.response.batiments.generateur/15)*10)*(xhr.response.QG.production[a]/4)/(60*60)
+				theorical_productions[a]=10**(xhr.response.batiments.generateur/15)*10*(xhr.response.QG.production[a]/4)/(60*60);
+				theorical_storages[a]=10**(xhr.response.batiments.stockage/15)*100*(xhr.response.QG.production[a]/4);
 			}
-			theorical_productions[8]=(10**(xhr.response.batiments.generateur/15)*100)/(60*60)
+			theorical_productions[8]=10**(xhr.response.batiments.generateur/15)*100/(60*60)
+			theorical_storages[8]=10**(xhr.response.batiments.stockage/15)*1000;
 			document.getElementById("preview_points").innerText=Math.floor(xhr.response.points.total);
 			user=xhr.response
 			inherit_userdatas();
@@ -345,8 +348,9 @@ window.addEventListener("load",function(ev){
 					setInterval(function(){
 						for(let a=0;a<9;a++){
 							theorical_ressources[a]+=theorical_productions[a];
+							theorical_ressources[a]=Math.min(theorical_ressources[a],theorical_storages[a])
 							document.getElementById("preview_"+ressources[a]).innerText=affichageRessources(theorical_ressources[a]);
-							document.getElementById("preview_"+ressources[a]).title=Math.floor(theorical_ressources[a]);
+							document.getElementById("preview_"+ressources[a]).title=""+Math.floor(theorical_ressources[a])+"/"+Math.floor(theorical_storages[a]);
 						}
 					},1000);
 					if(document.location.protocol=="http:"){

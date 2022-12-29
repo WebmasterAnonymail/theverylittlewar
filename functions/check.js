@@ -421,10 +421,10 @@ module.exports={
 		if(dbs.users[user]){
 			let tempEcoule=Date.now()-dbs.users[user].lastUserCheck;
 			for(let a in md.atomes){
-				dbs.users[user].ressources[md.atomes[a]]+=(10**(dbs.users[user].batiments.producteur/15)*10)*(dbs.users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
+				dbs.users[user].ressources[md.atomes[a]]+=10**(dbs.users[user].batiments.producteur/15)*10*(dbs.users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
 				dbs.users[user].ressources[md.atomes[a]]=Math.min(10**(dbs.users[user].batiments.stockage/15)*100*(dbs.users[user].QG.production[a]/4),dbs.users[user].ressources[md.atomes[a]]);
 			}
-			dbs.users[user].ressources["energie"]+=(10**(dbs.users[user].batiments.generateur/15)*100)*(tempEcoule/(1000*60*60));
+			dbs.users[user].ressources["energie"]+=10**(dbs.users[user].batiments.generateur/15)*100*(tempEcoule/(1000*60*60));
 			dbs.users[user].ressources["energie"]=Math.min(10**(dbs.users[user].batiments.stockage/15)*1000,dbs.users[user].ressources["energie"]);
 			for(let a=0;a<5;a++){
 				if(dbs.users[user].molecules[a]){

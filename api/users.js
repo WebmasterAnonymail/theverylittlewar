@@ -393,6 +393,17 @@ module.exports = {
 					res.writeHead(200);
 					res.end();
 					break;
+				case "change_password":
+					if(body.password){
+						user.password=body.password;
+						res.writeHead(200);
+						res.end();
+					}else{
+						res.writeHead(401);
+						res.write("No new password");
+						res.end();
+					}
+					break;
 				case "change_image":
 					let datas=Buffer.from(body.data,'base64');
 					let ext=md.images_mime_types[body.mime_type];

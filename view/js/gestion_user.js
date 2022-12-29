@@ -108,6 +108,26 @@ window.onload=function(ev){
 			});
 		}
 	});
+	document.getElementById("valid_password").addEventListener("click",function(ev){
+		if(document.getElementById("confirm_new_password").value==document.getElementById("new_password").value){
+			let datas={
+				"action":"change_password",
+				"password":document.getElementById("new_password").value
+			}
+			use_api("POST","users",datas,true,function(xhr){
+				if(xhr.status==200){
+					document.getElementById("new_password").value="";
+					document.getElementById("confirm_new_password").value="";
+				}else if(xhr.status==401){
+					alert("Merci de rentrer un nouveau mot de passe");
+				}else{
+					console.error("ERROR in changing password : code "+xhr.status);
+				}
+			});
+		}else{
+			alert("Erreur : les deux mot de passe ne sont pas identiques");
+		}
+	});
 	document.getElementById("new_description").addEventListener("change",function(ev){
 		let datas={
 			"action":"change_description",
