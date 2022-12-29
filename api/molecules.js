@@ -63,7 +63,6 @@ module.exports = {
 						user.ressources.hydrogene-=user.molecules[body.mol_id].hydrogene*body.mol_number;
 						user.ressources.soufre-=user.molecules[body.mol_id].soufre*body.mol_number;
 						user.ressources.chlore-=user.molecules[body.mol_id].chlore*body.mol_number;
-						user.points.molecules_crees+=body.mol_number;
 						res.writeHead(200);
 						res.write("DONE");
 						res.end();

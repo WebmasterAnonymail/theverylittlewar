@@ -382,9 +382,11 @@ module.exports={
 								dbs.events[a].rest_mols-=mol_creatable;
 								dbs.events[a].time=Date.now()+dbs.events[a].create_time-time_in_more;
 								user.molecules[dbs.events[a].molecule].number+=mol_creatable;
+								user.points.molecules_crees+=mol_creatable;
 								wsm.warn_userdatas(dbs.events[a].username);
 							}else{
 								user.molecules[dbs.events[a].molecule].number+=dbs.events[a].rest_mols;
+								user.points.molecules_crees+=dbs.events[a].rest_mols;
 								wsm.warn_userdatas(dbs.events[a].username);
 								dbs.events[a]=null;
 							}
