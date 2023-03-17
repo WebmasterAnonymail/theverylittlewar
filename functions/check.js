@@ -383,11 +383,11 @@ module.exports={
 								dbs.events[a].time=Date.now()+dbs.events[a].create_time-time_in_more;
 								user.molecules[dbs.events[a].molecule].number+=mol_creatable;
 								user.points.molecules_crees+=mol_creatable;
-								wsm.warn_userdatas(dbs.events[a].username);
+								wsm.warn_userdatas(dbs.events[a].username,false);
 							}else{
 								user.molecules[dbs.events[a].molecule].number+=dbs.events[a].rest_mols;
 								user.points.molecules_crees+=dbs.events[a].rest_mols;
-								wsm.warn_userdatas(dbs.events[a].username);
+								wsm.warn_userdatas(dbs.events[a].username,false);
 								dbs.events[a]=null;
 							}
 						}
@@ -585,6 +585,8 @@ module.exports={
 						"chlore":0,
 						"victoires":dbs.teams[a].ressources.victoires
 					}
+					dbs.teams[a].pv=50000;
+					dbs.teams[a].pv_max=50000;
 					dbs.teams[a].requetes_ressources=[];
 					dbs.teams[a].diplomatie.war_status=[];
 					dbs.teams[a].diplomatie.point_allowance=0;

@@ -238,6 +238,34 @@
 				</legend>
 				<div id="description"></div>
 			</fieldset>
+			<fieldset>
+				<legend>
+					<h3>&Eacute;tat de l'équipe</h3>
+				</legend>
+				<div id="state">
+					<div id="team_pv" class="pv_progress_bar">50000/50000</div>
+					<fieldset>
+						<legend>
+							<h4>Ajouter des PV</h4>
+						</legend>
+						<label for="max_pvs">Augmenter le maximum :</label>
+						<input id="max_pvs" type="number" min=0 placeholder="nombre à ajouter"/>
+						<div class="ressource">
+							<img src="../image/ressources/energie.png" class="icon_ressource">
+							<span class="text_ressource" id="cout_max_pvs">0</span>
+						</div>
+						<img src="../image/boutons/valider.png" class="button" id="add_max_pvs">
+						<br/>
+						<label for="pvs">Remettre des PV :</label>
+						<input id="pvs" type="number" min=0 placeholder="nombre à ajouter"/>
+						<div class="ressource">
+							<img src="../image/ressources/energie.png" class="icon_ressource">
+							<span class="text_ressource" id="cout_pvs">0</span>
+						</div>
+						<img src="../image/boutons/valider.png" class="button" id="add_pvs">
+					</fieldset>
+				</div>
+			</fieldset>
 			<div id="actions"></div>
 		</div>
 		<div id="no_alliance" class="alternate_body">

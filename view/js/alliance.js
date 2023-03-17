@@ -63,6 +63,9 @@ function post_getuser_action(){
 						document.getElementById("new_color").value=team.color;
 					}
 				}
+				let pourcent=Math.round(team.pv/team.pv_max*1000)/10;
+				document.getElementById("team_pv").style.backgroundImage="linear-gradient(90deg, green "+pourcent+"%,#ffffff "+(pourcent+1)+"%)";
+				document.getElementById("team_pv").innerText=affichageRessources(team.pv)+"/"+affichageRessources(team.pv_max)+" ("+pourcent+"%)";
 				//Actions
 				document.getElementById("actions").innerText="";
 				//Grades
@@ -458,7 +461,7 @@ window.onload=()=>{
 			"name_team":document.getElementById("name_team").value
 		}
 		use_api("PUT","teams",data,true,function(xhr){
-			if(xhr.status==204){
+			if(xhr.status==201){
 				window.top.act_preview()
 			}else if(xhr.status==402){
 				alert("Pas assez de ressources");
@@ -650,6 +653,50 @@ window.onload=()=>{
 				alert("Le pacte existe deja");
 			}else{
 				console.error("ERROR in adding pact : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("max_pvs").addEventListener("input",function(){
+		document.getElementById("cout_max_pvs").innerText=affichageRessources(document.getElementById("max_pvs").valueAsNumber*2);
+	});
+	document.getElementById("add_max_pvs").addEventListener("click",function(){
+		datas={
+			"action":"add_max_pvs",
+			"pvs":document.getElementById("max_pvs").valueAsNumber
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("max_pvs").value="";
+				window.top.act_preview();
+			}else if(xhr.status==402){
+				alert("Pas assez de ressources");
+			}else if(xhr.status==406){
+				alert("Veuillez entrer un nombre");
+			}else{
+				console.error("ERROR in adding max HPs : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("pvs").addEventListener("input",function(){
+		document.getElementById("cout_pvs").innerText=affichageRessources(document.getElementById("pvs").valueAsNumber);
+	});
+	document.getElementById("add_pvs").addEventListener("click",function(){
+		datas={
+			"action":"add_pvs",
+			"pvs":document.getElementById("pvs").valueAsNumber
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("pvs").value="";
+				window.top.act_preview();
+			}else if(xhr.status==402){
+				alert("Pas assez de ressources");
+			}else if(xhr.status==409){
+				alert("Trop de PVs ajoutés");
+			}else if(xhr.status==406){
+				alert("Veuillez entrer un nombre");
+			}else{
+				console.error("ERROR in adding HPs : code "+xhr.status);
 			}
 		});
 	});

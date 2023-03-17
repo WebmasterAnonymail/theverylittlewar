@@ -125,12 +125,14 @@ module.exports = {
 								"war_status":[],
 								"point_allowance":0
 							},
+							"pv":50000,
+							"pv_max":50000,
 							"requetes_ressources":[],
 							"color":"#c0c0c0"
 						}
 						user.alliance=body.name_team;
 						user.ressources.energie-=100000;
-						res.writeHead(204);
+						res.writeHead(201);
 						res.end();
 					}else{
 						res.writeHead(402);
@@ -497,6 +499,45 @@ module.exports = {
 							res.end();
 						}
 						break;
+					case "add_max_pvs":
+						let PV_to_add=Number(body.pvs);
+						if(Number.isFinite(PV_to_add)&&PV_to_add>0){
+							if(user.ressources.energie<2*PV_to_add){
+								res.writeHead(402);
+								res.write("Not enough ressources");
+								res.end();
+							}else{
+								user.ressources.energie-=2*PV_to_add;
+								dbs.teams[user.alliance].pv_max+=PV_to_add;
+								dbs.teams[user.alliance].pv+=PV_to_add;
+							}
+						}else{
+							res.writeHead(406);
+							res.write("Not a number");
+							res.end();
+						}
+						break;
+				case "add_max_pvs":
+					let PV_to_regen=Number(body.pvs);
+					if(Number.isFinite(PV_to_regen)&&PV_to_regen>0){
+						if(user.ressources.energie<PV_to_regen){
+							res.writeHead(402);
+							res.write("Not enough ressources");
+							res.end();
+						}else if(PV_to_regen+dbs.teams[user.alliance].pv>dbs.teams[user.alliance].pv_max){
+							res.writeHead(409);
+							res.write("Max pvs overloaded");
+							res.end();
+						}else{
+							user.ressources.energie-=PV_to_regen;
+							dbs.teams[user.alliance].pv+=PV_to_regen;
+						}
+					}else{
+						res.writeHead(406);
+						res.write("Not a number");
+						res.end();
+					}
+					break;
 				}
 			}else{
 				res.writeHead(400);
