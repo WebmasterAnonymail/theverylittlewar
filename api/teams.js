@@ -198,15 +198,9 @@ module.exports = {
 										res.write("Grade already exist");
 										res.end();
 									}else{
-										dbs.teams[user.alliance].grades[body.grade]={
-											"posseseur":body.posseseur,
-											"guerre":body.guerre,
-											"pacte":body.pacte,
-											"finance":body.finance,
-											"grades":body.grades,
-											"inviter":body.inviter,
-											"expulser":body.expulser,
-											"description":body.description,
+										dbs.teams[user.alliance].grades[body.grade]={}
+										for(let a of md.team_permissions){
+											dbs.teams[user.alliance].grades[body.grade][a]=body[a];
 										}
 										res.writeHead(200);
 										res.end();
@@ -510,6 +504,8 @@ module.exports = {
 								user.ressources.energie-=2*PV_to_add;
 								dbs.teams[user.alliance].pv_max+=PV_to_add;
 								dbs.teams[user.alliance].pv+=PV_to_add;
+								res.writeHead(200);
+								res.end();
 							}
 						}else{
 							res.writeHead(406);
@@ -517,27 +513,29 @@ module.exports = {
 							res.end();
 						}
 						break;
-				case "add_max_pvs":
-					let PV_to_regen=Number(body.pvs);
-					if(Number.isFinite(PV_to_regen)&&PV_to_regen>0){
-						if(user.ressources.energie<PV_to_regen){
-							res.writeHead(402);
-							res.write("Not enough ressources");
-							res.end();
-						}else if(PV_to_regen+dbs.teams[user.alliance].pv>dbs.teams[user.alliance].pv_max){
-							res.writeHead(409);
-							res.write("Max pvs overloaded");
-							res.end();
-						}else{
-							user.ressources.energie-=PV_to_regen;
-							dbs.teams[user.alliance].pv+=PV_to_regen;
-						}
-					}else{
-						res.writeHead(406);
-						res.write("Not a number");
-						res.end();
-					}
-					break;
+						case "add_pvs":
+							let PV_to_regen=Number(body.pvs);
+							if(Number.isFinite(PV_to_regen)&&PV_to_regen>0){
+								if(user.ressources.energie<PV_to_regen){
+									res.writeHead(402);
+									res.write("Not enough ressources");
+									res.end();
+								}else if(PV_to_regen+dbs.teams[user.alliance].pv>dbs.teams[user.alliance].pv_max){
+									res.writeHead(409);
+									res.write("Max pvs overloaded");
+									res.end();
+								}else{
+									user.ressources.energie-=PV_to_regen;
+									dbs.teams[user.alliance].pv+=PV_to_regen;
+									res.writeHead(200);
+									res.end();
+								}
+							}else{
+								res.writeHead(406);
+								res.write("Not a number");
+								res.end();
+							}
+							break;
 				}
 			}else{
 				res.writeHead(400);

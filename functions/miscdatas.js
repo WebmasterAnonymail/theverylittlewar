@@ -71,6 +71,16 @@ module.exports.points_medailles=[
 	"pillage",
 	"combats"
 ];
+module.exports.team_permissions=[
+	"guerre",
+	"pacte",
+	"strategie",
+	"finance",
+	"grades",
+	"inviter",
+	"expulser",
+	"description"
+]
 module.exports.points_batiments={
 	"generateur":1,
 	"producteur":1,
@@ -111,7 +121,7 @@ module.exports.has_team_permission=function(username,permission){
 	if(team.chef==username){
 		res=true;
 	}
-	//permissions : guerre pacte finance grades inviter expulser description
+	//permissions : guerre pacte strategie finance grades inviter expulser description
 	for(let grade in team.grades){
 		if(team.grades[grade].posseseur==username){
 			res=res||team.grades[grade][permission];

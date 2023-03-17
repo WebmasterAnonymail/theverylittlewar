@@ -15,6 +15,7 @@ var ressources=[
 var permissions=[
 	"guerre",
 	"pacte",
+	"strategie",
 	"finance",
 	"grades",
 	"inviter",
@@ -36,7 +37,7 @@ function has_team_permission(permission){
 	if(team.chef==username){
 		res=true;
 	}
-	//permissions : guerre pacte finance description inviter expulser grades
+	//permissions : guerre pacte strategie finance description inviter expulser grades
 	for(let grade in team.grades){
 		if(team.grades[grade].posseseur==username){
 			res=res||team.grades[grade][permission];
