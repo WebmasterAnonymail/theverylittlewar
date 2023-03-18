@@ -20,3 +20,11 @@ body{
 	display: inline-block;
 	background-image: url("../image/backgroung_card.jpg");
 }
+.pv_progress_bar{
+	width: 100%;
+	text-align: center;
+	border: 1px solid black;
+	position: relative;
+	border-radius: 10px;
+	background-clip: content-box;
+}

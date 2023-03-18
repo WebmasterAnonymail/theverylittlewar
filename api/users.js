@@ -196,7 +196,7 @@ module.exports = {
 					"actif":false,
 					"lastUserCheck":Date.now()
 				};
-				res.writeHead(204);
+				res.writeHead(201);
 				res.end();
 			}
 		}else{
