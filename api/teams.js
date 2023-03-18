@@ -123,6 +123,7 @@ module.exports = {
 								"pactes":[],
 								"guerres":[],
 								"war_status":[],
+								"strategie":[body.username],
 								"point_allowance":0
 							},
 							"pv":50000,

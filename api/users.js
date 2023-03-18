@@ -313,6 +313,7 @@ module.exports = {
 							if(dbs.teams[body.invit].membres.length<25){
 								dbs.users[body.username].alliance=body.invit;
 								dbs.teams[body.invit].membres.push(body.username);
+								dbs.teams[body.invit].diplomatie.strategie.push(body.username);
 								dbs.users[body.username].invitations.splice(dbs.users[body.username].invitations.indexOf(body.invit),1);
 								res.writeHead(200);
 								res.end();

@@ -1,5 +1,5 @@
 var team=null;
-var popups=["membres","change_description","finances","grades","pactes","guerres"];
+var popups=["membres","change_description","finances","grades","strategie","pactes","guerres"];
 var block_description_geting=false;
 var ressources=[
 	"carbone",
@@ -135,6 +135,23 @@ function post_getuser_action(){
 					action_button.appendChild(button_text);
 					action_button.addEventListener("click",function(){
 						popup_open_close("pactes");
+					});
+					document.getElementById("actions").appendChild(action_button);
+				}
+				//Strategie
+				if(has_team_permission("strategie")){
+					let action_button=document.createElement("div");
+					action_button.classList.add("button_labeled");
+					let button_image=document.createElement("img");
+					button_image.src="../image/equipe/strategie.png";
+					button_image.classList.add("button_labeled_image");
+					action_button.appendChild(button_image);
+					let button_text=document.createElement("span");
+					button_text.innerText="Stratégie de défense";
+					button_text.classList.add("button_labeled_label");
+					action_button.appendChild(button_text);
+					action_button.addEventListener("click",function(){
+						popup_open_close("strategie");
 					});
 					document.getElementById("actions").appendChild(action_button);
 				}
