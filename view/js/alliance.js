@@ -426,7 +426,8 @@ function post_getuser_action(){
 				for(name of team.diplomatie.strategie){
 					let line=document.createElement("tr");
 					let cellName=document.createElement("td");
-					cellName.innerText=guerre;
+					cellName.innerText=name;
+					cellName.draggable=true;
 					line.appendChild(cellName);
 					strategie_table.appendChild(line)
 				}
