@@ -15,8 +15,10 @@ function calc_max_earning_team_war(winer,loser){
 			los_pts+=dbs.users[a].points.total;
 		}
 	}
-	const max_transfer_rate=0.2
-	let rate=max_transfer_rate/(1+Math.exp((win_pts-los_pts)/50))//lorsque los a + pts que win, la f(x) croit (50 ajustable)
+	const max_transfer_rate=0.2 //taux de transfert lorsque l'équipe perdante a une infinité de points de plus que le gagnant
+	//A savoir : en cas d'égalité des points, rate=max_transfer_rate/2
+	const semi_transfer_value=1000 //nombre de point d'écart nécaissaires pour obtenir un taux 50% suppérieur ou inférieur a celui d'égalité
+	let rate=max_transfer_rate/(1+Math.exp((win_pts-los_pts)*Math.log(3)/semi_transfer_value))//lorsque los a + pts que win, la f(x) croit (50 ajustable)
 	return rate*los_pts
 }
 module.exports = {
