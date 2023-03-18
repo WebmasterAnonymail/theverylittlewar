@@ -427,7 +427,7 @@ function post_getuser_action(){
 					let line=document.createElement("tr");
 					let cellName=document.createElement("td");
 					cellName.innerText=guerre;
-					line.appendChild(cellP);
+					line.appendChild(cellName);
 					strategie_table.appendChild(line)
 				}
 			}else if(xhr.status==410){
