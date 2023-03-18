@@ -420,6 +420,16 @@ function post_getuser_action(){
 					line.appendChild(cellA);
 					guerres_list.appendChild(line)
 				}
+				//Strategie
+				let strategie_table=document.getElementById("strategie_reorganizer");
+				strategie_table.innerHTML="";
+				for(name of team.diplomatie.strategie){
+					let line=document.createElement("tr");
+					let cellName=document.createElement("td");
+					cellName.innerText=guerre;
+					line.appendChild(cellP);
+					strategie_table.appendChild(line)
+				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
 				window.top.act_preview();
