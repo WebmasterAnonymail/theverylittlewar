@@ -347,7 +347,10 @@ module.exports={
 									"time":dbs.events[a].time
 								}
 								for(let b of defmols){
-									let mol=defant.molecules[b.molid];
+									let mol={};
+									for(let c of md.atomes){
+										mol[c]=atkant.molecules[b.molid][c];
+									}
 									mol.number=b.number;
 									atk_report.mol_restantes.push(mol);
 									def_report.mol_restantes.push(mol);
