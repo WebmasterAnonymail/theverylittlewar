@@ -38,7 +38,7 @@ module.exports = {
 									let event_cmb={
 										"def":body.target,
 										"atk":body.username,
-										"time":0,
+										"time":Date.now(),
 										"type":"combat",
 										"mols":[0,0,0,0,0]
 									};
