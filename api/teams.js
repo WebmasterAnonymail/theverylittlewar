@@ -201,7 +201,7 @@ module.exports = {
 										res.write("Grade already exist");
 										res.end();
 									}else{
-										dbs.teams[user.alliance].grades[body.grade]={}
+										dbs.teams[user.alliance].grades[body.grade]={"posseseur":body.posseseur}
 										for(let a of md.team_permissions){
 											dbs.teams[user.alliance].grades[body.grade][a]=body[a];
 										}
