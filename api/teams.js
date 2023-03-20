@@ -237,6 +237,27 @@ module.exports = {
 							res.end();
 						}
 						break;
+					case "change_strategie":
+						if(md.has_team_permission(body.username,"grades")){
+							let OK1=dbs.teams[user.alliance].membres.length==body.strategie.length;
+							for(let a of dbs.teams[user.alliance].membres){
+								OK1=OK1&&body.strategie.includes(a);
+							}
+							if(OK1){
+								dbs.teams[user.alliance].diplomatie.strategie=body.strategie;
+								res.writeHead(200);
+								res.end();
+							}else{
+								res.writeHead(400);
+								res.write("Please define a strategie with every players");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
+						break;
 				}
 			}else{
 				res.writeHead(400);

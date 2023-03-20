@@ -1,6 +1,8 @@
 var team=null;
 var popups=["membres","change_description","finances","grades","strategie","pactes","guerres"];
 var block_description_geting=false;
+var in_reorganization=false;
+var id_reorganization=null;
 var ressources=[
 	"carbone",
 	"oxygene",
@@ -365,7 +367,7 @@ function post_getuser_action(){
 				//Pactes
 				let pactes_list=document.getElementById("pactes_list");
 				pactes_list.innerHTML="";
-				for(pacte of team.diplomatie.pactes){
+				for(let pacte of team.diplomatie.pactes){
 					let line=document.createElement("tr");
 					let cellP=document.createElement("td");
 					cellP.innerText=pacte;
@@ -394,7 +396,7 @@ function post_getuser_action(){
 				//Guerres
 				let guerres_list=document.getElementById("guerres_list");
 				guerres_list.innerHTML="";
-				for(guerre of team.diplomatie.guerres){
+				for(let guerre of team.diplomatie.guerres){
 					let line=document.createElement("tr");
 					let cellP=document.createElement("td");
 					cellP.innerText=guerre;
@@ -423,11 +425,58 @@ function post_getuser_action(){
 				//Strategie
 				let strategie_table=document.getElementById("strategie_reorganizer");
 				strategie_table.innerHTML="";
-				for(name of team.diplomatie.strategie){
+				for(let id=0;id<team.diplomatie.strategie.length;id++){
+					let name=team.diplomatie.strategie[id];
 					let line=document.createElement("tr");
 					let cellName=document.createElement("td");
 					cellName.innerText=name;
 					cellName.draggable=true;
+					cellName.addEventListener('dragstart',function(ev){
+						ev.dataTransfer.setData('text/plain',id); //données a envoyer
+						// création de l'apparence du drag
+						ev.dataTransfer.setDragImage(line,line.offsetWidth/2,line.offsetHeight/2);
+						line.setAttribute("dragged","true");
+						id_reorganization=id;
+						in_reorganization=true;
+						ev.dataTransfer.effectAllowed="move";
+					});
+					cellName.addEventListener('dragend',function(ev){
+						line.removeAttribute("dragged");
+						id_reorganization=null;
+						in_reorganization=false;
+					});
+					cellName.addEventListener('dragenter',function(ev){
+						if(id_reorganization>id){
+							line.setAttribute("targeted","before");
+						}
+						if(id_reorganization<id){
+							line.setAttribute("targeted","after");
+						}
+					});
+					cellName.addEventListener('dragover',function(ev){
+						ev.preventDefault();
+					});
+					cellName.addEventListener('dragleave',function(ev){
+						line.removeAttribute("targeted");
+					});
+					line.addEventListener('drop',function(ev){
+						line.removeAttribute("targeted");
+						if(id_reorganization>id){
+							team.diplomatie.strategie.splice(id,id_reorganization-id+1,team.diplomatie.strategie[id_reorganization],...team.diplomatie.strategie.slice(id,id_reorganization));
+						}
+						if(id_reorganization<id){
+							team.diplomatie.strategie.splice(id_reorganization,id-id_reorganization+1,...team.diplomatie.strategie.slice(id_reorganization+1,id+1),team.diplomatie.strategie[id_reorganization]);
+						}
+						console.log(team.diplomatie.strategie);
+						use_api("PATCH","teams",{"action":"change_strategie","strategie":team.diplomatie.strategie},true,function(xhr){
+							if(xhr.status=200){
+								window.top.act_preview();
+							}else{
+								console.error("ERROR in getting team : code "+xhr.status);
+							}
+						});
+						ev.preventDefault();
+					});
 					line.appendChild(cellName);
 					strategie_table.appendChild(line)
 				}

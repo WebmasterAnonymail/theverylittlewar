@@ -28,3 +28,12 @@ body{
 	border-radius: 10px;
 	background-clip: content-box;
 }
+[dragged=true]{
+	background-color: #c0c0c0;
+}
+[targeted=before]>td{
+	border-top: #0000ff dotted 2.5px;
+}
+[targeted=after]>td{
+	border-bottom: #0000ff dotted 2.5px;
+}

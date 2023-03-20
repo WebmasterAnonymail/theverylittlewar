@@ -249,6 +249,7 @@ module.exports = {
 								if(body.target!=dbs.teams[dbs.users[body.username].alliance].chef){
 									if(md.has_team_permission(body.username,"expulser")){
 										dbs.teams[dbs.users[body.username].alliance].membres.splice(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.target),1);
+										dbs.teams[dbs.users[body.username].alliance].diplomatie.strategie.splice(dbs.teams[dbs.users[body.username].alliance].diplomatie.strategie.indexOf(body.target),1);
 										dbs.users[body.target].alliance=null;
 										res.writeHead(200);
 										res.end();
@@ -354,6 +355,7 @@ module.exports = {
 								}
 							}
 							dbs.teams[dbs.users[body.username].alliance].membres.splice(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.username),1);
+							dbs.teams[dbs.users[body.username].alliance].diplomatie.strategie.splice(dbs.teams[dbs.users[body.username].alliance].diplomatie.strategie.indexOf(body.username),1);
 							dbs.users[body.username].alliance=null;
 							res.writeHead(200);
 							res.end();
