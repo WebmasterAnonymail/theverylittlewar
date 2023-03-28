@@ -412,6 +412,8 @@ module.exports={
 									}
 								}
 							}
+							let defwin=false;
+							let atkwin=false;
 							do{
 								//calcul des dégats a infliger
 								let totdef=0;
@@ -458,11 +460,23 @@ module.exports={
 									}
 								}
 								//élimination des points d'atk ou de def qui n'ont pas servis
-								defant.points.defense-=totdef; ///WARN !!!!
+								///defant.points.defense-=totdef; ///WARN !!!!
 								atkant_user.points.attaque-=totatk;
-								
 								//lorsqu'il ne reste rien
-							}while(defmols.length>0&&atkmols.length>0);
+								let defwin=true;
+								let atkwin=true;
+								for(let mol of atkmols){
+									if(!mol.obliterated){
+										defwin=false;
+									}
+								}
+								for(let mol of defmols){
+									if(!mol.obliterated){
+										atkwin=false;
+									}
+								}
+							}while(!atkwin&&!defwin);
+							///WIP
 							for(let b=0;b<5;b++){
 								if(defant.molecules[b]){
 									defant.molecules[b].number=0;
