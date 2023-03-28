@@ -34,9 +34,6 @@ module.exports={
 							let defmols=[];
 							let atkmols=[];
 							for(let b=0;b<5;b++){
-								if(old_atkmols[b]){
-									old_atkmols[b].number=dbs.events[a].mols[b];
-								}
 								if(defant.molecules[b]&&defant.molecules[b].number){
 									defmols.push({
 										"number":defant.molecules[b].number,
@@ -364,97 +361,106 @@ module.exports={
 						dbs.events[a]=null;
 						break;
 					case "cmb_team":
-						let atkant=module.exports.usercheck(dbs.events[a].atk);
-						let defant_team=dbs.team[dbs.events[a].def];
-						if(atkant&&defant_team){
-							module.exports.usercheck(dbs.events[a].atk);
+						let atkant_user=dbs.users[dbs.events[a].atk];
+						let defant_team=dbs.teams[dbs.events[a].def];
+						let defant_users={};
+						let tmp_ok=true;
+						if(defant_team){
 							for(let b of defant_team.diplomatie.strategie){
-								module.exports.usercheck(b);
+								let tmp_user=dbs.users[b];
+								if(tmp_user){
+									module.exports.usercheck(b);
+									defant_users[b]=tmp_user;
+								}else{
+									dbs.events[a]=null;
+									tmp_ok=false;
+								}
 							}
+						}
+						if(atkant_user&&defant_team&&tmp_ok){
+							module.exports.usercheck(dbs.events[a].atk);
 							let mol_used_by_atkant=[];
-							let old_atkmols=JSON.parse(JSON.stringify(atkant.molecules));
+							let old_atkmols=md.copydepth(atkant_user.molecules);
+							let old_defmols=[];
 							let defmols=[];
 							let atkmols=[];
 							for(let b=0;b<5;b++){
-								if(old_atkmols[b]){
-									old_atkmols[b].number=dbs.events[a].mols[b];
-								}
-								if(defant.molecules[b]&&defant.molecules[b].number){
-									defmols.push({
-										"number":defant.molecules[b].number,
-										"deg":md.power_atome(defant,b,0),
-										"PV":md.power_atome(defant,b,4),
-										"molid":b
-									});
-								}
-								if(atkant.molecules[b]&&dbs.events[a].mols[b]>0){
+								if(atkant_user.molecules[b]&&dbs.events[a].mols[b]>0){
 									atkmols.push({
 										"number":dbs.events[a].mols[b],
-										"deg":md.power_atome(atkant,b,1),
-										"PV":md.power_atome(atkant,b,4),
-										"molid":b
+										"deg":md.power_atome(atkant_user,b,1),
+										"PV":md.power_atome(atkant_user,b,4),
+										"molid":b,
+										"obliterated":false
 									});
 									old_atkmols[b].number=dbs.events[a].mols[b]
 									mol_used_by_atkant.push(b);
+								}
+							}
+							for(let usr in defant_users){
+								for(let b=0;b<5;b++){
+									if(defant_users[usr].molecules[b]&&defant_users[usr].molecules[b].number){
+										defmols.push({
+											"number":defant_users[usr].molecules[b].number,
+											"deg":md.power_atome(defant_users[usr],b,0),
+											"PV":md.power_atome(defant_users[usr],b,4),
+											"molid":b,
+											"origin_user":usr,
+											"obliterated":false
+										});
+										old_defmols.push(md.copydepth(defant_users[usr].molecules[b]));
+									}
 								}
 							}
 							do{
 								//calcul des dégats a infliger
 								let totdef=0;
 								for(let g=0;g<defmols.length;g++){
-									totdef+=defmols[g].deg*defmols[g].number;
+									if(!defmols[g].obliterated){
+										totdef+=defmols[g].deg*defmols[g].number;
+										defant_users[defmols[g].origin_user].points.defense+=defmols[g].deg*defmols[g].number;
+									}
 								}
-								defant.points.defense+=totdef;
 								let totatk=0;
 								for(let h=0;h<atkmols.length;h++){
-									totatk+=atkmols[h].deg*atkmols[h].number;
+									if(!atkmols[g].obliterated){
+										totatk+=atkmols[h].deg*atkmols[h].number;
+									}
 								}
-								atkant.points.attaque+=totatk;
-								//oblitération des classes
+								atkant_user.points.attaque+=totatk;
+								//aplication des dégats et oblitération des classes
 								for(let i=0;i<defmols.length;i++){
-									if(defmols[i].PV*defmols[i].number>totatk){
-										defmols[i].number-=totatk/defmols[i].PV;
-										defant.points.pertes_combat+=totatk/defmols[i].PV;
-										totatk=0;
-									}else{
-										defant.points.pertes_combat+=defmols[i].number;
-										totatk-=defmols[i].PV*defmols[i].number;
-										defmols[i].number=0;
+									if(!atkmols[g].obliterated){
+										if(defmols[i].PV*defmols[i].number>totatk){
+											defmols[i].number-=totatk/defmols[i].PV;
+											defant_users[defmols[i].origin_user].points.pertes_combat+=totatk/defmols[i].PV;
+											totatk=0;
+										}else{
+											defant_users[defmols[i].origin_user].points.pertes_combat+=defmols[i].number;
+											totatk-=defmols[i].PV*defmols[i].number;
+											defmols[i].number=0;
+											defmols[i].obliterated=true;
+										}
 									}
 								}
 								for(let i=0;i<atkmols.length;i++){
-									if(atkmols[i].PV*atkmols[i].number>totdef){
-										atkmols[i].number-=totdef/atkmols[i].PV;
-										atkant.points.pertes_combat+=totdef/atkmols[i].PV;
-										totdef=0;
-									}else{
-										atkant.points.pertes_combat+=atkmols[i].number;
-										totdef-=atkmols[i].PV*atkmols[i].number;
-										atkmols[i].number=0;
+									if(!atkmols[g].obliterated){
+										if(atkmols[i].PV*atkmols[i].number>totdef){
+											atkmols[i].number-=totdef/atkmols[i].PV;
+											atkant_user.points.pertes_combat+=totdef/atkmols[i].PV;
+											totdef=0;
+										}else{
+											atkant_user.points.pertes_combat+=atkmols[i].number;
+											totdef-=atkmols[i].PV*atkmols[i].number;
+											atkmols[i].number=0;
+											atkmols[i].obliterated=true;
+										}
 									}
 								}
 								//élimination des points d'atk ou de def qui n'ont pas servis
-								defant.points.defense-=totdef;
-								atkant.points.attaque-=totatk;
-								//élimination des classe détruites entièrement
-								let d=0;
-								let templen1=atkmols.length;
-								for(let c=0;c<templen1;c++){
-									if(atkmols[d].number==0){
-										atkmols.splice(d,1);
-										d--;
-									}
-									d++;
-								}
-								let f=0;
-								let templen2=defmols.length;
-								for(let e=0;e<templen2;e++){
-									if(defmols[f].number==0){
-										defmols.splice(f,1);
-										f--;
-									}
-									f++;
-								}
+								defant.points.defense-=totdef; ///WARN !!!!
+								atkant_user.points.attaque-=totatk;
+								
 								//lorsqu'il ne reste rien
 							}while(defmols.length>0&&atkmols.length>0);
 							for(let b=0;b<5;b++){

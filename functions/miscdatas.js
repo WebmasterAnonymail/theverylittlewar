@@ -129,3 +129,24 @@ module.exports.has_team_permission=function(username,permission){
 	}
 	return res;
 }
+module.exports.copydepth=function(src){
+	if(src instanceof Array){
+		let dest=[];
+		for(let elem of src){
+			if(typeof elem=="object"){
+				dest.push(module.export.copydepth(elem));
+			}else{
+				dest.push(elem);
+			}
+		}
+	}else{
+		let dest={};
+		for(let elem in src){
+			if(typeof src[elem]=="object"){
+				dest[elem]=module.export.copydepth(src[elem]);
+			}else{
+				dest[elem]=src[elem];
+			}
+		}
+	}	
+}
