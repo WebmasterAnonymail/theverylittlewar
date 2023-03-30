@@ -409,6 +409,7 @@ module.exports={
 											"obliterated":false
 										});
 										old_defmols.push(md.copydepth(defant_users[usr].molecules[b]));
+										defant_users[usr].molecules[b].number=0; //pour un remise post-combat
 									}
 								}
 							}
@@ -477,28 +478,18 @@ module.exports={
 								}
 							}while(!atkwin&&!defwin);
 							///WIP
-							for(let b=0;b<5;b++){
-								if(defant.molecules[b]){
-									defant.molecules[b].number=0;
-									for(let c of defmols){
-										if(c.molid==b){
-											defant.molecules[b].number+=c.number;
-										}
-									}
-								}
-							}
-							if(defmols.length==0&&atkmols.length==0){
+							if(defwin&&atkwin){
 								//égalité
 								for(let b of mol_used_by_atkant){
-									atkant.molecules_en_utilisation[b]--;
+									atkant_user.molecules_en_utilisation[b]--;
 								}
 								//Rapports
 								let atk_report={
 									"readed":false,
-									"type":"combat",
+									"type":"cmb_team",
 									"result":"Egalite",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":0,
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,
@@ -509,10 +500,10 @@ module.exports={
 								}
 								let def_report={
 									"readed":false,
-									"type":"combat",
+									"type":"cmb_team",
 									"result":"Egalite",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":0,
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,
@@ -521,70 +512,32 @@ module.exports={
 									"win":null,
 									"time":dbs.events[a].time
 								}
-								atkant.raports.push(atk_report);
-								defant.raports.push(def_report);
-							}else if(defmols.length==0){
+								atkant_user.raports.push(atk_report);
+								for(let usr of defant_users){
+									usr.raports.push(def_report);
+								}
+							}else if(atkwin){
 								//victoire d'atk
 								//Destruction
-								let destruction_log=[0,0,0];
+								let destruction_log=0;
 								let a_detruire=0;
 								for(let b of atkmols){
-									a_detruire+=md.power_atome(atkant,b.molid,5)*b.number;
+									if(!b.obliterated){
+										a_detruire+=md.power_atome(atkant_user,b.molid,5)*b.number;
+									}
 								}
-								rest_batiments=[true,true,true];
-								rest_batiment=3;
-								temp_rest_batiment=3;
-								do{
-									if(defant.batiments.protecteur>0){
-										let absorbed_by_protector=defant.batiments.protecteur*a_detruire/100;
-										a_detruire-=absorbed_by_protector;
-										if(absorbed_by_protector<defant.PV_batiments.protecteur){
-											defant.PV_batiments.protecteur-=absorbed_by_protector;
-											atkant.points.destruction+=absorbed_by_protector;
-										}else{
-											atkant.points.destruction+=defant.PV_batiments.protecteur;
-											absorbed_by_protector-=defant.PV_batiments.protecteur;
-											defant.PV_batiments.protecteur=0;
-											defant.batiments.protecteur--;
-											defant.PV_batiments.protecteur=10**(defant.batiments.protecteur/20)*10*defant.batiments.protecteur;
-											defant.points.batiments-=5;
-											a_detruire+=absorbed_by_protector;
-										}
-									}
-									let restdestruction=0;
-									if(rest_batiment>0){
-										for(let b=0;b<3;b++){
-											if(rest_batiments[b]){
-												let destrbatiment=a_detruire*atkant.QG.destruction[b]/4/rest_batiment;
-												if(defant.PV_batiments[md.batiments[b]]>destrbatiment){
-													defant.PV_batiments[md.batiments[b]]-=destrbatiment;
-													atkant.points.destruction+=destrbatiment;
-													destruction_log[b]+=destrbatiment/(10**(defant.batiments[md.batiments[b]]/20)*1000);
-												}else{
-													if(defant.batiments[md.batiments[b]]==0){
-														rest_batiments[b]=false;
-														temp_rest_batiment--;
-													}else{
-														destrbatiment-=defant.PV_batiments[md.batiments[b]];
-														atkant.points.destruction+=defant.PV_batiments[md.batiments[b]];
-														destruction_log[b]=Math.floor(destruction_log[b])+1;
-														defant.batiments[md.batiments[b]]--;
-														defant.points.batiments-=1;
-														defant.PV_batiments[md.batiments[b]]=10**(defant.batiments[md.batiments[b]]/20)*1000;
-														restdestruction+=destrbatiment;
-													}
-												}
-											}
-										}
-									}
-									rest_batiment=temp_rest_batiment;
-									a_detruire=restdestruction;
-								}while(a_detruire>0);
+								if(defant_team.pv>a_detruire){
+									atkant_user.points.destruction+=a_detruire;
+									defant_team.pv-=a_detruire;
+									destruction_log=a_detruire/defant_team.pv_max
+								}else{
+									///VAINCU
+								}
 								//Pillage
 								let pillage_log=[0,0,0,0,0,0,0,0];
 								let a_piller=0;
 								for(let b of atkmols){
-									a_piller+=md.power_atome(atkant,b.molid,6)*b.number;
+									a_piller+=md.power_atome(atkant_user,b.molid,6)*b.number;
 								}
 								rest_atomes=[true,true,true,true,true,true,true,true];
 								rest_atome=8;
@@ -594,16 +547,16 @@ module.exports={
 									if(rest_atome>0){
 										for(let b=0;b<8;b++){
 											if(rest_atomes[b]){
-												let pillatome=a_piller*atkant.QG.pillage[b]/4/rest_atome;
+												let pillatome=a_piller*atkant_user.QG.pillage[b]/4/rest_atome;
 												if(defant.ressources[md.atomes[b]]>pillatome){
 													defant.ressources[md.atomes[b]]-=pillatome;
-													atkant.ressources[md.atomes[b]]+=pillatome;
-													atkant.points.pillage+=pillatome;
+													atkant_user.ressources[md.atomes[b]]+=pillatome;
+													atkant_user.points.pillage+=pillatome;
 													pillage_log[b]+=pillatome;
 												}else{
 													pillatome-=defant.ressources[md.atomes[b]];
-													atkant.ressources[md.atomes[b]]+=defant.ressources[md.atomes[b]];
-													atkant.points.pillage+=defant.ressources[md.atomes[b]];
+													atkant_user.ressources[md.atomes[b]]+=defant.ressources[md.atomes[b]];
+													atkant_user.points.pillage+=defant.ressources[md.atomes[b]];
 													pillage_log[b]+=defant.ressources[md.atomes[b]];
 													defant.ressources[md.atomes[b]]=0;
 													rest_atomes[b]=false;
@@ -619,7 +572,7 @@ module.exports={
 								//Rapports
 								let atk_report={
 									"readed":false,
-									"type":"combat",
+									"type":"cmb_team",
 									"result":"Victoire",
 									"pillage":pillage_log,
 									"destruction":destruction_log,
@@ -633,7 +586,7 @@ module.exports={
 								}
 								let def_report={
 									"readed":false,
-									"type":"combat",
+									"type":"cmb_team",
 									"result":"Defaite",
 									"pillage":pillage_log,
 									"destruction":destruction_log,
@@ -674,15 +627,19 @@ module.exports={
 									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(atkant,b.molid,7));
 								}
 								dbs.events.push(return_event);
-							}else if(atkmols.length==0){
+							}else if(defwin){
 								//victoire de def
+								//remise en stockage des molécules
+								for(let mol of defmols){
+									defant_users[mol.origin_user].molecules[mol.molid].number=mol.number;
+								}
 								for(let b of mol_used_by_atkant){
 									atkant.molecules_en_utilisation[b]--;
 								}
 								//Rapports
 								let atk_report={
 									"readed":false,
-									"type":"combat",
+									"type":"cmb_team",
 									"result":"Defaite",
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],
@@ -696,7 +653,7 @@ module.exports={
 								}
 								let def_report={
 									"readed":false,
-									"type":"combat",
+									"type":"cmb_team",
 									"result":"Victoire",
 									"pillage":[0,0,0,0,0,0,0,0],
 									"destruction":[0,0,0,0],

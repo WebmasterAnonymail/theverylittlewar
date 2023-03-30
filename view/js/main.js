@@ -178,14 +178,23 @@ function affichageRessources(num){
 	{value:1E12,symbol:"T"},
 	{value:1E9 ,symbol:"G"},
 	{value:1E6 ,symbol:"M"},
-	{value:1E3 ,symbol:"K"}
+	{value:1E6 ,symbol:"K"},
+	{value:1 ,symbol:""},
+	{value:1E-3 ,symbol:"m"},
+	{value:1E-6 ,symbol:"μ"},
+	{value:1E-9 ,symbol:"n"},
+	{value:1E-12 ,symbol:"p"},
+	{value:1E-15 ,symbol:"f"},
+	{value:1E-18 ,symbol:"a"},
+	{value:1E-21 ,symbol:"z"},
+	{value:1E-24 ,symbol:"y"}
 	];
 	for(let i=0;i<si.length;i++){
 		if(num>=si[i].value){
 			return Math.floor((num/si[i].value)*100)/100+si[i].symbol;
 		}
 	}
-	return Math.floor(num);
+	return String(num);
 }
 function inherit_userdatas(){
 	for(let a=0;a<frames.length;a++){

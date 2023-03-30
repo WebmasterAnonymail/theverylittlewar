@@ -75,9 +75,103 @@ function post_getuser_action(){
 		line.appendChild(cellCheck);
 		switch(user.raports[a].type){
 			case "combat":
-				let cellType=document.createElement("td");
-				cellType.innerText=user.raports[a].result;
-				line.appendChild(cellType);
+				let cellResult=document.createElement("td");
+				cellResult.innerText=user.raports[a].result;
+				line.appendChild(cellResult);
+				line.addEventListener("click",function(){
+					let datas={
+						"action":"read_report",
+						"report":Number(a)
+					}
+					use_api("PATCH","users",datas,true,function(xhr){
+						if(xhr.status==200){
+							window.top.act_preview();
+						}else{
+							console.error("ERROR in reading report : code "+xhr.status);
+						}
+					});
+					let title_cmb=document.getElementById("title_cmb");
+					title_cmb.innerText="";
+					let cmbimg=document.createElement("img");
+					cmbimg.src="../image/actions/combat.png";
+					cmbimg.classList.add("icon");
+					title_cmb.appendChild(cmbimg);
+					let atkspan=document.createElement("span");
+					atkspan.innerText=user.raports[a].atkant;
+					cmbimg.insertAdjacentElement("beforebegin",atkspan);
+					let defspan=document.createElement("span");
+					defspan.innerText=user.raports[a].defant;
+					cmbimg.insertAdjacentElement("afterend",defspan);
+					let winimg=document.createElement("img");
+					winimg.src="../image/ressources/victoires.png";
+					winimg.classList.add("icon");
+					if(user.raports[a].win=="atk"){
+						atkspan.insertAdjacentElement("beforebegin",winimg);
+					}
+					if(user.raports[a].win=="def"){
+						defspan.insertAdjacentElement("afterend",winimg);
+					}
+					let restmols=document.getElementById("restmols");
+					restmols.innerText="";
+					let restmolsnumber=document.getElementById("restmolsnumber");
+					restmolsnumber.innerText="";
+					if(user.raports[a].mol_restantes.length==0){
+						document.getElementById("restmols_table").style.display="none";
+					}else{
+						for(let c of user.raports[a].mol_restantes){
+							let formule="";
+							for(b in atomes){
+								if(c[atomes[b]]){
+									formule+="<e"+initiales[b].toLowerCase()+">";
+									formule+=initiales[b];
+									if(c[atomes[b]]!=1){
+										formule+="<sub>"+c[atomes[b]]+"</sub>";
+									}
+									formule+="</e"+initiales[b].toLowerCase()+">";
+								}
+							}
+							cellMol=document.createElement("td");
+							cellNum=document.createElement("td");
+							cellMol.innerHTML=formule;
+							cellNum.innerText=affichageRessources(c.number);
+							restmols.appendChild(cellMol);
+							restmolsnumber.appendChild(cellNum);
+						}
+						document.getElementById("restmols_table").style.display="table";
+					}
+					document.getElementById("mols_def").innerText="";
+					document.getElementById("molsnumber_def").innerText="";
+					document.getElementById("mols_atk").innerText="";
+					document.getElementById("molsnumber_atk").innerText="";
+					for(let b=0;b<5;b++){
+						let defmol=document.createElement("td");
+						defmol.innerHTML=code_mol_to_html(user.raports[a].old_defmols[b]);
+						document.getElementById("mols_def").appendChild(defmol);
+						let defmolnumber=document.createElement("td");
+						if(user.raports[a].old_defmols[b]){
+							defmolnumber.innerHTML=affichageRessources(user.raports[a].old_defmols[b].number);
+						}
+						document.getElementById("molsnumber_def").appendChild(defmolnumber);
+						let atkmol=document.createElement("td");
+						atkmol.innerHTML=code_mol_to_html(user.raports[a].old_atkmols[b]);
+						document.getElementById("mols_atk").appendChild(atkmol);
+						let atkmolnumber=document.createElement("td");
+						if(user.raports[a].old_atkmols[b]){
+							atkmolnumber.innerHTML=affichageRessources(user.raports[a].old_atkmols[b].number);
+						}
+						document.getElementById("molsnumber_atk").appendChild(atkmolnumber);
+					}
+					for(let b in atomes){
+						document.getElementById(atomes[b]+"_pillage").innerText=affichageRessources(user.raports[a].pillage[b]);
+					}
+					for(let b=0;b<3;b++){
+						document.getElementById(batiment_pveurs[b]+"_destruction").innerText=Math.floor(user.raports[a].destruction[b])+" niveaux perdus, et "+Math.floor(user.raports[a].destruction[b]%1*100)+"%";
+					}
+					popup_open_close("combat");
+				});
+				break;
+			case "cmb_team":
+				
 				break;
 		}
 		let cellDate=document.createElement("td");
@@ -106,97 +200,6 @@ function post_getuser_action(){
 			line.style.fontWeight="bold";
 		}
 		cellDelete.appendChild(imgDelete);
-		line.addEventListener("click",function(){
-			let datas={
-				"action":"read_report",
-				"report":Number(a)
-			}
-			use_api("PATCH","users",datas,true,function(xhr){
-				if(xhr.status==200){
-					window.top.act_preview();
-				}else{
-					console.error("ERROR in reading report : code "+xhr.status);
-				}
-			});
-			let title_cmb=document.getElementById("title_cmb");
-			title_cmb.innerText="";
-			let cmbimg=document.createElement("img");
-			cmbimg.src="../image/actions/combat.png";
-			cmbimg.classList.add("icon");
-			title_cmb.appendChild(cmbimg);
-			let atkspan=document.createElement("span");
-			atkspan.innerText=user.raports[a].atkant;
-			cmbimg.insertAdjacentElement("beforebegin",atkspan);
-			let defspan=document.createElement("span");
-			defspan.innerText=user.raports[a].defant;
-			cmbimg.insertAdjacentElement("afterend",defspan);
-			let winimg=document.createElement("img");
-			winimg.src="../image/ressources/victoires.png";
-			winimg.classList.add("icon");
-			if(user.raports[a].win=="atk"){
-				atkspan.insertAdjacentElement("beforebegin",winimg);
-			}
-			if(user.raports[a].win=="def"){
-				defspan.insertAdjacentElement("afterend",winimg);
-			}
-			let restmols=document.getElementById("restmols");
-			restmols.innerText="";
-			let restmolsnumber=document.getElementById("restmolsnumber");
-			restmolsnumber.innerText="";
-			if(user.raports[a].mol_restantes.length==0){
-				document.getElementById("restmols_table").style.display="none";
-			}else{
-				for(let c of user.raports[a].mol_restantes){
-					let formule="";
-					for(b in atomes){
-						if(c[atomes[b]]){
-							formule+="<e"+initiales[b].toLowerCase()+">";
-							formule+=initiales[b];
-							if(c[atomes[b]]!=1){
-								formule+="<sub>"+c[atomes[b]]+"</sub>";
-							}
-							formule+="</e"+initiales[b].toLowerCase()+">";
-						}
-					}
-					cellMol=document.createElement("td");
-					cellNum=document.createElement("td");
-					cellMol.innerHTML=formule;
-					cellNum.innerText=affichageRessources(c.number);
-					restmols.appendChild(cellMol);
-					restmolsnumber.appendChild(cellNum);
-				}
-				document.getElementById("restmols_table").style.display="table";
-			}
-			document.getElementById("mols_def").innerText="";
-			document.getElementById("molsnumber_def").innerText="";
-			document.getElementById("mols_atk").innerText="";
-			document.getElementById("molsnumber_atk").innerText="";
-			for(let b=0;b<5;b++){
-				let defmol=document.createElement("td");
-				defmol.innerHTML=code_mol_to_html(user.raports[a].old_defmols[b]);
-				document.getElementById("mols_def").appendChild(defmol);
-				let defmolnumber=document.createElement("td");
-				if(user.raports[a].old_defmols[b]){
-					defmolnumber.innerHTML=affichageRessources(user.raports[a].old_defmols[b].number);
-				}
-				document.getElementById("molsnumber_def").appendChild(defmolnumber);
-				let atkmol=document.createElement("td");
-				atkmol.innerHTML=code_mol_to_html(user.raports[a].old_atkmols[b]);
-				document.getElementById("mols_atk").appendChild(atkmol);
-				let atkmolnumber=document.createElement("td");
-				if(user.raports[a].old_atkmols[b]){
-					atkmolnumber.innerHTML=affichageRessources(user.raports[a].old_atkmols[b].number);
-				}
-				document.getElementById("molsnumber_atk").appendChild(atkmolnumber);
-			}
-			for(let b in atomes){
-				document.getElementById(atomes[b]+"_pillage").innerText=affichageRessources(user.raports[a].pillage[b]);
-			}
-			for(let b=0;b<3;b++){
-				document.getElementById(batiment_pveurs[b]+"_destruction").innerText=Math.floor(user.raports[a].destruction[b])+" niveaux perdus, et "+Math.floor(user.raports[a].destruction[b]%1*100)+"%";
-			}
-			popup_open_close("combat");
-		});
 		line.appendChild(cellDelete);
 		list.appendChild(line);
 	}
