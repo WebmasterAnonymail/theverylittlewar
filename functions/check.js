@@ -548,17 +548,17 @@ module.exports={
 										for(let b=0;b<8;b++){
 											if(rest_atomes[b]){
 												let pillatome=a_piller*atkant_user.QG.pillage[b]/4/rest_atome;
-												if(defant.ressources[md.atomes[b]]>pillatome){
-													defant.ressources[md.atomes[b]]-=pillatome;
+												if(defant_team.ressources[md.atomes[b]]>pillatome){
+													defant_team.ressources[md.atomes[b]]-=pillatome;
 													atkant_user.ressources[md.atomes[b]]+=pillatome;
 													atkant_user.points.pillage+=pillatome;
 													pillage_log[b]+=pillatome;
 												}else{
-													pillatome-=defant.ressources[md.atomes[b]];
-													atkant_user.ressources[md.atomes[b]]+=defant.ressources[md.atomes[b]];
-													atkant_user.points.pillage+=defant.ressources[md.atomes[b]];
-													pillage_log[b]+=defant.ressources[md.atomes[b]];
-													defant.ressources[md.atomes[b]]=0;
+													pillatome-=defant_team.ressources[md.atomes[b]];
+													atkant_user.ressources[md.atomes[b]]+=defant_team.ressources[md.atomes[b]];
+													atkant_user.points.pillage+=defant_team.ressources[md.atomes[b]];
+													pillage_log[b]+=defant_team.ressources[md.atomes[b]];
+													defant_team.ressources[md.atomes[b]]=0;
 													rest_atomes[b]=false;
 													temp_rest_atome--;
 													restpillage+=pillatome;
@@ -568,7 +568,7 @@ module.exports={
 									}
 									rest_atome=temp_rest_atome;
 									a_piller=restpillage;
-								}while(a_piller>0);
+								}while(a_piller>0); ///HMMMMMM
 								//Rapports
 								let atk_report={
 									"readed":false,
