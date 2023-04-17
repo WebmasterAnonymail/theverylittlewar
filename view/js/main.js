@@ -178,7 +178,7 @@ function affichageRessources(num){
 	{value:1E12,symbol:"T"},
 	{value:1E9 ,symbol:"G"},
 	{value:1E6 ,symbol:"M"},
-	{value:1E6 ,symbol:"K"},
+	{value:1E3 ,symbol:"K"},
 	{value:1 ,symbol:""},
 	{value:1E-3 ,symbol:"m"},
 	{value:1E-6 ,symbol:"μ"},
