@@ -124,7 +124,7 @@ module.exports = {
 							"diplomatie":{
 								"pactes":[],
 								"guerres":[],
-								"war_status":[],
+								"war_status":{},
 								"strategie":[body.username],
 								"point_allowance":0
 							},
