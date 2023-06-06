@@ -134,7 +134,7 @@ module.exports.copydepth=function(src){
 		let dest=[];
 		for(let elem of src){
 			if(typeof elem=="object"){
-				dest.push(module.export.copydepth(elem));
+				dest.push(module.exports.copydepth(elem));
 			}else{
 				dest.push(elem);
 			}
@@ -143,7 +143,7 @@ module.exports.copydepth=function(src){
 		let dest={};
 		for(let elem in src){
 			if(typeof src[elem]=="object"){
-				dest[elem]=module.export.copydepth(src[elem]);
+				dest[elem]=module.exports.copydepth(src[elem]);
 			}else{
 				dest[elem]=src[elem];
 			}
