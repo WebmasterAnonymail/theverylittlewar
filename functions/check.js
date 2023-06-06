@@ -417,6 +417,8 @@ module.exports={
 							let atkwin=false;
 							do{
 								//calcul des dégats a infliger
+								let defsforratio={};
+								let deftotalforratio=0;
 								let totdef=0;
 								for(let g=0;g<defmols.length;g++){
 									if(!defmols[g].obliterated){
