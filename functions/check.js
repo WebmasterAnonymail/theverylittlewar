@@ -29,8 +29,8 @@ module.exports={
 							module.exports.usercheck(dbs.events[a].atk);
 							module.exports.usercheck(dbs.events[a].def);
 							let mol_used_by_atkant=[];
-							let old_defmols=JSON.parse(JSON.stringify(defant.molecules));
-							let old_atkmols=JSON.parse(JSON.stringify(atkant.molecules));
+							let old_defmols=md.copydepth(defant.molecules);
+							let old_atkmols=md.copydepth(atkant.molecules);
 							let defmols=[];
 							let atkmols=[];
 							for(let b=0;b<5;b++){
@@ -42,15 +42,17 @@ module.exports={
 										"molid":b
 									});
 								}
-								if(atkant.molecules[b]&&dbs.events[a].mols[b]>0){
-									atkmols.push({
-										"number":dbs.events[a].mols[b],
-										"deg":md.power_atome(atkant,b,1),
-										"PV":md.power_atome(atkant,b,4),
-										"molid":b
-									});
+								if(atkant.molecules[b]){
+									if(dbs.events[a].mols[b]>0){
+										atkmols.push({
+											"number":dbs.events[a].mols[b],
+											"deg":md.power_atome(atkant,b,1),
+											"PV":md.power_atome(atkant,b,4),
+											"molid":b
+										});
+										mol_used_by_atkant.push(b);
+									}
 									old_atkmols[b].number=dbs.events[a].mols[b]
-									mol_used_by_atkant.push(b);
 								}
 							}
 							do{
@@ -385,16 +387,18 @@ module.exports={
 							let defmols=[];
 							let atkmols=[];
 							for(let b=0;b<5;b++){
-								if(atkant_user.molecules[b]&&dbs.events[a].mols[b]>0){
-									atkmols.push({
-										"number":dbs.events[a].mols[b],
-										"deg":md.power_atome(atkant_user,b,1),
-										"PV":md.power_atome(atkant_user,b,4),
-										"molid":b,
-										"obliterated":false
-									});
+								if(atkant_user.molecules[b]){
+									if(dbs.events[a].mols[b]>0){
+										atkmols.push({
+											"number":dbs.events[a].mols[b],
+											"deg":md.power_atome(atkant_user,b,1),
+											"PV":md.power_atome(atkant_user,b,4),
+											"molid":b,
+											"obliterated":false
+										});
+										mol_used_by_atkant.push(b);
+									}
 									old_atkmols[b].number=dbs.events[a].mols[b]
-									mol_used_by_atkant.push(b);
 								}
 							}
 							for(let usr in defant_users){
