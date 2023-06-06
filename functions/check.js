@@ -424,6 +424,8 @@ module.exports={
 									if(!defmols[g].obliterated){
 										totdef+=defmols[g].deg*defmols[g].number;
 										defant_users[defmols[g].origin_user].points.defense+=defmols[g].deg*defmols[g].number;
+										defsforratio[defmols[g].origin_user]=(defsforratio[defmols[g].origin_user]??0)+defmols[g].deg*defmols[g].number;
+										deftotalforratio+=defmols[g].deg*defmols[g].number;
 									}
 								}
 								let totatk=0;
@@ -463,7 +465,9 @@ module.exports={
 									}
 								}
 								//élimination des points d'atk ou de def qui n'ont pas servis
-								///defant.points.defense-=totdef; ///WARN !!!!
+								for(let usr in defsforratio){
+									defant_users[usr].points.attaque-=totdef*defsforratio[usr]/deftotalforratio; //en fonction de la qte de def founie avant la phase
+								}
 								atkant_user.points.attaque-=totatk;
 								//lorsqu'il ne reste rien
 								let defwin=true;
