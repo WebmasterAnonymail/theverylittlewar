@@ -474,8 +474,8 @@ module.exports={
 								}
 								atkant_user.points.attaque-=totatk;
 								//lorsqu'il ne reste rien
-								let defwin=true;
-								let atkwin=true;
+								defwin=true;
+								atkwin=true;
 								for(let mol of atkmols){
 									if(!mol.obliterated){
 										defwin=false;
@@ -486,7 +486,7 @@ module.exports={
 										atkwin=false;
 									}
 								}
-							}while(!atkwin&&!defwin);
+							}while((!atkwin)&&(!defwin));
 							if(defwin&&atkwin){
 								//égalité
 								for(let b of mol_used_by_atkant){
@@ -522,8 +522,8 @@ module.exports={
 									"time":dbs.events[a].time
 								}
 								atkant_user.raports.push(atk_report);
-								for(let usr of defant_users){
-									usr.raports.push(def_report);
+								for(let usr in defant_users){
+									defant_users[usr].raports.push(def_report);
 								}
 							}else if(atkwin){
 								//victoire d'atk
@@ -619,8 +619,8 @@ module.exports={
 									def_report.mol_restantes.push(mol);
 								}
 								atkant_user.raports.push(atk_report);
-								for(let usr of defant_users){
-									usr.raports.push(def_report);
+								for(let usr in defant_users){
+									defant_users[usr].raports.push(def_report);
 								}
 								//Evenement de retour
 								let return_event={
@@ -631,14 +631,14 @@ module.exports={
 									"rest_mols":[]
 								}
 								let teammapdatas=dbs.MDS.map.in_teams_progress[dbs.events[a].def]
-								let dx=atkant.positionX-teammapdatas.Xpos*5;
-								let dy=atkant.positionY-teammapdatas.Ypos*5;
+								let dx=atkant_user.positionX-teammapdatas.Xpos*5;
+								let dy=atkant_user.positionY-teammapdatas.Ypos*5;
 								for(let b of atkmols){
 									return_event.rest_mols.push({
 										"molid":b.molid,
 										"number":b.number
 									});
-									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(atkant,b.molid,7));
+									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(atkant_user,b.molid,7));
 								}
 								dbs.events.push(return_event);
 							}else if(defwin){
@@ -688,9 +688,9 @@ module.exports={
 									atk_report.mol_restantes.push(mol);
 									def_report.mol_restantes.push(mol);
 								}
-								atkant.raports.push(atk_report);
-								for(let usr of defant_users){
-									usr.raports.push(def_report);
+								atkant_user.raports.push(atk_report);
+								for(let usr in defant_users){
+									defant_users[usr].raports.push(def_report);
 								}
 							}
 						}
