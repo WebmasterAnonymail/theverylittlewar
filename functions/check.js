@@ -626,9 +626,9 @@ module.exports={
 									"used_mols":mol_used_by_atkant,
 									"rest_mols":[]
 								}
-								///WIP
-								let dx=atkant.positionX-defant.positionX;
-								let dy=atkant.positionY-defant.positionY;
+								let teammapdatas=dbs.MDS.map.in_teams_progress[dbs.events[a].def]
+								let dx=atkant.positionX-teammapdatas.Xpos*5;
+								let dy=atkant.positionY-teammapdatas.Ypos*5;
 								for(let b of atkmols){
 									return_event.rest_mols.push({
 										"molid":b.molid,
@@ -636,7 +636,6 @@ module.exports={
 									});
 									return_event.time=Math.max(return_event.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(atkant,b.molid,7));
 								}
-								///end WIP
 								dbs.events.push(return_event);
 							}else if(defwin){
 								//victoire de def
