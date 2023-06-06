@@ -13,5 +13,9 @@ httpServer.listen(process.env.app_port||process.env.PORT||process.env.port||8000
 wsServer.on("connection",wsHanlder.connect);
 bddManager();
 wsHanlder.init();
-setInterval(checkmodule.eventcheck,1000);
+setInterval(function(){
+	if(dbs_getting_progress==5){
+		checkmodule.eventcheck()
+	}
+},1000);
 setInterval(checkmodule.gamecheck,15000);
