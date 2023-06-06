@@ -434,14 +434,14 @@ module.exports={
 								}
 								let totatk=0;
 								for(let h=0;h<atkmols.length;h++){
-									if(!atkmols[g].obliterated){
+									if(!atkmols[h].obliterated){
 										totatk+=atkmols[h].deg*atkmols[h].number;
 									}
 								}
 								atkant_user.points.attaque+=totatk;
 								//aplication des dégats et oblitération des classes
 								for(let i=0;i<defmols.length;i++){
-									if(!atkmols[g].obliterated){
+									if(!defmols[i].obliterated){
 										if(defmols[i].PV*defmols[i].number>totatk){
 											defmols[i].number-=totatk/defmols[i].PV;
 											defant_users[defmols[i].origin_user].points.pertes_combat+=totatk/defmols[i].PV;
@@ -455,7 +455,7 @@ module.exports={
 									}
 								}
 								for(let i=0;i<atkmols.length;i++){
-									if(!atkmols[g].obliterated){
+									if(!atkmols[i].obliterated){
 										if(atkmols[i].PV*atkmols[i].number>totdef){
 											atkmols[i].number-=totdef/atkmols[i].PV;
 											atkant_user.points.pertes_combat+=totdef/atkmols[i].PV;

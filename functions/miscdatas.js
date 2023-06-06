@@ -139,6 +139,7 @@ module.exports.copydepth=function(src){
 				dest.push(elem);
 			}
 		}
+		return dest
 	}else{
 		let dest={};
 		for(let elem in src){
@@ -148,5 +149,6 @@ module.exports.copydepth=function(src){
 				dest[elem]=src[elem];
 			}
 		}
-	}	
+		return dest
+	}
 }
