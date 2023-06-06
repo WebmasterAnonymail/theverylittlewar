@@ -158,6 +158,28 @@ module.exports = {
 									}
 									if(OK1){
 										console.log("ok")
+										let teammapdatas=dbs.MDS.map.in_teams_progress[body.target]
+										let dx=teammapdatas.Xpos*5;-user.positionX;
+										let dy=teammapdatas.Ypos*5;-user.positionY;
+										let event_cmb={
+											"def":body.target,
+											"atk":body.username,
+											"time":Date.now(),
+											"type":"cmb_team",
+											"mols":[0,0,0,0,0]
+										};
+										for(let a=0;a<5;a++){
+											if(body["mol"+a]>0){
+												user.molecules_en_utilisation[a]+=1;
+												user.molecules[a].number-=body["mol"+a];
+												event_cmb.mols[a]=body["mol"+a];
+												event_cmb.time=Math.max(event_cmb.time,Date.now()+Math.hypot(dx,dy)*60*60*1000/md.power_atome(user,a,7));
+											}
+										}
+										user.points.combats++;
+										dbs.events.push(event_cmb);
+										res.writeHead(200,{'Content-Type':'application/json'});
+										res.end();
 									}else{
 										res.writeHead(402);
 										res.write("You dont have enough molecules");

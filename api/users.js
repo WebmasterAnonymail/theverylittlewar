@@ -82,6 +82,16 @@ module.exports = {
 									});
 								}
 								break;
+							case "cmb_team":
+								if(event.def==users[body.username].alliance||event.atk==body.username){
+									response.push({
+										"time":event.time,
+										"def":event.def,
+										"atk":event.atk,
+										"type":"cmb_team"
+									});
+								}
+								break;
 							case "return":
 								if(event.username==body.username){
 									response.push({

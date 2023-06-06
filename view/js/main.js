@@ -256,9 +256,10 @@ function act_preview(){
 						notif.appendChild(molecule);
 						break;
 					case "combat":
+					case "cmb_team":
 						let icon3=document.createElement("img");
 						icon3.classList.add("icon");
-						icon3.src="image/actions/combat.png";
+						icon3.src="image/actions/"+event.type+".png";
 						notif.appendChild(icon3);
 						let beligerants=document.createElement("span");
 						beligerants.style.marginLeft="10px";
