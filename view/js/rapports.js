@@ -75,8 +75,13 @@ function post_getuser_action(){
 		line.appendChild(cellCheck);
 		switch(user.raports[a].type){
 			case "combat":
+			case "cmb_team":
 				let cellResult=document.createElement("td");
 				cellResult.innerText=user.raports[a].result;
+				let iconCombat=document.createElement("img");
+				iconCombat.src="../image/actions/"+user.raports[a].type+".png";
+				iconCombat.classList.add("icon");
+				cellResult.insertAdjacentElement("afterbegin",iconCombat);
 				line.appendChild(cellResult);
 				line.addEventListener("click",function(){
 					let datas={
@@ -93,7 +98,7 @@ function post_getuser_action(){
 					let title_cmb=document.getElementById("title_cmb");
 					title_cmb.innerText="";
 					let cmbimg=document.createElement("img");
-					cmbimg.src="../image/actions/combat.png";
+					cmbimg.src="../image/actions/"+user.raports[a].type+".png";
 					cmbimg.classList.add("icon");
 					title_cmb.appendChild(cmbimg);
 					let atkspan=document.createElement("span");
