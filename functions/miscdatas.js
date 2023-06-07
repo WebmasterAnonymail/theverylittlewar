@@ -140,7 +140,7 @@ module.exports.copydepth=function(src){
 			}
 		}
 		return dest
-	}else{
+	}else if(src instanceof Object){
 		let dest={};
 		for(let elem in src){
 			if(typeof src[elem]=="object"){
@@ -151,4 +151,5 @@ module.exports.copydepth=function(src){
 		}
 		return dest
 	}
+	return src
 }
