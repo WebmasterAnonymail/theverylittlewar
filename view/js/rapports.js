@@ -148,7 +148,7 @@ function post_getuser_action(){
 					document.getElementById("molsnumber_def").innerText="";
 					document.getElementById("mols_atk").innerText="";
 					document.getElementById("molsnumber_atk").innerText="";
-					for(let b=0;b<5;b++){
+					for(let b=0;b<defmol.length;b++){
 						let defmol=document.createElement("td");
 						defmol.innerHTML=code_mol_to_html(user.raports[a].old_defmols[b]);
 						document.getElementById("mols_def").appendChild(defmol);
@@ -157,6 +157,8 @@ function post_getuser_action(){
 							defmolnumber.innerHTML=affichageRessources(user.raports[a].old_defmols[b].number);
 						}
 						document.getElementById("molsnumber_def").appendChild(defmolnumber);
+					}
+					for(let b=0;b<5;b++){
 						let atkmol=document.createElement("td");
 						atkmol.innerHTML=code_mol_to_html(user.raports[a].old_atkmols[b]);
 						document.getElementById("mols_atk").appendChild(atkmol);
