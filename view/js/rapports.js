@@ -144,10 +144,9 @@ function post_getuser_action(){
 						}
 						document.getElementById("restmols_table").style.display="table";
 					}
+					document.getElementById("deftitle").colspan=user.raports[a].old_defmols.length;
 					document.getElementById("mols_def").innerText="";
 					document.getElementById("molsnumber_def").innerText="";
-					document.getElementById("mols_atk").innerText="";
-					document.getElementById("molsnumber_atk").innerText="";
 					for(let b=0;b<user.raports[a].old_defmols.length;b++){
 						let defmol=document.createElement("td");
 						defmol.innerHTML=code_mol_to_html(user.raports[a].old_defmols[b]);
@@ -158,6 +157,8 @@ function post_getuser_action(){
 						}
 						document.getElementById("molsnumber_def").appendChild(defmolnumber);
 					}
+					document.getElementById("mols_atk").innerText="";
+					document.getElementById("molsnumber_atk").innerText="";
 					for(let b=0;b<5;b++){
 						let atkmol=document.createElement("td");
 						atkmol.innerHTML=code_mol_to_html(user.raports[a].old_atkmols[b]);
@@ -171,8 +172,16 @@ function post_getuser_action(){
 					for(let b in atomes){
 						document.getElementById(atomes[b]+"_pillage").innerText=affichageRessources(user.raports[a].pillage[b]);
 					}
-					for(let b=0;b<3;b++){
-						document.getElementById(batiment_pveurs[b]+"_destruction").innerText=Math.floor(user.raports[a].destruction[b])+" niveaux perdus, et "+Math.floor(user.raports[a].destruction[b]%1*100)+"%";
+					if(user.raports[a].type=="combat"){
+						document.getElementById("destr_cmb_team").style.display="none";
+						document.getElementById("destr_combat").style.display="table";
+						for(let b=0;b<3;b++){
+							document.getElementById(batiment_pveurs[b]+"_destruction").innerText=Math.floor(user.raports[a].destruction[b])+" niveaux perdus, et "+Math.floor(user.raports[a].destruction[b]%1*100)+"%";
+						}
+					}else{
+						document.getElementById("destr_combat").style.display="none";
+						document.getElementById("destr_cmb_team").style.display="block";
+						document.getElementById("team_destruction").innerText=Math.floor(user.raports[a].destruction*10000)/100+"%";
 					}
 					popup_open_close("combat");
 				});
