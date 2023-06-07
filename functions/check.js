@@ -135,7 +135,7 @@ module.exports={
 									"type":"combat",
 									"result":"Egalite",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":[0,0,0],
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,
@@ -149,7 +149,7 @@ module.exports={
 									"type":"combat",
 									"result":"Egalite",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":[0,0,0],
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,
@@ -322,7 +322,7 @@ module.exports={
 									"type":"combat",
 									"result":"Defaite",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":[0,0,0],
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,
@@ -336,7 +336,7 @@ module.exports={
 									"type":"combat",
 									"result":"Victoire",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":[0,0,0],
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,
@@ -374,7 +374,6 @@ module.exports={
 									if(tmp_user.actif){
 										module.exports.usercheck(b);
 										defant_users[b]=tmp_user;
-										console.log(b)
 									}
 								}else{
 									dbs.events[a]=null;
@@ -659,7 +658,7 @@ module.exports={
 									"type":"cmb_team",
 									"result":"Defaite",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":0,
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,
@@ -673,7 +672,7 @@ module.exports={
 									"type":"cmb_team",
 									"result":"Victoire",
 									"pillage":[0,0,0,0,0,0,0,0],
-									"destruction":[0,0,0,0],
+									"destruction":0,
 									"mol_restantes":[],
 									"old_defmols":old_defmols,
 									"old_atkmols":old_atkmols,

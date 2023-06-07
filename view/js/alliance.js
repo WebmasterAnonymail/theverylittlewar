@@ -1,5 +1,5 @@
 var team=null;
-var popups=["membres","change_description","finances","grades","strategie","pactes","guerres"];
+var popups=["membres","change_description","finances","grades","strategie","pactes","guerres","diplomatical_status"];
 var block_description_geting=false;
 var in_reorganization=false;
 var id_reorganization=null;
@@ -171,7 +171,21 @@ function post_getuser_action(){
 				membres_button.addEventListener("click",function(){
 					popup_open_close("membres");
 				});
-				document.getElementById("actions").appendChild(membres_button);
+				//Statut diplomatique
+				let diplomatical_status_button=document.createElement("div");
+				diplomatical_status_button.classList.add("button_labeled");
+				let diplomatical_status_image=document.createElement("img");
+				diplomatical_status_image.src="../image/equipe/traite.png";
+				diplomatical_status_image.classList.add("button_labeled_image");
+				diplomatical_status_button.appendChild(diplomatical_status_image);
+				let diplomatical_status_text=document.createElement("span");
+				diplomatical_status_text.innerText="Statut diplomatique";
+				diplomatical_status_text.classList.add("button_labeled_label");
+				diplomatical_status_button.appendChild(diplomatical_status_text);
+				diplomatical_status_button.addEventListener("click",function(){
+					popup_open_close("diplomatical_status");
+				});
+				document.getElementById("actions").appendChild(diplomatical_status_button);
 				//Finances
 				let finance_button=document.createElement("div");
 				finance_button.classList.add("button_labeled");
@@ -479,6 +493,13 @@ function post_getuser_action(){
 					});
 					line.appendChild(cellName);
 					strategie_table.appendChild(line)
+				}
+				let traites_div=document.getElementById("traites_list");
+				for(let concerned_team in team.diplomatie.war_status){
+					let traite=document.createElement("fieldset");
+					let legende=document.createElement("lengend");
+					legende.innerText="Situation avec "+concerned_team;
+					traite.appendChild(legende);
 				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
