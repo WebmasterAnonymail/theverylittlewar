@@ -83,7 +83,7 @@ module.exports = {
 								}
 								break;
 							case "cmb_team":
-								if(event.def==users[body.username].alliance||event.atk==body.username){
+								if(event.def==dbs.users[body.username].alliance||event.atk==body.username){
 									response.push({
 										"time":event.time,
 										"def":event.def,

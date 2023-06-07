@@ -124,27 +124,16 @@ function post_getuser_action(){
 						document.getElementById("restmols_table").style.display="none";
 					}else{
 						for(let c of user.raports[a].mol_restantes){
-							let formule="";
-							for(b in atomes){
-								if(c[atomes[b]]){
-									formule+="<e"+initiales[b].toLowerCase()+">";
-									formule+=initiales[b];
-									if(c[atomes[b]]!=1){
-										formule+="<sub>"+c[atomes[b]]+"</sub>";
-									}
-									formule+="</e"+initiales[b].toLowerCase()+">";
-								}
-							}
 							cellMol=document.createElement("td");
 							cellNum=document.createElement("td");
-							cellMol.innerHTML=formule;
+							cellMol.innerHTML=code_mol_to_html(c);
 							cellNum.innerText=affichageRessources(c.number);
 							restmols.appendChild(cellMol);
 							restmolsnumber.appendChild(cellNum);
 						}
 						document.getElementById("restmols_table").style.display="table";
 					}
-					document.getElementById("deftitle").colspan=user.raports[a].old_defmols.length;
+					document.getElementById("deftitle").setAttribute("colspan",user.raports[a].old_defmols.length);
 					document.getElementById("mols_def").innerText="";
 					document.getElementById("molsnumber_def").innerText="";
 					for(let b=0;b<user.raports[a].old_defmols.length;b++){
@@ -185,9 +174,6 @@ function post_getuser_action(){
 					}
 					popup_open_close("combat");
 				});
-				break;
-			case "cmb_team":
-				
 				break;
 		}
 		let cellDate=document.createElement("td");
