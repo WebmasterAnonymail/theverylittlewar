@@ -171,6 +171,7 @@ function post_getuser_action(){
 				membres_button.addEventListener("click",function(){
 					popup_open_close("membres");
 				});
+				document.getElementById("actions").appendChild(membres_button);
 				//Statut diplomatique
 				let diplomatical_status_button=document.createElement("div");
 				diplomatical_status_button.classList.add("button_labeled");
