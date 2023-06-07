@@ -148,7 +148,7 @@ function post_getuser_action(){
 					document.getElementById("molsnumber_def").innerText="";
 					document.getElementById("mols_atk").innerText="";
 					document.getElementById("molsnumber_atk").innerText="";
-					for(let b=0;b<defmol.length;b++){
+					for(let b=0;b<user.raports[a].old_defmols.length;b++){
 						let defmol=document.createElement("td");
 						defmol.innerHTML=code_mol_to_html(user.raports[a].old_defmols[b]);
 						document.getElementById("mols_def").appendChild(defmol);
