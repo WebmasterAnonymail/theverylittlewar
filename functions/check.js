@@ -371,8 +371,11 @@ module.exports={
 							for(let b of defant_team.diplomatie.strategie){
 								let tmp_user=dbs.users[b];
 								if(tmp_user){
-									module.exports.usercheck(b);
-									defant_users[b]=tmp_user;
+									if(tmp_user.actif){
+										module.exports.usercheck(b);
+										defant_users[b]=tmp_user;
+										console.log(b)
+									}
 								}else{
 									dbs.events[a]=null;
 									tmp_ok=false;

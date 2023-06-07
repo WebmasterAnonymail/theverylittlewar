@@ -157,7 +157,6 @@ module.exports = {
 										}
 									}
 									if(OK1){
-										console.log("ok")
 										let teammapdatas=dbs.MDS.map.in_teams_progress[body.target]
 										let dx=teammapdatas.Xpos*5;-user.positionX;
 										let dy=teammapdatas.Ypos*5;-user.positionY;
