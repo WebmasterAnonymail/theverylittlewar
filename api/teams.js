@@ -561,6 +561,19 @@ module.exports = {
 								res.write("War not exist");
 								res.end();
 							}else{
+								let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.guerre];
+								let target_war_status=dbs.teams[body.guerre].diplomatie.war_status[user.alliance];
+								let role="offended";
+								if(team_war_status.assailant){
+									role="offender";
+								}
+								if(team_war_status.revenged){
+									team_war_status.revenge[role+"_in_ceasefire"]=true;
+									target_war_status.revenge[role+"_in_ceasefire"]=true;
+								}else{
+									team_war_status.offensive[role+"_in_ceasefire"]=true;
+									target_war_status.offensive[role+"_in_ceasefire"]=true;
+								}
 								dbs.teams[user.alliance].diplomatie.guerres.splice(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre),1);
 								res.writeHead(200);
 								res.end();
@@ -570,6 +583,12 @@ module.exports = {
 							res.write("Forbidden");
 							res.end();
 						}
+						break;
+					case "create_treaty":
+						break;
+					case "accept_treaty":
+						break;
+					case "reject_treaty":
 						break;
 					case "transfer":
 						if(md.has_team_permission(body.username,"finance")){
