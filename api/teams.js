@@ -18,7 +18,7 @@ function calc_max_earning_team_war(winer,loser){
 	const max_transfer_rate=0.2 //taux de transfert lorsque l'équipe perdante a une infinité de points de plus que le gagnant
 	//A savoir : en cas d'égalité des points, rate=max_transfer_rate/2
 	const semi_transfer_value=1000 //nombre de point d'écart nécaissaires pour obtenir un taux 50% suppérieur ou inférieur a celui d'égalité
-	let rate=max_transfer_rate/(1+Math.exp((win_pts-los_pts)*Math.log(3)/semi_transfer_value))//lorsque los a + pts que win, la f(x) croit (50 ajustable)
+	let rate=max_transfer_rate/(1+Math.exp((win_pts-los_pts)*Math.log(3)/semi_transfer_value))//lorsque los a + pts que win, la f(x) croit
 	return rate*los_pts
 }
 module.exports = {
@@ -241,7 +241,7 @@ module.exports = {
 						if(md.has_team_permission(body.username,"grades")){
 							let OK1=dbs.teams[user.alliance].membres.length==body.strategie.length;
 							for(let a of dbs.teams[user.alliance].membres){
-								OK1=OK1&&body.strategie.includes(a);
+								OK&&=body.strategie.includes(a);
 							}
 							if(OK1){
 								dbs.teams[user.alliance].diplomatie.strategie=body.strategie;
@@ -585,6 +585,19 @@ module.exports = {
 						}
 						break;
 					case "create_treaty":
+						if(md.has_team_permission(body.username,"WIP")){
+							if(dbs.teams[body.target]){
+								//
+							}else{
+								res.writeHead(404);
+								res.write("Team not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
 						break;
 					case "accept_treaty":
 						break;
