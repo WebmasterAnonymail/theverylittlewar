@@ -110,11 +110,16 @@ function post_getuser_action(){
 					let winimg=document.createElement("img");
 					winimg.src="../image/ressources/victoires.png";
 					winimg.classList.add("icon");
+					let looseimg=document.createElement("img");
+					looseimg.src="../image/armee/pertes.png";
+					looseimg.classList.add("icon");
 					if(user.raports[a].win=="atk"){
 						atkspan.insertAdjacentElement("beforebegin",winimg);
+						defspan.insertAdjacentElement("afterend",looseimg);
 					}
 					if(user.raports[a].win=="def"){
 						defspan.insertAdjacentElement("afterend",winimg);
+						atkspan.insertAdjacentElement("beforebegin",looseimg);
 					}
 					let restmols=document.getElementById("restmols");
 					restmols.innerText="";
