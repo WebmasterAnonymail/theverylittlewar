@@ -443,9 +443,101 @@ module.exports = {
 						if(md.has_team_permission(body.username,"guerre")){
 							if(dbs.teams[body.guerre]){
 								if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
-									dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
-									res.writeHead(200);
-									res.end();
+									if(dbs.teams[user.alliance].diplomatie.war_status[body.guerre]){
+										let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.guerre];
+										let target_war_status=dbs.teams[body.guerre].diplomatie.war_status[user.alliance];
+										let role="offended";
+										if(team_war_status.assailant){
+											role="offender";
+										}
+										if(dbs.teams[user.alliance].diplomatie.war_status[body.guerre].revenged){
+											//Cas où lors d'une revenche, on arrete un cesser-le-feu (ou bien on tente de la reredéclarer)
+											if(team_war_status.revenge.ended){
+												res.writeHead(406);
+												res.write("War already revenged");
+												res.end();
+											}else{
+												dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
+												team_war_status.revenge[role+"_in_ceasefire"]=false;
+												target_war_status.revenge[role+"_in_ceasefire"]=false;
+												res.writeHead(200);
+												res.end();
+											}
+										}else{
+											if(team_war_status.offensive.ended){
+												//Cas où l'on tente de redéclarer la guerre
+												if(team_war_status.offensive.end_modality.won){
+													res.writeHead(406);
+													res.write("War already won");
+													res.end();
+												}else{
+													//Cas de revenche
+													team_war_status.revenged=true;
+													team_war_status.revenge={
+														"begin":Date.now(),
+														"offended_in_ceasefire":true,
+														"offender_in_ceasefire":true,
+														"peace_treatys_proposed":[],
+														"ended":false,
+														"end_modality":null,
+													}
+													target_war_status.revenged=true;
+													target_war_status.revenge={
+														"begin":Date.now(),
+														"offended_in_ceasefire":true,
+														"offender_in_ceasefire":true,
+														"peace_treatys_proposed":[],
+														"ended":false,
+														"end_modality":null,
+													}
+													//Déclaration de la guerre
+													dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
+													team_war_status.revenge[role+"_in_ceasefire"]=false;
+													target_war_status.revenge[role+"_in_ceasefire"]=false;
+													res.writeHead(200);
+													res.end();
+												}
+											}else{
+												//Cas où lors d'une attaque, on arrete un cesser-le-feu
+												dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
+												team_war_status.revenge[role+"_in_ceasefire"]=false;
+												target_war_status.revenge[role+"_in_ceasefire"]=false;
+												res.writeHead(200);
+												res.end();
+											}
+										}
+									}else{
+										//Cas où l'on déclare la guerre pour la première fois de la partie
+										dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
+										dbs.teams[user.alliance].diplomatie.war_status[body.guerre]={
+											"assailant":true,
+											"revenged":false,
+											"offensive":{
+												"begin":Date.now(),
+												"offended_in_ceasefire":true,
+												"offender_in_ceasefire":false,
+												"peace_treatys_proposed":[],
+												"ended":false,
+												"end_modality":null
+											},
+											"revenge":null
+										}
+										dbs.teams[body.guerre].diplomatie.war_status[user.alliance]={
+											"assailant":false,
+											"revenged":false,
+											"offensive":{
+												"begin":Date.now(),
+												"offended_in_ceasefire":true,
+												"offender_in_ceasefire":false,
+												"peace_treatys_proposed":[],
+												"ended":false,
+												"end_modality":null
+											},
+											"revenge":null
+										}
+										res.writeHead(200);
+										res.end();
+									}
 								}else{
 									res.writeHead(409);
 									res.write("War already exist");
