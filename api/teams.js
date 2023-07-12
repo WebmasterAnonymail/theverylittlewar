@@ -466,7 +466,7 @@ module.exports = {
 										}else{
 											if(team_war_status.offensive.ended){
 												//Cas où l'on tente de redéclarer la guerre
-												if(team_war_status.offensive.end_modality.won){
+												if(team_war_status.offensive.end_modality.won&&team_war_status.assailant){///TMP
 													res.writeHead(406);
 													res.write("War already won");
 													res.end();
