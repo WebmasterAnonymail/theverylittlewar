@@ -83,11 +83,9 @@ function post_getuser_action(){
 					action_button.classList.add("button_labeled");
 					let button_image=document.createElement("img");
 					button_image.src="../image/equipe/grade.png";
-					button_image.classList.add("button_labeled_image");
 					action_button.appendChild(button_image);
 					let button_text=document.createElement("span");
 					button_text.innerText="Grades";
-					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
 					action_button.addEventListener("click",function(){
 						popup_open_close("grades");
@@ -100,11 +98,9 @@ function post_getuser_action(){
 					action_button.classList.add("button_labeled");
 					let button_image=document.createElement("img");
 					button_image.src="../image/equipe/description.png";
-					button_image.classList.add("button_labeled_image");
 					action_button.appendChild(button_image);
 					let button_text=document.createElement("span");
 					button_text.innerText="Changer la description";
-					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
 					action_button.addEventListener("click",function(){
 						popup_open_close("change_description");
@@ -118,11 +114,9 @@ function post_getuser_action(){
 					action_button.classList.add("button_labeled");
 					let button_image=document.createElement("img");
 					button_image.src="../image/equipe/guerre.png";
-					button_image.classList.add("button_labeled_image");
 					action_button.appendChild(button_image);
 					let button_text=document.createElement("span");
 					button_text.innerText="Guerres";
-					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
 					action_button.addEventListener("click",function(){
 						popup_open_close("guerres");
@@ -135,11 +129,9 @@ function post_getuser_action(){
 					action_button.classList.add("button_labeled");
 					let button_image=document.createElement("img");
 					button_image.src="../image/equipe/pacte.png";
-					button_image.classList.add("button_labeled_image");
 					action_button.appendChild(button_image);
 					let button_text=document.createElement("span");
 					button_text.innerText="Pactes";
-					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
 					action_button.addEventListener("click",function(){
 						popup_open_close("pactes");
@@ -152,11 +144,9 @@ function post_getuser_action(){
 					action_button.classList.add("button_labeled");
 					let button_image=document.createElement("img");
 					button_image.src="../image/equipe/strategie.png";
-					button_image.classList.add("button_labeled_image");
 					action_button.appendChild(button_image);
 					let button_text=document.createElement("span");
 					button_text.innerText="Stratégie de défense";
-					button_text.classList.add("button_labeled_label");
 					action_button.appendChild(button_text);
 					action_button.addEventListener("click",function(){
 						popup_open_close("strategie");
@@ -168,11 +158,9 @@ function post_getuser_action(){
 				membres_button.classList.add("button_labeled");
 				let membres_image=document.createElement("img");
 				membres_image.src="../image/equipe/membres.png";
-				membres_image.classList.add("button_labeled_image");
 				membres_button.appendChild(membres_image);
 				let membres_text=document.createElement("span");
 				membres_text.innerText="Membres";
-				membres_text.classList.add("button_labeled_label");
 				membres_button.appendChild(membres_text);
 				membres_button.addEventListener("click",function(){
 					popup_open_close("membres");
@@ -183,11 +171,9 @@ function post_getuser_action(){
 				diplomatical_status_button.classList.add("button_labeled");
 				let diplomatical_status_image=document.createElement("img");
 				diplomatical_status_image.src="../image/equipe/traite.png";
-				diplomatical_status_image.classList.add("button_labeled_image");
 				diplomatical_status_button.appendChild(diplomatical_status_image);
 				let diplomatical_status_text=document.createElement("span");
 				diplomatical_status_text.innerText="Statut diplomatique";
-				diplomatical_status_text.classList.add("button_labeled_label");
 				diplomatical_status_button.appendChild(diplomatical_status_text);
 				diplomatical_status_button.addEventListener("click",function(){
 					popup_open_close("diplomatical_status");
@@ -197,6 +183,7 @@ function post_getuser_action(){
 					document.getElementById("create_treaty").disabled=true;
 					document.getElementById("select_winer_treaty").value="draw";
 					document.getElementById("indemnity_treaty").disabled=true;
+					document.getElementById("indemnity_icon").style.filter="grayscale(1)";
 					document.getElementById("impose_treaty").disabled=true;
 					document.getElementById("impose_treaty").checked=false;
 					
@@ -212,11 +199,9 @@ function post_getuser_action(){
 				finance_button.classList.add("button_labeled");
 				let finance_image=document.createElement("img");
 				finance_image.src="../image/equipe/finance.png";
-				finance_image.classList.add("button_labeled_image");
 				finance_button.appendChild(finance_image);
 				let finance_text=document.createElement("span");
 				finance_text.innerText="Finances";
-				finance_text.classList.add("button_labeled_label");
 				finance_button.appendChild(finance_text);
 				finance_button.addEventListener("click",function(){
 					popup_open_close("finances");
@@ -228,11 +213,9 @@ function post_getuser_action(){
 					delete_button.classList.add("button_labeled");
 					let delete_image=document.createElement("img");
 					delete_image.src="../image/autre/supprimer.png";
-					delete_image.classList.add("button_labeled_image");
 					delete_button.appendChild(delete_image);
 					let delete_text=document.createElement("span");
 					delete_text.innerText="Supprimer l'alliance";
-					delete_text.classList.add("button_labeled_label");
 					delete_button.appendChild(delete_text);
 					delete_button.addEventListener("click",function(){
 						
@@ -244,11 +227,9 @@ function post_getuser_action(){
 					leave_button.classList.add("button_labeled");
 					let leave_image=document.createElement("img");
 					leave_image.src="../image/equipe/quitter.png";
-					leave_image.classList.add("button_labeled_image");
 					leave_button.appendChild(leave_image);
 					let leave_text=document.createElement("span");
 					leave_text.innerText="Quitter";
-					leave_text.classList.add("button_labeled_label");
 					leave_button.appendChild(leave_text);
 					leave_button.addEventListener("click",function(){
 						use_api("PATCH","users",{"action":"leave_team"},true,function(xhr){
@@ -791,6 +772,9 @@ window.onload=()=>{
 						if(xhr2.status==200){
 							self_indemnity=xhr2.response;
 							document.getElementById("create_treaty").disabled=false;
+							if(!document.getElementById("indemnity_treaty").disabled){
+								document.getElementById("indemnity_icon").style.filter="grayscale(0)";
+							}
 						}else{
 							console.error("ERROR in getting self team : code "+xhr2.status);
 						}
@@ -801,13 +785,16 @@ window.onload=()=>{
 			});
 		}else{
 			document.getElementById("create_treaty").disabled=true;
+			document.getElementById("indemnity_icon").style.filter="grayscale(1)";
 		}
 	});
 	document.getElementById("select_winer_treaty").addEventListener("change",function(){
 		if(document.getElementById("select_winer_treaty").value=="draw"){
 			document.getElementById("indemnity_treaty").disabled=true;
+			document.getElementById("indemnity_icon").style.filter="grayscale(1)";
 		}else{
 			document.getElementById("indemnity_treaty").disabled=false;
+			document.getElementById("indemnity_icon").style.filter="grayscale(0)";
 			let point_diff=target_indemnity.somme-self_indemnity.somme;
 			let basepts=self_indemnity.somme
 			if(document.getElementById("select_winer_treaty").value=="win"){
@@ -816,6 +803,7 @@ window.onload=()=>{
 			}
 			let rate=max_transfer_rate/(1+Math.exp(point_diff*Math.log(3)/semi_transfer_value))
 			max_indemnity=rate*basepts;
+			document.getElementById("indemnity_treaty_value").innerText=Math.floor(max_indemnity*document.getElementById("indemnity_treaty").valueAsNumber);
 		}
 	});
 	document.getElementById("indemnity_treaty").addEventListener("input",function(){

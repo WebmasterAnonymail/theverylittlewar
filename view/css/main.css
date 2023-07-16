@@ -315,6 +315,23 @@ td,th{
 .button_labeled>span{
 	padding: 10px;
 }
+.button_labeled_small{
+	margin: 5.5px;
+	border: 1px solid #000000;
+	padding: 6px;
+	border-radius: 10px;
+	cursor: pointer;
+	display: inline-block;
+	background-image: url("../image/backgroung_card.jpg");
+}
+.button_labeled_small>img{
+	width: 25px;
+	height: 25px;
+	vertical-align: middle;
+}
+.button_labeled_small>span{
+	padding: 2px;
+}
 .rotated{
 	transform-origin: 0% 0%;
 	transform: rotate(-90deg);
