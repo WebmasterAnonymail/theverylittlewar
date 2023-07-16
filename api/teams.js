@@ -15,9 +15,9 @@ function calc_max_earning_team_war(winer,loser){
 			los_pts+=dbs.users[a].points.total;
 		}
 	}
-	const max_transfer_rate=0.2 //taux de transfert lorsque l'équipe perdante a une infinité de points de plus que le gagnant
+	const max_transfer_rate=0.2; //taux de transfert lorsque l'équipe perdante a une infinité de points de plus que le gagnant
 	//A savoir : en cas d'égalité des points, rate=max_transfer_rate/2
-	const semi_transfer_value=1000 //nombre de point d'écart nécaissaires pour obtenir un taux 50% suppérieur ou inférieur a celui d'égalité
+	const semi_transfer_value=1000; //nombre de point d'écart nécaissaires pour obtenir un taux 50% suppérieur ou inférieur a celui d'égalité
 	let rate=max_transfer_rate/(1+Math.exp((win_pts-los_pts)*Math.log(3)/semi_transfer_value))//lorsque los a + pts que win, la f(x) croit
 	return rate*los_pts
 }
@@ -76,7 +76,6 @@ module.exports = {
 						"chef":dbs.teams[body.team].chef,
 						"grades":dbs.teams[body.team].grades,
 						"description":dbs.teams[body.team].description,
-						"diplomatie":dbs.teams[body.team].diplomatie,
 						"victoires":dbs.teams[body.team].ressources.victoires,
 						"color":dbs.teams[body.team].color,
 						"somme":sum,

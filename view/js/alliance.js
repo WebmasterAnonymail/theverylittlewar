@@ -1,3 +1,5 @@
+const max_transfer_rate=0.2;
+const semi_transfer_value=1000;
 var team=null;
 var popups=["membres","change_description","finances","grades","strategie","pactes","guerres","diplomatical_status"];
 var block_description_geting=false;
@@ -777,28 +779,47 @@ window.onload=()=>{
 		});
 	});
 	document.getElementById("new_treaty_alliance").addEventListener("change",function(){
-		let datas={
-			"mode":"one",
-			"team":document.getElementById("new_treaty_alliance").value
-		}
-		use_api("GET","teams",datas,false,function(xhr){
-			if(xhr.status==200){
-				target_indemnity=xhr.response;
-				use_api("GET","teams",{"mode":"one","team":user.alliance},false,function(xhr2){
-					if(xhr.status==200){
-						self_indemnity=xhr.response;
-						document.getElementById("create_treaty").disabled=false;
-					}else{
-						console.error("ERROR in getting self team : code "+xhr.status);
-					}
-				});
-			}else{
-				console.error("ERROR in getting treaty target team : code "+xhr.status);
+		if(document.getElementById("new_treaty_alliance").value in team.diplomatie.war_status){
+			let datas={
+				"mode":"one",
+				"team":document.getElementById("new_treaty_alliance").value
 			}
-		});
+			use_api("GET","teams",datas,false,function(xhr){
+				if(xhr.status==200){
+					target_indemnity=xhr.response;
+					use_api("GET","teams",{"mode":"one","team":user.alliance},false,function(xhr2){
+						if(xhr2.status==200){
+							self_indemnity=xhr2.response;
+							document.getElementById("create_treaty").disabled=false;
+						}else{
+							console.error("ERROR in getting self team : code "+xhr2.status);
+						}
+					});
+				}else{
+					console.error("ERROR in getting treaty target team : code "+xhr.status);
+				}
+			});
+		}else{
+			document.getElementById("create_treaty").disabled=true;
+		}
+	});
+	document.getElementById("select_winer_treaty").addEventListener("change",function(){
+		if(document.getElementById("select_winer_treaty").value=="draw"){
+			document.getElementById("indemnity_treaty").disabled=true;
+		}else{
+			document.getElementById("indemnity_treaty").disabled=false;
+			let point_diff=target_indemnity.somme-self_indemnity.somme;
+			let basepts=self_indemnity.somme
+			if(document.getElementById("select_winer_treaty").value=="win"){
+				point_diff=-point_diff;
+				basepts=target_indemnity.somme;
+			}
+			let rate=max_transfer_rate/(1+Math.exp(point_diff*Math.log(3)/semi_transfer_value))
+			max_indemnity=rate*basepts;
+		}
 	});
 	document.getElementById("indemnity_treaty").addEventListener("input",function(){
-		document.getElementById("indemnity_treaty_value").innerText=Math.floor(document.getElementById("max_pvs").valueAsNumber*2);
+		document.getElementById("indemnity_treaty_value").innerText=Math.floor(max_indemnity*document.getElementById("indemnity_treaty").valueAsNumber);
 	});
 	document.getElementById("max_pvs").addEventListener("input",function(){
 		document.getElementById("cout_max_pvs").innerText=affichageRessources(document.getElementById("max_pvs").valueAsNumber*2);
