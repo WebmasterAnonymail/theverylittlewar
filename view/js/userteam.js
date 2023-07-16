@@ -134,7 +134,7 @@ window.onload=()=>{
 		document.getElementById("attaquer_target").setAttribute("list",attaquerQuoi+"_autocomplete_list");
 	}
 	document.getElementById("attaquer_button").addEventListener("click",function(){
-		datas={
+		let datas={
 			"action":"attaquer_"+attaquerQuoi,
 			"mol0":document.getElementById("attaquer_mol0").valueAsNumber,
 			"mol1":document.getElementById("attaquer_mol1").valueAsNumber,
@@ -165,7 +165,7 @@ window.onload=()=>{
 		})
 	});
 	document.getElementById("donner_button").addEventListener("click",function(){
-		datas={
+		let datas={
 			"action":"donner",
 			"target":document.getElementById("donner_target").value
 		}

@@ -250,6 +250,27 @@
 		<div id="popup_diplomatical_status" class="fenetre" style="display:none;">
 			Liste des statuts diplomatiques :
 			<div id="traites_list"></div>
+			<fieldset id="create_treaty">
+				<legend>Proposer un traité à
+					<input type="search" placeholder="Alliance" id="new_treaty_alliance" list="team_autocomplete_list"/>
+				</legend>
+				<label for="select_winer_treaty">Traité de :</label>
+				<select id="select_winer_treaty">
+					<option value="win">Victoire de l'alliance</option>
+					<option value="draw">pas de vainqueur</option>
+					<option value="lose">Défaite de l'alliance</option>
+				</select>
+				<input type="checkbox" id="impose_treaty"/>
+				<label for="impose_treaty">imposer le traité</label>
+				<br/>
+				Indemnités proposées :
+				<br/>
+				<input type="range" id="indemnity_treaty" min="0" max="1" step="0.001"/>
+				<div class="ressource">
+					<img src="../image/ressources/pointsindemnite.png" class="icon_ressource">
+					<span class="text_ressource" id="indemnity_treaty_value">0</span>
+				</div>
+			</fieldset>
 		</div>
 		<div id="alliance" class="alternate_body">
 			<h2 id="nom"></h2>

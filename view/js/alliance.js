@@ -3,6 +3,9 @@ var popups=["membres","change_description","finances","grades","strategie","pact
 var block_description_geting=false;
 var in_reorganization=false;
 var id_reorganization=null;
+var target_indemnity=null;
+var self_indemnity=null;
+var max_indemnity=0;
 var ressources=[
 	"carbone",
 	"oxygene",
@@ -186,7 +189,21 @@ function post_getuser_action(){
 				diplomatical_status_button.appendChild(diplomatical_status_text);
 				diplomatical_status_button.addEventListener("click",function(){
 					popup_open_close("diplomatical_status");
+					document.getElementById("new_treaty_alliance").value="";
+					target_indemnity=null;
+					self_indemnity=null;
+					document.getElementById("create_treaty").disabled=true;
+					document.getElementById("select_winer_treaty").value="draw";
+					document.getElementById("indemnity_treaty").disabled=true;
+					document.getElementById("impose_treaty").disabled=true;
+					document.getElementById("impose_treaty").checked=false;
+					
 				});
+				if(has_team_permission("diplomatie")){
+					document.getElementById("create_treaty").style.display="block";
+				}else{
+					document.getElementById("create_treaty").style.display="none";
+				}
 				document.getElementById("actions").appendChild(diplomatical_status_button);
 				//Finances
 				let finance_button=document.createElement("div");
@@ -393,7 +410,7 @@ function post_getuser_action(){
 					button_action.classList.add("button");
 					button_action.src="../image/autre/supprimer.png";
 					button_action.addEventListener("click",function(){
-						datas={
+						let datas={
 							"action":"delete_pacte",
 							"pacte":pacte
 						}
@@ -422,7 +439,7 @@ function post_getuser_action(){
 					button_action.classList.add("button");
 					button_action.src="../image/autre/supprimer.png";
 					button_action.addEventListener("click",function(){
-						datas={
+						let datas={
 							"action":"delete_guerre",
 							"guerre":guerre
 						}
@@ -496,6 +513,7 @@ function post_getuser_action(){
 					line.appendChild(cellName);
 					strategie_table.appendChild(line)
 				}
+				//Diplomatie
 				let traites_div=document.getElementById("traites_list");
 				for(let concerned_team in team.diplomatie.war_status){
 					let traite=document.createElement("fieldset");
@@ -503,6 +521,7 @@ function post_getuser_action(){
 					legende.innerText="Situation avec "+concerned_team;
 					traite.appendChild(legende);
 				}
+				
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
 				window.top.act_preview();
@@ -630,7 +649,7 @@ window.onload=()=>{
 		});
 	});
 	document.getElementById("new_description").addEventListener("change",function(){
-		datas={
+		let datas={
 			"action":"change_description",
 			"description":document.getElementById("new_description").value
 		}
@@ -641,7 +660,7 @@ window.onload=()=>{
 		});
 	});
 	document.getElementById("new_color").addEventListener("change",function(){
-		datas={
+		let datas={
 			"action":"change_color",
 			"color":document.getElementById("new_color").value
 		}
@@ -740,7 +759,7 @@ window.onload=()=>{
 		});
 	});
 	document.getElementById("new_pacte_bouton").addEventListener("click",function(){
-		datas={
+		let datas={
 			"action":"new_pacte",
 			"pacte":document.getElementById("new_pacte_alliance").value
 		}
@@ -757,11 +776,35 @@ window.onload=()=>{
 			}
 		});
 	});
+	document.getElementById("new_treaty_alliance").addEventListener("change",function(){
+		let datas={
+			"mode":"one",
+			"team":document.getElementById("new_treaty_alliance").value
+		}
+		use_api("GET","teams",datas,false,function(xhr){
+			if(xhr.status==200){
+				target_indemnity=xhr.response;
+				use_api("GET","teams",{"mode":"one","team":user.alliance},false,function(xhr2){
+					if(xhr.status==200){
+						self_indemnity=xhr.response;
+						document.getElementById("create_treaty").disabled=false;
+					}else{
+						console.error("ERROR in getting self team : code "+xhr.status);
+					}
+				});
+			}else{
+				console.error("ERROR in getting treaty target team : code "+xhr.status);
+			}
+		});
+	});
+	document.getElementById("indemnity_treaty").addEventListener("input",function(){
+		document.getElementById("indemnity_treaty_value").innerText=Math.floor(document.getElementById("max_pvs").valueAsNumber*2);
+	});
 	document.getElementById("max_pvs").addEventListener("input",function(){
 		document.getElementById("cout_max_pvs").innerText=affichageRessources(document.getElementById("max_pvs").valueAsNumber*2);
 	});
 	document.getElementById("add_max_pvs").addEventListener("click",function(){
-		datas={
+		let datas={
 			"action":"add_max_pvs",
 			"pvs":document.getElementById("max_pvs").valueAsNumber
 		}
@@ -782,7 +825,7 @@ window.onload=()=>{
 		document.getElementById("cout_pvs").innerText=affichageRessources(document.getElementById("pvs").valueAsNumber);
 	});
 	document.getElementById("add_pvs").addEventListener("click",function(){
-		datas={
+		let datas={
 			"action":"add_pvs",
 			"pvs":document.getElementById("pvs").valueAsNumber
 		}
@@ -802,7 +845,7 @@ window.onload=()=>{
 		});
 	});
 	document.getElementById("new_guerre_bouton").addEventListener("click",function(){
-		datas={
+		let datas={
 			"action":"new_guerre",
 			"guerre":document.getElementById("new_guerre_alliance").value
 		}
@@ -814,6 +857,8 @@ window.onload=()=>{
 				alert("L'alliance n'existe pas");
 			}else if(xhr.status==409){
 				alert("La guerre existe deja");
+			}else if(xhr.status==406){
+				alert("Vous ne pouvez pas redeclarer une guerre si vous WIP");
 			}else{
 				console.error("ERROR in adding war : code "+xhr.status);
 			}
