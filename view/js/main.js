@@ -199,7 +199,7 @@ function affichageRessources(num){
 function inherit_userdatas(){
 	for(let a=0;a<frames.length;a++){
 		frames[a].user=user;
-		if(frames[a].post_getuser_action){
+		if("post_getuser_action" in frames[a]){
 			frames[a].post_getuser_action();
 		}
 		frames[a].inherit_userdatas();

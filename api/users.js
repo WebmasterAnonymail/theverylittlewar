@@ -26,7 +26,7 @@ module.exports = {
 				res.end();
 				break;
 			case "one":
-				if(dbs.users[body.user]){
+				if(body.user in dbs.users){
 					let response={
 						"points":dbs.users[body.user].points,
 						"positionX":dbs.users[body.user].positionX,
@@ -125,7 +125,7 @@ module.exports = {
 	},
 	PUT:(req,res,body)=>{
 		if(body.username&&body.password){
-			if(dbs.users[body.username]){
+			if(body.username in dbs.users){
 				res.writeHead(409,{'Content-Type':'application/json'});
 				res.write("{error:\"Already used\"}");
 				res.end();
@@ -219,9 +219,9 @@ module.exports = {
 		if(checkmodule.usercheck(body.username,body.token)){
 			switch(body.action){
 				case "add_invit":
-					if(dbs.users[body.target]){
+					if(body.target in dbs.users){
 						let invite_team=dbs.users[body.username].alliance;
-						if(dbs.teams[invite_team]){
+						if(invite_team in dbs.teams){
 							if(dbs.users[body.target].invitations.indexOf(invite_team)<0){
 								if(md.has_team_permission(body.username,"inviter")){
 									dbs.users[body.target].invitations.push(invite_team);
@@ -249,8 +249,8 @@ module.exports = {
 					}
 					break;
 				case "expel_user":
-					if(dbs.users[body.target]){
-						if(dbs.teams[dbs.users[body.username].alliance]){
+					if(body.target in dbs.users){
+						if(dbs.users[body.username].alliance && dbs.users[body.username].alliance in dbs.teams){
 							if(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.target)<0){
 								res.writeHead(404);
 								res.write("Target user not in team");
@@ -286,8 +286,8 @@ module.exports = {
 					}
 					break;
 				case "transfer_team":
-					if(dbs.users[body.target]){
-						if(dbs.teams[dbs.users[body.username].alliance]){
+					if(body.target in dbs.users){
+						if(dbs.users[body.username].alliance && dbs.users[body.username].alliance in dbs.teams){
 							if(dbs.teams[dbs.users[body.username].alliance].membres.indexOf(body.target)<0){
 								res.writeHead(404);
 								res.write("Target user not in team");
@@ -320,7 +320,7 @@ module.exports = {
 						res.write("Invit not exist");
 						res.end();
 					}else{
-						if(dbs.teams[body.invit]){
+						if(body.invit in dbs.teams){
 							if(dbs.teams[body.invit].membres.length<25){
 								dbs.users[body.username].alliance=body.invit;
 								dbs.teams[body.invit].membres.push(body.username);
@@ -353,7 +353,7 @@ module.exports = {
 					}
 					break;
 				case "leave_team":
-					if(dbs.teams[dbs.users[body.username].alliance]){
+					if(dbs.users[body.username].alliance && dbs.users[body.username].alliance in dbs.teams){
 						if(dbs.teams[dbs.users[body.username].alliance].chef==body.username){
 							res.writeHead(403);
 							res.write("You are the chief");

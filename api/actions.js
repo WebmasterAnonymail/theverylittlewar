@@ -10,7 +10,7 @@ module.exports = {
 			let user=dbs.users[body.username];
 			switch(body.action){
 				case "attaquer_user":
-					if(dbs.users[body.target]){
+					if(body.target in dbs.users){
 						if(body.target!=body.username){
 							if(dbs.users[body.target].actif){
 								let OK1=true;
@@ -76,7 +76,7 @@ module.exports = {
 					}
 					break;
 				case "donner":
-					if(dbs.users[body.target]){
+					if(body.target in dbs.users){
 						if(body.target!=body.username){
 							if(dbs.users[body.target].actif){
 								let OK1=true;
@@ -133,7 +133,7 @@ module.exports = {
 					}
 					break;
 				case "attaquer_team":
-					if(dbs.teams[body.target]){
+					if(body.target in dbs.teams){
 						if(body.target!=user.alliance){
 							if(user.alliance){
 								if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.target)!=-1){

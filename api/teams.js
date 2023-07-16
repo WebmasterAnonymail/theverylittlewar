@@ -64,7 +64,7 @@ module.exports = {
 			case "one":
 				let sum=0;
 				let nb_membres=0;
-				if(dbs.teams[body.team]){
+				if(body.team in dbs.teams){
 					for(let a of dbs.teams[body.team].membres){
 						if(dbs.users[a].actif){
 							sum+=dbs.users[a].points.total;
@@ -157,7 +157,7 @@ module.exports = {
 	PATCH:(req,res,body)=>{
 		if(checkmodule.usercheck(body.username,body.token)){
 			let user=dbs.users[body.username];
-			if(dbs.teams[user.alliance]){
+			if(user.alliance && user.alliance in dbs.teams){
 				switch(body.action){
 					case "change_description":
 						if(md.has_team_permission(body.username,"description")){
@@ -196,7 +196,7 @@ module.exports = {
 									res.write("User is not in team");
 									res.end();
 								}else{
-									if(dbs.teams[user.alliance].grades[body.grade]){
+									if(body.grade in dbs.teams[user.alliance].grades){
 										res.writeHead(409);
 										res.write("Grade already exist");
 										res.end();
@@ -222,7 +222,7 @@ module.exports = {
 						break;
 					case "delete_grade":
 						if(md.has_team_permission(body.username,"grades")){
-							if(dbs.teams[user.alliance].grades[body.grade]){
+							if(body.grade in dbs.teams[user.alliance].grades){
 								delete dbs.teams[user.alliance].grades[body.grade]
 								res.writeHead(200);
 								res.end();
@@ -273,7 +273,7 @@ module.exports = {
 	POST:(req,res,body)=>{
 		if(checkmodule.usercheck(body.username,body.token)){
 			let user=dbs.users[body.username];
-			if(dbs.teams[user.alliance]){
+			if(user.alliance && user.alliance in dbs.teams){
 				switch(body.action){
 					case "give":
 						let OK=true;
@@ -401,7 +401,7 @@ module.exports = {
 						break;
 					case "new_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
-							if(dbs.teams[body.pacte]){
+							if(body.pacte in dbs.teams){
 								if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
 									dbs.teams[user.alliance].diplomatie.pactes.push(body.pacte);
 									res.writeHead(200);
@@ -441,9 +441,9 @@ module.exports = {
 						break;
 					case "new_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
-							if(dbs.teams[body.guerre]){
+							if(body.guerre in dbs.teams){
 								if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
-									if(dbs.teams[user.alliance].diplomatie.war_status[body.guerre]){
+									if(body.guerre in dbs.teams[user.alliance].diplomatie.war_status){
 										let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.guerre];
 										let target_war_status=dbs.teams[body.guerre].diplomatie.war_status[user.alliance];
 										let role="offended";
@@ -455,6 +455,10 @@ module.exports = {
 											if(team_war_status.revenge.ended){
 												res.writeHead(406);
 												res.write("War already revenged");
+												res.end();
+											}else if(team_war_status.revenge[role+"_defeated"]){
+												res.writeHead(406);
+												res.write("Team defeated");
 												res.end();
 											}else{
 												dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
@@ -479,6 +483,9 @@ module.exports = {
 														"offender_in_ceasefire":true,
 														"peace_treatys_proposed":[],
 														"ended":false,
+														"offended_defeated":false,
+														"offender_defeated":false,
+														"first_defeat":null,
 														"end_modality":null,
 													}
 													target_war_status.revenged=true;
@@ -488,6 +495,9 @@ module.exports = {
 														"offender_in_ceasefire":true,
 														"peace_treatys_proposed":[],
 														"ended":false,
+														"offended_defeated":false,
+														"offender_defeated":false,
+														"first_defeat":null,
 														"end_modality":null,
 													}
 													//Déclaration de la guerre
@@ -497,11 +507,15 @@ module.exports = {
 													res.writeHead(200);
 													res.end();
 												}
+											}else if(team_war_status.offensive[role+"_defeated"]){
+												res.writeHead(406);
+												res.write("Team defeated");
+												res.end();
 											}else{
 												//Cas où lors d'une attaque, on arrete un cesser-le-feu
 												dbs.teams[user.alliance].diplomatie.guerres.push(body.guerre);
-												team_war_status.revenge[role+"_in_ceasefire"]=false;
-												target_war_status.revenge[role+"_in_ceasefire"]=false;
+												team_war_status.offensive[role+"_in_ceasefire"]=false;
+												target_war_status.offensive[role+"_in_ceasefire"]=false;
 												res.writeHead(200);
 												res.end();
 											}
@@ -518,6 +532,9 @@ module.exports = {
 												"offender_in_ceasefire":false,
 												"peace_treatys_proposed":[],
 												"ended":false,
+												"offended_defeated":false,
+												"offender_defeated":false,
+												"first_defeat":null,
 												"end_modality":null
 											},
 											"revenge":null
@@ -531,6 +548,9 @@ module.exports = {
 												"offender_in_ceasefire":false,
 												"peace_treatys_proposed":[],
 												"ended":false,
+												"offended_defeated":false,
+												"offender_defeated":false,
+												"first_defeat":null,
 												"end_modality":null
 											},
 											"revenge":null
@@ -585,8 +605,8 @@ module.exports = {
 						}
 						break;
 					case "create_treaty":
-						if(md.has_team_permission(body.username,"WIP")){
-							if(dbs.teams[body.target]){
+						if(md.has_team_permission(body.username,"diplomatie")){
+							if(body.target in dbs.teams){
 								//
 							}else{
 								res.writeHead(404);
@@ -612,7 +632,7 @@ module.exports = {
 								}
 							}
 							if(OK3){
-								if(dbs.teams[body.target]){
+								if(body.target in dbs.teams){
 									if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.target)<0){
 										res.writeHead(409);
 										res.write("You need to have a pact with the team");

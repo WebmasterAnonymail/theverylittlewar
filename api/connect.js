@@ -11,7 +11,7 @@ module.exports = {
 	name:'connect',
 	GET:(req,res,body)=>{
 		res.writeHead(200,{'Content-Type':'application/json'});
-		if(dbs.connections[body.token]){
+		if(body.token in dbs.connections){
 			res.write(JSON.stringify({connected:true,username:dbs.connections[body.token]}));
 		}else{
 			res.write(JSON.stringify({connected:false}));
@@ -19,7 +19,7 @@ module.exports = {
 		res.end();
 	},
 	PUT:(req,res,body)=>{
-		if(dbs.users[body["username"]]){
+		if(body.username in dbs.users){
 			if(dbs.users[body.username].password==body.password){
 				if(!dbs.users[body.username].actif){
 					if(dbs.users[body.username].alliance){
