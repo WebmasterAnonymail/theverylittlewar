@@ -7,7 +7,7 @@ module.exports={
 			if(dbs.events[a].time<Date.now()){
 				switch(dbs.events[a].type){
 					case "amelioration":
-						if(dbs.users[dbs.events[a].username]){
+						if(dbs.events[a].username in dbs.users){
 							dbs.users[dbs.events[a].username].batiments[dbs.events[a].batiment]++;
 							dbs.users[dbs.events[a].username].points.batiments+=md.points_batiments[dbs.events[a].batiment];
 							if(md.batiment_pveurs.indexOf(dbs.events[a].batiment)>=0){
@@ -405,7 +405,7 @@ module.exports={
 							}
 							for(let usr in defant_users){
 								for(let b=0;b<5;b++){
-									if(defant_users[usr].molecules[b]&&defant_users[usr].molecules[b].number){
+									if(defant_users[usr].molecules[b]?.number){
 										defmols.push({
 											"number":defant_users[usr].molecules[b].number,
 											"deg":md.power_atome(defant_users[usr],b,0),
@@ -700,7 +700,7 @@ module.exports={
 						dbs.events[a]=null;
 						break;
 					case "return":
-						if(dbs.users[dbs.events[a].username]){
+						if(dbs.events[a].username in dbs.users){
 							for(let b of dbs.events[a].used_mols){
 								dbs.users[dbs.events[a].username].molecules_en_utilisation[b]--;
 							}
@@ -758,7 +758,7 @@ module.exports={
 		}
 	},
 	usercheck:function(user,token=null){
-		if(dbs.users[user]){
+		if(user in dbs.users){
 			let tempEcoule=Date.now()-dbs.users[user].lastUserCheck;
 			for(let a in md.atomes){
 				dbs.users[user].ressources[md.atomes[a]]+=10**(dbs.users[user].batiments.producteur/15)*10*(dbs.users[user].QG.production[a]/4)*(tempEcoule/(1000*60*60));
