@@ -190,11 +190,7 @@ module.exports = {
 					case "add_grade":
 						if(md.has_team_permission(body.username,"grades")){
 							if(body.grade){
-								if(dbs.teams[user.alliance].membres.indexOf(body.posseseur)<0){
-									res.writeHead(404);
-									res.write("User is not in team");
-									res.end();
-								}else{
+								if(dbs.teams[user.alliance].membres.includes(body.posseseur)){
 									if(body.grade in dbs.teams[user.alliance].grades){
 										res.writeHead(409);
 										res.write("Grade already exist");
@@ -207,6 +203,10 @@ module.exports = {
 										res.writeHead(200);
 										res.end();
 									}
+								}else{
+									res.writeHead(404);
+									res.write("User is not in team");
+									res.end();
 								}
 							}else{
 								res.writeHead(400);
@@ -240,7 +240,7 @@ module.exports = {
 						if(md.has_team_permission(body.username,"grades")){
 							let OK1=dbs.teams[user.alliance].membres.length==body.strategie.length;
 							for(let a of dbs.teams[user.alliance].membres){
-								OK&&=body.strategie.includes(a);
+								OK1&&=body.strategie.includes(a);
 							}
 							if(OK1){
 								dbs.teams[user.alliance].diplomatie.strategie=body.strategie;
@@ -352,17 +352,17 @@ module.exports = {
 									}
 								}
 								if(OK2){
-									if(dbs.teams[user.alliance].membres.indexOf(dbs.teams[user.alliance].requetes_ressources[body.donnation_id].who)<0){
-										res.writeHead(410);
-										res.write("User left the team");
-										res.end();
-									}else{
+									if(dbs.teams[user.alliance].membres.includes(dbs.teams[user.alliance].requetes_ressources[body.donnation_id].who)){
 										for(let b of md.ressources){
 											dbs.users[dbs.teams[user.alliance].requetes_ressources[body.donnation_id].who].ressources[b]+=dbs.teams[user.alliance].requetes_ressources[body.donnation_id][b];
 											dbs.teams[user.alliance].ressources[b]-=dbs.teams[user.alliance].requetes_ressources[body.donnation_id][b];
 										}
 										dbs.teams[user.alliance].requetes_ressources.splice(body.donnation_id,1);
 										res.writeHead(200);
+										res.end();
+									}else{
+										res.writeHead(410);
+										res.write("User left the team");
 										res.end();
 									}
 								}else{
@@ -401,7 +401,7 @@ module.exports = {
 					case "new_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
 							if(body.pacte && body.pacte in dbs.teams){
-								if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
+								if(!dbs.teams[user.alliance].diplomatie.pactes.includes(body.pacte)){
 									dbs.teams[user.alliance].diplomatie.pactes.push(body.pacte);
 									res.writeHead(200);
 									res.end();
@@ -423,13 +423,13 @@ module.exports = {
 						break;
 					case "delete_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
-							if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
-								res.writeHead(404);
-								res.write("Pact not exist");
-								res.end();
-							}else{
+							if(dbs.teams[user.alliance].diplomatie.pactes.includes(body.pacte)){
 								dbs.teams[user.alliance].diplomatie.pactes.splice(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte),1);
 								res.writeHead(200);
+								res.end();
+							}else{
+								res.writeHead(404);
+								res.write("Pact not exist");
 								res.end();
 							}
 						}else{
@@ -441,7 +441,7 @@ module.exports = {
 					case "new_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
 							if(body.guerre && body.guerre in dbs.teams){
-								if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
+								if(!dbs.teams[user.alliance].diplomatie.guerres.includes(body.guerre)){
 									if(body.guerre in dbs.teams[user.alliance].diplomatie.war_status){
 										let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.guerre];
 										let target_war_status=dbs.teams[body.guerre].diplomatie.war_status[user.alliance];
@@ -575,11 +575,7 @@ module.exports = {
 						break;
 					case "delete_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
-							if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
-								res.writeHead(404);
-								res.write("War not exist");
-								res.end();
-							}else{
+							if(dbs.teams[user.alliance].diplomatie.guerres.includes(body.guerre)){
 								let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.guerre];
 								let target_war_status=dbs.teams[body.guerre].diplomatie.war_status[user.alliance];
 								let role="offended";
@@ -595,6 +591,10 @@ module.exports = {
 								}
 								dbs.teams[user.alliance].diplomatie.guerres.splice(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre),1);
 								res.writeHead(200);
+								res.end();
+							}else{
+								res.writeHead(404);
+								res.write("War not exist");
 								res.end();
 							}
 						}else{
@@ -717,16 +717,16 @@ module.exports = {
 							}
 							if(OK3){
 								if(body.target && body.target in dbs.teams){
-									if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.target)<0){
-										res.writeHead(409);
-										res.write("You need to have a pact with the team");
-										res.end();
-									}else{
+									if(dbs.teams[user.alliance].diplomatie.pactes.includes(body.target)){
 										for(let b of md.ressources){
 											dbs.teams[body.target].ressources[b]+=body[b];
 											dbs.teams[user.alliance].ressources[b]-=body[b];
 										}
 										res.writeHead(200);
+										res.end();
+									}else{
+										res.writeHead(409);
+										res.write("You need to have a pact with the team");
 										res.end();
 									}
 								}else{
