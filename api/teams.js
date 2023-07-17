@@ -657,7 +657,7 @@ module.exports = {
 												res.end();
 										}
 										if(OK){
-											if(impose){
+											if(body.impose){
 												let winer=offensive_team[unrole+"_defeated"];
 												winer&&=!offensive_team[role+"_defeated"];
 												winer&&=offensive_team.first_defeat+(2*60*60*1000)<Date.now();
@@ -676,7 +676,6 @@ module.exports = {
 													res.end();
 												}
 											}else{
-												offensive_team.peace_treatys_proposed.push(team_treaty);
 												offensive_target.peace_treatys_proposed.push(target_treaty);
 												res.writeHead(200);
 												res.end();
