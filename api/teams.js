@@ -639,6 +639,7 @@ module.exports = {
 												&&indemnites>=0
 												&&indemnites<=calc_max_earning_team_war(dbs.teams[winteam],dbs.teams[loseteam])){
 													team_treaty.indemnites=indemnites;
+													target_treaty.indemnites=indemnites;
 												}else{
 													OK=false;
 													res.writeHead(406);
@@ -668,6 +669,18 @@ module.exports = {
 													offensive_target.end_modality.date=Date.now();
 													offensive_team.ended=true;
 													offensive_target.ended=true;
+													offensive_team.peace_treatys_proposed=[];
+													offensive_target.peace_treatys_proposed=[];
+													if(!offensive_team[role+"_in_ceasefire"]){
+														dbs.teams[user.alliance].diplomatie.guerres.splice(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.target),1);
+													}
+													if(!offensive_team[unrole+"_in_ceasefire"]){ //Ne devrait jamais arriver mais au cas où ...
+														dbs.teams[body.target].diplomatie.guerres.splice(dbs.teams[body.target].diplomatie.guerres.indexOf(user.alliance),1);
+													}
+													offensive_team[role+"_in_ceasefire"]=true;
+													offensive_team[unrole+"_in_ceasefire"]=true;
+													offensive_target[role+"_in_ceasefire"]=true;
+													offensive_target[unrole+"_in_ceasefire"]=true;
 													res.writeHead(200);
 													res.end();
 												}else{

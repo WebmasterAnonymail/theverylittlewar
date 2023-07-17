@@ -498,13 +498,89 @@ function post_getuser_action(){
 				}
 				//Diplomatie
 				let traites_div=document.getElementById("traites_list");
+				traites_div.innerHTML="";
 				for(let concerned_team in team.diplomatie.war_status){
 					let traite=document.createElement("fieldset");
-					let legende=document.createElement("lengend");
+					let legende=document.createElement("legend");
 					legende.innerText="Situation avec "+concerned_team;
 					traite.appendChild(legende);
+					
+					
+					traites_div.appendChild(traite);
 				}
-				
+				if(has_team_permission("diplomatie")){
+					let treaty_propositions_list=document.getElementById("treaty_propositions_list");
+					treaty_propositions_list.innerHTML="";
+					for(let concerned_team in team.diplomatie.war_status){
+						let offensive=team.diplomatie.war_status[concerned_team].offensive;
+						if(team.diplomatie.war_status[concerned_team].revenged){
+							offensive=team.diplomatie.war_status[concerned_team].revenge;
+						}
+						if(offensive.peace_treatys_proposed.length>0){
+							for(a=0;a<offensive.peace_treatys_proposed.length;a++){
+								let line=document.createElement("tr");
+								if(a==0){
+									let cellTitle=document.createElement("th");
+									cellTitle.innerText=concerned_team;
+									cellTitle.setAttribute("rowspan",offensive.peace_treatys_proposed.length);
+									line.appendChild(cellTitle);
+								}
+								let cellStat=document.createElement("td");
+								cellStat.innerText="Aucun";
+								if(offensive.peace_treatys_proposed[a].won===true){
+									cellStat.innerText="Vainqueur";
+								}
+								if(offensive.peace_treatys_proposed[a].won===false){
+									cellStat.innerText="Perdant";
+								}
+								line.appendChild(cellStat);
+								let cellIndemn=document.createElement("td");
+								if(offensive.peace_treatys_proposed[a].won!==null){
+									cellIndemn.innerText=Math.floor(offensive.peace_treatys_proposed[a].indemnites);
+								}
+								if(offensive.peace_treatys_proposed[a].won===true){
+									cellIndemn.classList.add("positive");
+								}
+								if(offensive.peace_treatys_proposed[a].won===false){
+									cellIndemn.classList.add("negative");
+								}
+								line.appendChild(cellIndemn);
+								let cellAc=document.createElement("td");
+								let button_action1=document.createElement("img");
+								button_action1.classList.add("button");
+								button_action1.src="../image/boutons/valider.png";
+								button_action1.addEventListener("click",function(){
+									use_api("POST","teams",{"action":"accept_treaty","treaty_id":a,"treaty_team":concerned_team},true,function(xhr){
+										if(xhr.status==200){
+											window.top.act_preview();
+										}else{
+											console.error("ERROR in accepting treaty : code "+xhr.status);
+										}
+									});
+								});
+								cellAc.appendChild(button_action1);
+								let button_action2=document.createElement("img");
+								button_action2.classList.add("button");
+								button_action2.src="../image/boutons/annuler.png";
+								button_action2.addEventListener("click",function(){
+									use_api("POST","teams",{"action":"reject_treaty","treaty_id":a,"treaty_team":concerned_team},true,function(xhr){
+										if(xhr.status==200){
+											window.top.act_preview();
+										}else{
+											console.error("ERROR in rejecting treaty : code "+xhr.status);
+										}
+									});
+								});
+								cellAc.appendChild(button_action2);
+								line.appendChild(cellAc);
+								treaty_propositions_list.appendChild(line);
+							}
+						}
+					}
+					document.getElementById("treaty_propositions").style.display="table";
+				}else{
+					document.getElementById("treaty_propositions").style.display="none";
+				}
 			}else if(xhr.status==410){
 				alert("L'alliance a ete supprimee");
 				window.top.act_preview();
