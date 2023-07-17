@@ -765,24 +765,50 @@ window.onload=()=>{
 				"mode":"one",
 				"team":document.getElementById("new_treaty_alliance").value
 			}
-			use_api("GET","teams",datas,false,function(xhr){
-				if(xhr.status==200){
-					target_indemnity=xhr.response;
-					use_api("GET","teams",{"mode":"one","team":user.alliance},false,function(xhr2){
-						if(xhr2.status==200){
-							self_indemnity=xhr2.response;
-							document.getElementById("create_treaty").disabled=false;
-							if(!document.getElementById("indemnity_treaty").disabled){
-								document.getElementById("indemnity_icon").style.filter="grayscale(0)";
+			let team_war_status=team.diplomatie.war_status[document.getElementById("new_treaty_alliance").value];
+			let role="offended";
+			let unrole="offender";
+			if(team_war_status.assailant){
+				role="offender";
+				unrole="offended";
+			}
+			let offensive=team_war_status.offensive;
+			if(team_war_status.revenged){
+				offensive=team_war_status.revenge;
+			}
+			if(!offensive.ended){
+				use_api("GET","teams",datas,false,function(xhr){
+					if(xhr.status==200){
+						target_indemnity=xhr.response;
+						use_api("GET","teams",{"mode":"one","team":user.alliance},false,function(xhr2){
+							if(xhr2.status==200){
+								self_indemnity=xhr2.response;
+								document.getElementById("create_treaty").disabled=false;
+								if(!document.getElementById("indemnity_treaty").disabled){
+									document.getElementById("indemnity_icon").style.filter="grayscale(0)";
+								}
+								
+								let winer=offensive[unrole+"_defeated"];
+								winer&&=!offensive[role+"_defeated"];
+								winer&&=offensive.first_defeat+(2*60*60*1000)<Date.now();
+								if(winer){
+									document.getElementById("impose_treaty").disabled=false;
+								}else{
+									document.getElementById("impose_treaty").disabled=true;
+									document.getElementById("impose_treaty").checked=false;
+								}
+							}else{
+								console.error("ERROR in getting self team : code "+xhr2.status);
 							}
-						}else{
-							console.error("ERROR in getting self team : code "+xhr2.status);
-						}
-					});
-				}else{
-					console.error("ERROR in getting treaty target team : code "+xhr.status);
-				}
-			});
+						});
+					}else{
+						console.error("ERROR in getting treaty target team : code "+xhr.status);
+					}
+				});
+			}else{
+				document.getElementById("create_treaty").disabled=true;
+				document.getElementById("indemnity_icon").style.filter="grayscale(1)";
+			}
 		}else{
 			document.getElementById("create_treaty").disabled=true;
 			document.getElementById("indemnity_icon").style.filter="grayscale(1)";
@@ -808,6 +834,31 @@ window.onload=()=>{
 	});
 	document.getElementById("indemnity_treaty").addEventListener("input",function(){
 		document.getElementById("indemnity_treaty_value").innerText=Math.floor(max_indemnity*document.getElementById("indemnity_treaty").valueAsNumber);
+	});
+	document.getElementById("submit_treaty").addEventListener("click",function(){
+		let datas={
+			"action":"create_treaty",
+			"target":document.getElementById("new_treaty_alliance").value,
+			"type":document.getElementById("select_winer_treaty").value,
+			"indemnity":Math.floor(max_indemnity*document.getElementById("indemnity_treaty").valueAsNumber),
+			"impose":document.getElementById("impose_treaty").checked
+		}
+		use_api("POST","teams",datas,true,function(xhr){
+			if(xhr.status==200){
+				document.getElementById("new_treaty_alliance").value="";
+				target_indemnity=null;
+				self_indemnity=null;
+				document.getElementById("create_treaty").disabled=true;
+				document.getElementById("select_winer_treaty").value="draw";
+				document.getElementById("indemnity_treaty").disabled=true;
+				document.getElementById("indemnity_icon").style.filter="grayscale(1)";
+				document.getElementById("impose_treaty").disabled=true;
+				document.getElementById("impose_treaty").checked=false;
+				window.top.act_preview();
+			}else{
+				console.error("ERROR in submiting treaty : code "+xhr.status);
+			}
+		});
 	});
 	document.getElementById("max_pvs").addEventListener("input",function(){
 		document.getElementById("cout_max_pvs").innerText=affichageRessources(document.getElementById("max_pvs").valueAsNumber*2);

@@ -400,7 +400,7 @@ module.exports = {
 						break;
 					case "new_pacte":
 						if(md.has_team_permission(body.username,"pacte")){
-							if(body.pacte in dbs.teams){
+							if(body.pacte && body.pacte in dbs.teams){
 								if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.pacte)<0){
 									dbs.teams[user.alliance].diplomatie.pactes.push(body.pacte);
 									res.writeHead(200);
@@ -440,7 +440,7 @@ module.exports = {
 						break;
 					case "new_guerre":
 						if(md.has_team_permission(body.username,"guerre")){
-							if(body.guerre in dbs.teams){
+							if(body.guerre && body.guerre in dbs.teams){
 								if(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.guerre)<0){
 									if(body.guerre in dbs.teams[user.alliance].diplomatie.war_status){
 										let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.guerre];
@@ -605,8 +605,93 @@ module.exports = {
 						break;
 					case "create_treaty":
 						if(md.has_team_permission(body.username,"diplomatie")){
-							if(body.target in dbs.teams){
-								//
+							if(body.target && body.target in dbs.teams){
+								if(body.target in dbs.teams[user.alliance].diplomatie.war_status){
+									let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.target];
+									let target_war_status=dbs.teams[body.target].diplomatie.war_status[user.alliance];
+									let role="offended";
+									let unrole="offender";
+									if(team_war_status.assailant){
+										role="offender";
+										unrole="offended";
+									}
+									let offensive_team=team_war_status.offensive;
+									let offensive_target=target_war_status.offensive;
+									if(team_war_status.revenged){
+										offensive_team=team_war_status.revenge;
+										offensive_target=target_war_status.revenge;
+									}
+									if(!offensive_team.ended){
+										let OK=true;
+										let team_treaty={"won":false};
+										let target_treaty={"won":true};
+										let winteam=body.target;
+										let loseteam=user.alliance;
+										switch(body.type){
+											case "win":
+												team_treaty={"won":true};
+												target_treaty={"won":false};
+												winteam=user.alliance;
+												loseteam=body.target;
+											case "lose":
+												let indemnites=Number(body.indemnity);
+												if(Number.isFinite(indemnites)
+												&&indemnites>=0
+												&&indemnites<=calc_max_earning_team_war(dbs.teams[winteam],dbs.teams[loseteam])){
+													team_treaty.indemnites=indemnites;
+												}else{
+													OK=false;
+													res.writeHead(406);
+													res.write("You cannot fix indemnities as high");
+													res.end();
+												}
+												break;
+											case "draw":
+												team_treaty={"won":null};
+												target_treaty={"won":null};
+												break;
+											default:
+												OK=false;
+												res.writeHead(400);
+												res.write("Treaty type unknown");
+												res.end();
+										}
+										if(OK){
+											if(impose){
+												let winer=offensive_team[unrole+"_defeated"];
+												winer&&=!offensive_team[role+"_defeated"];
+												winer&&=offensive_team.first_defeat+(2*60*60*1000)<Date.now();
+												if(winer){
+													offensive_team.end_modality=team_treaty;
+													offensive_target.end_modality=target_treaty;
+													offensive_team.end_modality.date=Date.now();
+													offensive_target.end_modality.date=Date.now();
+													offensive_team.ended=true;
+													offensive_target.ended=true;
+													res.writeHead(200);
+													res.end();
+												}else{
+													res.writeHead(406);
+													res.write("You cannot impose treaty if you don't defeat your target since 2 hours");
+													res.end();
+												}
+											}else{
+												offensive_team.peace_treatys_proposed.push(team_treaty);
+												offensive_target.peace_treatys_proposed.push(target_treaty);
+												res.writeHead(200);
+												res.end();
+											}
+										}
+									}else{
+										res.writeHead(409);
+										res.write("You have to be in war with this team");
+										res.end();
+									}
+								}else{
+									res.writeHead(409);
+									res.write("You have to be in war with this team");
+									res.end();
+								}
 							}else{
 								res.writeHead(404);
 								res.write("Team not exist");
@@ -631,7 +716,7 @@ module.exports = {
 								}
 							}
 							if(OK3){
-								if(body.target in dbs.teams){
+								if(body.target && body.target in dbs.teams){
 									if(dbs.teams[user.alliance].diplomatie.pactes.indexOf(body.target)<0){
 										res.writeHead(409);
 										res.write("You need to have a pact with the team");
