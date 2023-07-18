@@ -718,6 +718,32 @@ module.exports = {
 					case "accept_treaty":
 						break;
 					case "reject_treaty":
+						if(md.has_team_permission(body.username,"diplomatie")){
+							if(body.treaty_team && body.treaty_team in dbs.teams[user.alliance].diplomatie.war_status){
+								let offensive=dbs.teams[user.alliance].diplomatie.war_status[body.treaty_team].offensive;
+								if(dbs.teams[user.alliance].diplomatie.war_status[body.treaty_team].revenged){
+									offensive=dbs.teams[user.alliance].diplomatie.war_status[body.treaty_team].revenge;
+								}
+								console.log(offensive)
+								if(body.treaty_id in offensive.peace_treatys_proposed){
+									offensive.peace_treatys_proposed.splice(body.treaty_id,1);
+									res.writeHead(200);
+									res.end();
+								}else{
+									res.writeHead(404);
+									res.write("Treaty not exist");
+									res.end();
+								}
+							}else{
+								res.writeHead(404);
+								res.write("Treaty not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
 						break;
 					case "transfer":
 						if(md.has_team_permission(body.username,"finance")){

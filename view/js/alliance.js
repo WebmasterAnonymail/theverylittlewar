@@ -517,7 +517,7 @@ function post_getuser_action(){
 							offensive=team.diplomatie.war_status[concerned_team].revenge;
 						}
 						if(offensive.peace_treatys_proposed.length>0){
-							for(a=0;a<offensive.peace_treatys_proposed.length;a++){
+							for(let a=0;a<offensive.peace_treatys_proposed.length;a++){
 								let line=document.createElement("tr");
 								if(a==0){
 									let cellTitle=document.createElement("th");
