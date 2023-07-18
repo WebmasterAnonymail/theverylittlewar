@@ -994,7 +994,7 @@ window.onload=()=>{
 			}else if(xhr.status==409){
 				alert("La guerre existe deja");
 			}else if(xhr.status==406){
-				alert("Vous ne pouvez pas redeclarer une guerre si vous WIP");
+				alert("Vous ne pouvez pas redeclarer une guerre si vous WIP ou si vous avez ete vaincu");
 			}else{
 				console.error("ERROR in adding war : code "+xhr.status);
 			}

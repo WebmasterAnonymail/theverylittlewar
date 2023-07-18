@@ -716,6 +716,70 @@ module.exports = {
 						}
 						break;
 					case "accept_treaty":
+						if(md.has_team_permission(body.username,"diplomatie")){
+							if(body.treaty_team && body.treaty_team in dbs.teams[user.alliance].diplomatie.war_status){
+								let team_war_status=dbs.teams[user.alliance].diplomatie.war_status[body.treaty_team];
+								let target_war_status=dbs.teams[body.treaty_team].diplomatie.war_status[user.alliance];
+								let role="offended";
+								let unrole="offender";
+								if(team_war_status.assailant){
+									role="offender";
+									unrole="offended";
+								}
+								let offensive_team=team_war_status.offensive;
+								let offensive_target=target_war_status.offensive;
+								if(team_war_status.revenged){
+									offensive_team=team_war_status.revenge;
+									offensive_target=target_war_status.revenge;
+								}
+								if(body.treaty_id in offensive_team.peace_treatys_proposed){
+									team_treaty=md.copydepth(offensive_team.peace_treatys_proposed[body.treaty_id]);
+									target_treaty=md.copydepth(offensive_team.peace_treatys_proposed[body.treaty_id]);
+									target_treaty.won=(target_treaty.won===null)? null : !target_treaty.won;
+									offensive_team.end_modality=team_treaty;
+									offensive_target.end_modality=target_treaty;
+									offensive_team.end_modality.date=Date.now();
+									offensive_target.end_modality.date=Date.now();
+									offensive_team.ended=true;
+									offensive_target.ended=true;
+									offensive_team.peace_treatys_proposed=[];
+									offensive_target.peace_treatys_proposed=[];
+									if(!offensive_team[role+"_in_ceasefire"]){
+										dbs.teams[user.alliance].diplomatie.guerres.splice(dbs.teams[user.alliance].diplomatie.guerres.indexOf(body.target),1);
+									}
+									if(!offensive_team[unrole+"_in_ceasefire"]){
+										dbs.teams[body.treaty_team].diplomatie.guerres.splice(dbs.teams[body.treaty_team].diplomatie.guerres.indexOf(user.alliance),1);
+									}
+									offensive_team[role+"_in_ceasefire"]=true;
+									offensive_team[unrole+"_in_ceasefire"]=true;
+									offensive_target[role+"_in_ceasefire"]=true;
+									offensive_target[unrole+"_in_ceasefire"]=true;
+									//Paiment des indemnités
+									if(team_treaty.won){
+										dbs.teams[user.alliance].diplomatie.point_allowance+=team_treaty.indemnites;
+										dbs.teams[body.treaty_team].diplomatie.point_allowance-=team_treaty.indemnites;
+									}
+									if(target_treaty.won){
+										dbs.teams[body.treaty_team].diplomatie.point_allowance+=target_treaty.indemnites;
+										dbs.teams[user.alliance].diplomatie.point_allowance-=target_treaty.indemnites;
+									}
+									res.writeHead(200);
+									res.end();
+								}else{
+									res.writeHead(404);
+									res.write("Treaty not exist");
+									res.end();
+								}
+							}else{
+								res.writeHead(404);
+								res.write("Treaty not exist");
+								res.end();
+							}
+						}else{
+							res.writeHead(403);
+							res.write("Forbidden");
+							res.end();
+						}
 						break;
 					case "reject_treaty":
 						if(md.has_team_permission(body.username,"diplomatie")){
@@ -724,7 +788,6 @@ module.exports = {
 								if(dbs.teams[user.alliance].diplomatie.war_status[body.treaty_team].revenged){
 									offensive=dbs.teams[user.alliance].diplomatie.war_status[body.treaty_team].revenge;
 								}
-								console.log(offensive)
 								if(body.treaty_id in offensive.peace_treatys_proposed){
 									offensive.peace_treatys_proposed.splice(body.treaty_id,1);
 									res.writeHead(200);
